@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.jetspace.desktop.panel" path="/org/jetspace/desktop/panel/">
+      <key type="s" name="apps">
+          <default>"xterm:xterm &amp;;gedit:gedit &amp;;"</default>
+          <summary>Configures the Panel Icons</summary>
+          <description>You can setup new launchers with ICON_NAME:EXEC_CMD;"</description>
+      </key>
+  </schema>
+</schemalist>
