@@ -19,6 +19,16 @@ gboolean execute(GtkWidget *widget, GdkEvent *event, GtkWidget *data)
   return FALSE;
 }
 
+gboolean path_key(GtkWidget *widget, GdkEventKey *event, gpointer data)
+{//Execute when hit [ENTER]
+  if(event->keyval == GDK_KEY_Return)
+    execute(NULL, NULL, NULL); //it gets its data from somewere else ;-)
+
+  return FALSE;
+
+
+}
+
 //will show an run dialog
 //app_call is the calling app -> will be phrased somedays....
 void run_dialog (gchar *app_call)
@@ -39,6 +49,7 @@ void run_dialog (gchar *app_call)
 
   button = gtk_button_new_with_label("Execute");
   g_signal_connect (G_OBJECT(button), "button-press-event", G_CALLBACK(execute), NULL);
+  g_signal_connect (G_OBJECT(path), "key-press-event", G_CALLBACK(path_key), NULL);
 
 
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
@@ -53,6 +64,8 @@ void run_dialog (gchar *app_call)
 
 
   gtk_container_add(GTK_CONTAINER(dialog), box);
+
+
   gtk_widget_show_all(dialog);
 
 
