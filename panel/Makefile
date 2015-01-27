@@ -1,2 +1,2 @@
 build:
-	gcc main.c -Wall -std=c99 -o ../j_panel `pkg-config --cflags --libs gtk+-3.0`
+	gcc -std=gnu99 main.c -o ../j_panel `pkg-config --libs --cflags glib-2.0 gmodule-2.0 gtk+-3.0`

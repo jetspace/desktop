@@ -4,6 +4,7 @@
 
 #include "../shared/context.h"
 #include "../shared/run.h"
+#include "../shared/plugins.h"
 
 #define PANEL_HEIGHT 30
 
@@ -75,12 +76,12 @@ int main(int argc, char **argv)
       add_new_element(box, i, e);
       i = strtok(NULL, ":");
       e = strtok(NULL, ";");
-
     }
 
 
 
-
+  //call plugin loader
+  load_plugins("/usr/lib/jetspace/panel/plugins/", panel);
   gtk_widget_show_all(panel);
   gtk_main();
   return 0;
