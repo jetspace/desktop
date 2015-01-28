@@ -2,9 +2,11 @@
 #include <gdk/gdk.h>
 #include <stdlib.h>
 
+#include "../shared/strdup.h"
 #include "../shared/context.h"
 #include "../shared/run.h"
 #include "../shared/plugins.h"
+
 
 #define PANEL_HEIGHT 30
 

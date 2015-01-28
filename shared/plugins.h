@@ -38,6 +38,7 @@ void load_plugins(char *path, GtkWidget *root)
       g_print("-----\nModule path: %s\n-----\n", module_path);
 
       module = g_module_open(module_path, G_MODULE_BIND_LAZY);
+      g_module_make_resident(module); //users are able to create callbacks, because the module would not be unloaded...
 
       if(module == NULL)
         {
@@ -53,10 +54,6 @@ void load_plugins(char *path, GtkWidget *root)
 
       call(root);
 
-      if(g_module_close(module) == FALSE)
-        {
-          g_error("Closing Module Failed: %s", g_module_error());
-        }
 
     }
 
