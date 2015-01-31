@@ -8,7 +8,7 @@
 #include "../shared/plugins.h"
 
 
-#define PANEL_HEIGHT 30
+#define PANEL_HEIGHT 35
 
 
 //callbacks
@@ -27,7 +27,7 @@ typedef struct
 
 PanelEntry *elements;
 
-void add_new_element(GtkWidget *box, char *icon, char *exec);
+void add_new_element(GtkWidget *box, char *icon, char *exec, gint state);
 
 int main(int argc, char **argv)
 {
@@ -45,6 +45,7 @@ int main(int argc, char **argv)
   gtk_window_set_type_hint(GTK_WINDOW (panel), GDK_WINDOW_TYPE_HINT_DOCK);
   gtk_window_resize(GTK_WINDOW(panel), gdk_screen_get_width(screen), PANEL_HEIGHT);
   gtk_window_move(GTK_WINDOW(panel), 0, gdk_screen_get_height(screen) - PANEL_HEIGHT);
+  gtk_container_set_border_width(GTK_CONTAINER(panel), 1);
   //TODO:
     //prevent overlapping
 
@@ -70,14 +71,16 @@ int main(int argc, char **argv)
   char *app_list = strdup(g_variant_get_string(g_settings_get_value(apps, "apps"), NULL));
 
   //phrase app list
-  char *e, *i; //exec icon
+  char *e, *i, *a; //exec icon active
   i = strtok(app_list, ":");
-  e = strtok(NULL, ";");
+  e = strtok(NULL, ":");
+  a = strtok(NULL, ";");
   while(i != NULL && e != NULL)
     {
-      add_new_element(box, i, e);
+      add_new_element(box, i, e, atoi(a));
       i = strtok(NULL, ":");
-      e = strtok(NULL, ";");
+      e = strtok(NULL, ":");
+      a = strtok(NULL, ";");
     }
 
 
@@ -99,8 +102,12 @@ gboolean button_event(GtkWidget *w, GdkEventButton *e, GtkWidget *menu)
   return FALSE;
 }
 
-void add_new_element(GtkWidget *box, char *icon, char *exec)
+void add_new_element(GtkWidget *box, char *icon, char *exec, gint state)
 {
+  if(state != 1)
+    return;
+
+
   total_elements++;
   elements = realloc(elements, sizeof(PanelEntry) * total_elements);
 
