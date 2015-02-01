@@ -7,11 +7,16 @@ For more details view file 'LICENSE'
 #define _XOPEN_SOURCE 700
 
 
+
 #include <gtk/gtk.h>
+
+GtkWidget *pic;
+
 #include <string.h>
 #include "../shared/run.h"
+#include "../shared/context.h"
 
-gboolean key_press(GtkWidget *widget, GdkEvent *event, gpointer data);
+gboolean key_press(GtkWidget *w, GdkEventButton *e, GtkWidget *menu);
 
 int main(int argc, char **argv)
 {
@@ -23,7 +28,7 @@ int main(int argc, char **argv)
   const char *ptr = g_variant_get_string(g_settings_get_value(gnome_conf, "picture-uri"), NULL);
   g_debug("[%s] - Loading Wallpaper %s", argv[0], ptr);
 
-  GtkWidget *window, *pic, *ev_box;
+  GtkWidget *window, *ev_box;
 
   //Setup Window
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -31,11 +36,14 @@ int main(int argc, char **argv)
   gtk_window_set_type_hint(GTK_WINDOW(window), GDK_WINDOW_TYPE_HINT_DESKTOP);
   gtk_window_maximize(GTK_WINDOW(window));
 
-  //Eventbox
-
   ev_box = gtk_event_box_new();
-  gtk_event_box_set_above_child(GTK_EVENT_BOX(ev_box), FALSE);
 
+  GtkWidget *menu = gtk_menu_new();
+  add_context_menu_desktop(menu, ev_box);
+
+
+  g_signal_connect(G_OBJECT(ev_box), "button_press_event", G_CALLBACK(key_press), menu);
+  gtk_widget_set_events(ev_box, GDK_BUTTON_PRESS_MASK);
 
   //Setup GtkImage
   char *pic_path = strdup(ptr);
@@ -47,28 +55,20 @@ int main(int argc, char **argv)
 
 
 
-  //connect Key press event
-  g_signal_connect (G_OBJECT(ev_box), "key-press-event", G_CALLBACK(key_press), NULL);
-  gtk_widget_set_events(ev_box, GDK_BUTTON_PRESS_MASK);
-  gtk_widget_realize(ev_box);
+
+
 
   gtk_widget_show_all(window);
   gtk_main();
 }
 
 
-//Is not working right now...
-gboolean key_press(GtkWidget *widget, GdkEvent *event, gpointer data)
+gboolean key_press(GtkWidget *w, GdkEventButton *e, GtkWidget *menu)
 {
-  switch(event->key.keyval)
-  {
-    case GDK_KEY_r:
-    //if(event->key.state == GDK_MOD1_MASK)
-      run_dialog("desktop");
-    break;
-
-
-  }
+  if((e->button == 3) && (e->type == GDK_BUTTON_PRESS))
+    {
+      gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, e->button, e->time);
+    }
 
   return FALSE;
 }

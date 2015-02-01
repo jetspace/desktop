@@ -11,7 +11,7 @@ For more details view file 'LICENSE'
 #include <string.h>
 #include <stdlib.h>
 
-GtkWidget *dialog, *box, *panel, *label, *path, *pic, *button;
+GtkWidget *dialog, *box, *panel, *label, *path, *icon, *button;
 
 gboolean execute(GtkWidget *widget, GdkEvent *event, GtkWidget *data)
 {
@@ -51,7 +51,7 @@ void run_dialog (gchar *app_call)
 
   path = gtk_entry_new();
 
-  pic = gtk_image_new_from_icon_name("system-run", GTK_ICON_SIZE_DIALOG);
+  icon = gtk_image_new_from_icon_name("system-run", GTK_ICON_SIZE_DIALOG);
 
   button = gtk_button_new_with_label("Execute");
   g_signal_connect (G_OBJECT(button), "button-press-event", G_CALLBACK(execute), NULL);
@@ -66,7 +66,7 @@ void run_dialog (gchar *app_call)
   gtk_box_pack_end (GTK_BOX(box), panel, TRUE, FALSE, 0);
 
   gtk_box_pack_end (GTK_BOX(panel), label, TRUE, FALSE, 0);
-  gtk_box_pack_end (GTK_BOX(panel), pic, TRUE, FALSE, 0);
+  gtk_box_pack_end (GTK_BOX(panel), icon, TRUE, FALSE, 0);
 
 
   gtk_container_add(GTK_CONTAINER(dialog), box);

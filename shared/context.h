@@ -6,15 +6,15 @@ For more details view file 'LICENSE'
 
 #ifndef _HAVE_CONTEXT_H
 #define _HAVE_CONTEXT_H
-
-#include "../shared/run.h"
 #include "../shared/settings.h"
+#include "../shared/run.h"
 #include <gtk/gtk.h>
 #define TERMINAL_FALLBACK "xterm" //USE IF ERROR WITH GSETTINGS
 
+
 gboolean run_clicked(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
-  run_dialog("PANEL_CONTEXT_MENU");
+  run_dialog("CONTEXT_MENU");
   return FALSE;
 }
 
@@ -67,5 +67,28 @@ void add_context_menu_pannel(GtkWidget *menu, GtkWidget *panel)
   gtk_widget_show_all(menu);
 }
 
+void add_context_menu_desktop(GtkWidget *menu, GtkWidget *desktop)
+{
+  GtkWidget *run, *change_wallpaper, *sep, *logout;
+
+  run = gtk_menu_item_new_with_label("Run...");
+  change_wallpaper = gtk_menu_item_new_with_label("Change Wallpaper...");
+  sep = gtk_separator_menu_item_new();
+  logout = gtk_menu_item_new_with_label("log out...");
+
+
+  g_signal_connect(G_OBJECT(run), "activate", G_CALLBACK(run_clicked), NULL);
+  g_signal_connect(G_OBJECT(change_wallpaper), "activate", G_CALLBACK(wallpaper_settings), NULL);
+  g_signal_connect(G_OBJECT(logout), "activate", G_CALLBACK(logout_clicked), NULL);
+
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), run);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), change_wallpaper);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), logout);
+
+  gtk_menu_attach_to_widget(GTK_MENU(menu), desktop, NULL);
+  gtk_widget_show_all(menu);
+
+}
 
 #endif

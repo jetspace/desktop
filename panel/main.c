@@ -64,7 +64,6 @@ int main(int argc, char **argv)
   event = gtk_event_box_new();
   g_signal_connect(G_OBJECT(event), "button_press_event", G_CALLBACK(button_event), menu);
   gtk_widget_set_events(event, GDK_BUTTON_PRESS_MASK);
-  //gtk_widget_realize(event);
 
   //add gtk box
   GtkWidget *box;
