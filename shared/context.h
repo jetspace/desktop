@@ -24,7 +24,7 @@ gboolean logout_clicked(GtkWidget *w, GdkEvent *e, gpointer *p)
   This is nothing more than a dirty test!!(!!!!)
   we will use some 'cooler' methods later!
   */
-  system("killall j_*"); //will exit all j_ apps
+  system("killall side_*"); //will exit all side_ apps
   return FALSE;
 }
 
