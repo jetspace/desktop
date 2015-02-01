@@ -1,4 +1,10 @@
 /*
+This file is licensed under the MIT-License
+Copyright (c) 2015 Marius Messerschmidt
+For more details view file 'LICENSE'
+*/
+
+/*
 Sample Implementation of strdup because it is not in the C99 standard, and out project should follow
 the standards...
 */

@@ -1,3 +1,9 @@
+/*
+This file is licensed under the MIT-License
+Copyright (c) 2015 Marius Messerschmidt
+For more details view file 'LICENSE'
+*/
+
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <stdlib.h>

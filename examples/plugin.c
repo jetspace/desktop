@@ -4,6 +4,8 @@ It will place the panel at the top, not on the bottom, and it will show a basic 
 
 To compill run 'make plugin'
 to remove run 'make no_plugin'
+
+LICENSE: PUBLIC DOMAIN (CC0)
 */
 #include <gtk/gtk.h>
 #include <glib.h>

@@ -1,3 +1,9 @@
+/*
+This file is licensed under the MIT-License
+Copyright (c) 2015 Marius Messerschmidt
+For more details view file 'LICENSE'
+*/
+
 #ifndef _HAVE_RUN_DIALOG
 #define _HAVE_RUN_DIALOG
 

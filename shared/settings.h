@@ -1,4 +1,10 @@
 /*
+This file is licensed under the MIT-License
+Copyright (c) 2015 Marius Messerschmidt
+For more details view file 'LICENSE'
+*/
+
+/*
 Will contain all settings and their dialogs!
 */
 
@@ -30,8 +36,9 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 
   char *buff1;
   char *buff2;
-  char  buffer[500];
-  char  str[10000];
+  char  buffer[1000];
+  char  *str = malloc(2);
+  memset(str, 0, sizeof(str));
   char i_b[5]; //int buffer
   gboolean state;
   GtkTreeModel *model;
@@ -46,7 +53,8 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
       gtk_tree_model_get(model, &iter, COL_EXEC, &buff2, -1);
       gtk_tree_model_get(model, &iter, COL_ICON, &buff1, -1);
 
-      snprintf(buffer, 500, "%s:%s:%d;", buff1, buff2, state == TRUE ? 1 : 0);
+      snprintf(buffer, 1000, "%s:%s:%d;", buff1, buff2, state == TRUE ? 1 : 0);
+      str = realloc(str, sizeof(str) + sizeof(buffer));
       strcat(str, buffer);
       x++;
       snprintf(i_b, 5, "%d", x);
@@ -54,6 +62,7 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 
   GSettings *icons = g_settings_new("org.jetspace.desktop.panel");
   g_settings_set_value(icons, "apps", g_variant_new_string(str));
+  free(str);
 
   gtk_widget_destroy(win);
   return FALSE;
