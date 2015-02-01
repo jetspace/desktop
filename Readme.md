@@ -1,6 +1,6 @@
-#JetSpace Desktop
+#JetSpace Desktop (SIDE)
 
-This is a (very) simple Desktop enviroment
+SImple Desktop Enviroment (SIDE)
 
 it is not useable yet... (of course you can try it :D )
 
@@ -12,7 +12,7 @@ it is not useable yet... (of course you can try it :D )
 
 3. launch 'startx', but first create a .xinitrc in your home folder with the content: 'xterm'
 
-4. In the terminal type 'openbox &' or any other WM
+4. In the terminal type 'xfwm4 &' or any other WM
 
 5. go to the desktop dir and run make
 
