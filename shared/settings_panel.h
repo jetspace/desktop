@@ -8,7 +8,7 @@ For more details view file 'LICENSE'
 
 GtkTreeIter iter;
 GtkListStore *list;
-GtkWidget *win, *box, *apply, *entry_path, *label_term, *label_sum, *tree, *scroll_win, *label_apps, *add_app_button;
+GtkWidget *win, *box, *apply, *entry_path, *label_term, *label_sum, *tree, *scroll_win, *label_apps, *add_app_button, *remove_app_button, *clear_app_button, *app_button_box;
 
 enum
 {
@@ -24,6 +24,27 @@ gboolean add_item(GtkWidget *w, GdkEvent *e, gpointer p)
   gtk_list_store_set(list, &iter, COL_EXEC, "#App Path", COL_ICON, "#Icon", COL_ACTIVE, TRUE, -1);
   return FALSE;
 }
+
+gboolean clear_items(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  gtk_list_store_clear(list);
+  return FALSE;
+}
+
+gboolean remove_item(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+
+  model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree));
+
+  if(gtk_tree_selection_get_selected(gtk_tree_view_get_selection(GTK_TREE_VIEW(tree)), &model, &iter))
+  {
+    gtk_list_store_remove(list, &iter);
+  }
+  return FALSE;
+}
+
 
 gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
@@ -216,11 +237,27 @@ gboolean panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   gtk_container_add(GTK_CONTAINER(scroll_win), tree);
   gtk_container_add(GTK_CONTAINER(box), scroll_win);
 
+  //Button Box
+  app_button_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+  gtk_box_set_homogeneous(GTK_BOX(app_button_box), TRUE);
+
+  //ADD a button to clear all apps
+  clear_app_button = gtk_button_new_from_icon_name("gtk-clear", GTK_ICON_SIZE_BUTTON);
+  gtk_container_add(GTK_CONTAINER(app_button_box), clear_app_button);
+  g_signal_connect(G_OBJECT(clear_app_button), "button_press_event", G_CALLBACK(clear_items), NULL);
+
+  //ADD a button to remove a app
+  remove_app_button = gtk_button_new_from_icon_name("gtk-remove", GTK_ICON_SIZE_BUTTON);
+  gtk_container_add(GTK_CONTAINER(app_button_box), remove_app_button);
+  g_signal_connect(G_OBJECT(remove_app_button), "button_press_event", G_CALLBACK(remove_item), NULL);
+
+
   //ADD a button for a new app
   add_app_button = gtk_button_new_from_icon_name("gtk-add", GTK_ICON_SIZE_BUTTON);
-  gtk_container_add(GTK_CONTAINER(box), add_app_button);
+  gtk_container_add(GTK_CONTAINER(app_button_box), add_app_button);
   g_signal_connect(G_OBJECT(add_app_button), "button_press_event", G_CALLBACK(add_item), NULL);
 
+  gtk_container_add(GTK_CONTAINER(box), app_button_box);
   gtk_container_add(GTK_CONTAINER(box), apply);
   gtk_container_add(GTK_CONTAINER(win), box);
 

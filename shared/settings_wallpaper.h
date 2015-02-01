@@ -3,7 +3,7 @@ This file is licensed under the MIT-License
 Copyright (c) 2015 Marius Messerschmidt
 For more details view file 'LICENSE'
 */
-GtkWidget *pic;
+GtkWidget *pic = NULL;
 GtkWidget *win, *label, *image, *box, *path, *clear, *choose, *button_box, *apply;
 
 gboolean clear_wallpaper(GtkWidget *w, GdkEvent *e, gpointer *p)
@@ -48,8 +48,8 @@ gboolean write_wallpaper_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   char *pic_path = strdup(gtk_label_get_text(GTK_LABEL(path)));
   pic_path = strtok(pic_path, "//");
   pic_path = strtok(NULL, "\0");
-
-  gtk_image_set_from_file(GTK_IMAGE(pic), pic_path);
+  if(pic != NULL)
+    gtk_image_set_from_file(GTK_IMAGE(pic), pic_path);
 
 
   gtk_widget_destroy(win);
