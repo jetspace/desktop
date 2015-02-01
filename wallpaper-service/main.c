@@ -7,11 +7,7 @@ For more details view file 'LICENSE'
 #define _XOPEN_SOURCE 700
 
 
-
 #include <gtk/gtk.h>
-
-GtkWidget *pic;
-
 #include <string.h>
 #include "../shared/run.h"
 #include "../shared/context.h"

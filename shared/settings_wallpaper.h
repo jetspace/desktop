@@ -3,7 +3,7 @@ This file is licensed under the MIT-License
 Copyright (c) 2015 Marius Messerschmidt
 For more details view file 'LICENSE'
 */
-
+GtkWidget *pic;
 GtkWidget *win, *label, *image, *box, *path, *clear, *choose, *button_box, *apply;
 
 gboolean clear_wallpaper(GtkWidget *w, GdkEvent *e, gpointer *p)
