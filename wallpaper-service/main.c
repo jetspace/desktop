@@ -24,7 +24,7 @@ int main(int argc, char **argv)
   const char *ptr = g_variant_get_string(g_settings_get_value(gnome_conf, "picture-uri"), NULL);
   g_debug("[%s] - Loading Wallpaper %s", argv[0], ptr);
 
-  GtkWidget *window, *ev_box;
+  GtkWidget *window, *ev_box, *pic;
 
   //Setup Window
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);

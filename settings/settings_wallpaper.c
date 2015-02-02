@@ -3,8 +3,18 @@ This file is licensed under the MIT-License
 Copyright (c) 2015 Marius Messerschmidt
 For more details view file 'LICENSE'
 */
-GtkWidget *pic = NULL;
+#include <gtk/gtk.h>
+#include <string.h>
+#include <stdlib.h>
+#include "../shared/strdup.h"
+
+
+
+
 GtkWidget *win, *label, *image, *box, *path, *clear, *choose, *button_box, *apply;
+
+
+
 
 gboolean clear_wallpaper(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
@@ -45,25 +55,24 @@ gboolean write_wallpaper_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   GSettings *wp = g_settings_new("org.gnome.desktop.background");
   g_settings_set_value(wp, "picture-uri", g_variant_new_string(gtk_label_get_text(GTK_LABEL(path))));
 
-  char *pic_path = strdup(gtk_label_get_text(GTK_LABEL(path)));
-  pic_path = strtok(pic_path, "//");
-  pic_path = strtok(NULL, "\0");
-  if(pic != NULL)
-    gtk_image_set_from_file(GTK_IMAGE(pic), pic_path);
-
-
   gtk_widget_destroy(win);
-
+  gtk_main_quit();
   return FALSE;
 }
 
+gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer *p)
+{
+  gtk_main_quit();
+  return FALSE;
+}
 
-gboolean wallpaper_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
+gboolean wallpaper_settings(void)
 {
     win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_resize(GTK_WINDOW(win), 800, 500);
     gtk_window_set_title(GTK_WINDOW(win), "Settings - Wallpaper");
     gtk_container_set_border_width(GTK_CONTAINER(win), 10);
+    g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
 
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
@@ -107,4 +116,14 @@ gboolean wallpaper_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
     gtk_container_add(GTK_CONTAINER(win), box);
     gtk_widget_show_all(win);
     return FALSE;
+}
+
+
+int main(int argc, char **argv)
+{
+  gtk_init(&argc, &argv);
+
+  wallpaper_settings();
+
+  gtk_main();
 }

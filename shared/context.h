@@ -6,10 +6,12 @@ For more details view file 'LICENSE'
 
 #ifndef _HAVE_CONTEXT_H
 #define _HAVE_CONTEXT_H
-#include "../shared/settings.h"
 #include "../shared/run.h"
 #include <gtk/gtk.h>
 #define TERMINAL_FALLBACK "xterm" //USE IF ERROR WITH GSETTINGS
+
+#define EXEC_WALLPAPER_SETTINGS "./side-wallpaper-settings &"
+#define EXEC_PANEL_SETTINGS     "./side-panel-settings &"
 
 
 gboolean run_clicked(GtkWidget *w, GdkEvent *e, gpointer *p)
@@ -37,6 +39,16 @@ gboolean terminal_clicked(GtkWidget *w, GdkEvent *e, gpointer *p)
   return FALSE;
 }
 
+gboolean open_wallpaper_settings(GtkWidget *button, GdkEvent *e, gpointer p)
+{
+    system(EXEC_WALLPAPER_SETTINGS);
+}
+
+gboolean open_panel_settings(GtkWidget *button, GdkEvent *e, gpointer p)
+{
+    system(EXEC_PANEL_SETTINGS);
+}
+
 
 void add_context_menu_pannel(GtkWidget *menu, GtkWidget *panel)
 {
@@ -54,7 +66,7 @@ void add_context_menu_pannel(GtkWidget *menu, GtkWidget *panel)
   g_signal_connect(G_OBJECT(run), "activate", G_CALLBACK(run_clicked), NULL);
   g_signal_connect(G_OBJECT(terminal), "activate", G_CALLBACK(terminal_clicked), NULL);
   g_signal_connect(G_OBJECT(logout), "activate", G_CALLBACK(logout_clicked), NULL);
-  g_signal_connect(G_OBJECT(settings), "activate", G_CALLBACK(panel_settings), NULL);
+  g_signal_connect(G_OBJECT(settings), "activate", G_CALLBACK(open_panel_settings), NULL);
 
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), run);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), terminal);
@@ -78,7 +90,7 @@ void add_context_menu_desktop(GtkWidget *menu, GtkWidget *desktop)
 
 
   g_signal_connect(G_OBJECT(run), "activate", G_CALLBACK(run_clicked), NULL);
-  g_signal_connect(G_OBJECT(change_wallpaper), "activate", G_CALLBACK(wallpaper_settings), NULL);
+  g_signal_connect(G_OBJECT(change_wallpaper), "activate", G_CALLBACK(open_wallpaper_settings), NULL);
   g_signal_connect(G_OBJECT(logout), "activate", G_CALLBACK(logout_clicked), NULL);
 
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), run);

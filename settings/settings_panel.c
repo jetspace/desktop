@@ -5,6 +5,9 @@ For more details view file 'LICENSE'
 */
 
 #include <gtk/gtk.h>
+#include <string.h>
+#include <stdlib.h>
+#include "../shared/strdup.h"
 
 GtkTreeIter iter;
 GtkListStore *list;
@@ -45,6 +48,11 @@ gboolean remove_item(GtkWidget *w, GdkEvent *e, gpointer p)
   return FALSE;
 }
 
+gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer *p)
+{
+  gtk_main_quit();
+  return FALSE;
+}
 
 gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
@@ -82,6 +90,7 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   free(str);
 
   gtk_widget_destroy(win);
+  gtk_main_quit();
   return FALSE;
 }
 
@@ -144,7 +153,7 @@ gboolean cell_edit_i(GtkCellRendererText *renderer, gchar *path, gchar *text, Gt
 }
 
 
-gboolean panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
+gboolean panel_settings(void)
 {
   GSettings *term_app = g_settings_new("org.gnome.desktop.default-applications.terminal");
   char *ptr = strdup(g_variant_get_string(g_settings_get_value(term_app, "exec"), NULL));
@@ -161,6 +170,7 @@ gboolean panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   gtk_window_resize(GTK_WINDOW(win), 800, 500);
   gtk_window_set_title(GTK_WINDOW(win), "Settings - Panel");
   gtk_container_set_border_width(GTK_CONTAINER(win), 10);
+  g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
 
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
@@ -266,4 +276,13 @@ gboolean panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   gtk_widget_show_all(win);
   return FALSE;
 
+}
+
+int main(int argc, char **argv)
+{
+  gtk_init(&argc, &argv);
+
+  panel_settings();
+
+  gtk_main();
 }
