@@ -3,7 +3,7 @@ This file is licensed under the MIT-License
 Copyright (c) 2015 Marius Messerschmidt
 For more details view file 'LICENSE'
 */
-
+#include "../shared/strut.h"
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <stdlib.h>
@@ -14,12 +14,14 @@ For more details view file 'LICENSE'
 #include "../shared/plugins.h"
 
 
+
 #define PANEL_HEIGHT 35
 
 
 //callbacks
 gboolean button_event(GtkWidget *w, GdkEventButton *e, GtkWidget *menu);
 gboolean clicked_item(GtkWidget *w, GdkEventButton *e, gpointer p);
+gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box);
 
 
 gint total_elements = 0;
@@ -34,6 +36,7 @@ typedef struct
 PanelEntry *elements;
 
 void add_new_element(GtkWidget *box, char *icon, char *exec, gint state);
+void setup_panel(GtkWidget *box, char *app_list);
 
 int main(int argc, char **argv)
 {
@@ -52,8 +55,7 @@ int main(int argc, char **argv)
   gtk_window_resize(GTK_WINDOW(panel), gdk_screen_get_width(screen), PANEL_HEIGHT);
   gtk_window_move(GTK_WINDOW(panel), 0, gdk_screen_get_height(screen) - PANEL_HEIGHT);
   gtk_container_set_border_width(GTK_CONTAINER(panel), 1);
-  //TODO:
-    //prevent overlapping
+  set_struts(panel, STRUT_BOTTOM, PANEL_HEIGHT);
 
 
   //setup context menu
@@ -75,24 +77,14 @@ int main(int argc, char **argv)
   GSettings *apps = g_settings_new("org.jetspace.desktop.panel");
   char *app_list = strdup(g_variant_get_string(g_settings_get_value(apps, "apps"), NULL));
 
-  //phrase app list
-  char *e, *i, *a; //exec icon active
-  i = strtok(app_list, ":");
-  e = strtok(NULL, ":");
-  a = strtok(NULL, ";");
-  while(i != NULL && e != NULL)
-    {
-      add_new_element(box, i, e, atoi(a));
-      i = strtok(NULL, ":");
-      e = strtok(NULL, ":");
-      a = strtok(NULL, ";");
-    }
-
+  setup_panel(box, app_list);
+  g_signal_connect(G_OBJECT(apps), "changed", G_CALLBACK(update_icons), box);
 
 
   //call plugin loader
   load_plugins("/usr/lib/jetspace/panel/plugins/", panel);
   gtk_widget_show_all(panel);
+
   gtk_main();
   return 0;
 }
@@ -120,6 +112,8 @@ void add_new_element(GtkWidget *box, char *icon, char *exec, gint state)
   strncpy(elements[total_elements -1].icon, icon, 100);
   strncpy(elements[total_elements -1].exec, exec, 100);
 
+  g_debug("Adding %s - %s as item %d\n", icon, exec, total_elements);
+
   gtk_button_set_relief (GTK_BUTTON(elements[total_elements -1].button), GTK_RELIEF_NONE);
   g_signal_connect(G_OBJECT(elements[total_elements -1].button), "button_press_event", G_CALLBACK(clicked_item), NULL);
 
@@ -140,4 +134,38 @@ gboolean clicked_item(GtkWidget *w, GdkEventButton *e, gpointer p)
 
   g_warning("[PANEL] - Unable to find button -> Memory may corrupted!");
   return FALSE;
+}
+
+void setup_panel(GtkWidget *box, char *app_list)
+{
+  GList *ch, *iter;
+
+  ch = gtk_container_get_children(GTK_CONTAINER(box));
+  for(iter = ch; iter != NULL; iter = g_list_next(iter))
+    gtk_widget_destroy(GTK_WIDGET(iter->data));
+  g_list_free(ch);
+
+
+  //phrase app list
+  char *e, *i, *a; //exec icon active
+  i = strtok(app_list, ":");
+  e = strtok(NULL, ":");
+  a = strtok(NULL, ";");
+  while(i != NULL && e != NULL)
+    {
+      add_new_element(box, i, e, atoi(a));
+      i = strtok(NULL, ":");
+      e = strtok(NULL, ":");
+      a = strtok(NULL, ";");
+    }
+}
+
+gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box)
+{
+    char *apps = strdup(g_variant_get_string(g_settings_get_value(s, "apps"), NULL));
+    elements =  realloc(elements, 0);
+    total_elements = 0;
+    setup_panel(box, apps);
+    gtk_widget_show_all(box);
+
 }
