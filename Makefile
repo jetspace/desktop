@@ -1,6 +1,6 @@
 run:
-	./side-panel &
-	./side-wallpaper-service &
+	dbus-launch	./side-panel &
+	dbus-launch	./side-wallpaper-service &
 install:
 	sudo cp gsettings/org.jetspace.desktop.panel.gschema.xml /usr/share/glib-2.0/schemas/
 	sudo glib-compile-schemas /usr/share/glib-2.0/schemas/

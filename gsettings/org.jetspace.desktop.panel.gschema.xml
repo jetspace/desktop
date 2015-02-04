@@ -4,7 +4,12 @@
       <key type="s" name="apps">
           <default>"xterm:xterm &amp;:1;gedit:gedit &amp;:1;"</default>
           <summary>Configures the Panel Icons</summary>
-          <description>You can setup new launchers with ICON_NAME:EXEC_CMD;"</description>
+          <description>You can setup new launchers with ICON_NAME:EXEC_CMD;</description>
+      </key>
+      <key type="s" name="ignored-plugins">
+          <default>""</default>
+          <summary>All listed plugins would be ignored</summary>
+          <description>If you do not want to load plugin example.so then add it with example.so;SOME_OTHER;...</description>
       </key>
   </schema>
 </schemalist>
