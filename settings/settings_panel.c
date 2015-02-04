@@ -8,6 +8,7 @@ For more details view file 'LICENSE'
 #include <string.h>
 #include <stdlib.h>
 #include "../shared/strdup.h"
+#include "../shared/listed.h"
 
 //page 1
 GtkTreeIter iter;
@@ -16,7 +17,7 @@ GtkWidget *win, *box, *apply, *entry_path, *label_term, *label_sum, *tree, *scro
 
 //page 2
 
-GtkWidget *box2, *label_mod, *modview, *scroll_win2;
+GtkWidget *box2, *label_mod, *modview, *scroll_win2, *label_apply, *apply2;
 GtkListStore *modlist;
 GtkTreeIter iter2;
 
@@ -361,10 +362,18 @@ gboolean panel_settings(void)
 
     while((de = readdir(d)) != NULL)
       {
+        gboolean c = FALSE;
+
         if(de->d_name[0] == '.')
             continue;
+
+        if(is_listed(mods, x, de->d_name) == TRUE)
+            c = FALSE;
+          else
+            c = TRUE;
+
         gtk_list_store_append(modlist, &iter2);
-        gtk_list_store_set(modlist, &iter2, COL_NAME, de->d_name, COL_ENABLED, TRUE, -1);
+        gtk_list_store_set(modlist, &iter2, COL_NAME, de->d_name, COL_ENABLED, c, -1);
       }
 
     modview = gtk_tree_view_new();
@@ -389,8 +398,16 @@ gboolean panel_settings(void)
     gtk_container_add(GTK_CONTAINER(scroll_win2), modview);
 
     label_mod = gtk_label_new("Here you can disable Plugins from beeing loaded");
+    label_apply = gtk_label_new("");
+    gtk_label_set_markup(GTK_LABEL(label_apply), "<b>NOTICE:</b> a restart of the Desktop is requierd to reload the Plugins!\nThis is because all plugins are loaded at startup and are fixed, so they can not be changed later...");
+
+    apply2 = gtk_button_new_from_icon_name("gtk-apply", GTK_ICON_SIZE_BUTTON);
+    g_signal_connect(G_OBJECT(apply2), "button_press_event", G_CALLBACK(write_panel_settings), NULL);
+
     gtk_container_add(GTK_CONTAINER(box2), label_mod);
     gtk_container_add(GTK_CONTAINER(box2), scroll_win2);
+    gtk_container_add(GTK_CONTAINER(box2), label_apply);
+    gtk_container_add(GTK_CONTAINER(box2), apply2);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box, gtk_label_new("Apps"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box2, gtk_label_new("Plugins"));

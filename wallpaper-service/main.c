@@ -7,12 +7,23 @@ For more details view file 'LICENSE'
 #define _XOPEN_SOURCE 700
 
 
+
 #include <gtk/gtk.h>
 #include <string.h>
 #include "../shared/run.h"
 #include "../shared/context.h"
 
+GtkWidget *window, *ev_box, *pic;
+
 gboolean key_press(GtkWidget *w, GdkEventButton *e, GtkWidget *menu);
+
+gboolean update_wallpaper(GSettings *s, gchar *key, GtkWidget *box)
+{
+    char *pic_path = strdup(g_variant_get_string(g_settings_get_value(s, "picture-uri"), NULL));
+    pic_path = strtok(pic_path, "//");
+    pic_path = strtok(NULL, "\0");
+    gtk_image_set_from_pixbuf(GTK_IMAGE(pic), gdk_pixbuf_new_from_file(pic_path, NULL));
+}
 
 int main(int argc, char **argv)
 {
@@ -21,10 +32,8 @@ int main(int argc, char **argv)
   GSettings *gnome_conf;
   gnome_conf = g_settings_new("org.gnome.desktop.background");
 
-  const char *ptr = g_variant_get_string(g_settings_get_value(gnome_conf, "picture-uri"), NULL);
-  g_debug("[%s] - Loading Wallpaper %s", argv[0], ptr);
+  g_signal_connect(G_OBJECT(gnome_conf), "changed", G_CALLBACK(update_wallpaper), box);
 
-  GtkWidget *window, *ev_box, *pic;
 
   //Setup Window
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -42,10 +51,8 @@ int main(int argc, char **argv)
   gtk_widget_set_events(ev_box, GDK_BUTTON_PRESS_MASK);
 
   //Setup GtkImage
-  char *pic_path = strdup(ptr);
-  pic_path = strtok(pic_path, "//");
-  pic_path = strtok(NULL, "\0");
-  pic = gtk_image_new_from_file(pic_path);
+  pic = gtk_image_new_from_file(""); //create empty box
+  update_wallpaper(gnome_conf, "picture-uri", NULL);
   gtk_container_add(GTK_CONTAINER(ev_box), pic);
   gtk_container_add(GTK_CONTAINER(window), ev_box);
 

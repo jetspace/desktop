@@ -6,6 +6,7 @@ For more details view file 'LICENSE'
 
 #include <gmodule.h>
 #include <gtk/gtk.h>
+#include "../shared/listed.h"
 
 typedef void (*CallPlugin) (GtkWidget *root);
 
@@ -27,6 +28,21 @@ void load_plugins(char *path, GtkWidget *root)
       return;
     }
 
+    //read blacklist
+    GSettings *gmods = g_settings_new("org.jetspace.desktop.panel");
+    char *ptr = strdup(g_variant_get_string(g_settings_get_value(gmods, "ignored-plugins"), NULL));
+    char **mods = malloc(sizeof(ptr));
+
+    char *mp = strtok(ptr, ";");
+
+    int x = 0;
+    while(mp != NULL)
+      {
+        mods[x] = strdup(mp);
+        x++;
+        mp = strtok(NULL, ";");
+      }
+
 
   while((de = readdir(d)) != NULL)
     {
@@ -40,6 +56,10 @@ void load_plugins(char *path, GtkWidget *root)
 
       if(strlen(de->d_name) < 4)
         continue; //skip files without .so
+
+      if(is_listed(mods, x, de->d_name) == TRUE)
+        continue; //skip ignored mods...
+
 
       g_print("-----\nModule path: %s\n-----\n", module_path);
 
