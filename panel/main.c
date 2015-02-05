@@ -35,7 +35,7 @@ typedef struct
 
 PanelEntry *elements;
 
-void add_new_element(GtkWidget *box, char *icon, char *exec, gint state);
+void add_new_element(GtkWidget *box, char *icon, char *exec, char *tooltip,  gint state);
 void setup_panel(GtkWidget *box, char *app_list);
 
 int main(int argc, char **argv)
@@ -99,7 +99,7 @@ gboolean button_event(GtkWidget *w, GdkEventButton *e, GtkWidget *menu)
   return FALSE;
 }
 
-void add_new_element(GtkWidget *box, char *icon, char *exec, gint state)
+void add_new_element(GtkWidget *box, char *icon, char *exec, char *tooltip,  gint state)
 {
   if(state != 1)
     return;
@@ -112,11 +112,13 @@ void add_new_element(GtkWidget *box, char *icon, char *exec, gint state)
   strncpy(elements[total_elements -1].icon, icon, 100);
   strncpy(elements[total_elements -1].exec, exec, 100);
 
+
+
   g_debug("Adding %s - %s as item %d\n", icon, exec, total_elements);
 
   gtk_button_set_relief (GTK_BUTTON(elements[total_elements -1].button), GTK_RELIEF_NONE);
   g_signal_connect(G_OBJECT(elements[total_elements -1].button), "button_press_event", G_CALLBACK(clicked_item), NULL);
-
+  gtk_widget_set_tooltip_text(elements[total_elements -1].button, tooltip);
   gtk_container_add(GTK_CONTAINER(box), elements[total_elements -1].button);
 
 }
@@ -148,12 +150,12 @@ void setup_panel(GtkWidget *box, char *app_list)
 
   //phrase app list
   char *e, *i, *a; //exec icon active
-  i = strtok(app_list, ":");
-  e = strtok(NULL, ":");
-  a = strtok(NULL, ";");
+  i = strdup(strtok(app_list, ":"));
+  e = strdup(strtok(NULL, ":"));
+  a = strdup(strtok(NULL, ";"));
   while(i != NULL && e != NULL)
     {
-      add_new_element(box, i, e, atoi(a));
+      add_new_element(box, i, e, e ,atoi(a));
       i = strtok(NULL, ":");
       e = strtok(NULL, ":");
       a = strtok(NULL, ";");
