@@ -10,6 +10,9 @@ For more details view file 'LICENSE'
 #include "../shared/strdup.h"
 #include "../shared/listed.h"
 
+//page basic layout
+GtkWidget *win_box;
+
 //page 1
 GtkTreeIter iter;
 GtkListStore *list;
@@ -17,7 +20,7 @@ GtkWidget *win, *box, *apply, *entry_path, *label_term, *label_sum, *tree, *scro
 
 //page 2
 
-GtkWidget *box2, *label_mod, *modview, *scroll_win2, *label_apply, *apply2;
+GtkWidget *box2, *label_mod, *modview, *scroll_win2, *label_apply;
 GtkListStore *modlist;
 GtkTreeIter iter2;
 
@@ -329,7 +332,7 @@ gboolean panel_settings(void)
     g_signal_connect(G_OBJECT(add_app_button), "button_press_event", G_CALLBACK(add_item), NULL);
 
     gtk_container_add(GTK_CONTAINER(box), app_button_box);
-    gtk_container_add(GTK_CONTAINER(box), apply);
+
 
   //Page 2
 
@@ -401,17 +404,23 @@ gboolean panel_settings(void)
     label_apply = gtk_label_new("");
     gtk_label_set_markup(GTK_LABEL(label_apply), "<b>NOTICE:</b> a restart of the Desktop is requierd to reload the Plugins!\nThis is because all plugins are loaded at startup and are fixed, so they can not be changed later...");
 
-    apply2 = gtk_button_new_from_icon_name("gtk-apply", GTK_ICON_SIZE_BUTTON);
-    g_signal_connect(G_OBJECT(apply2), "button_press_event", G_CALLBACK(write_panel_settings), NULL);
 
     gtk_container_add(GTK_CONTAINER(box2), label_mod);
     gtk_container_add(GTK_CONTAINER(box2), scroll_win2);
     gtk_container_add(GTK_CONTAINER(box2), label_apply);
-    gtk_container_add(GTK_CONTAINER(box2), apply2);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box, gtk_label_new("Apps"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box2, gtk_label_new("Plugins"));
-  gtk_container_add(GTK_CONTAINER(win), notebook);
+
+  //create win_box
+
+  win_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
+
+
+  gtk_container_add(GTK_CONTAINER(win_box), notebook);
+  gtk_container_add(GTK_CONTAINER(win_box), apply);
+
+  gtk_container_add(GTK_CONTAINER(win), win_box);
 
 
 

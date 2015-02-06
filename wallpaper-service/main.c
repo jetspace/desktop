@@ -22,7 +22,14 @@ gboolean update_wallpaper(GSettings *s, gchar *key, GtkWidget *box)
     char *pic_path = strdup(g_variant_get_string(g_settings_get_value(s, "picture-uri"), NULL));
     pic_path = strtok(pic_path, "//");
     pic_path = strtok(NULL, "\0");
-    gtk_image_set_from_pixbuf(GTK_IMAGE(pic), gdk_pixbuf_new_from_file(pic_path, NULL));
+
+    //SACLE PRPOS
+    GdkScreen *sc = gdk_screen_get_default();
+    gint w = gdk_screen_get_width(sc);
+    gint h = gdk_screen_get_height(sc);
+
+    //SCALE AND SET
+    gtk_image_set_from_pixbuf(GTK_IMAGE(pic), gdk_pixbuf_scale_simple(gdk_pixbuf_new_from_file(pic_path, NULL), w, h, GDK_INTERP_BILINEAR));
 }
 
 int main(int argc, char **argv)
