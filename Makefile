@@ -15,6 +15,7 @@ install:
 	sudo mv side-panel /bin/
 	sudo mv side-panel-settings /bin/
 	sudo mv side-settings-explorer /bin/
+	sudo mv clock.so /usr/lib/jetspace/panel/plugins/
 clean:
 	rm side-panel
 	rm side-wallpaper-service

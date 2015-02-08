@@ -6,7 +6,10 @@ cd ../wallpaper-service
 make
 cd ../settings
 make
+cd ../plugins
+make
 cd ..
+
 
 #Install and Run
 if [ "$1" == "-r" ]

@@ -11,5 +11,11 @@
           <summary>All listed plugins would be ignored</summary>
           <description>If you do not want to load plugin example.so then add it with example.so;SOME_OTHER;...</description>
       </key>
+      <key type="i" name="time-code">
+          <range min="1" max="4"/>
+          <default>1</default>
+          <summary>Will set the way time is displayed</summary>
+          <description>It is used by the clock plugin - 1 - 24H with sec - 2 - 24H - 3 - 12H with sec - 4 - 12H</description>
+      </key>
   </schema>
 </schemalist>
