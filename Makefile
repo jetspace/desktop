@@ -7,6 +7,8 @@ install:
 	sudo mkdir /usr/lib/jetspace -p
 	sudo mkdir /usr/lib/jetspace/panel -p
 	sudo mkdir /usr/lib/jetspace/panel/plugins -p
+	sudo mkdir /usr/share/icons/jetspace -p
+	sudo cp icons/JetSpace.png /usr/share/icons/jetspace/
 	sudo cp desktop/side-settings-explorer.desktop /usr/share/applications/
 	sudo mv side-wallpaper-service /bin/
 	sudo mv side-wallpaper-settings /bin/
