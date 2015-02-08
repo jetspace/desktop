@@ -16,12 +16,12 @@ gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer *p)
 
 gboolean wallpaper_settings(GtkWidget *w, GdkEvent *e, gpointer p)
 {
-  system("./side-wallpaper-settings");
+  system("side-wallpaper-settings");
 }
 
 gboolean panel_settings(GtkWidget *w, GdkEvent *e, gpointer p)
 {
-  system("./side-panel-settings");
+  system("side-panel-settings");
 }
 
 gboolean about_d(GtkWidget *w, GdkEvent *e, gpointer p)
@@ -35,6 +35,7 @@ gboolean about_d(GtkWidget *w, GdkEvent *e, gpointer p)
   gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(dialog), AUTHORS);
   gtk_about_dialog_set_logo_icon_name(GTK_ABOUT_DIALOG(dialog), "gtk-about");
   gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
 
 }
 

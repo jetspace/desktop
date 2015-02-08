@@ -7,11 +7,12 @@ For more details view file 'LICENSE'
 #ifndef _HAVE_CONTEXT_H
 #define _HAVE_CONTEXT_H
 #include "../shared/run.h"
+#include "../shared/logout.h"
 #include <gtk/gtk.h>
 #define TERMINAL_FALLBACK "xterm" //USE IF ERROR WITH GSETTINGS
 
-#define EXEC_WALLPAPER_SETTINGS "./side-wallpaper-settings &"
-#define EXEC_PANEL_SETTINGS     "./side-panel-settings &"
+#define EXEC_WALLPAPER_SETTINGS "side-wallpaper-settings &"
+#define EXEC_PANEL_SETTINGS     "side-panel-settings &"
 
 
 gboolean run_clicked(GtkWidget *w, GdkEvent *e, gpointer *p)
@@ -22,11 +23,7 @@ gboolean run_clicked(GtkWidget *w, GdkEvent *e, gpointer *p)
 
 gboolean logout_clicked(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
-  /*
-  This is nothing more than a dirty test!!(!!!!)
-  we will use some 'cooler' methods later!
-  */
-  system("killall side_*"); //will exit all side_ apps
+  logout();
   return FALSE;
 }
 
