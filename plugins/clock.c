@@ -19,8 +19,8 @@ Planned function are:
 
 #define TIME_STYLE_24H_SEC  "%H:%M:%S"
 #define TIME_STYLE_24H      "%H:%M"
-#define TIME_STYLE_12H_SEC  "%I:%M:%S"
-#define TIME_STYLE_12H      "%I:%M"
+#define TIME_STYLE_12H_SEC  "%I:%M:%S %p"
+#define TIME_STYLE_12H      "%I:%M %p"
 
 
 void show_clock(void);
@@ -28,16 +28,24 @@ gboolean redraw(GtkWidget *widget, GdkEvent  *event, gpointer user_data);
 gboolean update_time(gpointer data);
 
 GtkWidget *side_panel_clock, *box, *side_panel_clock_box;
-GtkWidget *s_24, *s_sec;
+GtkWidget *s_24, *s_sec, *s_utc;
 
 gboolean update_time(gpointer data)
 {
-  time_t t = time(&t);
-  struct tm *t_m = localtime(&t);
-  char time_str[25];
-
   GSettings *time_style;
   time_style = g_settings_new("org.jetspace.desktop.panel");
+
+  time_t t = time(&t);
+
+  struct tm *t_m;
+
+  if(!g_variant_get_boolean(g_settings_get_value(time_style, "utc-time")))
+     t_m = localtime(&t);
+  else
+     t_m = gmtime(&t);
+  char time_str[25];
+
+
 
   gint style = g_variant_get_int32(g_settings_get_value(time_style, "time-code"));
 
@@ -83,6 +91,10 @@ gboolean write_settings_clock(GtkWidget *w, GdkEventButton *e, gpointer d)
         else
           g_settings_set_value(time_style, "time-code", g_variant_new_int32(4));
       }
+    if(gtk_switch_get_active(GTK_SWITCH(s_utc)))
+      g_settings_set_value(time_style, "utc-time", g_variant_new_boolean(TRUE));
+    else
+      g_settings_set_value(time_style, "utc-time", g_variant_new_boolean(FALSE));
 
     g_settings_sync();
 
@@ -125,7 +137,19 @@ gboolean clock_settings(GtkWidget *w, GdkEventButton *e, gpointer d)
     s_sec      = gtk_switch_new();
     gtk_container_add(GTK_CONTAINER(l_box2), s_sec);
 
+
     gtk_container_add(GTK_CONTAINER(box), l_box2);
+
+
+    GtkWidget *l_box3     = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 76);
+
+    GtkWidget *l4         = gtk_label_new("Use UTC?");
+    gtk_container_add(GTK_CONTAINER(l_box3), l4);
+
+    s_utc      = gtk_switch_new();
+    gtk_container_add(GTK_CONTAINER(l_box3), s_utc);
+
+    gtk_container_add(GTK_CONTAINER(box), l_box3);
 
     GtkWidget *apply      = gtk_button_new_with_label("Apply");
     gtk_container_add(GTK_CONTAINER(box), apply);
@@ -158,6 +182,11 @@ gboolean clock_settings(GtkWidget *w, GdkEventButton *e, gpointer d)
       break;
 
     }
+
+    if(g_variant_get_boolean(g_settings_get_value(time_style, "utc-time")))
+      gtk_switch_set_active(GTK_SWITCH(s_utc),  TRUE);
+    else
+      gtk_switch_set_active(GTK_SWITCH(s_utc),  FALSE);
 
     g_signal_connect(G_OBJECT(apply), "button_press_event", G_CALLBACK(write_settings_clock), NULL);
 

@@ -31,14 +31,28 @@ To workaround you can use: val = 100 - val
 #include <alsa/control.h>
 #include <glib.h>
 
-GtkWidget *volume_button, *box;
+GtkWidget *volume_button, *box, *s_mute;
 
 void create_volume_button(void);
+
+gboolean set_mute(GtkToggleButton *widget, gpointer user_data)
+{
+  if(gtk_toggle_button_get_active(widget))
+    gtk_adjustment_set_value(GTK_ADJUSTMENT(user_data), 100);
+
+  return FALSE;
+
+}
 
 void set_volume(GtkAdjustment *adjustment, gpointer user_data)
 {
   int value = (int) 100 - gtk_adjustment_get_value(adjustment);
   g_debug("Setting master volume to: %d", value);
+
+  if(value == 0)
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s_mute), TRUE);
+  else
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s_mute), FALSE);
 
   long min, max;
   snd_mixer_t *mix;
@@ -78,8 +92,20 @@ gboolean show_mixer(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
   GtkWidget     *scl = gtk_scale_new(GTK_ORIENTATION_VERTICAL, adj);
   gtk_scale_set_draw_value(GTK_SCALE(scl), FALSE);
 
+  s_mute = gtk_toggle_button_new_with_label("mute");
+
+  g_signal_connect(G_OBJECT(s_mute), "toggled", G_CALLBACK(set_mute), (gpointer) adj);
+
+
+  gtk_box_pack_end(GTK_BOX(box), s_mute, FALSE, FALSE, 5);
+
+
   gtk_container_add(GTK_CONTAINER(box), dsc);
   gtk_box_pack_end(GTK_BOX(box), scl, TRUE, TRUE, 5);
+
+
+
+
 
   gtk_container_add(GTK_CONTAINER(win), box);
   gtk_widget_show_all(win);

@@ -24,3 +24,5 @@ clean:
 	rm side-panel-settings
 	rm side-wallpaper-settings
 	rm side-settings-explorer
+	rm volume.so
+	rm clock.so

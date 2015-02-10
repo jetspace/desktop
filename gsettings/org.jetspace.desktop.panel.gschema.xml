@@ -17,5 +17,10 @@
           <summary>Will set the way time is displayed</summary>
           <description>It is used by the clock plugin - 1 - 24H with sec - 2 - 24H - 3 - 12H with sec - 4 - 12H</description>
       </key>
+      <key type="b" name="utc-time">
+          <default>false</default>
+          <summary>use UTC as time zone</summary>
+          <description>If enabled, UTC is used as default time zone. This is maybe usefull for scince operations...</description>
+      </key>
   </schema>
 </schemalist>
