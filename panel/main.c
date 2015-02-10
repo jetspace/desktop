@@ -8,6 +8,8 @@ For more details view file 'LICENSE'
 #include <gdk/gdk.h>
 #include <stdlib.h>
 
+#define PANEL_HEIGHT 35
+
 #include "../shared/strdup.h"
 #include "../shared/context.h"
 #include "../shared/run.h"
@@ -15,7 +17,7 @@ For more details view file 'LICENSE'
 
 
 
-#define PANEL_HEIGHT 35
+
 
 
 //callbacks
@@ -55,6 +57,7 @@ int main(int argc, char **argv)
   gtk_window_resize(GTK_WINDOW(panel), gdk_screen_get_width(screen), PANEL_HEIGHT);
   gtk_window_move(GTK_WINDOW(panel), 0, gdk_screen_get_height(screen) - PANEL_HEIGHT);
   gtk_container_set_border_width(GTK_CONTAINER(panel), 1);
+  gtk_window_stick(GTK_WINDOW(panel));
   set_struts(panel, STRUT_BOTTOM, PANEL_HEIGHT);
 
 

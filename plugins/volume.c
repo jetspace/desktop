@@ -83,6 +83,8 @@ gboolean show_mixer(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
   gtk_window_set_title(GTK_WINDOW(win), "SIDE Mixer");
   gtk_container_set_border_width(GTK_CONTAINER(win), 10);
   gtk_window_resize(GTK_WINDOW(win), 150, 300);
+  GdkScreen *screen = gdk_screen_get_default();
+  gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen), gdk_screen_get_height(screen) - 335);
 
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
   GtkWidget *dsc = gtk_label_new("master");

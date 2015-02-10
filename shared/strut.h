@@ -17,13 +17,9 @@ enum
 };
 
 #include <gtk/gtk.h>
+#include "../shared/config.h"
 
-//SETTINGS
 
-//Choose your DisplayServer
-#define X_WINDOW_SYSTEM
-//#define WAYLAND //will be added later
-//#define MIR //Maybe never supported
 
 #ifdef WAYLAND
 void set_struts(GtkWidget *panel, gint strut_pos, gulong val)
