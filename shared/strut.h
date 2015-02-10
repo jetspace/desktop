@@ -6,14 +6,31 @@ For more details view file 'LICENSE'
 
 //Creates the X-Window System struts to protect windows
 
+//CONF
+
+enum
+{
+	STRUT_LEFT = 0,
+	STRUT_RIGHT,
+	STRUT_TOP,
+	STRUT_BOTTOM
+};
+
+#include <gtk/gtk.h>
+
 //SETTINGS
 
+//Choose your DisplayServer
 #define X_WINDOW_SYSTEM
 //#define WAYLAND //will be added later
 //#define MIR //Maybe never supported
 
 #ifdef WAYLAND
-#error "Wayland GDK not supported yet..."
+void set_struts(GtkWidget *panel, gint strut_pos, gulong val)
+{
+	g_warning("PLEASE NOTE: The Wayland version is HIGHLY experimental!");
+	return;
+}
 #endif
 
 #ifdef MIR
@@ -28,15 +45,9 @@ For more details view file 'LICENSE'
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
-#include <gtk/gtk.h>
 
-enum
-{
-	STRUT_LEFT = 0,
-	STRUT_RIGHT,
-	STRUT_TOP,
-	STRUT_BOTTOM
-};
+
+
 
 void set_struts(GtkWidget *panel, gint strut_pos, gulong val)
 {
