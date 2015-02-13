@@ -16,6 +16,7 @@ install:
 	sudo mv side-panel /bin/
 	sudo mv side-panel-settings /bin/
 	sudo mv side-settings-explorer /bin/
+	sudo mv side-session /bin/
 	sudo mv clock.so /usr/lib/jetspace/panel/plugins/
 	sudo mv volume.so /usr/lib/jetspace/panel/plugins/
 clean:
@@ -26,3 +27,4 @@ clean:
 	rm side-settings-explorer
 	rm volume.so
 	rm clock.so
+	rm side-session

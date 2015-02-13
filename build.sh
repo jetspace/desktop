@@ -8,6 +8,8 @@ cd ../settings
 make
 cd ../plugins
 make
+cd ../session
+make
 cd ..
 
 
