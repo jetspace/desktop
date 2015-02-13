@@ -1,5 +1,13 @@
 #!/bin/bash
 #Simple build script
+
+#BUILDING LIBS
+cd lib/side-app
+make
+make install
+cd ../..
+
+#BUILDING BIN
 cd panel
 make
 cd ../wallpaper-service

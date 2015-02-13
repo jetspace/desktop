@@ -13,6 +13,7 @@ the standards...
 #ifndef _STRDUP_
 #define _STRDUP_
 #include <string.h>
+#include <stdlib.h>
 char *strdup(const char *src)
 {
   int len = strlen(src) + 1;
