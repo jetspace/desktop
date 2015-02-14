@@ -1,5 +1,5 @@
 build:
-	gcc -c -Wall -Werror -fPIC apps.c -o apps.o -std=c99
+	gcc -c -Wall -Werror -fPIC apps.c -o apps.o -std=c99 -g
 	gcc -shared -o side-apps.so apps.o
 clean:
 	rm test

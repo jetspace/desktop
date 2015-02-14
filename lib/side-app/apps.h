@@ -10,6 +10,7 @@ For more details view file 'LICENSE'
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
@@ -41,6 +42,8 @@ typedef struct
 {
 	char *app_name;
 	char *exec;
+	char *gen_name;
+	bool show;
 	AppType type;
 	SubType sub;
 }AppEntry;
