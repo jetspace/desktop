@@ -3,11 +3,18 @@ This file is licensed under the MIT-License
 Copyright (c) 2015 Marius Messerschmidt
 For more details view file 'LICENSE'
 */
+
+#define _XOPEN_SOURCE 700
+
 #include "../shared/strut.h"
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <side/apps.h>
+
+
+#include <errno.h>
 
 
 #define PANEL_HEIGHT 35
@@ -268,20 +275,32 @@ void create_app_menu(GtkWidget *box)
 
     while((ent = side_apps_get_next_entry()) != NULL)
       {
-          if(ent->app_name == NULL || ent->exec == NULL || ent->sub == APP_TYPE_UNKNOWN || ent->show == false)
+          if(ent == NULL)
+            break;
+
+
+          if(ent->show == FALSE)
+            continue;
+
+          if(ent->sub == APP_TYPE_UNKNOWN)
             continue;
 
           if(!check_name(ent->app_name))
+            continue;
+
+          if(!check_name(ent->exec))
             continue;
 
           total_apps++;
           apps = realloc(apps, sizeof(Apps) * total_apps);
 
 
+
           apps[total_apps - 1].exec = malloc(strlen(ent->exec));
           strncpy(apps[total_apps - 1].exec, ent->exec, strlen(ent->exec));
           apps[total_apps - 1].exec[strlen(apps[total_apps - 1].exec)] = '\0';
           apps[total_apps - 1].item = gtk_menu_item_new_with_label(ent->app_name);
+
 
 
           switch(ent->sub)
@@ -334,6 +353,8 @@ void create_app_menu(GtkWidget *box)
 
          }
 
+
+
           g_signal_connect(G_OBJECT(apps[total_apps -1].item), "activate", G_CALLBACK(run_app), NULL);
 
       }
@@ -353,15 +374,20 @@ gboolean app_menu(GtkWidget *w, GdkEventButton *e, GtkWidget *menu)
 
 gboolean check_name(char *text)
 {
-  if(text == NULL)
+  if(text ==  NULL)
     return FALSE;
 
-  for(unsigned int x = 0; x < strlen(text); x++)
-    if(text[x] < 40 || text[x] > 126)
+  if(strlen(text)  == 0)
+    return FALSE;
+
+
+  unsigned int x;
+  for(x = 0; x < strlen(text); x++)
+    if(!isprint(text[x]))
       return FALSE;
 
-  if(strlen(text) == 0)
-    return FALSE;
+
+
 
   return TRUE;
 }
@@ -371,7 +397,11 @@ gboolean run_app(GtkWidget *w, GdkEvent *e, gpointer *p)
   for(int x = 0; x < total_apps; x++)
     if(apps[x].item == w)
       {
-        system(apps[x].exec);
+        char buffer[strlen(apps[x].exec)];
+        memset(buffer, 0, sizeof(buffer));
+        strcat(buffer, strtok(apps[x].exec, "%%\n"));
+        strcat(buffer, " &");
+        system(buffer);
         return FALSE;
       }
   return FALSE;

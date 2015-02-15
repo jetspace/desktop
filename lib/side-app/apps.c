@@ -82,7 +82,7 @@ AppEntry *side_apps_get_next_entry(void)
 		}
 		if(strncmp(buffer , "NoDisplay=", 10) == 0)
 		{//visible
-			if(strcmp(buffer, "NoDisplay=true") == 0)
+			if(strncmp(buffer, "NoDisplay=true", 14) == 0)
 			ret->show = false;
 		}
 		if(strncmp(buffer, "Categories=", 11) == 0)
@@ -108,46 +108,57 @@ AppEntry *side_apps_get_next_entry(void)
 					if(strcmp(ptr, "AudioVideo") == 0 || strcmp(ptr, "Audio") == 0 || strcmp(ptr, "Video") == 0)
 					{
 						ret->sub = APP_TYPE_MULTIMEDIA;
+						break;
 					}
 					if(strcmp(ptr, "Development") == 0)
 					{
 						ret->sub = APP_TYPE_DEVELOPMENT;
+						break;
 					}
 					if(strcmp(ptr, "Education") == 0)
 					{
 						ret->sub = APP_TYPE_EDUCATION;
+						break;
 					}
 					if(strcmp(ptr, "Game") == 0)
 					{
 						ret->sub = APP_TYPE_GAME;
+						break;
 					}
 					if(strcmp(ptr, "Graphics") == 0)
 					{
 						ret->sub = APP_TYPE_GRAPHICS;
+						break;
 					}
 					if(strcmp(ptr, "Network") == 0)
 					{
 						ret->sub = APP_TYPE_NETWORK;
+						break;
 					}
 					if(strcmp(ptr, "Office") == 0)
 					{
 						ret->sub = APP_TYPE_OFFICE;
+						break;
 					}
 					if(strcmp(ptr, "Science") == 0)
 					{
 						ret->sub = APP_TYPE_SCIENCE;
+						break;
 					}
 					if(strcmp(ptr, "Settings") == 0)
 					{
 						ret->sub = APP_TYPE_SETTINGS;
+						break;
 					}
 					if(strcmp(ptr, "System") == 0)
 					{
 						ret->sub = APP_TYPE_SYSTEM;
+						break;
 					}
 					if(strcmp(ptr, "Utility") == 0)
 					{
 						ret->sub = APP_TYPE_UTILITY;
+						break;
 					}
 
 					for(int x = 0; x < strlen(ptr); x++)

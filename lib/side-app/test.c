@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	AppEntry *e;
 	while((e = side_apps_get_next_entry()))
 	{
-		printf("entry: %30s \t\t %20s : %d\n", e->exec, e->app_name, e->sub);
+		printf("entry: %30s \t\t %10s : %d : %s\n", e->exec, e->app_name, e->sub, e->show == true ? "YES" : "NO");
 	}
 	side_apps_close();
 
