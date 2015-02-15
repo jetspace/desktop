@@ -31,6 +31,13 @@ gboolean wm        = TRUE;
 
 int main(int argc, char **argv)
 {
+  if(argc > 1)
+    if(strcmp(argv[1], "--logout") == 0)
+      {
+        system("killall side-session");
+        return 0;
+      }
+
   g_print("SIDE-session Version %s loading...\n", VERSION);
 
   if(wm)

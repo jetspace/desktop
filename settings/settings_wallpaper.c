@@ -54,9 +54,6 @@ gboolean write_wallpaper_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
   GSettings *wp = g_settings_new("org.gnome.desktop.background");
   g_settings_set_value(wp, "picture-uri", g_variant_new_string(gtk_label_get_text(GTK_LABEL(path))));
-
-  gtk_widget_destroy(win);
-  gtk_main_quit();
   return FALSE;
 }
 
@@ -94,17 +91,17 @@ gboolean wallpaper_settings(void)
     button_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
     gtk_box_set_homogeneous(GTK_BOX(button_box), TRUE);
 
-    clear  = gtk_button_new_from_icon_name("gtk-clear", GTK_ICON_SIZE_BUTTON);
+    clear  = gtk_button_new_with_label("Clear");
     gtk_container_add(GTK_CONTAINER(button_box), clear);
     g_signal_connect(G_OBJECT(clear), "button_press_event", G_CALLBACK(clear_wallpaper), NULL);
 
-    choose = gtk_button_new_from_icon_name("gtk-open", GTK_ICON_SIZE_BUTTON);
+    choose = gtk_button_new_with_label("Open...");
     gtk_container_add(GTK_CONTAINER(button_box), choose);
     g_signal_connect(G_OBJECT(choose), "button_press_event", G_CALLBACK(open_wallpaper), NULL);
 
     path = gtk_label_new(ptr);
 
-    apply = gtk_button_new_from_icon_name("gtk-apply", GTK_ICON_SIZE_BUTTON);
+    apply = gtk_button_new_with_label("Apply");
     g_signal_connect(G_OBJECT(apply), "button_press_event", G_CALLBACK(write_wallpaper_settings), NULL);
 
     gtk_container_add(GTK_CONTAINER(box), label);

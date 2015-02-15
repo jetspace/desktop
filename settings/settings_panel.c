@@ -24,6 +24,10 @@ GtkWidget *box2, *label_mod, *modview, *scroll_win2, *label_apply;
 GtkListStore *modlist;
 GtkTreeIter iter2;
 
+//page 3
+
+GtkWidget *box3, *s_visible, *label_visible, *visible_box;
+
 enum
 {
   COL_EXEC = 0,
@@ -131,10 +135,9 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   icons = g_settings_new("org.jetspace.desktop.panel");
   g_settings_set_value(icons, "ignored-plugins", g_variant_new_string(str));
 
-  g_settings_sync();
+  g_settings_set_value(icons, "show-app-menu", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_visible))));
 
-  gtk_widget_destroy(win);
-  gtk_main_quit();
+  g_settings_sync();
   return FALSE;
 }
 
@@ -238,7 +241,7 @@ gboolean panel_settings(void)
   //page 1
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
-    apply = gtk_button_new_from_icon_name("gtk-apply", GTK_ICON_SIZE_BUTTON);
+    apply = gtk_button_new_with_label("Apply");
 
     gtk_container_add(GTK_CONTAINER(box), label_sum);
     gtk_container_add(GTK_CONTAINER(box), label_term);
@@ -316,18 +319,18 @@ gboolean panel_settings(void)
     gtk_box_set_homogeneous(GTK_BOX(app_button_box), TRUE);
 
     //ADD a button to clear all apps
-    clear_app_button = gtk_button_new_from_icon_name("gtk-clear", GTK_ICON_SIZE_BUTTON);
+    clear_app_button = gtk_button_new_with_label("Clear");
     gtk_container_add(GTK_CONTAINER(app_button_box), clear_app_button);
     g_signal_connect(G_OBJECT(clear_app_button), "button_press_event", G_CALLBACK(clear_items), NULL);
 
     //ADD a button to remove a app
-    remove_app_button = gtk_button_new_from_icon_name("gtk-remove", GTK_ICON_SIZE_BUTTON);
+    remove_app_button = gtk_button_new_with_label("Delete");
     gtk_container_add(GTK_CONTAINER(app_button_box), remove_app_button);
     g_signal_connect(G_OBJECT(remove_app_button), "button_press_event", G_CALLBACK(remove_item), NULL);
 
 
     //ADD a button for a new app
-    add_app_button = gtk_button_new_from_icon_name("gtk-add", GTK_ICON_SIZE_BUTTON);
+    add_app_button = gtk_button_new_with_label("Add");
     gtk_container_add(GTK_CONTAINER(app_button_box), add_app_button);
     g_signal_connect(G_OBJECT(add_app_button), "button_press_event", G_CALLBACK(add_item), NULL);
 
@@ -409,8 +412,23 @@ gboolean panel_settings(void)
     gtk_container_add(GTK_CONTAINER(box2), scroll_win2);
     gtk_container_add(GTK_CONTAINER(box2), label_apply);
 
+  // Page 3
+
+    box3 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+
+    label_visible = gtk_label_new("Would you like to enable the built-in application menu?");
+    s_visible = gtk_switch_new();
+    visible_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+    gtk_container_add(GTK_CONTAINER(visible_box), label_visible);
+    gtk_box_pack_end(GTK_BOX(visible_box), s_visible, FALSE, FALSE, 5);
+
+    gtk_switch_set_active(GTK_SWITCH(s_visible), g_variant_get_boolean(g_settings_get_value(icons, "show-app-menu")));
+
+    gtk_container_add(GTK_CONTAINER(box3), visible_box);
+
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box, gtk_label_new("Apps"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box2, gtk_label_new("Plugins"));
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box3, gtk_label_new("Application Menu"));
 
   //create win_box
 

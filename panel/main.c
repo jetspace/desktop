@@ -175,7 +175,10 @@ void setup_panel(GtkWidget *box, char *app_list)
     gtk_widget_destroy(GTK_WIDGET(iter->data));
   g_list_free(ch);
 
-  create_app_menu(box);
+  GSettings *menu = g_settings_new("org.jetspace.desktop.panel");
+
+  if(g_variant_get_boolean(g_settings_get_value(menu, "show-app-menu")))
+    create_app_menu(box);
 
   //phrase app list
   char *e, *i, *a; //exec icon active
@@ -298,7 +301,7 @@ void create_app_menu(GtkWidget *box)
 
 
           apps[total_apps - 1].exec = malloc(strlen(ent->exec));
-          strncpy(apps[total_apps - 1].exec, ent->exec, strlen(ent->exec));
+          strncpy(apps[total_apps - 1].exec, ent->exec, ent->exec_length);
           apps[total_apps - 1].exec[strlen(apps[total_apps - 1].exec)] = '\0';
           apps[total_apps - 1].item = gtk_menu_item_new_with_label(ent->app_name);
           apps[total_apps - 1].terminal = ent->terminal;

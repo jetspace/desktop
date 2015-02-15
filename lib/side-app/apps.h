@@ -42,6 +42,7 @@ typedef struct
 {
 	char *app_name;
 	char *exec;
+	size_t exec_length;
 	char *gen_name;
 	bool show;
 	bool terminal;

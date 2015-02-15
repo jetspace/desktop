@@ -74,6 +74,7 @@ AppEntry *side_apps_get_next_entry(void)
 			strtok(buffer, "=");
 			char *ptr = strtok(NULL, "\n");
 			strcpy(ret->exec, ptr != NULL ? ptr : "");
+			ret->exec_length = strlen(ret->exec);
 			ret->exec[strlen(ret->exec)] = '\0';
 		}
 		if(strncmp(buffer , "Terminal=", 9) == 0)

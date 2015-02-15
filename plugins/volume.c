@@ -154,7 +154,7 @@ void create_volume_button(void)
 {
   volume_button = gtk_button_new_with_label(NULL);
   gtk_button_set_relief(GTK_BUTTON(volume_button), GTK_RELIEF_NONE);
-  gtk_button_set_image (GTK_BUTTON(volume_button), gtk_image_new_from_pixbuf(gdk_pixbuf_scale_simple(gdk_pixbuf_new_from_file("/usr/share/icons/jetspace/speaker.png", NULL), 20, 20, GDK_INTERP_BILINEAR)));
+  gtk_button_set_image (GTK_BUTTON(volume_button), gtk_image_new_from_icon_name("audio-volume-high", GTK_ICON_SIZE_SMALL_TOOLBAR));
   gtk_box_pack_end(GTK_BOX(box), volume_button, FALSE, FALSE, 5);
 
   g_signal_connect(G_OBJECT(volume_button), "destroy", G_CALLBACK(redraw_volume_button), NULL);

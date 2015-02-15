@@ -22,5 +22,10 @@
           <summary>use UTC as time zone</summary>
           <description>If enabled, UTC is used as default time zone. This is maybe usefull for scince operations...</description>
       </key>
+      <key type="b" name="show-app-menu">
+          <default>true</default>
+          <summary>Show the built-in app launcher in the panel</summary>
+          <description>You should only disable this, if you want to use a plugin as launcher</description>
+      </key>
   </schema>
 </schemalist>
