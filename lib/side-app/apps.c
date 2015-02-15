@@ -46,6 +46,7 @@ AppEntry *side_apps_get_next_entry(void)
 		return NULL;
 
 	ret->show = true;
+	ret->terminal = false;
 
 	char buffer[2000];
 	while(fgets(buffer, 2000, side_apps_entry_file) != NULL)
@@ -75,9 +76,14 @@ AppEntry *side_apps_get_next_entry(void)
 			strcpy(ret->exec, ptr != NULL ? ptr : "");
 			ret->exec[strlen(ret->exec)] = '\0';
 		}
+		if(strncmp(buffer , "Terminal=", 9) == 0)
+		{//type
+			if(strncmp(buffer, "Terminal=true", 13) == 0)
+			ret->terminal = true;
+		}
 		if(strncmp(buffer , "Type=", 5) == 0)
 		{//type
-			if(strcmp(buffer, "Type=Application") == 0)
+			if(strncmp(buffer, "Type=Application", 16) == 0)
 			ret->type = APP_TYPE_APPLICATION;
 		}
 		if(strncmp(buffer , "NoDisplay=", 10) == 0)

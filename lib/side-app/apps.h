@@ -44,6 +44,7 @@ typedef struct
 	char *exec;
 	char *gen_name;
 	bool show;
+	bool terminal;
 	AppType type;
 	SubType sub;
 }AppEntry;

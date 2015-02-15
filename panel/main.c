@@ -53,6 +53,7 @@ typedef struct
 {
   char *icon;
   char *exec;
+  gboolean terminal;
   GtkWidget *item;
 }Apps;
 
@@ -300,6 +301,7 @@ void create_app_menu(GtkWidget *box)
           strncpy(apps[total_apps - 1].exec, ent->exec, strlen(ent->exec));
           apps[total_apps - 1].exec[strlen(apps[total_apps - 1].exec)] = '\0';
           apps[total_apps - 1].item = gtk_menu_item_new_with_label(ent->app_name);
+          apps[total_apps - 1].terminal = ent->terminal;
 
 
 
@@ -397,11 +399,31 @@ gboolean run_app(GtkWidget *w, GdkEvent *e, gpointer *p)
   for(int x = 0; x < total_apps; x++)
     if(apps[x].item == w)
       {
+        //kill all errors
+        unsigned int y;
+        for(y = 0; y < strlen(apps[x].exec); y++)
+          if(!isprint(apps[x].exec[y]))
+            apps[x].exec[y] = '\0';
+
         char buffer[strlen(apps[x].exec)];
         memset(buffer, 0, sizeof(buffer));
         strcat(buffer, strtok(apps[x].exec, "%%\n"));
-        strcat(buffer, " &");
-        system(buffer);
+        strcat(buffer, " &\0");
+
+        GSettings *term = g_settings_new("org.gnome.desktop.default-applications.terminal");
+        char *ptr = strdup(g_variant_get_string(g_settings_get_value(term, "exec"), NULL));
+
+        if(apps[x].terminal)
+          {
+            char buffer2[strlen(buffer) + strlen(ptr) + 10];
+            memset(buffer2,0, sizeof(buffer2));
+            strcat(buffer2, ptr);
+            strcat(buffer2, " -e ");
+            strcat(buffer2, buffer);
+            system(buffer2);
+          }
+        else
+          system(buffer);
         return FALSE;
       }
   return FALSE;
