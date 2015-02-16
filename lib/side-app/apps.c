@@ -58,6 +58,7 @@ AppEntry *side_apps_get_next_entry(void)
 			strtok(buffer, "=");
 			char *ptr = strtok(NULL, "\n");
 			strcpy(ret->app_name, ptr != NULL ? ptr : "");
+			ret->app_name_length = strlen(ret->app_name);
 		}
 		if(strncmp(buffer, "GenericName=", 12) == 0 && g_name == false)
 		{//we found the gen name(!!!)
@@ -66,6 +67,7 @@ AppEntry *side_apps_get_next_entry(void)
 			strtok(buffer, "=");
 			char *ptr = strtok(NULL, "\n");
 			strcpy(ret->gen_name, ptr != NULL ? ptr : "");
+			ret->gen_name_length = strlen(ret->gen_name);
 		}
 		if(strncmp(buffer, "Exec=", 5) == 0 && path == false)
 		{//EXEC PATH

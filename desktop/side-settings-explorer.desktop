@@ -4,4 +4,5 @@ Type=Application
 Name=Side Settings
 Comment=Configures your SIDE session!
 Exec=side-settings-explorer
+Categories=Settings;
 Icon=gtk-settings

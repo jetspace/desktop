@@ -5,6 +5,9 @@
 cd lib/side-app
 make
 make install
+cd ../side-plugin
+make
+make install
 cd ../..
 
 #BUILDING BIN

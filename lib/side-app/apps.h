@@ -41,9 +41,11 @@ typedef short SubType;
 typedef struct
 {
 	char *app_name;
+	size_t app_name_length;
 	char *exec;
 	size_t exec_length;
 	char *gen_name;
+	size_t gen_name_length;
 	bool show;
 	bool terminal;
 	AppType type;

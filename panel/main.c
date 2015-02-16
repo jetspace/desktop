@@ -227,51 +227,57 @@ void create_app_menu(GtkWidget *box)
     GtkWidget *settings = gtk_menu_new();
     GtkWidget *sys = gtk_menu_new();
     GtkWidget *utility = gtk_menu_new();
+    GtkWidget *other = gtk_menu_new();
 
 
-    GtkWidget *multimedia_entry = gtk_menu_item_new_with_label("multimedia");
+    GtkWidget *multimedia_entry = gtk_menu_item_new_with_label("Multimedia");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), multimedia_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(multimedia_entry), multimedia);
 
-    GtkWidget *development_entry = gtk_menu_item_new_with_label("development");
+    GtkWidget *development_entry = gtk_menu_item_new_with_label("Development");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), development_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(development_entry), development);
 
-    GtkWidget *education_entry = gtk_menu_item_new_with_label("education");
+    GtkWidget *education_entry = gtk_menu_item_new_with_label("Education");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), education_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(education_entry), education);
 
-    GtkWidget *game_entry = gtk_menu_item_new_with_label("game");
+    GtkWidget *game_entry = gtk_menu_item_new_with_label("Game");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), game_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(game_entry), game);
 
-    GtkWidget *graphics_entry = gtk_menu_item_new_with_label("graphics");
+    GtkWidget *graphics_entry = gtk_menu_item_new_with_label("Graphics");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), graphics_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(graphics_entry), graphics);
 
-    GtkWidget *network_entry = gtk_menu_item_new_with_label("network");
+    GtkWidget *network_entry = gtk_menu_item_new_with_label("Network");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), network_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(network_entry), network);
 
-    GtkWidget *office_entry = gtk_menu_item_new_with_label("office");
+    GtkWidget *office_entry = gtk_menu_item_new_with_label("Office");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), office_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(office_entry), office);
 
-    GtkWidget *science_entry = gtk_menu_item_new_with_label("science");
+    GtkWidget *science_entry = gtk_menu_item_new_with_label("Science");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), science_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(science_entry), science);
 
-    GtkWidget *settings_entry = gtk_menu_item_new_with_label("settings");
+    GtkWidget *settings_entry = gtk_menu_item_new_with_label("Settings");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), settings_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(settings_entry), settings);
 
-    GtkWidget *sys_entry = gtk_menu_item_new_with_label("system");
+    GtkWidget *sys_entry = gtk_menu_item_new_with_label("System");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), sys_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(sys_entry), sys);
 
-    GtkWidget *utility_entry = gtk_menu_item_new_with_label("utility");
+    GtkWidget *utility_entry = gtk_menu_item_new_with_label("Utility");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), utility_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(utility_entry), utility);
+
+
+    GtkWidget *other_entry = gtk_menu_item_new_with_label("Other");
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), other_entry);
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(other_entry), other);
 
     side_apps_load();
 
@@ -282,12 +288,9 @@ void create_app_menu(GtkWidget *box)
           if(ent == NULL)
             break;
 
-
           if(ent->show == FALSE)
             continue;
 
-          if(ent->sub == APP_TYPE_UNKNOWN)
-            continue;
 
           if(!check_name(ent->app_name))
             continue;
@@ -302,7 +305,7 @@ void create_app_menu(GtkWidget *box)
 
           apps[total_apps - 1].exec = malloc(strlen(ent->exec));
           strncpy(apps[total_apps - 1].exec, ent->exec, ent->exec_length);
-          apps[total_apps - 1].exec[strlen(apps[total_apps - 1].exec)] = '\0';
+          ent->exec[ent->exec_length] = '\0';
           apps[total_apps - 1].item = gtk_menu_item_new_with_label(ent->app_name);
           apps[total_apps - 1].terminal = ent->terminal;
 
@@ -352,6 +355,10 @@ void create_app_menu(GtkWidget *box)
               break;
               case APP_TYPE_UTILITY:
                 gtk_menu_shell_append(GTK_MENU_SHELL(utility), apps[total_apps -1].item);
+                gtk_widget_show(apps[total_apps -1].item);
+              break;
+              case APP_TYPE_UNKNOWN:
+                gtk_menu_shell_append(GTK_MENU_SHELL(other), apps[total_apps -1].item);
                 gtk_widget_show(apps[total_apps -1].item);
               break;
 

@@ -30,6 +30,7 @@ To workaround you can use: val = 100 - val
 #include <alsa/asoundlib.h>
 #include <alsa/control.h>
 #include <glib.h>
+#include <side/plugin.h>
 
 GtkWidget *volume_button, *box, *s_mute;
 
@@ -165,7 +166,7 @@ void create_volume_button(void)
 G_MODULE_EXPORT void plugin_call(GtkWidget *root)
 {
   g_print("------------------------------\n-> SIDE Volume loading...\n------------------------------\n"); //notify the user...
-  box = gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(GTK_BIN(root))));
+  box = side_plugin_get_root_box(root);
   create_volume_button();
 
 }

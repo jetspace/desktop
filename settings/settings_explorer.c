@@ -24,6 +24,11 @@ gboolean panel_settings(GtkWidget *w, GdkEvent *e, gpointer p)
   system("side-panel-settings");
 }
 
+gboolean gtk_settings(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  system("side-gtk-settings");
+}
+
 gboolean about_d(GtkWidget *w, GdkEvent *e, gpointer p)
 {
   GtkWidget *dialog = gtk_about_dialog_new();
@@ -44,7 +49,7 @@ int main(int argc, char **argv)
 
   gtk_init(&argc, &argv);
 
-  GtkWidget *win, *wallpaper, *panel, *about, *box, *label_a, *label_i;
+  GtkWidget *win, *wallpaper, *panel, *about, *box, *label_a, *label_i, *gtk;
 
   win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_resize(GTK_WINDOW(win), 300, 200);
@@ -63,6 +68,10 @@ int main(int argc, char **argv)
   panel = gtk_button_new_with_label("Configure Panel");
   g_signal_connect(G_OBJECT(panel), "button_press_event", G_CALLBACK(panel_settings), NULL);
 
+  gtk = gtk_button_new_with_label("Setup GTK");
+  g_signal_connect(G_OBJECT(gtk), "button_press_event", G_CALLBACK(gtk_settings), NULL);
+
+
   about = gtk_button_new_with_label("About SIDE");
   g_signal_connect(G_OBJECT(about), "button_press_event", G_CALLBACK(about_d), NULL);
 
@@ -71,6 +80,7 @@ int main(int argc, char **argv)
   gtk_container_add(GTK_CONTAINER(box), label_a);
   gtk_container_add(GTK_CONTAINER(box), wallpaper);
   gtk_container_add(GTK_CONTAINER(box), panel);
+  gtk_container_add(GTK_CONTAINER(box), gtk);
   gtk_container_add(GTK_CONTAINER(box), label_i);
   gtk_container_add(GTK_CONTAINER(box), about);
 

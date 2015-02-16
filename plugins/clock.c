@@ -16,6 +16,7 @@ Planned function are:
 #include <glib.h>
 #include <time.h>
 #include <gmodule.h>
+#include <side/plugin.h>
 
 #define TIME_STYLE_24H_SEC  "%H:%M:%S"
 #define TIME_STYLE_24H      "%H:%M"
@@ -252,7 +253,7 @@ void show_clock(void)
 G_MODULE_EXPORT void plugin_call(GtkWidget *root)
 {
   g_print("------------------------------\n-> SIDE Panel clock loading...\n------------------------------\n"); //notify the user...
-  box = gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(GTK_BIN(root))));
+  box = side_plugin_get_root_box(root);
   show_clock();
   g_timeout_add(1000, update_time, NULL);
 
