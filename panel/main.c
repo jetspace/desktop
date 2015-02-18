@@ -281,21 +281,23 @@ void create_app_menu(GtkWidget *box)
 
     side_apps_load();
 
-    AppEntry *ent;
+    AppEntry ent;
 
-    while((ent = side_apps_get_next_entry()) != NULL)
+      do
       {
-          if(ent == NULL)
+          ent = side_apps_get_next_entry();
+
+          if(ent.valid == FALSE)
             break;
 
-          if(ent->show == FALSE)
+          if(ent.show == FALSE)
             continue;
 
 
-          if(!check_name(ent->app_name))
+          if(!check_name(ent.app_name))
             continue;
 
-          if(!check_name(ent->exec))
+          if(!check_name(ent.exec))
             continue;
 
           total_apps++;
@@ -303,15 +305,21 @@ void create_app_menu(GtkWidget *box)
 
 
 
-          apps[total_apps - 1].exec = malloc(strlen(ent->exec));
-          strncpy(apps[total_apps - 1].exec, ent->exec, ent->exec_length);
-          ent->exec[ent->exec_length] = '\0';
-          apps[total_apps - 1].item = gtk_menu_item_new_with_label(ent->app_name);
-          apps[total_apps - 1].terminal = ent->terminal;
+          apps[total_apps - 1].exec = malloc(strlen(ent.exec));
+
+          strncpy(apps[total_apps - 1].exec, ent.exec, ent.exec_length);
+          apps[total_apps - 1].exec[ent.exec_length] = '\0';
+          apps[total_apps - 1].item = gtk_menu_item_new_with_label(ent.app_name);
+          apps[total_apps - 1].terminal = ent.terminal;
+
+          if(ent.app_name != NULL)
+            free(ent.app_name);
+          if(ent.exec != NULL)
+            free(ent.exec);
+            
 
 
-
-          switch(ent->sub)
+          switch(ent.sub)
           {
               case APP_TYPE_MULTIMEDIA:
                 gtk_menu_shell_append(GTK_MENU_SHELL(multimedia), apps[total_apps -1].item);
@@ -369,7 +377,7 @@ void create_app_menu(GtkWidget *box)
 
           g_signal_connect(G_OBJECT(apps[total_apps -1].item), "activate", G_CALLBACK(run_app), NULL);
 
-      }
+      }while(ent.valid == TRUE );
 
 
 

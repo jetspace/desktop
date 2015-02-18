@@ -15,23 +15,21 @@ int side_apps_load(void)
 		return 0;
 }
 
-AppEntry *side_apps_get_next_entry(void)
+AppEntry side_apps_get_next_entry(void)
 {
-	AppEntry *ret = malloc(sizeof(AppEntry));
-
+	AppEntry ret;
+	ret.valid = false;
 	bool name = false;
 	bool path = false;
 	bool g_name = false;
 
-	if(ret == NULL)
-		return NULL;
 
 	struct dirent *d;
 
 	d = readdir(side_apps_dir);
 
 	if(d == NULL)
-		return NULL;
+		return ret;
 
 	while(strlen(d->d_name) < 8) //.desktop == 8 so if name is shoter, not a .desktop file
 		d = readdir(side_apps_dir);
@@ -43,10 +41,10 @@ AppEntry *side_apps_get_next_entry(void)
 
 	side_apps_entry_file = fopen(filename, "r");
 	if(side_apps_entry_file == NULL)
-		return NULL;
+		return ret;
 
-	ret->show = true;
-	ret->terminal = false;
+	ret.show = true;
+	ret.terminal = false;
 
 	char buffer[2000];
 	while(fgets(buffer, 2000, side_apps_entry_file) != NULL)
@@ -54,119 +52,124 @@ AppEntry *side_apps_get_next_entry(void)
 		if(strncmp(buffer, "Name=", 5) == 0 && name == false)
 		{//we found the name(!!!)
 			name = true;
-			ret->app_name = malloc(strlen(buffer));
+			ret.app_name = malloc(strlen(buffer));
 			strtok(buffer, "=");
 			char *ptr = strtok(NULL, "\n");
-			strcpy(ret->app_name, ptr != NULL ? ptr : "");
-			ret->app_name_length = strlen(ret->app_name);
+			strcpy(ret.app_name, ptr != NULL ? ptr : "");
+			ret.app_name_length = strlen(ret.app_name);
 		}
 		if(strncmp(buffer, "GenericName=", 12) == 0 && g_name == false)
 		{//we found the gen name(!!!)
 			g_name = true;
-			ret->gen_name = malloc(strlen(buffer));
+			ret.gen_name = malloc(strlen(buffer));
 			strtok(buffer, "=");
 			char *ptr = strtok(NULL, "\n");
-			strcpy(ret->gen_name, ptr != NULL ? ptr : "");
-			ret->gen_name_length = strlen(ret->gen_name);
+			strcpy(ret.gen_name, ptr != NULL ? ptr : "");
+			ret.gen_name_length = strlen(ret.gen_name);
 		}
 		if(strncmp(buffer, "Exec=", 5) == 0 && path == false)
 		{//EXEC PATH
 			path = true;
-			ret->exec = malloc(strlen(buffer));
+			ret.exec = malloc(strlen(buffer));
 			strtok(buffer, "=");
 			char *ptr = strtok(NULL, "\n");
-			strcpy(ret->exec, ptr != NULL ? ptr : "");
-			ret->exec_length = strlen(ret->exec);
-			ret->exec[strlen(ret->exec)] = '\0';
+			strcpy(ret.exec, ptr != NULL ? ptr : "");
+			ret.exec_length = strlen(ret.exec);
+			ret.exec[strlen(ret.exec)] = '\0';
 		}
 		if(strncmp(buffer , "Terminal=", 9) == 0)
 		{//type
 			if(strncmp(buffer, "Terminal=true", 13) == 0)
-			ret->terminal = true;
+			ret.terminal = true;
 		}
 		if(strncmp(buffer , "Type=", 5) == 0)
 		{//type
 			if(strncmp(buffer, "Type=Application", 16) == 0)
-			ret->type = APP_TYPE_APPLICATION;
+			ret.type = APP_TYPE_APPLICATION;
 		}
 		if(strncmp(buffer , "NoDisplay=", 10) == 0)
 		{//visible
 			if(strncmp(buffer, "NoDisplay=true", 14) == 0)
-			ret->show = false;
+			ret.show = false;
 		}
 		if(strncmp(buffer, "Categories=", 11) == 0)
 		{
 
 			if(strlen(buffer) == 11)
-				ret->sub = APP_TYPE_UNKNOWN; //does not contain categories...
+				ret.sub = APP_TYPE_UNKNOWN; //does not contain categories...
 			else
 			{
-				char *b = malloc(sizeof(buffer) -11);
-				strtok(buffer, "=");
-				strcpy(b, strtok(NULL, "\n"));
+				ret.sub = APP_TYPE_UNKNOWN;
+				if(strtok(buffer, "=") == NULL)
+					continue;
+
+				char *b = strtok(NULL, "\n");
+
+				if(b == NULL)
+					continue;
 
 
 				//Now phrase a category
 
 				char *ptr = strtok(b, ";\n");
 
-				ret->sub = APP_TYPE_UNKNOWN;
+
 
 				while(ptr != NULL)
 				{
 					if(strcmp(ptr, "AudioVideo") == 0 || strcmp(ptr, "Audio") == 0 || strcmp(ptr, "Video") == 0)
 					{
-						ret->sub = APP_TYPE_MULTIMEDIA;
+						ret.sub = APP_TYPE_MULTIMEDIA;
 						break;
 					}
 					if(strcmp(ptr, "Development") == 0)
 					{
-						ret->sub = APP_TYPE_DEVELOPMENT;
+						ret.sub = APP_TYPE_DEVELOPMENT;
 						break;
 					}
 					if(strcmp(ptr, "Education") == 0)
 					{
-						ret->sub = APP_TYPE_EDUCATION;
+						ret.sub = APP_TYPE_EDUCATION;
 						break;
 					}
 					if(strcmp(ptr, "Game") == 0)
 					{
-						ret->sub = APP_TYPE_GAME;
+						ret.sub = APP_TYPE_GAME;
 						break;
 					}
 					if(strcmp(ptr, "Graphics") == 0)
 					{
-						ret->sub = APP_TYPE_GRAPHICS;
+						ret.sub = APP_TYPE_GRAPHICS;
 						break;
 					}
 					if(strcmp(ptr, "Network") == 0)
 					{
-						ret->sub = APP_TYPE_NETWORK;
+						ret.sub = APP_TYPE_NETWORK;
 						break;
 					}
 					if(strcmp(ptr, "Office") == 0)
 					{
-						ret->sub = APP_TYPE_OFFICE;
+						ret.sub = APP_TYPE_OFFICE;
 						break;
 					}
 					if(strcmp(ptr, "Science") == 0)
 					{
-						ret->sub = APP_TYPE_SCIENCE;
+						ret.sub = APP_TYPE_SCIENCE;
 						break;
 					}
 					if(strcmp(ptr, "Settings") == 0)
 					{
-						ret->sub = APP_TYPE_SETTINGS;
+						ret.sub = APP_TYPE_SETTINGS;
 						break;
 					}
 					if(strcmp(ptr, "System") == 0)
 					{
-						ret->sub = APP_TYPE_SYSTEM;
+						ret.sub = APP_TYPE_SYSTEM;
 						break;
 					}
 					if(strcmp(ptr, "Utility") == 0)
 					{
-						ret->sub = APP_TYPE_UTILITY;
+						ret.sub = APP_TYPE_UTILITY;
 						break;
 					}
 
@@ -184,7 +187,7 @@ AppEntry *side_apps_get_next_entry(void)
 
 	}
 
-
+	ret.valid = true;
 	return ret;
 }
 

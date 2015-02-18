@@ -10,5 +10,5 @@ install:
 	sudo mkdir /usr/include/side -p
 	sudo cp apps.h /usr/include/side/
 	rm apps.o
-test:
+tester:
 	gcc -std=c99 test.c -o test -lside-apps

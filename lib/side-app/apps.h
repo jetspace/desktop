@@ -16,7 +16,7 @@ For more details view file 'LICENSE'
 #include <sys/stat.h>
 #define APP_DIR "/usr/share/applications/"
 
-#define SIDE_APP_VERSION "1" //will be changed if changes are made which are revlevant for compatability
+#define SIDE_APP_VERSION "2" //will be changed if changes are made which are revlevant for compatability
 
 //AppTypes
 #define APP_TYPE_APPLICATION 0
@@ -48,6 +48,7 @@ typedef struct
 	size_t gen_name_length;
 	bool show;
 	bool terminal;
+	bool valid;
 	AppType type;
 	SubType sub;
 }AppEntry;
@@ -57,7 +58,7 @@ FILE *side_apps_entry_file;
 
 
 int side_apps_load(void);
-AppEntry *side_apps_get_next_entry(void);
+AppEntry side_apps_get_next_entry(void);
 int side_apps_close(void);
 
 
