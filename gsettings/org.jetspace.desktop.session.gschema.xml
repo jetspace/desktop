@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.jetspace.desktop.session" path="/org/jetspace/desktop/session/">
+      <key type="s" name="shutdown">
+          <default>"gksudo poweroff"</default>
+          <summary>Changes the cmd to shutdown computer</summary>
+          <description>Change if you want to do something different...</description>
+      </key>
+      <key type="s" name="reboot">
+          <default>"gksudo reboot"</default>
+          <summary>chnage the cmd to reboot computer</summary>
+          <description>Change if you want to do something different...</description>
+      </key>
+      <key type="s" name="wm">
+          <default>"dbus-launch xfwm4 &amp;"</default>
+          <summary>the started window manager</summary>
+          <description>Only change if you know what you're doing...</description>
+      </key>
+  </schema>
+</schemalist>

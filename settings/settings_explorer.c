@@ -59,8 +59,8 @@ int main(int argc, char **argv)
 
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
-  label_a = gtk_label_new("appearance:");
-  label_i = gtk_label_new("informations:");
+  label_a = gtk_label_new("Appearance:");
+  label_i = gtk_label_new("Informations:");
 
   wallpaper = gtk_button_new_with_label("Change Wallpaper");
   g_signal_connect(G_OBJECT(wallpaper), "button_press_event", G_CALLBACK(wallpaper_settings), NULL);

@@ -5,6 +5,7 @@ For more details view file 'LICENSE'
 */
 
 #include <glib.h>
+#include <gtk/gtk.h>
 #include "../shared/info.h"
 #include <string.h>
 #include <stdlib.h>
@@ -24,24 +25,37 @@ gboolean panel     = TRUE;
 gboolean wallpaper = TRUE;
 gboolean wm        = TRUE;
 
-#define WINDOW_MANAGER "dbus-launch xfwm4 &"
 #define PANEL "dbus-launch side-panel &"
 #define WALLPAPER "dbus-launch side-wallpaper-service &"
 
 
 int main(int argc, char **argv)
 {
+  GSettings *session = g_settings_new("org.jetspace.desktop.session");
+
   if(argc > 1)
+  {
     if(strcmp(argv[1], "--logout") == 0)
       {
         system("killall side-session");
         return 0;
       }
+    if(strcmp(argv[1], "--reboot") == 0)
+      {
+        system(g_variant_get_string(g_settings_get_value(session, "reboot"), NULL));
+        return 0;
+      }
+    if(strcmp(argv[1], "--shutdown") == 0)
+      {
+        system(g_variant_get_string(g_settings_get_value(session, "shutdown"), NULL));
+        return 0;
+      }
+  }
 
   g_print("SIDE-session Version %s loading...\n", VERSION);
 
   if(wm)
-    system(WINDOW_MANAGER);
+    system(g_variant_get_string(g_settings_get_value(session, "wm"), NULL));
 
   if(panel)
     system(PANEL);

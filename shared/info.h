@@ -7,7 +7,11 @@ For more details view file 'LICENSE'
 //SOME SHARED INFOS
 
 
-#define VERSION "0.33"
+#define VERSION "0.34"
 #define COPYRIGHT "Copyright (c) 2015 Marius Messerschmidt"
 #define DISCRIPTION "Simple Desktop Enviroment"
+
+//ADD YOUR NAME HERE:
 const char *AUTHORS[] = { "Marius Messerschmdit", "JetSpace" };
+
+//SPACE FOR NOTES:

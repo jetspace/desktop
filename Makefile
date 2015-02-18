@@ -3,6 +3,7 @@ run:
 	dbus-launch	side-wallpaper-service &
 install:
 	sudo cp gsettings/org.jetspace.desktop.panel.gschema.xml /usr/share/glib-2.0/schemas/
+	sudo cp gsettings/org.jetspace.desktop.session.gschema.xml /usr/share/glib-2.0/schemas/
 	sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 	sudo mkdir /usr/lib/jetspace -p
 	sudo mkdir /usr/lib/jetspace/panel -p
