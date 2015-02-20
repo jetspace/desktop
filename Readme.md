@@ -6,14 +6,22 @@ it is not useable yet... (of course you can try it :D )
 
 ##to test:
 
-* run `sudo make install` to install all needed files
-* run `./build.sh -i` to build all files
-    * if you want to run them directly, you can run `./build.sh -r`
-* if you want to run the compilled source late, just use `make run`
+
+```bash
+$ sudo bash build.sh -i # You will need root rights
+$ cd ~ # OR cd $HOME
+$ cp .xinitrc xinitrc_backup # Save old xinit config
+$ echo "side-session" > .xinitrc
+$ startx
+```
+later you can just use 
+```bash
+startx
+```
 
 ##Preview:
 
-![Version 0.27](http://s28.postimg.org/9rizifgjx/side_0_27.png "Screenshot Version 0.27 with XFWM4")
+![Version 0.36](http://s7.postimg.org/x472b6pmz/side_0_36.png  "Screenshot Version 0.36 with XFWM4")
 running with xfwm4
 
  
