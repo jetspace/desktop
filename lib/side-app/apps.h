@@ -16,7 +16,7 @@ For more details view file 'LICENSE'
 #include <sys/stat.h>
 #define APP_DIR "/usr/share/applications/"
 
-#define SIDE_APP_VERSION "2" //will be changed if changes are made which are revlevant for compatability
+#define SIDE_APP_VERSION "2.1" //will be changed if changes are made which are revlevant for compatability
 
 //AppTypes
 #define APP_TYPE_APPLICATION 0
@@ -40,11 +40,11 @@ typedef short SubType;
 
 typedef struct
 {
-	char *app_name;
+	char app_name[200];
 	size_t app_name_length;
-	char *exec;
+	char exec[2000];
 	size_t exec_length;
-	char *gen_name;
+	char gen_name[200];
 	size_t gen_name_length;
 	bool show;
 	bool terminal;

@@ -286,7 +286,6 @@ void create_app_menu(GtkWidget *box)
       do
       {
           ent = side_apps_get_next_entry();
-
           if(ent.valid == FALSE)
             break;
 
@@ -296,27 +295,24 @@ void create_app_menu(GtkWidget *box)
 
           if(!check_name(ent.app_name))
             continue;
-
           if(!check_name(ent.exec))
             continue;
 
           total_apps++;
           apps = realloc(apps, sizeof(Apps) * total_apps);
+          if(!apps)
+            {
+              g_error("OUT OF MEMORY");
+            }
 
 
-
-          apps[total_apps - 1].exec = malloc(strlen(ent.exec));
+          apps[total_apps - 1].exec = malloc(ent.exec_length);
 
           strncpy(apps[total_apps - 1].exec, ent.exec, ent.exec_length);
-          apps[total_apps - 1].exec[ent.exec_length] = '\0';
           apps[total_apps - 1].item = gtk_menu_item_new_with_label(ent.app_name);
           apps[total_apps - 1].terminal = ent.terminal;
 
-          if(ent.app_name != NULL)
-            free(ent.app_name);
-          if(ent.exec != NULL)
-            free(ent.exec);
-            
+
 
 
           switch(ent.sub)

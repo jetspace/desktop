@@ -52,28 +52,25 @@ AppEntry side_apps_get_next_entry(void)
 		if(strncmp(buffer, "Name=", 5) == 0 && name == false)
 		{//we found the name(!!!)
 			name = true;
-			ret.app_name = malloc(strlen(buffer));
 			strtok(buffer, "=");
 			char *ptr = strtok(NULL, "\n");
-			strcpy(ret.app_name, ptr != NULL ? ptr : "");
+			strncpy(ret.app_name, ptr != NULL ? ptr : "", 200);
 			ret.app_name_length = strlen(ret.app_name);
 		}
 		if(strncmp(buffer, "GenericName=", 12) == 0 && g_name == false)
 		{//we found the gen name(!!!)
 			g_name = true;
-			ret.gen_name = malloc(strlen(buffer));
 			strtok(buffer, "=");
 			char *ptr = strtok(NULL, "\n");
-			strcpy(ret.gen_name, ptr != NULL ? ptr : "");
+			strncpy(ret.gen_name, ptr != NULL ? ptr : "", 200);
 			ret.gen_name_length = strlen(ret.gen_name);
 		}
 		if(strncmp(buffer, "Exec=", 5) == 0 && path == false)
 		{//EXEC PATH
 			path = true;
-			ret.exec = malloc(strlen(buffer));
 			strtok(buffer, "=");
 			char *ptr = strtok(NULL, "\n");
-			strcpy(ret.exec, ptr != NULL ? ptr : "");
+			strncpy(ret.exec, ptr != NULL ? ptr : "", 2000);
 			ret.exec_length = strlen(ret.exec);
 			ret.exec[strlen(ret.exec)] = '\0';
 		}

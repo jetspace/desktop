@@ -21,6 +21,7 @@ install:
 	sudo mv side-session /bin/
 	sudo mv clock.so /usr/lib/jetspace/panel/plugins/
 	sudo mv volume.so /usr/lib/jetspace/panel/plugins/
+	sudo mv user.so /usr/lib/jetspace/panel/plugins/
 clean:
 	rm side-panel
 	rm side-wallpaper-service
