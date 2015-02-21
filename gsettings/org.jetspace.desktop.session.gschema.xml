@@ -16,5 +16,10 @@
           <summary>the started window manager</summary>
           <description>Only change if you know what you're doing...</description>
       </key>
+      <key type="s" name="autostart">
+          <default>""</default>
+          <summary>The apps executed at startup seperated by ';'</summary>
+          <description>Choose all you need, like deamons, services and/or applications to start working directly after login</description>
+      </key>
   </schema>
 </schemalist>
