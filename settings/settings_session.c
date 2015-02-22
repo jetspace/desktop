@@ -17,13 +17,15 @@ enum
 
 GtkTreeIter iter;
 GtkListStore *list;
-GtkWidget *win, *box, *label, *apply, *add, *del ,*view, *scroll_win, *button_box, *wm, *wm_label, *wm_box;
+GtkWidget *win, *box, *label, *apply, *add, *del ,*view, *scroll_win, *button_box, *wm, *wm_label, *wm_box, *s, *s_label, *s_box, *r, *r_label, *r_box;
 
 gboolean write_session_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
-  GSettings *s = g_settings_new("org.jetspace.desktop.session");
+  GSettings *se = g_settings_new("org.jetspace.desktop.session");
 
-  g_settings_set_value(s, "wm", g_variant_new_string(gtk_entry_get_text(GTK_ENTRY(wm))));
+  g_settings_set_value(se, "wm", g_variant_new_string(gtk_entry_get_text(GTK_ENTRY(wm))));
+  g_settings_set_value(se, "reboot", g_variant_new_string(gtk_entry_get_text(GTK_ENTRY(r))));
+  g_settings_set_value(se, "shutdown", g_variant_new_string(gtk_entry_get_text(GTK_ENTRY(s))));
 
   char *str = malloc(1);
   memset(str, 0, sizeof(str));
@@ -45,7 +47,7 @@ gboolean write_session_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
       snprintf(i_b, 5, "%d", x);
     }
 
-  g_settings_set_value(s, "autostart", g_variant_new_string(str));
+  g_settings_set_value(se, "autostart", g_variant_new_string(str));
 
   free(str);
 
@@ -121,8 +123,8 @@ int main(int argc, char **argv)
 
   list = gtk_list_store_new(COL_N, G_TYPE_STRING);
 
-  GSettings *s = g_settings_new("org.jetspace.desktop.session");
-  char *str    = strdup(g_variant_get_string(g_settings_get_value(s, "autostart"), NULL));
+  GSettings *se = g_settings_new("org.jetspace.desktop.session");
+  char *str    = strdup(g_variant_get_string(g_settings_get_value(se, "autostart"), NULL));
 
   char *p = strtok(str, ";");
 
@@ -167,13 +169,15 @@ int main(int argc, char **argv)
 
   gtk_container_add(GTK_CONTAINER(box), button_box);
 
+  //Window Manager (WM)
+
   wm_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 
     wm_label = gtk_label_new("Please choose the Window Manager (WM):");
     gtk_box_pack_start(GTK_BOX(wm_box), wm_label, FALSE, FALSE, 5);
 
     wm = gtk_entry_new();
-    char *ptr = strdup(g_variant_get_string(g_settings_get_value(s, "wm"), NULL));
+    char *ptr = strdup(g_variant_get_string(g_settings_get_value(se, "wm"), NULL));
     gtk_entry_set_text(GTK_ENTRY(wm), ptr);
     free(ptr);
 
@@ -181,6 +185,40 @@ int main(int argc, char **argv)
 
 
   gtk_container_add(GTK_CONTAINER(box), wm_box);
+
+  //Shutdown
+
+  s_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+
+    s_label = gtk_label_new("The command used to shutdown the computer:");
+    gtk_box_pack_start(GTK_BOX(s_box), s_label, FALSE, FALSE, 5);
+
+    s = gtk_entry_new();
+    ptr = strdup(g_variant_get_string(g_settings_get_value(se, "shutdown"), NULL));
+    gtk_entry_set_text(GTK_ENTRY(s), ptr);
+    free(ptr);
+
+    gtk_box_pack_end(GTK_BOX(s_box), s, FALSE, FALSE, 5);
+
+
+  gtk_container_add(GTK_CONTAINER(box), s_box);
+
+  //Reboot
+
+  r_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+
+    r_label = gtk_label_new("The command used to reboot the computer:");
+    gtk_box_pack_start(GTK_BOX(r_box), r_label, FALSE, FALSE, 5);
+
+    r = gtk_entry_new();
+    ptr = strdup(g_variant_get_string(g_settings_get_value(se, "reboot"), NULL));
+    gtk_entry_set_text(GTK_ENTRY(r), ptr);
+    free(ptr);
+
+    gtk_box_pack_end(GTK_BOX(r_box), r, FALSE, FALSE, 5);
+
+
+  gtk_container_add(GTK_CONTAINER(box), r_box);
 
 
 

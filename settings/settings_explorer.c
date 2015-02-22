@@ -29,6 +29,11 @@ gboolean gtk_settings(GtkWidget *w, GdkEvent *e, gpointer p)
   system("side-gtk-settings");
 }
 
+gboolean session_settings(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  system("side-session-settings");
+}
+
 gboolean about_d(GtkWidget *w, GdkEvent *e, gpointer p)
 {
   GtkWidget *dialog = gtk_about_dialog_new();
@@ -49,7 +54,7 @@ int main(int argc, char **argv)
 
   gtk_init(&argc, &argv);
 
-  GtkWidget *win, *wallpaper, *panel, *about, *box, *label_a, *label_i, *gtk;
+  GtkWidget *win, *wallpaper, *panel, *about, *box, *label_a, *label_i, *label_s ,*gtk, *session;
 
   win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_resize(GTK_WINDOW(win), 300, 200);
@@ -61,6 +66,7 @@ int main(int argc, char **argv)
 
   label_a = gtk_label_new("Appearance:");
   label_i = gtk_label_new("Informations:");
+  label_s = gtk_label_new("System:");
 
   wallpaper = gtk_button_new_with_label("Change Wallpaper");
   g_signal_connect(G_OBJECT(wallpaper), "button_press_event", G_CALLBACK(wallpaper_settings), NULL);
@@ -71,9 +77,11 @@ int main(int argc, char **argv)
   gtk = gtk_button_new_with_label("Setup GTK");
   g_signal_connect(G_OBJECT(gtk), "button_press_event", G_CALLBACK(gtk_settings), NULL);
 
-
   about = gtk_button_new_with_label("About SIDE");
   g_signal_connect(G_OBJECT(about), "button_press_event", G_CALLBACK(about_d), NULL);
+
+  session = gtk_button_new_with_label("Session Settings");
+  g_signal_connect(G_OBJECT(session), "button_press_event", G_CALLBACK(session_settings), NULL);
 
 
 
@@ -81,6 +89,8 @@ int main(int argc, char **argv)
   gtk_container_add(GTK_CONTAINER(box), wallpaper);
   gtk_container_add(GTK_CONTAINER(box), panel);
   gtk_container_add(GTK_CONTAINER(box), gtk);
+  gtk_container_add(GTK_CONTAINER(box), label_s);
+  gtk_container_add(GTK_CONTAINER(box), session);
   gtk_container_add(GTK_CONTAINER(box), label_i);
   gtk_container_add(GTK_CONTAINER(box), about);
 

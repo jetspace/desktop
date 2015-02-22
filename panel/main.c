@@ -25,7 +25,7 @@ For more details view file 'LICENSE'
 #include "../shared/plugins.h"
 
 
-
+GtkWidget *app_menu_button;
 
 
 
@@ -105,6 +105,12 @@ int main(int argc, char **argv)
   GSettings *apps = g_settings_new("org.jetspace.desktop.panel");
   char *app_list = strdup(g_variant_get_string(g_settings_get_value(apps, "apps"), NULL));
 
+  GSettings *menuS = g_settings_new("org.jetspace.desktop.panel");
+
+  if(g_variant_get_boolean(g_settings_get_value(menuS, "show-app-menu")))
+    create_app_menu(box);
+
+
   setup_panel(box, app_list);
   g_signal_connect(G_OBJECT(apps), "changed", G_CALLBACK(update_icons), box);
 
@@ -172,13 +178,10 @@ void setup_panel(GtkWidget *box, char *app_list)
 
   ch = gtk_container_get_children(GTK_CONTAINER(box));
   for(iter = ch; iter != NULL; iter = g_list_next(iter))
-    gtk_widget_destroy(GTK_WIDGET(iter->data));
+    if(GTK_WIDGET(iter->data) != app_menu_button)
+      gtk_widget_destroy(GTK_WIDGET(iter->data));
   g_list_free(ch);
 
-  GSettings *menu = g_settings_new("org.jetspace.desktop.panel");
-
-  if(g_variant_get_boolean(g_settings_get_value(menu, "show-app-menu")))
-    create_app_menu(box);
 
   //phrase app list
   char *e, *i, *a; //exec icon active
@@ -211,7 +214,7 @@ gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box)
 void create_app_menu(GtkWidget *box)
 {
     GtkWidget *menu;
-    GtkWidget *app_menu_button = gtk_button_new_with_label("Applications");
+    app_menu_button = gtk_button_new_with_label("Applications");
     gtk_container_add(GTK_CONTAINER(box), app_menu_button);
 
     menu = gtk_menu_new();

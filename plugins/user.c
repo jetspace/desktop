@@ -44,7 +44,7 @@ gboolean show_user_context(GtkWidget *w, GdkEventButton *e, gpointer p)
   return FALSE;
 }
 
-gboolean redraw(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
+gboolean redraw_user(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 {
   g_debug("captured destuction of the User item -> re-create");
   show_user(); //draw it again!!
@@ -60,7 +60,7 @@ void show_user(void)
   user_button = gtk_button_new_with_label(strtok(p->pw_gecos, ",\n\t\0"));
   gtk_button_set_relief(GTK_BUTTON(user_button), GTK_RELIEF_NONE);
   g_signal_connect(G_OBJECT(user_button), "button-press-event", G_CALLBACK(show_user_context), NULL);
-  g_signal_connect(G_OBJECT(user_button), "destroy", G_CALLBACK(redraw), NULL);
+  g_signal_connect(G_OBJECT(user_button), "destroy", G_CALLBACK(redraw_user), NULL);
 
   user_menu = gtk_menu_new();
 
