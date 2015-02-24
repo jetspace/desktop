@@ -12,6 +12,7 @@ install:
 	sudo cp icons/JetSpace.png /usr/share/icons/jetspace/
 	sudo cp icons/speaker.png /usr/share/icons/jetspace/
 	sudo cp desktop/side-settings-explorer.desktop /usr/share/applications/
+	sudo cp desktop/side.desktop /usr/share/xsessions/
 	sudo mv side-wallpaper-service /bin/
 	sudo mv side-wallpaper-settings /bin/
 	sudo mv side-panel /bin/

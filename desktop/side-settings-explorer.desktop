@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=Side Settings
+Name=SIDE Settings
 Comment=Configures your SIDE session!
 Exec=side-settings-explorer
 Categories=Settings;

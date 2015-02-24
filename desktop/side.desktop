@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=SIDE-Session
+Comment=Will start a new SIDE session
+Exec=side-session
+TryExec=side-session
+Type=Application
+X-LightDM-DesktopName=SIDE
+X-Ubuntu-Gettext-Domain=side
