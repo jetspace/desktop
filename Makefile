@@ -21,6 +21,8 @@ install:
 	sudo mv side-gtk-settings /bin/
 	sudo mv side-session-settings /bin/
 	sudo mv side-session /bin/
+	sudo mv side-notifyd /bin/
+	sudo mv side-notify-popup /bin/
 	sudo mv clock.so /usr/lib/jetspace/panel/plugins/
 	sudo mv volume.so /usr/lib/jetspace/panel/plugins/
 	sudo mv user.so /usr/lib/jetspace/panel/plugins/

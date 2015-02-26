@@ -21,6 +21,10 @@ cd ../plugins
 make
 cd ../session
 make
+cd ../utility
+make
+cd ../notify
+make
 cd ..
 
 
