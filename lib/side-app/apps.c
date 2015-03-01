@@ -22,6 +22,7 @@ AppEntry side_apps_get_next_entry(void)
 	bool name = false;
 	bool path = false;
 	bool g_name = false;
+	bool icon = false;
 
 
 	struct dirent *d;
@@ -64,6 +65,14 @@ AppEntry side_apps_get_next_entry(void)
 			char *ptr = strtok(NULL, "\n");
 			strncpy(ret.gen_name, ptr != NULL ? ptr : "", 200);
 			ret.gen_name_length = strlen(ret.gen_name);
+		}
+		if(strncmp(buffer, "Icon=", 5) == 0 && icon == false)
+		{//Icon name
+		  icon = true;
+			strtok(buffer, "=");
+			char *ptr = strtok(NULL, "\n");
+			strncpy(ret.icon, ptr != NULL ? ptr : "", 200);
+			ret.icon_length = strlen(ret.icon);
 		}
 		if(strncmp(buffer, "Exec=", 5) == 0 && path == false)
 		{//EXEC PATH

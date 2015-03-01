@@ -4,6 +4,7 @@ run:
 install:
 	sudo cp gsettings/org.jetspace.desktop.panel.gschema.xml /usr/share/glib-2.0/schemas/
 	sudo cp gsettings/org.jetspace.desktop.session.gschema.xml /usr/share/glib-2.0/schemas/
+	sudo cp gsettings/org.jetspace.desktop.search.gschema.xml /usr/share/glib-2.0/schemas/
 	sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 	sudo mkdir /usr/lib/jetspace -p
 	sudo mkdir /usr/lib/jetspace/panel -p
@@ -23,6 +24,7 @@ install:
 	sudo mv side-session /bin/
 	sudo mv side-notifyd /bin/
 	sudo mv side-notify-popup /bin/
+	sudo mv side-search /bin/
 	sudo mv clock.so /usr/lib/jetspace/panel/plugins/
 	sudo mv volume.so /usr/lib/jetspace/panel/plugins/
 	sudo mv user.so /usr/lib/jetspace/panel/plugins/

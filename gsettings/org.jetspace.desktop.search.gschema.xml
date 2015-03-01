@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.jetspace.desktop.search" path="/org/jetspace/desktop/search/">
+
+      <key type="b" name="show-completion">
+          <default>false</default>
+          <summary>Do you want to get hints while typing</summary>
+          <description>If you like it, turn it on</description>
+      </key>
+  </schema>
+</schemalist>

@@ -26,9 +26,11 @@ gboolean panel     = TRUE;
 gboolean wallpaper = TRUE;
 gboolean wm        = TRUE;
 gboolean autostart = TRUE;
+gboolean notify    = TRUE;
 
 #define PANEL "dbus-launch side-panel &"
 #define WALLPAPER "dbus-launch side-wallpaper-service &"
+#define NOTIFY "dbus-launch side-notifyd &"
 
 void autorun(void)
 {
@@ -79,6 +81,9 @@ int main(int argc, char **argv)
   }
 
   g_print("SIDE-session Version %s loading...\n", VERSION);
+
+  if(notify)
+    system(NOTIFY);
 
   if(wm)
     system(g_variant_get_string(g_settings_get_value(session, "wm"), NULL));

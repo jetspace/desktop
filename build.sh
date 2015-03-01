@@ -25,6 +25,8 @@ cd ../utility
 make
 cd ../notify
 make
+cd ../search
+make
 cd ..
 
 

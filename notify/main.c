@@ -6,6 +6,7 @@ For more details view file 'LICENSE'
 
 #include <glib.h>
 #include <string.h>
+#include <stdio.h>
 #include <dbus/dbus.h>
 #include <stdlib.h>
 #include "../shared/info.h"
@@ -69,7 +70,7 @@ static DBusMessage* create_notification(DBusMessage *msg)
     SIDE_NOTIFICATION_ID_COUNTER = 0;
 
   char buffer[5000];
-  snprintf(buffer, 5000, "side-notify-popup %d %s \"%s\" \"%s\" &", SIDE_NOTIFICATION_ID_COUNTER, icon, sum, body);
+  snprintf(buffer, 5000, "side-notify-popup \"%d\" \"%s\" \"%s\" \"%s\" &", SIDE_NOTIFICATION_ID_COUNTER, icon, sum, body);
   system(buffer);
 
 	return r;

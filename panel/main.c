@@ -18,6 +18,7 @@ For more details view file 'LICENSE'
 
 
 #define PANEL_HEIGHT 35
+#define SEARCH_APP "side-search &"
 
 #include "../shared/strdup.h"
 #include "../shared/context.h"
@@ -26,6 +27,7 @@ For more details view file 'LICENSE'
 
 
 GtkWidget *app_menu_button;
+GtkWidget *search_entry;
 
 
 
@@ -282,6 +284,11 @@ void create_app_menu(GtkWidget *box)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), other_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(other_entry), other);
 
+
+    search_entry = gtk_menu_item_new_with_label("Search...");
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), search_entry);
+    g_signal_connect(G_OBJECT(search_entry), "activate", G_CALLBACK(run_app), NULL);
+
     side_apps_load();
 
     AppEntry ent;
@@ -295,6 +302,8 @@ void create_app_menu(GtkWidget *box)
           if(ent.show == FALSE)
             continue;
 
+          if(ent.exec_length == 0)
+            continue;
 
           if(!check_name(ent.app_name))
             continue;
@@ -309,14 +318,16 @@ void create_app_menu(GtkWidget *box)
             }
 
 
+
           apps[total_apps - 1].exec = malloc(ent.exec_length);
 
+          if(apps[total_apps -1].exec == NULL)
+            continue;
+
           strncpy(apps[total_apps - 1].exec, ent.exec, ent.exec_length);
+          apps[total_apps - 1].exec[ent.exec_length] = '\0';
           apps[total_apps - 1].item = gtk_menu_item_new_with_label(ent.app_name);
           apps[total_apps - 1].terminal = ent.terminal;
-
-
-
 
           switch(ent.sub)
           {
@@ -381,9 +392,10 @@ void create_app_menu(GtkWidget *box)
 
 
     side_apps_close();
-
     gtk_widget_show_all(menu);
+
     g_signal_connect(G_OBJECT(app_menu_button), "button_press_event", G_CALLBACK(app_menu), menu);
+
 }
 
 gboolean app_menu(GtkWidget *w, GdkEventButton *e, GtkWidget *menu)
@@ -413,6 +425,13 @@ gboolean check_name(char *text)
 
 gboolean run_app(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
+
+  if(w == search_entry)
+    {
+      system(SEARCH_APP);
+      return FALSE;
+    }
+
   for(int x = 0; x < total_apps; x++)
     if(apps[x].item == w)
       {
