@@ -8,6 +8,9 @@ make install
 cd ../side-plugin
 make
 make install
+cd ../side-log
+make
+make install
 cd ../..
 
 #BUILDING BIN

@@ -12,6 +12,7 @@ For more details view file 'LICENSE'
 #include <stdlib.h>
 #include <ctype.h>
 #include <side/apps.h>
+#include <side/log.h>
 
 
 #include <errno.h>
@@ -69,6 +70,9 @@ void create_app_menu(GtkWidget *box);
 int main(int argc, char **argv)
 {
   gtk_init(&argc, &argv);
+
+  side_log_set_log_level_from_enviroment();
+  side_log_debug("Loglevel loaded from enviroment");
 
   GdkScreen *screen = gdk_screen_get_default();
 
@@ -149,8 +153,8 @@ void add_new_element(GtkWidget *box, char *icon, char *exec, char *tooltip,  gin
   strncpy(elements[total_elements -1].exec, exec, 100);
 
 
-
-  g_debug("Adding %s - %s as item %d\n", icon, exec, total_elements);
+  side_log_debug("Adding new element:");
+  side_log_debug(icon);
 
   gtk_button_set_relief (GTK_BUTTON(elements[total_elements -1].button), GTK_RELIEF_NONE);
   g_signal_connect(G_OBJECT(elements[total_elements -1].button), "button_press_event", G_CALLBACK(clicked_item), NULL);
@@ -170,7 +174,7 @@ gboolean clicked_item(GtkWidget *w, GdkEventButton *e, gpointer p)
         }
     }
 
-  g_warning("[PANEL] - Unable to find button -> Memory may corrupted!");
+  side_log_warning("[PANEL] - Unable to find button -> Memory may corrupted!");
   return FALSE;
 }
 
@@ -310,12 +314,16 @@ void create_app_menu(GtkWidget *box)
           if(!check_name(ent.exec))
             continue;
 
+          side_log_debug("Adding new appmenu entry:");
+          side_log_debug(ent.app_name);
+
           total_apps++;
           apps = realloc(apps, sizeof(Apps) * total_apps);
           if(!apps)
             {
-              g_error("OUT OF MEMORY");
+              side_log_error("OUT OF MEMORY");
             }
+
 
 
 
@@ -387,6 +395,7 @@ void create_app_menu(GtkWidget *box)
 
           g_signal_connect(G_OBJECT(apps[total_apps -1].item), "activate", G_CALLBACK(run_app), NULL);
 
+          side_log_debug("Adding compleate");
       }while(ent.valid == TRUE );
 
 
