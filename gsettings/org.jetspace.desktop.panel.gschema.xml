@@ -27,5 +27,10 @@
           <summary>Show the built-in app launcher in the panel</summary>
           <description>You should only disable this, if you want to use a plugin as launcher</description>
       </key>
+      <key type="b" name="show-window-list">
+          <default>true</default>
+          <summary>Show the built-in Window List in the panel</summary>
+          <description>This is in a very early phase, so you can might disable it</description>
+      </key>
   </schema>
 </schemalist>

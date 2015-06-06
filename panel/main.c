@@ -25,6 +25,7 @@ For more details view file 'LICENSE'
 #include "../shared/context.h"
 #include "../shared/run.h"
 #include "../shared/plugins.h"
+#include "../shared/windows.h"
 
 
 GtkWidget *app_menu_button;
@@ -37,10 +38,11 @@ gboolean button_event(GtkWidget *w, GdkEventButton *e, GtkWidget *menu);
 gboolean clicked_item(GtkWidget *w, GdkEventButton *e, gpointer p);
 gboolean app_menu(GtkWidget *w, GdkEventButton *e, GtkWidget *menu);
 gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box);
-
+gboolean update_apps(gpointer data);
 gboolean run_app(GtkWidget *w, GdkEvent *e, gpointer *p);
 
 gboolean check_name(char *text);
+
 
 gint total_elements = 0;
 gint total_apps = 0;
@@ -66,6 +68,7 @@ PanelEntry  *elements;
 void add_new_element(GtkWidget *box, char *icon, char *exec, char *tooltip,  gint state);
 void setup_panel(GtkWidget *box, char *app_list);
 void create_app_menu(GtkWidget *box);
+void running_apps(GtkWidget *box);
 
 int main(int argc, char **argv)
 {
@@ -84,6 +87,7 @@ int main(int argc, char **argv)
   GtkWidget *panel, *event, *menu;
   panel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_decorated(GTK_WINDOW(panel), FALSE);
+  gtk_window_set_title(GTK_WINDOW(panel), "");
   gtk_window_set_type_hint(GTK_WINDOW (panel), GDK_WINDOW_TYPE_HINT_DOCK);
   gtk_window_resize(GTK_WINDOW(panel), gdk_screen_get_width(screen), PANEL_HEIGHT);
   gtk_window_move(GTK_WINDOW(panel), 0, gdk_screen_get_height(screen) - PANEL_HEIGHT);
@@ -117,9 +121,15 @@ int main(int argc, char **argv)
     create_app_menu(box);
 
 
+
   setup_panel(box, app_list);
   g_signal_connect(G_OBJECT(apps), "changed", G_CALLBACK(update_icons), box);
 
+  if(g_variant_get_boolean(g_settings_get_value(menuS, "show-window-list")))
+  {
+      running_apps(box);
+      g_timeout_add(100, update_apps, NULL);
+  }
 
   //call plugin loader
   load_plugins("/usr/lib/jetspace/panel/plugins/", panel);
@@ -215,6 +225,48 @@ gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box)
 
 }
 
+GtkWidget *running_box = NULL;
+GtkWidget *top_box = NULL;
+
+gboolean update_apps(gpointer data)
+{
+    running_apps(top_box);
+    return TRUE;
+}
+
+void running_apps(GtkWidget *box)
+{
+
+    if(running_box != NULL)
+        {
+            GList *ch, *iter;
+            ch = gtk_container_get_children(GTK_CONTAINER(running_box));
+            for(iter = ch; iter != NULL; iter = g_list_next(iter))
+                gtk_widget_destroy(GTK_WIDGET(iter->data));
+            g_list_free(ch);
+        }
+    else
+        {
+            running_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
+            gtk_container_add(GTK_CONTAINER(box), running_box);
+            top_box = box;
+        }
+
+    Display *d = XOpenDisplay(NULL);
+    Window *list;
+    unsigned long len;
+    list = list_windows(d, &len);
+
+    char *ptr = NULL;
+    for (int i = 0; i < (int) len; i++)
+    {
+        ptr = get_window_name(d, list[i]);
+        if(ptr != NULL && strlen(ptr) > 0)
+            gtk_container_add(GTK_CONTAINER(running_box), gtk_button_new_with_label(ptr));
+    }
+    gtk_widget_show_all(running_box);
+    XCloseDisplay(d);
+}
 
 
 void create_app_menu(GtkWidget *box)
