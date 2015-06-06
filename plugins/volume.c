@@ -36,6 +36,21 @@ GtkWidget *volume_button, *box, *s_mute;
 
 void create_volume_button(void);
 
+GtkWidget *fwin;
+gboolean check_focus(gpointer data)
+{
+    if(gtk_window_is_active(GTK_WINDOW(fwin)))
+        return TRUE;
+    else
+        {
+            gtk_widget_destroy(fwin);
+            return FALSE;
+        }
+
+}
+
+
+
 gboolean set_mute(GtkToggleButton *widget, gpointer user_data)
 {
   if(gtk_toggle_button_get_active(widget))
@@ -86,6 +101,10 @@ gboolean show_mixer(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
   gtk_window_resize(GTK_WINDOW(win), 150, 300);
   GdkScreen *screen = gdk_screen_get_default();
   gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen), gdk_screen_get_height(screen) - 335);
+
+  fwin = win;
+
+  g_timeout_add(100, check_focus, win);
 
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
   GtkWidget *dsc = gtk_label_new("master");
@@ -168,5 +187,4 @@ G_MODULE_EXPORT void plugin_call(GtkWidget *root)
   g_print("------------------------------\n-> SIDE Volume loading...\n------------------------------\n"); //notify the user...
   box = side_plugin_get_root_box(root);
   create_volume_button();
-
 }
