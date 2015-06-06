@@ -89,7 +89,13 @@ int main(int argc, char **argv)
   gtk_box_pack_start(GTK_BOX(layout_box), head_label, FALSE, FALSE, 2);
   gtk_box_pack_start(GTK_BOX(layout_box), text_label, FALSE, FALSE, 2);
 
-  gtk_container_add(GTK_CONTAINER(event), layout_box);
+  GtkWidget *second_layout = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+  GtkWidget *image = gtk_image_new_from_icon_name(icon, GTK_ICON_SIZE_DIALOG);
+
+  gtk_container_add(GTK_CONTAINER(second_layout), image);
+  gtk_container_add(GTK_CONTAINER(second_layout), layout_box);
+
+  gtk_container_add(GTK_CONTAINER(event), second_layout);
 
   gtk_widget_show_all(win);
   gtk_window_move(GTK_WINDOW(win), (gdk_screen_get_width(screen) - gdk_window_get_width(gtk_widget_get_window(GTK_WIDGET(win)))) - 50, 50);
