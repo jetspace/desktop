@@ -128,7 +128,7 @@ int main(int argc, char **argv)
   if(g_variant_get_boolean(g_settings_get_value(menuS, "show-window-list")))
   {
       running_apps(box);
-      g_timeout_add(100, update_apps, NULL);
+      g_timeout_add(750, update_apps, NULL);
   }
 
   //call plugin loader
@@ -234,11 +234,42 @@ gboolean update_apps(gpointer data)
     return TRUE;
 }
 
+struct OpenWindows {
+
+    Window win;
+    GtkWidget *button;
+};
+
+static gboolean toggle_win(GtkWidget *wid, GdkEvent *e, gpointer p)
+{
+    char *querry = strdup(gtk_button_get_label(GTK_BUTTON(wid)));
+
+    Display *d = XOpenDisplay(NULL);
+    unsigned long len;
+    Window *list = list_windows(d, &len);;
+
+    char *ptr = NULL;
+    for (int i = 0; i < (int) len; i++)
+    {
+        ptr = get_window_name(d, list[i]);
+            if(ptr == NULL)
+                continue;
+            if(strcmp(ptr, querry))
+            {
+                unhide(d, list[i]);
+            }
+    }
+
+    free(querry);
+    XCloseDisplay(d);
+}
+
 void running_apps(GtkWidget *box)
 {
 
     if(running_box != NULL)
         {
+            //clear list
             GList *ch, *iter;
             ch = gtk_container_get_children(GTK_CONTAINER(running_box));
             for(iter = ch; iter != NULL; iter = g_list_next(iter))
@@ -261,9 +292,15 @@ void running_apps(GtkWidget *box)
     for (int i = 0; i < (int) len; i++)
     {
         ptr = get_window_name(d, list[i]);
-        if(ptr != NULL && strlen(ptr) > 0)
-            gtk_container_add(GTK_CONTAINER(running_box), gtk_button_new_with_label(ptr));
+        if(ptr != NULL && strlen(ptr) > 0 && is_minimized(d, list[i]))
+        {
+            GtkWidget *button = gtk_button_new_with_label(ptr);
+            g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(toggle_win), NULL);
+            gtk_container_add(GTK_CONTAINER(running_box), button);
+
+        }
     }
+    gtk_widget_set_size_request(running_box, 400, -1);
     gtk_widget_show_all(running_box);
     XCloseDisplay(d);
 }

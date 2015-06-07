@@ -44,7 +44,7 @@ Window *list_windows(Display *d, unsigned long *len)
 
 char *get_window_name(Display *d, Window w)
 {
-    Atom atom = XInternAtom(d, "WM_NAME", False), type;
+    Atom atom = XInternAtom(d, "WM_ICON_NAME", False), type;
     int form;
     unsigned long remain, len;
     unsigned char *list;
@@ -57,4 +57,36 @@ char *get_window_name(Display *d, Window w)
 
     return (char*)list;
 }
+
+gboolean is_minimized(Display *d, Window w)
+{
+    Atom atom = XInternAtom(d, "_NET_WM_STATE", True);
+    Atom type;
+    int formart;
+    unsigned long n, bytes;
+    unsigned char *properties = NULL;
+
+
+
+    if(Success != XGetWindowProperty(d, w, atom, 0, (~0L), False, AnyPropertyType, &type , &formart ,&n,&bytes,&properties))
+        {
+            g_warning("Failed accessing WindowList (3)");
+            return FALSE;
+        }
+
+
+    type = XInternAtom(d, "_NET_WM_STATE_HIDDEN", True);
+    for (unsigned int x = 0; x < n; ++x)
+        if( type ==  ((unsigned long *)(properties))[x])
+            return TRUE;
+
+    return FALSE;
+
+}
+
+void unhide(Display *d, Window w)
+{
+    g_warning("Not Implemeted Function");
+}
+
 #endif //X_WINDOW_SYSTEM
