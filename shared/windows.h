@@ -84,9 +84,26 @@ gboolean is_minimized(Display *d, Window w)
 
 }
 
+/*
+For more informations about this function, please see:
+http://stackoverflow.com/q/2858263
+
+Only windowmanagers _without_ "focus stealing prevention" are working...
+*/
+
 void unhide(Display *d, Window w)
 {
-    g_warning("Not Implemeted Function");
+  XEvent xev;
+  Window root;
+  xev.type = ClientMessage;
+  xev.xclient.display = d;
+  xev.xclient.window = w;
+  xev.xclient.message_type = XInternAtom(d, "_NET_ACTIVE_WINDOW",0);
+  xev.xclient.format = 32;
+  xev.xclient.data.l[0] = 2L;
+  xev.xclient.data.l[1] = CurrentTime;
+  root = XDefaultRootWindow(d);
+  XSendEvent( d,root,0, SubstructureNotifyMask | SubstructureRedirectMask, &xev);
 }
 
 #endif //X_WINDOW_SYSTEM

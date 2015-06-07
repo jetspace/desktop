@@ -254,7 +254,7 @@ static gboolean toggle_win(GtkWidget *wid, GdkEvent *e, gpointer p)
         ptr = get_window_name(d, list[i]);
             if(ptr == NULL)
                 continue;
-            if(strcmp(ptr, querry))
+            if(strcmp(ptr, querry) == 0)
             {
                 unhide(d, list[i]);
             }
