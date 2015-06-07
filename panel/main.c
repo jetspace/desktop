@@ -74,10 +74,27 @@ int main(int argc, char **argv)
 {
   gtk_init(&argc, &argv);
 
+  GSettings *apps = g_settings_new("org.jetspace.desktop.panel");
+
+  GdkDisplay *display;
+  GdkScreen *screen;
+  display = gdk_display_get_default ();
+  screen = gdk_display_get_default_screen (display);
+  if(g_variant_get_boolean(g_settings_get_value(apps, "use-custom-theme")))
+  {
+      GtkCssProvider *provider;
+      provider = gtk_css_provider_new ();
+      gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+      gsize bytes, read;
+      const gchar* theme = g_variant_get_string(g_settings_get_value(apps, "custom-theme-path"), NULL);
+      gtk_css_provider_load_from_path (provider,g_filename_to_utf8(theme, strlen(theme), &read, &bytes, NULL),NULL);
+      g_object_unref (provider);
+  }
+
   side_log_set_log_level_from_enviroment();
   side_log_debug("Loglevel loaded from enviroment");
 
-  GdkScreen *screen = gdk_screen_get_default();
+  //GdkScreen *screen = gdk_screen_get_default();
 
   //setup elements
   elements = malloc(sizeof(PanelEntry));
@@ -112,7 +129,7 @@ int main(int argc, char **argv)
   gtk_container_add(GTK_CONTAINER(panel), event);
 
   //get app list
-  GSettings *apps = g_settings_new("org.jetspace.desktop.panel");
+  apps = g_settings_new("org.jetspace.desktop.panel");
   char *app_list = strdup(g_variant_get_string(g_settings_get_value(apps, "apps"), NULL));
 
   GSettings *menuS = g_settings_new("org.jetspace.desktop.panel");
