@@ -40,6 +40,7 @@ gboolean app_menu(GtkWidget *w, GdkEventButton *e, GtkWidget *menu);
 gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box);
 gboolean update_apps(gpointer data);
 gboolean run_app(GtkWidget *w, GdkEvent *e, gpointer *p);
+static void screen_changed(GtkWidget *widget, GdkScreen *old_screen, gpointer userdata);
 
 gboolean check_name(char *text);
 
@@ -110,7 +111,9 @@ int main(int argc, char **argv)
   gtk_window_move(GTK_WINDOW(panel), 0, gdk_screen_get_height(screen) - PANEL_HEIGHT);
   gtk_container_set_border_width(GTK_CONTAINER(panel), 1);
   gtk_window_stick(GTK_WINDOW(panel));
-  set_struts(panel, STRUT_BOTTOM, PANEL_HEIGHT);
+
+
+
 
 
   //setup context menu
@@ -150,11 +153,28 @@ int main(int argc, char **argv)
 
   //call plugin loader
   load_plugins("/usr/lib/jetspace/panel/plugins/", panel);
-  gtk_widget_show_all(panel);
 
+  gtk_widget_set_app_paintable(panel, TRUE);
+  screen_changed(panel, NULL, NULL);
+  gtk_widget_set_app_paintable(box, TRUE);
+  screen_changed(box, NULL, NULL);
+
+  gtk_widget_show_all(panel);
+  set_struts(panel, STRUT_BOTTOM, PANEL_HEIGHT);
   gtk_main();
   return 0;
 }
+
+
+static void screen_changed(GtkWidget *widget, GdkScreen *old_screen, gpointer userdata)
+{
+    GdkScreen *screen = gtk_widget_get_screen(widget);
+    GdkVisual *visual = gdk_screen_get_rgba_visual(screen);
+    if(!visual)
+        printf("Your screen does not support alpha channels!\n");
+    gtk_widget_set_visual(widget, visual);
+}
+
 
 gboolean button_event(GtkWidget *w, GdkEventButton *e, GtkWidget *menu)
 {
