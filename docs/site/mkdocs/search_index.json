@@ -1,0 +1,79 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Welcome to SiDE\n\n\nSiDE stands for Simple Desktop Enviroment.\n\n\nThis is what it tries to be. Simple means 2 things:\n\n Easy to use\n\n Even on low-power computers (for example: \nRaspberryPI\n)\n\n\nFor more informations visit the About tab.\n\n\nApps\n\n\n\n\nPanel\n\n\nWallpaper Service\n\n\nSettings Manager\n\n\nNotification Daemon\n\n\nApp Search\n\n\nSession with Autostart support\n\n\n\n\nVersion\n\n\nThis Documentation is build for version 0.50 (unreleased).", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/#welcome-to-side", 
+            "text": "SiDE stands for Simple Desktop Enviroment.  This is what it tries to be. Simple means 2 things:  Easy to use  Even on low-power computers (for example:  RaspberryPI )  For more informations visit the About tab.", 
+            "title": "Welcome to SiDE"
+        }, 
+        {
+            "location": "/#apps", 
+            "text": "Panel  Wallpaper Service  Settings Manager  Notification Daemon  App Search  Session with Autostart support", 
+            "title": "Apps"
+        }, 
+        {
+            "location": "/#version", 
+            "text": "This Documentation is build for version 0.50 (unreleased).", 
+            "title": "Version"
+        }, 
+        {
+            "location": "/about/", 
+            "text": "Idea\n\n\nThe Idea for SiDE came with the JetSpace project. I wanted to create a\nusefull UI for the distro.\nOkay, right now it is quite far away from that...\n\n\nBut we keep on working!\n\n\nVersions\n\n\nVersions follow the following idea: \nMAYOR\n.\nMINOR\n(-\nrc or alpha\n)\n\n\nAlpha Versions for 1.00 are planned with \n0.50\n, \n0.70\n and \n0.80\n. After\nthat, we continue with Beta versions, which should not get any new functions,\nthey should only improve stability! Beta Version will be \n0.85\n and \n0.90\n and \n0.95 - 0.99\n.\nFinally we will deploy release candidates (\nrc\n). There will be as many rc versions as\nneeded to create a fully stable Desktop Enviroment.\n\n\nBugs\n\n\nPlease report bugs to our \nGitHub\n page.", 
+            "title": "About"
+        }, 
+        {
+            "location": "/about/#idea", 
+            "text": "The Idea for SiDE came with the JetSpace project. I wanted to create a\nusefull UI for the distro.\nOkay, right now it is quite far away from that...  But we keep on working!", 
+            "title": "Idea"
+        }, 
+        {
+            "location": "/about/#versions", 
+            "text": "Versions follow the following idea:  MAYOR . MINOR (- rc or alpha )  Alpha Versions for 1.00 are planned with  0.50 ,  0.70  and  0.80 . After\nthat, we continue with Beta versions, which should not get any new functions,\nthey should only improve stability! Beta Version will be  0.85  and  0.90  and  0.95 - 0.99 .\nFinally we will deploy release candidates ( rc ). There will be as many rc versions as\nneeded to create a fully stable Desktop Enviroment.", 
+            "title": "Versions"
+        }, 
+        {
+            "location": "/about/#bugs", 
+            "text": "Please report bugs to our  GitHub  page.", 
+            "title": "Bugs"
+        }, 
+        {
+            "location": "/plugins/", 
+            "text": "Which apps can handle plugins?\n\n\n\n\nAt this time, only the panel is able to handle plugins.\n\n\n\n\nHow to write plugins:\n\n\nIntro\n\n\nA plugin will be loaded during the startup of the panel. If the users\ndisables you plugin, it won't be loaded.\n\n\nPLEASE NOTE:\n A plugin can only be refreshed with restarting the panel.\n\n\nEnviroment\n\n\n\n\n\n\nPlugins are placed in the following path:\n\n\n\n\n/usr/lib/jetspace/panel/plugins/\n\n\n\n\n\n\n\n\nPlugins are SharedObjects\n\n\n\n\nBuild with:\n\n\ngcc -o your_plugin.so --shared -fPIC source.c $(pkg-config --libs --cflags glib-2.0 gmodule-2.0 gtk+-3.0) -lside-plugin\n\n\nYou can ignore \ngtk+-3.0\n if you don't use any widgets.\n\n\n\n\n\n\n\n\n\n\n\n\nFor best testing, kill panel and launch it from Terminal, so you can refresh\nplugins easily.\n\n\nkillall side-panel\n\n\nand \nside-panel\n\n\nYou can exit the panel later with \nCTRL\n + \nC\n\n\nSource\n\n\nYou have to include the following headers:\n\n\n#include \ngmodule.h\n\n\n#include \ngtk.h\n //only if you use widgets\n\n\nThen you need a 'modloader' function:\n\n\nIt must be exactly like this:\n\n\nG_MODULE_EXPORT void plugin_call(GtkWidget *root)\n\n\nroot\n is the GtkWindow of the Panel.\n\n\nTips\n\n\nYou can use the header \n#include \nside/plugin.h\n to get the following\nfunction:\n\n\nside_plugin_get_root_box(root);\n\n\nIt will return the main container, where all widgets are added.", 
+            "title": "Plugins"
+        }, 
+        {
+            "location": "/plugins/#which-apps-can-handle-plugins", 
+            "text": "At this time, only the panel is able to handle plugins.", 
+            "title": "Which apps can handle plugins?"
+        }, 
+        {
+            "location": "/plugins/#how-to-write-plugins", 
+            "text": "", 
+            "title": "How to write plugins:"
+        }, 
+        {
+            "location": "/plugins/#intro", 
+            "text": "A plugin will be loaded during the startup of the panel. If the users\ndisables you plugin, it won't be loaded.  PLEASE NOTE:  A plugin can only be refreshed with restarting the panel.", 
+            "title": "Intro"
+        }, 
+        {
+            "location": "/plugins/#enviroment", 
+            "text": "Plugins are placed in the following path:   /usr/lib/jetspace/panel/plugins/     Plugins are SharedObjects   Build with:  gcc -o your_plugin.so --shared -fPIC source.c $(pkg-config --libs --cflags glib-2.0 gmodule-2.0 gtk+-3.0) -lside-plugin  You can ignore  gtk+-3.0  if you don't use any widgets.       For best testing, kill panel and launch it from Terminal, so you can refresh\nplugins easily.  killall side-panel  and  side-panel  You can exit the panel later with  CTRL  +  C", 
+            "title": "Enviroment"
+        }, 
+        {
+            "location": "/plugins/#source", 
+            "text": "You have to include the following headers:  #include  gmodule.h  #include  gtk.h  //only if you use widgets  Then you need a 'modloader' function:  It must be exactly like this:  G_MODULE_EXPORT void plugin_call(GtkWidget *root)  root  is the GtkWindow of the Panel.", 
+            "title": "Source"
+        }, 
+        {
+            "location": "/plugins/#tips", 
+            "text": "You can use the header  #include  side/plugin.h  to get the following\nfunction:  side_plugin_get_root_box(root);  It will return the main container, where all widgets are added.", 
+            "title": "Tips"
+        }
+    ]
+}
