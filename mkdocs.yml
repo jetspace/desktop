@@ -2,5 +2,6 @@ site_name: SiDE Documentation
 pages:
 - Home: index.md
 - About: about.md
+- User Manual: manual.md
 - Plugins: plugins.md
 theme: readthedocs

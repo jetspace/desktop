@@ -7,7 +7,7 @@ For more details view file 'LICENSE'
 //SOME SHARED INFOS
 
 
-#define VERSION "0.48"
+#define VERSION "0.49"
 #define COPYRIGHT "Copyright (c) 2015 Marius Messerschmidt"
 #define DISCRIPTION "Simple Desktop Enviroment"
 

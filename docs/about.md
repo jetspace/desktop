@@ -16,6 +16,13 @@ they should only improve stability! Beta Version will be `0.85` and `0.90` and `
 Finally we will deploy release candidates (`rc`). There will be as many rc versions as
 needed to create a fully stable Desktop Enviroment.
 
+First Beta versions are planned until Christmas 2015.
+Final 1.00 should be out until summer 2016.
+
 # Bugs
 
 Please report bugs to our [GitHub](http://github.com/jetspace/desktop/issues) page.
+
+# Contributing
+
+Yes! Of course you can help to develope/translate/design/whatever! The whole project is licensed under the MIT/X11 License

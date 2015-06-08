@@ -2,6 +2,8 @@
 
 SImple Desktop Enviroment (SIDE)
 
+[![Documentation Status](https://readthedocs.org/projects/side/badge/?version=latest)](https://readthedocs.org/projects/side/?badge=latest)
+
 it is not useable yet... (of course you can try it :D )
 
 ##to test:
@@ -26,5 +28,5 @@ running with xfwm4
 
  ## Documentation
 
- Documentation is generated using mkdocs! you can find the markdown files in docs/ and the ready-to-use-ones in site/
+ Documentation is generated using mkdocs! you can find the markdown files in docs/
  The documentation is hosted at [rtfd.org](http://side.rtfd.org/)
