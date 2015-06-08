@@ -145,7 +145,7 @@ int main(int argc, char **argv)
   if(g_variant_get_boolean(g_settings_get_value(menuS, "show-window-list")))
   {
       running_apps(box);
-      g_timeout_add(750, update_apps, NULL);
+      g_timeout_add(g_variant_get_int32(g_settings_get_value(menuS, "window-list-refresh-rate")), update_apps, NULL);
   }
 
   //call plugin loader

@@ -42,5 +42,11 @@
           <summary>Path to custom Theme for the Panel</summary>
           <description>Only needed when use-custom-theme is enabled...</description>
       </key>
+      <key type="i" name="window-list-refresh-rate">
+          <default>750</default>
+          <range min="1" max="2000"/>
+          <summary>Refresh rate</summary>
+          <description>Lower Values have problems when trying to click the button, higher values takes longer to refresh</description>
+      </key>
   </schema>
 </schemalist>

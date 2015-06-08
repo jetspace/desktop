@@ -26,7 +26,7 @@ GtkTreeIter iter2;
 
 //page 3
 
-GtkWidget *box3, *s_visible, *label_visible, *visible_box;
+GtkWidget *box3, *s_visible, *label_visible, *visible_box, *s_list;
 
 enum
 {
@@ -136,6 +136,7 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   g_settings_set_value(icons, "ignored-plugins", g_variant_new_string(str));
 
   g_settings_set_value(icons, "show-app-menu", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_visible))));
+  g_settings_set_value(icons, "show-window-list", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_list))));
 
   g_settings_sync();
   return FALSE;
@@ -416,19 +417,29 @@ gboolean panel_settings(void)
 
     box3 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
+    //app menu
     label_visible = gtk_label_new("Would you like to enable the built-in application menu?");
     s_visible = gtk_switch_new();
     visible_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
     gtk_container_add(GTK_CONTAINER(visible_box), label_visible);
     gtk_box_pack_end(GTK_BOX(visible_box), s_visible, FALSE, FALSE, 5);
-
     gtk_switch_set_active(GTK_SWITCH(s_visible), g_variant_get_boolean(g_settings_get_value(icons, "show-app-menu")));
 
+    //window list
+    GtkWidget *label_list = gtk_label_new("Would you like to enable the built-in Window List?");
+    s_list = gtk_switch_new();
+    GtkWidget *list_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+    gtk_container_add(GTK_CONTAINER(list_box), label_list);
+    gtk_box_pack_end(GTK_BOX(list_box), s_list, FALSE,FALSE, 5);
+    gtk_switch_set_active(GTK_SWITCH(s_list), g_variant_get_boolean(g_settings_get_value(icons, "show-window-list")));
+
+
     gtk_container_add(GTK_CONTAINER(box3), visible_box);
+    gtk_container_add(GTK_CONTAINER(box3), list_box);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box, gtk_label_new("Apps"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box2, gtk_label_new("Plugins"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box3, gtk_label_new("Application Menu"));
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box3, gtk_label_new("Advanced"));
 
   //create win_box
 
