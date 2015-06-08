@@ -18,6 +18,18 @@ GtkWidget *win, *box, *label, *label2, *cb, *cb2,  *apply;
 
 gboolean write_gtk_settings(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 {
+  if((gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(cb2)) == NULL) || (gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(cb)) == NULL))
+      {
+            GtkWidget *d = gtk_message_dialog_new (GTK_WINDOW(win),
+                              GTK_DIALOG_MODAL,
+                              GTK_MESSAGE_ERROR,
+                              GTK_BUTTONS_CLOSE,
+                              "Please select themes for both, GTK2 and GTK3!");
+            gtk_dialog_run(GTK_DIALOG(d));
+            gtk_widget_destroy(d);
+            return FALSE;
+      }
+
   char *buffer = malloc(strlen(getenv("HOME")) + strlen(".gtkrc-2.0"));
   strcpy(buffer, getenv("HOME"));
   strcat(buffer, "/.gtkrc-2.0");
@@ -83,6 +95,7 @@ int main(int argc, char **argv)
   gtk_container_set_border_width(GTK_CONTAINER(win), 10);
   g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
 
+
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
 
   label = gtk_label_new("Select your GTK 2.0 theme:");
@@ -107,12 +120,13 @@ int main(int argc, char **argv)
       stat(e->d_name, &st);
       if(S_ISDIR(st.st_mode) && e->d_name[0] != '.')//Switch to subdir
          {
-           char *buffer = malloc(strlen("/usr/share/themes/ ") + strlen(e->d_name));
+           char *buffer = malloc(strlen("/usr/share/themes/ ") + strlen(e->d_name) +1);
            char *theme = strdup(e->d_name); //backup theme name if we have a match later
-           strcpy(buffer, "/usr/share/themes/");
-           strcat(buffer, e->d_name);
+           snprintf(buffer, strlen("/usr/share/themes/ ") + strlen(e->d_name), "/usr/share/themes/%s", e->d_name);
            DIR *sub = opendir(buffer);
            free(buffer);
+           if(!sub)
+               continue;
            while((e = readdir(sub)) != NULL)
             {
               if(strncmp(e->d_name, "gtk-2.0", 7) == 0) //contains a GTK2 theme
@@ -124,7 +138,7 @@ int main(int argc, char **argv)
                   gtk_combo_box_text_prepend_text(GTK_COMBO_BOX_TEXT(cb2), theme);
                 }
             }
-
+            closedir(sub);
 
           free(theme);
 
@@ -132,6 +146,7 @@ int main(int argc, char **argv)
       else
          continue;
     }
+    closedir(d);
 
   apply = gtk_button_new_with_label("Apply");
   g_signal_connect(G_OBJECT(apply), "button_press_event", G_CALLBACK(write_gtk_settings), NULL);

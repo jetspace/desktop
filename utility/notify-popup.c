@@ -82,12 +82,13 @@ int main(int argc, char **argv)
   GtkWidget *head_label = gtk_label_new(head);
   GtkWidget *layout_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
   GtkWidget *text_label = gtk_label_new(body);
+  gtk_label_set_use_markup(GTK_LABEL(text_label), TRUE);
   gtk_label_set_markup(GTK_LABEL(text_label), body);
   gtk_label_set_line_wrap(GTK_LABEL(text_label), TRUE);
   gtk_label_set_line_wrap_mode(GTK_LABEL(text_label), PANGO_WRAP_WORD);
 
-  gtk_box_pack_start(GTK_BOX(layout_box), head_label, FALSE, FALSE, 2);
-  gtk_box_pack_start(GTK_BOX(layout_box), text_label, FALSE, FALSE, 2);
+  gtk_box_pack_start(GTK_BOX(layout_box), head_label, TRUE, FALSE, 2);
+  gtk_box_pack_start(GTK_BOX(layout_box), text_label, TRUE, FALSE, 2);
 
   GtkWidget *second_layout = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
   GtkWidget *image = gtk_image_new_from_icon_name(icon, GTK_ICON_SIZE_DIALOG);
