@@ -32,13 +32,15 @@ AppEntry side_apps_get_next_entry(void)
 	if(d == NULL)
 		return ret;
 
-	while(strlen(d->d_name) < 8) //.desktop == 8 so if name is shoter, not a .desktop file
+	while(strlen(d->d_name) < 8 || strstr(d->d_name, ".desktop") == NULL) //.desktop == 8 so if name is shoter, not a .desktop file
 		d = readdir(side_apps_dir);
 
 	char *filename = malloc(sizeof(d->d_name) + sizeof(APP_DIR));
 	filename[0] = '\0';
 	strcpy(filename, APP_DIR);
 	strcat(filename, d->d_name);
+
+
 
 	side_apps_entry_file = fopen(filename, "r");
 	if(side_apps_entry_file == NULL)

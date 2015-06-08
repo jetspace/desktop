@@ -14,7 +14,7 @@ $ cp .xinitrc xinitrc_backup # Save old xinit config
 $ echo "side-session" > .xinitrc
 $ startx
 ```
-later you can just use 
+later you can just use
 ```bash
 startx
 ```
@@ -24,5 +24,7 @@ startx
 ![Version 0.36](http://s7.postimg.org/x472b6pmz/side_0_36.png  "Screenshot Version 0.36 with XFWM4")
 running with xfwm4
 
- 
+ ## Documentation
 
+ Documentation is generated using mkdocs! you can find the markdown files in docs/ and the ready-to-use-ones in site/
+ The documentation is hosted at [rtfd.org](http://side.rtfd.org/)

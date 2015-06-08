@@ -432,16 +432,24 @@ void create_app_menu(GtkWidget *box)
 
 
 
-
-          apps[total_apps - 1].exec = malloc(ent.exec_length);
+          apps[total_apps - 1].exec = malloc(ent.exec_length + 1);
 
           if(apps[total_apps -1].exec == NULL)
+          {
+            side_log_error("Can't alloc command!");
             continue;
+          }
 
           strncpy(apps[total_apps - 1].exec, ent.exec, ent.exec_length);
           apps[total_apps - 1].exec[ent.exec_length] = '\0';
           apps[total_apps - 1].item = gtk_menu_item_new_with_label(ent.app_name);
           apps[total_apps - 1].terminal = ent.terminal;
+
+          if(apps[total_apps - 1].item == NULL || !GTK_IS_WIDGET(apps[total_apps - 1].item))
+              {
+                  side_log_warning("Can't add new item: Skipping");
+                  continue;
+              }
 
           switch(ent.sub)
           {
@@ -489,7 +497,7 @@ void create_app_menu(GtkWidget *box)
                 gtk_menu_shell_append(GTK_MENU_SHELL(utility), apps[total_apps -1].item);
                 gtk_widget_show(apps[total_apps -1].item);
               break;
-              case APP_TYPE_UNKNOWN:
+              default:
                 gtk_menu_shell_append(GTK_MENU_SHELL(other), apps[total_apps -1].item);
                 gtk_widget_show(apps[total_apps -1].item);
               break;
