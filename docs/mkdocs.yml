@@ -1,0 +1,6 @@
+site_name: SiDE Documentation
+pages:
+- Home: index.md
+- About: about.md
+- Plugins: plugins.md
+theme: readthedocs
