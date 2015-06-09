@@ -108,6 +108,8 @@ gboolean clock_settings(GtkWidget *w, GdkEventButton *e, gpointer d)
 {
     GtkWidget *win        = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_container_set_border_width(GTK_CONTAINER(win), 10);
+    GdkScreen *screen = gdk_screen_get_default();
+    gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen) -460  , gdk_screen_get_height(screen) - 150);
     gtk_window_set_title(GTK_WINDOW(win), "Panel Clock Settings");
 
     GtkWidget *box        = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
@@ -206,6 +208,8 @@ gboolean show_clock_context(GtkWidget *w, GdkEventButton *e, gpointer d)
       GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
       gtk_window_set_title(GTK_WINDOW(win), "SIDE Panel Clock");
       gtk_container_set_border_width(GTK_CONTAINER(win), 10);
+      GdkScreen *screen = gdk_screen_get_default();
+      gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen), gdk_screen_get_height(screen) - 265);
 
       GtkWidget *cal = gtk_calendar_new();
       GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);

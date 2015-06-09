@@ -69,6 +69,11 @@ On this page you can simply enable some built-in features of the Panel:
 
 You should only do this if you use a plugin which replaces them.
 
+But you can also choose custom themes. This themes must be located in `/usr/share/themes/`
+and contain a valid theme (`side-panel`).
+
+To use a theme, enable the switch and select one from the list below.
+
 # Wallpaper
 
 ### Layout
