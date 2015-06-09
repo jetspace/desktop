@@ -81,6 +81,8 @@ int main(int argc, char **argv)
   GdkScreen *screen;
   display = gdk_display_get_default ();
   screen = gdk_display_get_default_screen (display);
+
+
   if(g_variant_get_boolean(g_settings_get_value(apps, "use-custom-theme")))
   {
       GtkCssProvider *provider;
@@ -91,6 +93,8 @@ int main(int argc, char **argv)
       gtk_css_provider_load_from_path (provider,g_filename_to_utf8(theme, strlen(theme), &read, &bytes, NULL),NULL);
       g_object_unref (provider);
   }
+
+
 
   side_log_set_log_level_from_enviroment();
   side_log_debug("Loglevel loaded from enviroment");
@@ -111,10 +115,6 @@ int main(int argc, char **argv)
   gtk_window_move(GTK_WINDOW(panel), 0, gdk_screen_get_height(screen) - PANEL_HEIGHT);
   gtk_container_set_border_width(GTK_CONTAINER(panel), 1);
   gtk_window_stick(GTK_WINDOW(panel));
-
-
-
-
 
 
   //setup context menu
@@ -160,10 +160,13 @@ int main(int argc, char **argv)
   //call plugin loader
   load_plugins("/usr/lib/jetspace/panel/plugins/", panel);
 
-  gtk_widget_set_app_paintable(panel, TRUE);
-  screen_changed(panel, NULL, NULL);
-  gtk_widget_set_app_paintable(box, TRUE);
-  screen_changed(box, NULL, NULL);
+ if(g_variant_get_boolean(g_settings_get_value(apps, "use-custom-theme")))
+    {
+        gtk_widget_set_app_paintable(panel, TRUE);
+        screen_changed(panel, NULL, NULL);
+        gtk_widget_set_app_paintable(box, TRUE);
+        screen_changed(box, NULL, NULL);
+    }
 
   gtk_widget_show_all(panel);
   set_struts(panel, STRUT_BOTTOM, PANEL_HEIGHT);
