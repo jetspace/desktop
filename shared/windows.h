@@ -13,7 +13,7 @@ For more details view file 'LICENSE'
 
 
 #ifdef WAYLAND
-vWindow *list_windows(Display *d, unsigned long *len)
+Window *list_windows(Display *d, unsigned long *len)
 {
     g_warning("WINDOW LISTS NOT IMPLEMENTED FOR WAYLAND!\nPLEASE NOTE: The Wayland version is HIGHLY experimental!");
     return;
@@ -25,7 +25,7 @@ vWindow *list_windows(Display *d, unsigned long *len)
 #endif
 
 #ifdef X_WINDOW_SYSTEM
-Window *list_windows(Display *d, unsigned long *len)
+Window *list_windows(Display *d, unsigned long*len)
 {
     Atom atom = XInternAtom(d, "_NET_CLIENT_LIST", False), type;
     int form;
@@ -39,17 +39,16 @@ Window *list_windows(Display *d, unsigned long *len)
         }
 
     return (Window*)list;
-
 }
 
 char *get_window_name(Display *d, Window w)
 {
-    Atom atom = XInternAtom(d, "WM_ICON_NAME", False), type;
+    Atom atom = XInternAtom(d, "WM_NAME", False), type;
     int form;
     unsigned long remain, len;
     unsigned char *list;
 
-    if(Success != XGetWindowProperty(d, w, atom, 0, 1024, False, XA_STRING, &type,&form,&len,&remain,&list))
+    if(Success != XGetWindowProperty(d, w, atom, 0, 1024, False, AnyPropertyType, &type,&form,&len,&remain,&list))
         {
             g_warning("Failed accessing WindowList (2)");
             return NULL;

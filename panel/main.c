@@ -329,6 +329,7 @@ void running_apps(GtkWidget *box)
     for (int i = 0; i < (int) len; i++)
     {
         ptr = get_window_name(d, list[i]);
+        side_log_debug(ptr);
         if(ptr != NULL && strlen(ptr) > 0 && is_minimized(d, list[i]))
         {
             GtkWidget *button = gtk_button_new_with_label(ptr);
@@ -337,6 +338,7 @@ void running_apps(GtkWidget *box)
             gtk_container_add(GTK_CONTAINER(running_box), button);
 
         }
+        free(ptr);
     }
     gtk_widget_set_size_request(running_box, 400, -1);
     gtk_widget_show_all(running_box);

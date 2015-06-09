@@ -127,9 +127,6 @@ gboolean show_mixer(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 
   gtk_box_pack_end(GTK_BOX(box), s_mute, FALSE, FALSE, 0);
 
-  GtkWidget *close_button = gtk_button_new_with_label("Close");
-  gtk_box_pack_end(GTK_BOX(box), close_button, FALSE, FALSE, 0);
-
 
   gtk_container_add(GTK_CONTAINER(box), dsc);
   gtk_box_pack_end(GTK_BOX(box), scl, TRUE, TRUE, 5);
