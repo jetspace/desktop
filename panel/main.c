@@ -26,6 +26,8 @@ For more details view file 'LICENSE'
 #include "../shared/run.h"
 #include "../shared/plugins.h"
 #include "../shared/windows.h"
+#include "../shared/transparent.h"
+#include "../shared/css.h"
 
 
 GtkWidget *app_menu_button;
@@ -40,7 +42,7 @@ gboolean app_menu(GtkWidget *w, GdkEventButton *e, GtkWidget *menu);
 gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box);
 gboolean update_apps(gpointer data);
 gboolean run_app(GtkWidget *w, GdkEvent *e, gpointer *p);
-static void screen_changed(GtkWidget *widget, GdkScreen *old_screen, gpointer userdata);
+
 
 gboolean check_name(char *text);
 
@@ -83,16 +85,7 @@ int main(int argc, char **argv)
   screen = gdk_display_get_default_screen (display);
 
 
-  if(g_variant_get_boolean(g_settings_get_value(apps, "use-custom-theme")))
-  {
-      GtkCssProvider *provider;
-      provider = gtk_css_provider_new ();
-      gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-      gsize bytes, read;
-      const gchar* theme = g_strdup_printf( "%s%s",g_variant_get_string(g_settings_get_value(apps, "custom-theme-path"), NULL), "/side-panel/gtk.css");
-      gtk_css_provider_load_from_path (provider,g_filename_to_utf8(theme, strlen(theme), &read, &bytes, NULL),NULL);
-      g_object_unref (provider);
-  }
+  use_css(apps);
 
 
 
@@ -132,6 +125,11 @@ int main(int argc, char **argv)
   gtk_container_add(GTK_CONTAINER(event), box);
   gtk_container_add(GTK_CONTAINER(panel), event);
 
+  gtk_widget_set_name(GTK_WIDGET(panel), "SiDEPanel");
+  gtk_widget_set_name(GTK_WIDGET(box), "SiDEPanelBox");
+
+
+
   GdkGeometry hints;
   hints.max_width = gdk_screen_get_width(screen);
   gtk_window_set_geometry_hints(GTK_WINDOW(panel), GTK_WIDGET(box), &hints, GDK_HINT_MAX_SIZE);
@@ -168,21 +166,14 @@ int main(int argc, char **argv)
         screen_changed(box, NULL, NULL);
     }
 
+
+
   gtk_widget_show_all(panel);
   set_struts(panel, STRUT_BOTTOM, PANEL_HEIGHT);
   gtk_main();
   return 0;
 }
 
-
-static void screen_changed(GtkWidget *widget, GdkScreen *old_screen, gpointer userdata)
-{
-    GdkScreen *screen = gtk_widget_get_screen(widget);
-    GdkVisual *visual = gdk_screen_get_rgba_visual(screen);
-    if(!visual)
-        printf("Your screen does not support alpha channels!\n");
-    gtk_widget_set_visual(widget, visual);
-}
 
 
 gboolean button_event(GtkWidget *w, GdkEventButton *e, GtkWidget *menu)
@@ -341,6 +332,7 @@ void running_apps(GtkWidget *box)
         if(ptr != NULL && strlen(ptr) > 0 && is_minimized(d, list[i]))
         {
             GtkWidget *button = gtk_button_new_with_label(ptr);
+            gtk_widget_set_name(button, "SiDEPanelHiddenApp");
             g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(toggle_win), NULL);
             gtk_container_add(GTK_CONTAINER(running_box), button);
 
@@ -356,6 +348,7 @@ void create_app_menu(GtkWidget *box)
 {
     GtkWidget *menu;
     app_menu_button = gtk_button_new_with_label("Applications");
+    gtk_widget_set_name(app_menu_button, "SiDEPanelAppMenuButton");
     gtk_container_add(GTK_CONTAINER(box), app_menu_button);
 
     menu = gtk_menu_new();

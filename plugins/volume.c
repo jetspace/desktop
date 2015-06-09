@@ -32,6 +32,7 @@ To workaround you can use: val = 100 - val
 #include <glib.h>
 #include <side/plugin.h>
 
+
 GtkWidget *volume_button, *box, *s_mute;
 
 void create_volume_button(void);
@@ -50,11 +51,16 @@ gboolean check_focus(gpointer data)
 }
 
 
-
+int pre_mute_level = 0;
 gboolean set_mute(GtkToggleButton *widget, gpointer user_data)
 {
   if(gtk_toggle_button_get_active(widget))
-    gtk_adjustment_set_value(GTK_ADJUSTMENT(user_data), 100);
+    {
+         pre_mute_level = gtk_adjustment_get_value(GTK_ADJUSTMENT(user_data));
+         gtk_adjustment_set_value(GTK_ADJUSTMENT(user_data), 100);
+    }
+ else
+    gtk_adjustment_set_value(GTK_ADJUSTMENT(user_data), pre_mute_level);
 
   return FALSE;
 
@@ -95,12 +101,12 @@ void set_volume(GtkAdjustment *adjustment, gpointer user_data)
 
 gboolean show_mixer(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 {
+
   GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(win), "SIDE Mixer");
   gtk_container_set_border_width(GTK_CONTAINER(win), 10);
   gtk_window_resize(GTK_WINDOW(win), 150, 300);
   GdkScreen *screen = gdk_screen_get_default();
-  gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen), gdk_screen_get_height(screen) - 335);
 
   fwin = win;
 
@@ -119,13 +125,20 @@ gboolean show_mixer(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
   g_signal_connect(G_OBJECT(s_mute), "toggled", G_CALLBACK(set_mute), (gpointer) adj);
 
 
-  gtk_box_pack_end(GTK_BOX(box), s_mute, FALSE, FALSE, 5);
+  gtk_box_pack_end(GTK_BOX(box), s_mute, FALSE, FALSE, 0);
+
+  GtkWidget *close_button = gtk_button_new_with_label("Close");
+  gtk_box_pack_end(GTK_BOX(box), close_button, FALSE, FALSE, 0);
 
 
   gtk_container_add(GTK_CONTAINER(box), dsc);
   gtk_box_pack_end(GTK_BOX(box), scl, TRUE, TRUE, 5);
 
 
+    int x, y;
+    gtk_window_get_size(GTK_WINDOW(win), &x, &y);
+    gtk_window_set_decorated(GTK_WINDOW(win), FALSE);
+    gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen), gdk_screen_get_height(screen) - (y+25));
 
 
 
