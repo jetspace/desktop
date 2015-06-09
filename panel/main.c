@@ -87,7 +87,7 @@ int main(int argc, char **argv)
       provider = gtk_css_provider_new ();
       gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
       gsize bytes, read;
-      const gchar* theme = g_variant_get_string(g_settings_get_value(apps, "custom-theme-path"), NULL);
+      const gchar* theme = g_strdup_printf( "%s%s",g_variant_get_string(g_settings_get_value(apps, "custom-theme-path"), NULL), "/side-panel/gtk.css");
       gtk_css_provider_load_from_path (provider,g_filename_to_utf8(theme, strlen(theme), &read, &bytes, NULL),NULL);
       g_object_unref (provider);
   }
@@ -116,6 +116,7 @@ int main(int argc, char **argv)
 
 
 
+
   //setup context menu
   menu = gtk_menu_new();
   add_context_menu_pannel(menu, box);
@@ -130,6 +131,11 @@ int main(int argc, char **argv)
   box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
   gtk_container_add(GTK_CONTAINER(event), box);
   gtk_container_add(GTK_CONTAINER(panel), event);
+
+  GdkGeometry hints;
+  hints.max_width = gdk_screen_get_width(screen);
+  gtk_window_set_geometry_hints(GTK_WINDOW(panel), GTK_WIDGET(box), &hints, GDK_HINT_MAX_SIZE);
+
 
   //get app list
   apps = g_settings_new("org.jetspace.desktop.panel");
