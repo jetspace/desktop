@@ -20,8 +20,12 @@ void quit_cb(GtkWidget *w, GdkEvent *e, gpointer p)
         gtk_widget_destroy(win);
 }
 
+gboolean save_win_data(GtkWidget *widget,GdkEvent *event, gpointer user_data);
+
 gboolean data_protect(GtkWidget *w, GdkEvent *e, gpointer p)
 {
+    save_win_data(w,e,p);   //fetches window size before end
+    g_settings_sync();      //sync all unsafed items
     if(modified)
         {
             GtkWidget *dialog = gtk_message_dialog_new (GTK_WINDOW(w),
@@ -46,6 +50,10 @@ gboolean data_protect(GtkWidget *w, GdkEvent *e, gpointer p)
 
 gboolean show_about(GtkWidget *w, GdkEvent *e, gpointer p)
 {
+    //for any reason, dialog fails, if modified is set to true...
+    gboolean old_modify = modified;
+    modified = FALSE;
+
     GtkWidget *dialog = gtk_about_dialog_new();
     gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(dialog), "SIDE Editor");
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(dialog), VERSION);
@@ -56,6 +64,7 @@ gboolean show_about(GtkWidget *w, GdkEvent *e, gpointer p)
     gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(dialog), gdk_pixbuf_scale_simple(gdk_pixbuf_new_from_file("/usr/share/icons/jetspace/JetSpace.png", NULL), 100, 100, GDK_INTERP_BILINEAR));
     gtk_dialog_run(GTK_DIALOG(dialog));
     gtk_widget_destroy(dialog);
+    modified = old_modify;
     return FALSE;
 }
 
@@ -91,6 +100,24 @@ gboolean new_file(GtkWidget *w, GdkEvent *e, gpointer data)
     free(exec);
 }
 
+void fetch_file(void)
+{
+    printf("Opening %s\n (as arg)", filename);
+    FILE *file = fopen(filename, "r");
+    if(file == NULL)
+        {
+            g_warning("Accessing file failed! (%s)", filename);
+            return;
+        }
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(source));
+    char buff[2000];
+    while(fgets(buff, 2000, file) != NULL)
+        append_text(buffer, buff);
+    fclose(file);
+    gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf("SiDE Editor - %s", filename));
+    modified = FALSE;
+}
+
 gboolean open_file(GtkWidget *w, GdkEvent *e, gpointer p)
 {
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(source));
@@ -111,6 +138,10 @@ gboolean open_file(GtkWidget *w, GdkEvent *e, gpointer p)
     int result = gtk_dialog_run(GTK_DIALOG(dialog));
     if(result == GTK_RESPONSE_ACCEPT)
         {
+            GtkTextIter start, end;
+            gtk_text_buffer_get_end_iter(buffer, &end);
+            gtk_text_buffer_get_start_iter(buffer, &start);
+            gtk_text_buffer_delete(buffer, &start, &end);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
             gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf("SiDE Editor - %s", filename));
             printf("Opening %s\n", filename);
@@ -168,4 +199,15 @@ void update_modify(GtkTextView *t, gchar *p,gpointer data)
 {
     modified = TRUE;
     gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf("SiDE Editor - %s*", filename));
+}
+GSettings *stats;
+gboolean save_win_data(GtkWidget *widget,GdkEvent *event, gpointer user_data)
+{
+    if(!stats)
+        stats = g_settings_new("org.jetspace.desktop.editor");
+    int width, height;
+    gtk_window_get_size(GTK_WINDOW(win), &width, &height);
+    g_settings_set_value(stats, "width", g_variant_new_int32(width));
+    g_settings_set_value(stats, "height", g_variant_new_int32(height));
+    return FALSE;
 }

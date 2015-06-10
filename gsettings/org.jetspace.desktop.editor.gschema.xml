@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.jetspace.desktop.editor" path="/org/jetspace/desktop/editor/">
+
+      <key type="i" name="width">
+          <default>500</default>
+          <summary>Width of editor window</summary>
+          <description>IS SET AUTOMATICLY</description>
+      </key>
+      <key type="i" name="height">
+          <default>400</default>
+          <summary>height of editor window</summary>
+          <description>IS SET AUTOMATICLY</description>
+      </key>
+  </schema>
+</schemalist>

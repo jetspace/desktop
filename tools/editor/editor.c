@@ -11,7 +11,8 @@ For more details view file 'LICENSE'
 GtkWidget *win;
 GtkWidget *source;
 char *cmd;
-char *filename;
+char untitled[] = "untitled";
+char *filename = untitled;
 gboolean modified = FALSE;
 
 //Callbacks
@@ -21,9 +22,9 @@ int main(int argc, char **argv)
 {
     cmd = argv[0];
     gtk_init(&argc, &argv);
-
+    GSettings *win_data = g_settings_new("org.jetspace.desktop.editor");
     win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_resize(GTK_WINDOW(win), 500, 400);
+    gtk_window_resize(GTK_WINDOW(win), g_variant_get_int32(g_settings_get_value(win_data, "width")), g_variant_get_int32(g_settings_get_value(win_data, "height")));
     gtk_window_set_title(GTK_WINDOW(win), "SIDE Editor");
     gtk_container_set_border_width(GTK_CONTAINER(win), 10);
 
@@ -75,6 +76,7 @@ int main(int argc, char **argv)
     gtk_widget_add_accelerator (save, "activate", accel_group, gdk_unicode_to_keyval('s'), GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
     gtk_widget_add_accelerator (saveas, "activate", accel_group, gdk_unicode_to_keyval('s'), GDK_CONTROL_MASK | GDK_SHIFT_MASK, GTK_ACCEL_VISIBLE);
     gtk_widget_add_accelerator (open, "activate", accel_group, gdk_unicode_to_keyval('o'), GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+    gtk_widget_add_accelerator (quit, "activate", accel_group, gdk_unicode_to_keyval('q'), GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
 
 
 
@@ -90,7 +92,17 @@ int main(int argc, char **argv)
     g_signal_connect(G_OBJECT(save), "activate", G_CALLBACK(save_file), NULL);
     g_signal_connect(G_OBJECT(saveas), "activate", G_CALLBACK(save_file_as), NULL);
 
+    g_signal_connect(G_OBJECT(win), "window-state-event", G_CALLBACK(save_win_data), NULL);
+
     g_signal_connect(G_OBJECT(gtk_text_view_get_buffer(GTK_TEXT_VIEW(source))), "changed", G_CALLBACK(update_modify), NULL);
+
+    //check for command line
+    if(argc > 1)
+        {
+            filename = argv[1];
+            fetch_file();
+        }
+
 
     gtk_widget_show_all(win);
     gtk_main();
