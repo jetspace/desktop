@@ -1,8 +1,8 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=SIDE Settings
-Comment=Configures your SIDE session!
+Name=SiDE Settings
+Comment=Configures your SiDE session!
 Exec=side-settings-explorer
 Categories=Settings;
 Icon=gtk-settings

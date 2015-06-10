@@ -13,6 +13,7 @@ install:
 	sudo cp icons/JetSpace.png /usr/share/icons/jetspace/
 	sudo cp icons/speaker.png /usr/share/icons/jetspace/
 	sudo cp desktop/side-settings-explorer.desktop /usr/share/applications/
+	sudo cp desktop/side-edit.desktop /usr/share/applications/
 	sudo cp desktop/side.desktop /usr/share/xsessions/
 	sudo mv side-wallpaper-service /bin/
 	sudo mv side-wallpaper-settings /bin/
@@ -25,6 +26,7 @@ install:
 	sudo mv side-notifyd /bin/
 	sudo mv side-notify-popup /bin/
 	sudo mv side-search /bin/
+	sudo mv side-edit /bin/
 	sudo mv clock.so /usr/lib/jetspace/panel/plugins/
 	sudo mv volume.so /usr/lib/jetspace/panel/plugins/
 	sudo mv user.so /usr/lib/jetspace/panel/plugins/

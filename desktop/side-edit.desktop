@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=SiDE Editor
+Comment=Basic text editor for SiDE
+Exec=side-edit
+Categories=Utility;
+Icon=accessories-text-editor

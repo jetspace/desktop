@@ -30,6 +30,12 @@ cd ../notify
 make
 cd ../search
 make
+
+#tools
+cd ../tools
+cd editor
+make
+cd ..
 cd ..
 
 

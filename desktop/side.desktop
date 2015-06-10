@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=SIDE-Session
+Name=SiDE-Session
 Comment=Will start a new SIDE session
 Exec=side-session
 TryExec=side-session
