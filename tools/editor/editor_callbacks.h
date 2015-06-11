@@ -205,9 +205,80 @@ gboolean save_win_data(GtkWidget *widget,GdkEvent *event, gpointer user_data)
 {
     if(!stats)
         stats = g_settings_new("org.jetspace.desktop.editor");
-    int width, height;
+    int width, height, ypos, xpos;
     gtk_window_get_size(GTK_WINDOW(win), &width, &height);
+    gtk_window_get_position(GTK_WINDOW(win), &xpos, &ypos);
     g_settings_set_value(stats, "width", g_variant_new_int32(width));
     g_settings_set_value(stats, "height", g_variant_new_int32(height));
+    g_settings_set_value(stats, "xpos", g_variant_new_int32(xpos));
+    g_settings_set_value(stats, "ypos", g_variant_new_int32(ypos));
+    return FALSE;
+}
+
+GtkWidget *pos_switch, *num_switch, *high_switch;
+gboolean write_settings(GtkWidget *w, GdkEvent *e, gpointer p);
+gboolean show_settings(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+    GtkWidget *swin = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title(GTK_WINDOW(swin), "SIDE Editor - Settings");
+    gtk_container_set_border_width(GTK_CONTAINER(swin), 10);
+    gtk_window_resize(GTK_WINDOW(swin), 300, 400);
+    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    GtkWidget *apply = gtk_button_new_with_label("Apply");
+    GtkWidget *notebook = gtk_notebook_new();
+    GtkWidget *appearance = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), appearance, gtk_label_new("Appearance"));
+
+    GSettings *conf = g_settings_new("org.jetspace.desktop.editor");
+
+    GtkWidget *pos_label = gtk_label_new("Restore window position:");
+    pos_switch = gtk_switch_new();
+    gtk_switch_set_active(GTK_SWITCH(pos_switch), g_variant_get_boolean(g_settings_get_value(conf, "savepos")));
+    GtkWidget *pos_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_container_add(GTK_CONTAINER(pos_box), pos_label);
+    gtk_box_pack_end(GTK_BOX(pos_box), pos_switch, FALSE, TRUE, 0);
+
+    GtkWidget *num_label = gtk_label_new("Enable line numbers:");
+    num_switch = gtk_switch_new();
+    gtk_switch_set_active(GTK_SWITCH(num_switch), g_variant_get_boolean(g_settings_get_value(conf, "linenumbers")));
+    GtkWidget *num_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_container_add(GTK_CONTAINER(num_box), num_label);
+    gtk_box_pack_end(GTK_BOX(num_box), num_switch, FALSE, TRUE, 0);
+
+    GtkWidget *high_label = gtk_label_new("Highlight current line:");
+    high_switch = gtk_switch_new();
+    gtk_switch_set_active(GTK_SWITCH(high_switch), g_variant_get_boolean(g_settings_get_value(conf, "linehighlight")));
+    GtkWidget *high_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_container_add(GTK_CONTAINER(high_box), high_label);
+    gtk_box_pack_end(GTK_BOX(high_box), high_switch, FALSE, TRUE, 0);
+
+
+    gtk_container_add(GTK_CONTAINER(appearance), pos_box);
+    gtk_container_add(GTK_CONTAINER(appearance), num_box);
+    gtk_container_add(GTK_CONTAINER(appearance), high_box);
+
+    g_signal_connect(G_OBJECT(apply), "clicked", G_CALLBACK(write_settings), NULL);
+
+    gtk_container_add(GTK_CONTAINER(box), notebook);
+    gtk_box_pack_end(GTK_BOX(box), apply, FALSE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(swin), box);
+    gtk_widget_show_all(swin);
+    return FALSE;
+}
+
+gboolean write_settings(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+    GSettings *conf = g_settings_new("org.jetspace.desktop.editor");
+    g_settings_set_value(conf, "savepos", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(pos_switch))));
+    g_settings_set_value(conf, "linenumbers", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(num_switch))));
+    g_settings_set_value(conf, "linehighlight", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(high_switch))));
+    return FALSE;
+}
+
+gboolean update_source(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+    GSettings *win_data = g_settings_new("org.jetspace.desktop.editor");
+    gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(source), g_variant_get_boolean(g_settings_get_value(win_data, "linenumbers")));
+    gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(source), g_variant_get_boolean(g_settings_get_value(win_data, "linehighlight")));
     return FALSE;
 }

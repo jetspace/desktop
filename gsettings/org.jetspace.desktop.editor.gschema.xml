@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
   <schema id="org.jetspace.desktop.editor" path="/org/jetspace/desktop/editor/">
-
+      <key type="b" name="savepos">
+          <default>true</default>
+          <summary>Should the position of the window be saved?</summary>
+          <description>This is an optional function</description>
+      </key>
+      <key type="b" name="linenumbers">
+          <default>true</default>
+          <summary>Enable line numbers in editor</summary>
+          <description>This is an optional function</description>
+      </key>
+      <key type="b" name="linehighlight">
+          <default>true</default>
+          <summary>Enable highlighting of current line in editor</summary>
+          <description>This is an optional function</description>
+      </key>
       <key type="i" name="width">
           <default>500</default>
           <summary>Width of editor window</summary>
@@ -10,6 +24,16 @@
       <key type="i" name="height">
           <default>400</default>
           <summary>height of editor window</summary>
+          <description>IS SET AUTOMATICLY</description>
+      </key>
+      <key type="i" name="ypos">
+          <default>-1</default>
+          <summary>ypos of editor window</summary>
+          <description>IS SET AUTOMATICLY</description>
+      </key>
+      <key type="i" name="xpos">
+          <default>-1</default>
+          <summary>xpos of editor window</summary>
           <description>IS SET AUTOMATICLY</description>
       </key>
   </schema>

@@ -25,6 +25,11 @@ int main(int argc, char **argv)
     GSettings *win_data = g_settings_new("org.jetspace.desktop.editor");
     win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_resize(GTK_WINDOW(win), g_variant_get_int32(g_settings_get_value(win_data, "width")), g_variant_get_int32(g_settings_get_value(win_data, "height")));
+    int x, y;
+    x = g_variant_get_int32(g_settings_get_value(win_data, "xpos"));
+    y = g_variant_get_int32(g_settings_get_value(win_data, "ypos"));
+    if(x >= 0 && y >= 0 && g_variant_get_boolean(g_settings_get_value(win_data, "savepos")))
+        gtk_window_move(GTK_WINDOW(win), x, y);
     gtk_window_set_title(GTK_WINDOW(win), "SIDE Editor");
     gtk_container_set_border_width(GTK_CONTAINER(win), 10);
 
@@ -35,6 +40,8 @@ int main(int argc, char **argv)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
     source = gtk_source_view_new();
+    gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(source), g_variant_get_boolean(g_settings_get_value(win_data, "linenumbers")));
+    gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(source), g_variant_get_boolean(g_settings_get_value(win_data, "linehighlight")));
     gtk_container_add(GTK_CONTAINER(scroll), source);
     gtk_box_pack_end(GTK_BOX(box), scroll, TRUE, TRUE, 0);
 
@@ -56,6 +63,13 @@ int main(int argc, char **argv)
         GtkWidget *quit   = gtk_menu_item_new_with_label("Quit");
         gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), quit);
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), file);
+    //EDIT
+    GtkWidget *editmenu         = gtk_menu_new();
+    GtkWidget *edit             = gtk_menu_item_new_with_label("Edit");
+        gtk_menu_item_set_submenu(GTK_MENU_ITEM(edit), editmenu);
+        GtkWidget *settings     = gtk_menu_item_new_with_label("Settings");
+        gtk_menu_shell_append(GTK_MENU_SHELL(editmenu), settings);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menubar), edit);
     //ABOUT
     GtkWidget *aboutmenu   = gtk_menu_new();
     GtkWidget *about       = gtk_menu_item_new_with_label("About");
@@ -65,6 +79,8 @@ int main(int argc, char **argv)
         GtkWidget *help   = gtk_menu_item_new_with_label("Help");
         gtk_menu_shell_append(GTK_MENU_SHELL(aboutmenu), help);
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), about);
+
+
 
     gtk_box_pack_start(GTK_BOX(box), menubar, FALSE, FALSE, 0);
 
@@ -91,8 +107,10 @@ int main(int argc, char **argv)
     g_signal_connect(G_OBJECT(open), "activate", G_CALLBACK(open_file), NULL);
     g_signal_connect(G_OBJECT(save), "activate", G_CALLBACK(save_file), NULL);
     g_signal_connect(G_OBJECT(saveas), "activate", G_CALLBACK(save_file_as), NULL);
+    g_signal_connect(G_OBJECT(settings), "activate", G_CALLBACK(show_settings), NULL);
 
     g_signal_connect(G_OBJECT(win), "window-state-event", G_CALLBACK(save_win_data), NULL);
+    g_signal_connect(G_OBJECT(win_data), "changed", G_CALLBACK(update_source), NULL);
 
     g_signal_connect(G_OBJECT(gtk_text_view_get_buffer(GTK_TEXT_VIEW(source))), "changed", G_CALLBACK(update_modify), NULL);
 

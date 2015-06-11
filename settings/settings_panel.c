@@ -477,7 +477,7 @@ gboolean panel_settings(void)
     struct dirent *e;
     struct stat st;
 
-    //setup GTK2 themes
+    //setup panel themes
     while((e = readdir(dir)) != NULL)
     {
     stat(e->d_name, &st);
