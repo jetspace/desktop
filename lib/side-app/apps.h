@@ -7,6 +7,8 @@ For more details view file 'LICENSE'
 #ifndef _SIDE_APP_LIBRARY
 #define _SIDE_APP_LIBRARY
 
+#define _XOPEN_SOURCE 700
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
