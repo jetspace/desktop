@@ -19,4 +19,4 @@ For more informations visit the About tab.
 
 ## Version
 
-This Documentation is build for version 0.50 (unreleased).
+This Documentation is build for version 0.70 (unreleased).

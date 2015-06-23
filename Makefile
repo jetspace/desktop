@@ -16,6 +16,7 @@ install:
 	sudo cp desktop/side-settings-explorer.desktop /usr/share/applications/
 	sudo cp desktop/side-edit.desktop /usr/share/applications/
 	sudo cp desktop/side.desktop /usr/share/xsessions/
+	sudo cp desktop/side-view.desktop /usr/share/applications/
 	sudo mv side-wallpaper-service /bin/
 	sudo mv side-wallpaper-settings /bin/
 	sudo mv side-panel /bin/
@@ -28,6 +29,7 @@ install:
 	sudo mv side-notify-popup /bin/
 	sudo mv side-search /bin/
 	sudo mv side-edit /bin/
+	sudo mv side-view /bin/
 	sudo mv clock.so /usr/lib/jetspace/panel/plugins/
 	sudo mv volume.so /usr/lib/jetspace/panel/plugins/
 	sudo mv user.so /usr/lib/jetspace/panel/plugins/

@@ -464,14 +464,20 @@ gboolean panel_settings(void)
     GtkWidget *label_theme = gtk_label_new("Select your theme:");
     list3 = gtk_list_store_new(1, G_TYPE_STRING);
 
-    int id = -1;
+    int id = 0;
     int counter = -1;
 
     char *querry = strdup(g_variant_get_string(g_settings_get_value(icons, "custom-theme-path"), NULL));
-    strtok(querry, "/");
-    strtok(NULL, "/");
-    strtok(NULL, "/");
-    querry = strtok(NULL, "\n\0");
+    gboolean empty = FALSE;
+    if(querry == NULL || strlen(querry) < 1 || strncmp(querry, "/usr/share/themes/", 18) != 0);
+        empty = TRUE;
+    if(!empty)
+        {
+            strtok(querry, "/");
+            strtok(NULL, "/");
+            strtok(NULL, "/");
+            querry = strtok(NULL, "\n\0");
+        }
 
     DIR *dir = opendir("/usr/share/themes");
     struct dirent *e;
@@ -497,9 +503,12 @@ gboolean panel_settings(void)
                 gtk_list_store_append(GTK_LIST_STORE(list3), &iter);
                 gtk_list_store_set(GTK_LIST_STORE(list3), &iter, 0, theme, -1);
                 counter++;
-                if(strcmp(theme, querry) == 0)
+                if(!empty)
                     {
-                        id=counter; //select the current theme
+                        if(strcmp(theme, querry) == 0)
+                            {
+                                id=counter; //select the current theme
+                            }
                     }
               }
           }
