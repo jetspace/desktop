@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=SiDE View
+Comment=Basic Picture Viewer for SiDE
+Exec=side-view
+Categories=Utility;
+Icon=applications-graphics

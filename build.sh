@@ -35,6 +35,8 @@ make
 cd ../tools
 cd editor
 make
+cd ../view
+make
 cd ..
 cd ..
 

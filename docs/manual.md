@@ -74,7 +74,7 @@ and contain a valid theme (`side-panel`).
 
 To use a theme, enable the switch and select one from the list below.
 
-# Wallpaper
+## Wallpaper
 
 ### Layout
 
@@ -96,3 +96,27 @@ __Note:__ The Image is scaled, so it should fit more or less the resolution of y
 otherwise you will get bad results.
 
 Use clear to remove the current Wallpaper and use an empty window as background.
+
+## Editor
+
+### Layout
+
+![SiDE Editor](img/side-edit.png)
+
+This is how the editor looks like:
+
+You have a menu and the text editing part. Also, the title bar is displaying some infos:
+
+* Filename (or `untitled`)
+* Indicator if file was changed (`*`)
+
+The Text area highlights the current line and will also show line numbers.
+
+### Features
+
+* Indicate file changing
+* Line Highlighting
+* Line Numbers
+* show matching brackets
+* save window position + size
+* warning if work would be lost
