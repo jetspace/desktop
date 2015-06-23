@@ -134,8 +134,8 @@ gboolean show_mixer(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 
     int x, y;
     gtk_window_get_size(GTK_WINDOW(win), &x, &y);
-    gtk_window_set_decorated(GTK_WINDOW(win), FALSE);
-    gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen), gdk_screen_get_height(screen) - (y+25));
+    gtk_window_set_decorated(GTK_WINDOW(win), TRUE);
+    gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen), gdk_screen_get_height(screen) - (y+50));
 
 
 

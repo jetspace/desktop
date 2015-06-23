@@ -50,6 +50,8 @@ enum
   COLS_MOD
 };
 
+gboolean write_themes = FALSE;
+
 gboolean add_item(GtkWidget *w, GdkEvent *e, gpointer p)
 {
   gtk_list_store_append(list, &iter);
@@ -143,7 +145,8 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
     model = gtk_combo_box_get_model(GTK_COMBO_BOX(cb_theme));
     //gtk_combo_box_get_active_iter(GTK_COMBO_BOX(cb_theme), &iter3);
     gtk_tree_model_get_iter_from_string(model, &iter3, "0");
-    gtk_tree_model_get(model, &iter3, 0, &buff1, -1);
+    if(write_themes)
+      gtk_tree_model_get(model, &iter3, 0, &buff1, -1);
 
 
 
@@ -153,8 +156,8 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   g_settings_set_value(icons, "show-app-menu", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_visible))));
   g_settings_set_value(icons, "show-window-list", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_list))));
   g_settings_set_value(icons, "use-custom-theme", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_theme))));
-
-  g_settings_set_value(icons, "custom-theme-path", g_variant_new_string(g_strdup_printf("/usr/share/themes/%s",  buff1)));
+  if(write_themes)
+    g_settings_set_value(icons, "custom-theme-path", g_variant_new_string(g_strdup_printf("/usr/share/themes/%s",  buff1)));
 
   g_settings_sync();
   return FALSE;
@@ -479,27 +482,27 @@ gboolean panel_settings(void)
             querry = strtok(NULL, "\n\0");
         }
 
-    DIR *dir = opendir("/usr/share/themes");
+    DIR *dir = opendir("/usr/share/themes/");
     struct dirent *e;
-    struct stat st;
 
     //setup panel themes
     while((e = readdir(dir)) != NULL)
     {
-    stat(e->d_name, &st);
-    if(S_ISDIR(st.st_mode) && e->d_name[0] != '.')//Switch to subdir
+    if(e->d_name[0] != '.')//Switch to subdir
        {
          char *buffer = malloc(strlen("/usr/share/themes/ ") + strlen(e->d_name) +1);
          char *theme = strdup(e->d_name); //backup theme name if we have a match later
          snprintf(buffer, strlen("/usr/share/themes/ ") + strlen(e->d_name), "/usr/share/themes/%s", e->d_name);
          DIR *sub = opendir(buffer);
          free(buffer);
-         if(!sub)
+         if(sub == NULL)
              continue;
-         while((e = readdir(sub)) != NULL)
+         struct dirent *f;
+         while((f = readdir(sub)) != NULL)
           {
-            if(strncmp(e->d_name, "side-panel", 7) == 0) //contains a side-panel theme
+            if(strncmp(f->d_name, "side-panel", 7) == 0) //contains a side-panel theme
               {
+                write_themes = TRUE;
                 gtk_list_store_append(GTK_LIST_STORE(list3), &iter);
                 gtk_list_store_set(GTK_LIST_STORE(list3), &iter, 0, theme, -1);
                 counter++;

@@ -57,6 +57,8 @@ gboolean show_about(GtkWidget *w, GdkEvent *e, gpointer p)
     GtkWidget *dialog = gtk_about_dialog_new();
     gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(dialog), "SIDE Editor");
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(dialog), VERSION);
+    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(dialog), "http://jetspace.tk");
+    gtk_about_dialog_set_artists(GTK_ABOUT_DIALOG(dialog), ARTISTS);
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(dialog), COPYRIGHT);
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(dialog), EDITOR_DISCRIPTION);
     gtk_about_dialog_set_license_type(GTK_ABOUT_DIALOG(dialog), GTK_LICENSE_MIT_X11);
@@ -170,7 +172,7 @@ gboolean save_file(GtkWidget *w, GdkEvent *e, gpointer p)
     gtk_text_buffer_get_start_iter(buffer, &start);
     gtk_text_buffer_get_end_iter(buffer, &end);
 
-    if(filename == NULL)
+    if(filename == NULL || filename == untitled)
         {
             save_file_as(w,e,p);
             return FALSE;
