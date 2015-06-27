@@ -318,7 +318,8 @@ void running_apps(GtkWidget *box)
     else
         {
             running_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
-            gtk_container_add(GTK_CONTAINER(box), running_box);
+            gtk_box_pack_start(GTK_BOX(box), running_box, TRUE, TRUE, 0);
+
             top_box = box;
         }
 

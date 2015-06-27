@@ -3,7 +3,7 @@
   <schema id="org.jetspace.desktop.search" path="/org/jetspace/desktop/search/">
 
       <key type="b" name="show-completion">
-          <default>false</default>
+          <default>true</default>
           <summary>Do you want to get hints while typing</summary>
           <description>If you like it, turn it on</description>
       </key>

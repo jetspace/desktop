@@ -9,6 +9,7 @@ For more details view file 'LICENSE'
 #include <stdlib.h>
 #include <side/apps.h>
 #include "../shared/strdup.h"
+#include <ctype.h>
 
 
 GtkEntryCompletion *comp;
@@ -61,25 +62,46 @@ gboolean activated(GtkIconView *iconview, gpointer *data)
 static gboolean show_app(GtkTreeModel *apps, GtkTreeIter *iter, gpointer *data)
 {
 
-    char *name;
-    gtk_tree_model_get (apps, iter, COL_NAME, &name, -1);
+    char *name, *exec;
+    gtk_tree_model_get (apps, iter, COL_NAME, &name, COL_EXEC, &exec, -1);
     char *querry = strdup(gtk_entry_get_text(GTK_ENTRY(entry)));
 
-    if(strlen(name) < strlen(querry))
+
+    //Ignore Case Sensitive
+    for(int x = 0; x < strlen(querry); x++)
+      querry[x] = tolower(querry[x]);
+
+      for(int x = 0; x < strlen(name); x++)
+        name[x] = tolower(name[x]);
+
+    /*if(strlen(name) < strlen(querry))
     {
       free(querry);
+      free(name);
+      free(exec);
       return FALSE;
-    }
+    }*/
 
 
     if(strstr(name, querry) != 0)
       {
         free(querry);
+        free(name);
+        free(exec);
+        return TRUE;
+      }
+    else if(strstr(exec, querry) != 0)
+      {
+        free(querry);
+        free(name);
+        free(exec);
         return TRUE;
       }
     else
       {
         free(querry);
+        free(name);
+        free(exec);
         return FALSE;
       }
 
@@ -161,7 +183,7 @@ int main(int argc, char **argv)
 
   gtk_container_add(GTK_CONTAINER(scroll_win), icon_view);
   gtk_box_pack_end(GTK_BOX(box), scroll_win, TRUE, TRUE, 2);
-  gtk_box_pack_end(GTK_BOX(box), gtk_separator_new(GTK_ORIENTATION_HORIZONTAL), TRUE, TRUE, 0);
+  gtk_box_pack_end(GTK_BOX(box), gtk_separator_new(GTK_ORIENTATION_HORIZONTAL), FALSE, FALSE, 0);
 
   gtk_widget_show_all(win);
   gtk_main();
