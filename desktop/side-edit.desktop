@@ -6,3 +6,4 @@ Comment=Basic text editor for SiDE
 Exec=side-edit
 Categories=Utility;
 Icon=accessories-text-editor
+MimeType=text/plain;

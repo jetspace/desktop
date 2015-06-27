@@ -61,6 +61,8 @@ typedef struct
 {
   char *icon;
   char *exec;
+  char *name;
+  SubType sub;
   gboolean terminal;
   GtkWidget *item;
 }Apps;
@@ -345,6 +347,13 @@ void running_apps(GtkWidget *box)
     XCloseDisplay(d);
 }
 
+static int sort_apps(const void *p1, const void *p2)
+{
+  Apps *app1 = (Apps *) p1;
+  Apps *app2 = (Apps *) p2;
+  return strcmp(app1->name, app2->name);
+
+}
 
 void create_app_menu(GtkWidget *box)
 {
@@ -457,6 +466,7 @@ void create_app_menu(GtkWidget *box)
 
 
           apps[total_apps - 1].exec = malloc(ent.exec_length + 1);
+          apps[total_apps - 1].name = malloc(strlen(ent.app_name) + 1);
 
           if(apps[total_apps -1].exec == NULL)
           {
@@ -465,6 +475,7 @@ void create_app_menu(GtkWidget *box)
           }
 
           strncpy(apps[total_apps - 1].exec, ent.exec, ent.exec_length);
+          strncpy(apps[total_apps - 1].name, ent.app_name, strlen(ent.app_name));
           apps[total_apps - 1].exec[ent.exec_length] = '\0';
           apps[total_apps - 1].item = gtk_menu_item_new_with_label(ent.app_name);
           apps[total_apps - 1].terminal = ent.terminal;
@@ -475,55 +486,65 @@ void create_app_menu(GtkWidget *box)
                   continue;
               }
 
-          switch(ent.sub)
+          apps[total_apps -1].sub = ent.sub;
+
+          //Sort Array 'apps'
+
+          qsort(apps, total_apps, sizeof(Apps), sort_apps);
+
+
+          }while(ent.valid == TRUE );
+          for(int x = 0; x < total_apps; x++)
+          { //todo
+          switch(apps[x].sub)
           {
               case APP_TYPE_MULTIMEDIA:
-                gtk_menu_shell_append(GTK_MENU_SHELL(multimedia), apps[total_apps -1].item);
-                gtk_widget_show(apps[total_apps -1].item);
+                gtk_menu_shell_append(GTK_MENU_SHELL(multimedia), apps[x].item);
+                gtk_widget_show(apps[x].item);
               break;
               case APP_TYPE_DEVELOPMENT:
-                gtk_menu_shell_append(GTK_MENU_SHELL(development), apps[total_apps -1].item);
-                gtk_widget_show(apps[total_apps -1].item);
+                gtk_menu_shell_append(GTK_MENU_SHELL(development), apps[x].item);
+                gtk_widget_show(apps[x].item);
               break;
               case APP_TYPE_EDUCATION:
-                gtk_menu_shell_append(GTK_MENU_SHELL(education), apps[total_apps -1].item);
-                gtk_widget_show(apps[total_apps -1].item);
+                gtk_menu_shell_append(GTK_MENU_SHELL(education), apps[x].item);
+                gtk_widget_show(apps[x].item);
               break;
               case APP_TYPE_GAME:
-                gtk_menu_shell_append(GTK_MENU_SHELL(game), apps[total_apps -1].item);
-                gtk_widget_show(apps[total_apps -1].item);
+                gtk_menu_shell_append(GTK_MENU_SHELL(game), apps[x].item);
+                gtk_widget_show(apps[x].item);
               break;
               case APP_TYPE_GRAPHICS:
-                gtk_menu_shell_append(GTK_MENU_SHELL(graphics), apps[total_apps -1].item);
-                gtk_widget_show(apps[total_apps -1].item);
+                gtk_menu_shell_append(GTK_MENU_SHELL(graphics), apps[x].item);
+                gtk_widget_show(apps[x].item);
               break;
               case APP_TYPE_NETWORK:
-                gtk_menu_shell_append(GTK_MENU_SHELL(network), apps[total_apps -1].item);
-                gtk_widget_show(apps[total_apps -1].item);
+                gtk_menu_shell_append(GTK_MENU_SHELL(network), apps[x].item);
+                gtk_widget_show(apps[x].item);
               break;
               case APP_TYPE_OFFICE:
-                gtk_menu_shell_append(GTK_MENU_SHELL(office), apps[total_apps -1].item);
-                gtk_widget_show(apps[total_apps -1].item);
+                gtk_menu_shell_append(GTK_MENU_SHELL(office), apps[x].item);
+                gtk_widget_show(apps[x].item);
               break;
               case APP_TYPE_SCIENCE:
-                gtk_menu_shell_append(GTK_MENU_SHELL(science), apps[total_apps -1].item);
-                gtk_widget_show(apps[total_apps -1].item);
+                gtk_menu_shell_append(GTK_MENU_SHELL(science), apps[x].item);
+                gtk_widget_show(apps[x].item);
               break;
               case APP_TYPE_SETTINGS:
-                gtk_menu_shell_append(GTK_MENU_SHELL(settings), apps[total_apps -1].item);
-                gtk_widget_show(apps[total_apps -1].item);
+                gtk_menu_shell_append(GTK_MENU_SHELL(settings), apps[x].item);
+                gtk_widget_show(apps[x].item);
               break;
               case APP_TYPE_SYSTEM:
-                gtk_menu_shell_append(GTK_MENU_SHELL(sys), apps[total_apps -1].item);
-                gtk_widget_show(apps[total_apps -1].item);
+                gtk_menu_shell_append(GTK_MENU_SHELL(sys), apps[x].item);
+                gtk_widget_show(apps[x].item);
               break;
               case APP_TYPE_UTILITY:
-                gtk_menu_shell_append(GTK_MENU_SHELL(utility), apps[total_apps -1].item);
-                gtk_widget_show(apps[total_apps -1].item);
+                gtk_menu_shell_append(GTK_MENU_SHELL(utility), apps[x].item);
+                gtk_widget_show(apps[x].item);
               break;
               default:
-                gtk_menu_shell_append(GTK_MENU_SHELL(other), apps[total_apps -1].item);
-                gtk_widget_show(apps[total_apps -1].item);
+                gtk_menu_shell_append(GTK_MENU_SHELL(other), apps[x].item);
+                gtk_widget_show(apps[x].item);
               break;
 
 
@@ -531,10 +552,10 @@ void create_app_menu(GtkWidget *box)
 
 
 
-          g_signal_connect(G_OBJECT(apps[total_apps -1].item), "activate", G_CALLBACK(run_app), NULL);
+          g_signal_connect(G_OBJECT(apps[x].item), "activate", G_CALLBACK(run_app), NULL);
 
           side_log_debug("Adding compleate");
-      }while(ent.valid == TRUE );
+      }
 
 
 
