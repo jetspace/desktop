@@ -16,6 +16,7 @@ install:
 	sudo cp desktop/side-settings-explorer.desktop /usr/share/applications/
 	sudo cp desktop/side-edit.desktop /usr/share/applications/
 	sudo cp desktop/side.desktop /usr/share/xsessions/
+	sudo cp desktop/side.desktop /etc/X11/sessions/
 	sudo cp desktop/side-view.desktop /usr/share/applications/
 	sudo mv side-wallpaper-service /bin/
 	sudo mv side-wallpaper-settings /bin/

@@ -97,6 +97,7 @@ void append_text(GtkTextBuffer *buffer, char *text)
 
 gboolean new_file(GtkWidget *w, GdkEvent *e, gpointer data)
 {
+    //call the same command as this instance was called (argv[0])
     char *exec = g_strdup_printf("%s &", cmd);
     system(exec);
     free(exec);
@@ -123,6 +124,7 @@ void fetch_file(void)
 gboolean open_file(GtkWidget *w, GdkEvent *e, gpointer p)
 {
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(source));
+    GtkSourceBuffer *sbuffer = GTK_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(source)));
     if(!buffer_is_emptey(buffer) && modified)
         {
             GtkWidget *dialog = gtk_message_dialog_new (GTK_WINDOW(gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(w)))),
@@ -141,6 +143,7 @@ gboolean open_file(GtkWidget *w, GdkEvent *e, gpointer p)
     if(result == GTK_RESPONSE_ACCEPT)
         {
             GtkTextIter start, end;
+            gtk_source_buffer_begin_not_undoable_action(sbuffer);
             gtk_text_buffer_get_end_iter(buffer, &end);
             gtk_text_buffer_get_start_iter(buffer, &start);
             gtk_text_buffer_delete(buffer, &start, &end);
@@ -151,6 +154,7 @@ gboolean open_file(GtkWidget *w, GdkEvent *e, gpointer p)
             FILE *file = fopen(filename, "r");
             if(file == NULL)
                 {
+                    gtk_source_buffer_end_not_undoable_action(sbuffer);
                     g_warning("Accessing file failed! (%s)", filename);
                     return FALSE;
                 }
@@ -158,6 +162,7 @@ gboolean open_file(GtkWidget *w, GdkEvent *e, gpointer p)
             while(fgets(buff, 2000, file) != NULL)
                 append_text(buffer, buff);
             fclose(file);
+            gtk_source_buffer_end_not_undoable_action(sbuffer);
         }
     gtk_widget_destroy(dialog);
     modified = FALSE;
@@ -283,4 +288,18 @@ gboolean update_source(GtkWidget *w, GdkEvent *e, gpointer p)
     gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(source), g_variant_get_boolean(g_settings_get_value(win_data, "linenumbers")));
     gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(source), g_variant_get_boolean(g_settings_get_value(win_data, "linehighlight")));
     return FALSE;
+}
+
+gboolean do_undo(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  GtkSourceBuffer *sbuffer = GTK_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(source)));
+  if(gtk_source_buffer_can_undo(sbuffer))
+    gtk_source_buffer_undo(sbuffer);
+}
+
+gboolean do_redo(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  GtkSourceBuffer *sbuffer = GTK_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(source)));
+  if(gtk_source_buffer_can_redo(sbuffer))
+    gtk_source_buffer_redo(sbuffer);
 }

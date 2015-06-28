@@ -60,8 +60,12 @@ int main(int argc, char **argv)
     GtkAccelGroup *accel_group = gtk_accel_group_new();
     gtk_window_add_accel_group (GTK_WINDOW (win), accel_group);
 
+    //FILE
     gtk_widget_add_accelerator (open, "activate", accel_group, gdk_unicode_to_keyval('o'), GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
     gtk_widget_add_accelerator (quit, "activate", accel_group, gdk_unicode_to_keyval('q'), GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+
+    //ABOUT
+    gtk_widget_add_accelerator (help, "activate", accel_group, gdk_keyval_from_name("F1"), GDK_SHIFT_MASK, GTK_ACCEL_VISIBLE);
 
 
     //signals
