@@ -10,6 +10,7 @@ For more details view file 'LICENSE'
 #include <gtk/gtk.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 GtkWidget *dialog, *box, *panel, *label, *path, *icon, *button;
 
@@ -19,9 +20,10 @@ gboolean execute(GtkWidget *widget, GdkEvent *event, GtkWidget *data)
   const char *ptr = gtk_entry_get_text(GTK_ENTRY(path));
   char *dup = strdup(ptr);
   char cmd[strlen(ptr) + 5];
-  snprintf(cmd, strlen(ptr) +5,  "%s &", dup); //atach a & to run it interpendant!
+  snprintf(cmd, strlen(ptr) +5,  "%s &", dup); //atach a & to run it independant!
+  int status = system(cmd);
+  free(dup);
   gtk_widget_destroy(dialog);
-  system(cmd);
   return FALSE;
 }
 

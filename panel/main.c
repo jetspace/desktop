@@ -208,7 +208,7 @@ void add_new_element(GtkWidget *box, char *icon, char *exec, char *tooltip,  gin
   gtk_button_set_relief (GTK_BUTTON(elements[total_elements -1].button), GTK_RELIEF_NONE);
   g_signal_connect(G_OBJECT(elements[total_elements -1].button), "button_press_event", G_CALLBACK(clicked_item), NULL);
   gtk_widget_set_tooltip_text(elements[total_elements -1].button, tooltip);
-  gtk_container_add(GTK_CONTAINER(box), elements[total_elements -1].button);
+  gtk_box_pack_start(GTK_BOX(box), elements[total_elements -1].button, FALSE, FALSE, 0);
 
 }
 
@@ -230,12 +230,12 @@ gboolean clicked_item(GtkWidget *w, GdkEventButton *e, gpointer p)
 void setup_panel(GtkWidget *box, char *app_list)
 {
   GList *ch, *iter;
-
   ch = gtk_container_get_children(GTK_CONTAINER(box));
   for(iter = ch; iter != NULL; iter = g_list_next(iter))
     if(GTK_WIDGET(iter->data) != app_menu_button)
       gtk_widget_destroy(GTK_WIDGET(iter->data));
   g_list_free(ch);
+  total_apps = 0;
 
 
   //phrase app list
@@ -245,7 +245,7 @@ void setup_panel(GtkWidget *box, char *app_list)
   a = strdup(strtok(NULL, ";"));
   while(i != NULL && e != NULL)
     {
-      add_new_element(box, i, e, e ,atoi(a));
+      add_new_element(box, i, e, g_strdup_printf("Exec:\t%s\nIcon:\t%s", e, i) ,atoi(a));
       i = strtok(NULL, ":");
       e = strtok(NULL, ":");
       a = strtok(NULL, ";");
@@ -257,8 +257,6 @@ void setup_panel(GtkWidget *box, char *app_list)
 gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box)
 {
     char *apps = strdup(g_variant_get_string(g_settings_get_value(s, "apps"), NULL));
-    elements =  realloc(elements, 0);
-    total_elements = 0;
     setup_panel(box, apps);
     gtk_widget_show_all(box);
 
@@ -361,7 +359,7 @@ void create_app_menu(GtkWidget *box)
     GtkWidget *menu;
     app_menu_button = gtk_button_new_with_label("Applications");
     gtk_widget_set_name(app_menu_button, "SiDEPanelAppMenuButton");
-    gtk_container_add(GTK_CONTAINER(box), app_menu_button);
+    gtk_box_pack_start(GTK_BOX(box), app_menu_button, FALSE, FALSE, 0);
 
     menu = gtk_menu_new();
 
