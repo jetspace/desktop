@@ -143,11 +143,9 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 
     char buff[200];
     model = gtk_combo_box_get_model(GTK_COMBO_BOX(cb_theme));
-    //gtk_combo_box_get_active_iter(GTK_COMBO_BOX(cb_theme), &iter3);
-    gtk_tree_model_get_iter_from_string(model, &iter3, "0");
+    gtk_combo_box_get_active_iter(GTK_COMBO_BOX(cb_theme), &iter3);
     if(write_themes)
       gtk_tree_model_get(model, &iter3, 0, &buff1, -1);
-
 
 
   icons = g_settings_new("org.jetspace.desktop.panel");
@@ -472,7 +470,7 @@ gboolean panel_settings(void)
 
     char *querry = strdup(g_variant_get_string(g_settings_get_value(icons, "custom-theme-path"), NULL));
     gboolean empty = FALSE;
-    if(querry == NULL || strlen(querry) < 1 || strncmp(querry, "/usr/share/themes/", 18) != 0);
+    if(querry == NULL || strlen(querry) < 1 || strncmp(querry, "/usr/share/themes/", 18) != 0)
         empty = TRUE;
     if(!empty)
         {
@@ -481,7 +479,6 @@ gboolean panel_settings(void)
             strtok(NULL, "/");
             querry = strtok(NULL, "\n\0");
         }
-
     DIR *dir = opendir("/usr/share/themes/");
     struct dirent *e;
 
