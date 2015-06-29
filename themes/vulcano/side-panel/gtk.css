@@ -1,0 +1,82 @@
+/*
+
+  Vulcano Theme
+  Copyright (C) 2015 Tom Messerschmidt
+  Licensed under the terms of the MIT/X11 license.
+
+ */
+
+#SiDEPanel, #SiDEPanelBox {
+    background-color: rgba(120, 40, 40, 0.75);
+}
+
+#SiDEPanel GtkLabel, GtkMenu GtkLabel {
+
+    color: #170001;
+
+}
+
+#SiDEPanelAppMenuButton {
+
+    -GtkWidget-focus-padding: 1;
+    -GtkWidget-focus-line-width: 0;
+    padding: 5px;
+    border: 0px;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    transition: all 0.2s ease-in-out;
+
+}
+
+#SiDEPanelAppMenuButton:hover {
+
+    background-color: shade(rgba(120, 40, 40, 0.75), 0.7);
+
+}
+
+
+#SiDEPanelHiddenApp {
+
+  -GtkWidget-focus-padding: 1;
+  -GtkWidget-focus-line-width: 0;
+  padding: 5px;
+  border: 0px;
+  box-shadow: none;
+  background-color: rgba(120, 40, 40, 0.75);
+  background-image: none;
+  transition: all 0.05s linear;
+}
+
+#SiDEPanelHiddenApp:hover {
+
+    background-color: shade(rgba(120, 40, 40, 0.75), 0.7);
+
+}
+
+GtkButton:hover {
+
+    background-color: shade(rgba(120, 40, 40, 0.75), 0.7);
+
+}
+
+GtkButton {
+
+    transition: all 0.2s ease-in-out;
+
+}
+
+GtkMenuItem, GtkButton img {
+
+    background-color: rgb(120, 40, 40);
+    border: none;
+    transition: all 0.1s ease-in-out;
+
+}
+
+.menu .menuitem:hover {
+
+    background-color: shade(rgba(120, 40, 40, 0.75), 0.7);
+    background-image: none;
+
+}

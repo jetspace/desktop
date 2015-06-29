@@ -1,0 +1,88 @@
+/*
+
+  Crazy Theme
+  Copyright (C) 2015 Tom Messerschmidt
+  Licensed under the terms of the MIT/X11 license.
+
+ */
+
+#SiDEPanel, #SiDEPanelBox {
+    background-color: yellow;
+}
+
+#SiDEPanel GtkLabel, GtkMenu GtkLabel {
+
+    color: red;
+
+}
+
+#SiDEPanelAppMenuButton {
+
+    -GtkWidget-focus-padding: 1;
+    -GtkWidget-focus-line-width: 0;
+    padding: 5px;
+    border: 0px;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    transition: all 0.2s ease-in-out;
+
+}
+
+#SiDEPanelAppMenuButton:hover {
+
+    background-color: shade(lightgreen, 0.7);
+
+}
+
+
+#SiDEPanelHiddenApp {
+
+  -GtkWidget-focus-padding: 1;
+  -GtkWidget-focus-line-width: 0;
+  padding: 5px;
+  border: 0px;
+  box-shadow: none;
+  background-color: lightgreen;
+  background-image: none;
+  transition: all 0.05s linear;
+}
+
+#SiDEPanelHiddenApp:hover {
+
+    background-color: shade(lightgreen, 0.7);
+
+}
+
+GtkButton:hover {
+
+    background-color: shade(lightgreen, 0.7);
+
+}
+
+GtkButton {
+
+    transition: all 0.2s ease-in-out;
+
+}
+
+GtkMenuItem, GtkButton img {
+
+    background-color: purple;
+    border: none;
+    transition: all 0.1s ease-in-out;
+
+}
+
+GtkMenuItem GtkLabel {
+
+  color: green;
+
+}
+
+.menu .menuitem:hover {
+
+    background-color: shade(lightgreen, 0.7);
+    background-image: none;
+
+}

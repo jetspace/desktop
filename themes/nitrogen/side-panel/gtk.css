@@ -1,0 +1,82 @@
+/*
+
+  Nitrogen Theme
+  Copyright (C) 2015 Tom Messerschmidt
+  Licensed under the terms of the MIT/X11 license.
+
+ */
+
+#SiDEPanel, #SiDEPanelBox {
+    background-color: rgba(44, 62, 80, 0.75);
+}
+
+#SiDEPanel GtkLabel, GtkMenu GtkLabel {
+
+    color: #ACD5FF;
+
+}
+
+#SiDEPanelAppMenuButton {
+
+    -GtkWidget-focus-padding: 1;
+    -GtkWidget-focus-line-width: 0;
+    padding: 5px;
+    border: 0px;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    transition: all 0.2s ease-in-out;
+
+}
+
+#SiDEPanelAppMenuButton:hover {
+
+    background-color: shade(rgba(44, 62, 80, 0.75), 0.5);
+
+}
+
+
+#SiDEPanelHiddenApp {
+
+  -GtkWidget-focus-padding: 1;
+  -GtkWidget-focus-line-width: 0;
+  padding: 5px;
+  border: 0px;
+  box-shadow: none;
+  background-color: shade(rgba(44, 62, 80, 0.75), 0.8);
+  background-image: none;
+  transition: all 0.05s linear;
+}
+
+#SiDEPanelHiddenApp:hover {
+
+    background-color: shade(rgba(44, 62, 80, 0.75), 0.3);
+
+}
+
+GtkButton:hover {
+
+    background-color: shade(rgba(44, 62, 80, 0.75), 0.5);
+
+}
+
+GtkButton {
+
+    transition: all 0.2s ease-in-out;
+
+}
+
+GtkMenuItem, GtkButton img {
+
+    background-color: rgb(44, 62, 80);
+    border: none;
+    transition: all 0.1s ease-in-out;
+
+}
+
+.menu .menuitem:hover {
+
+    background-color: shade(rgba(44, 62, 80, 0.75), 0.5);
+    background-image: none;
+
+}
