@@ -1,18 +1,18 @@
 /*
 
-  Nitrogen Theme
+  Crazy Theme
   Copyright (C) 2015 Tom Messerschmidt
   Licensed under the terms of the MIT/X11 license.
 
  */
 
 #SiDEPanel, #SiDEPanelBox {
-    background-color: rgba(44, 62, 80, 0.75);
+    background-color: yellow;
 }
 
 #SiDEPanel GtkLabel, GtkMenu GtkLabel {
 
-    color: #ACD5FF;
+    color: red;
 
 }
 
@@ -31,7 +31,7 @@
 
 #SiDEPanelAppMenuButton:hover {
 
-    background-color: shade(rgba(44, 62, 80, 0.75), 0.5);
+    background-color: shade(lightgreen, 0.7);
 
 }
 
@@ -43,20 +43,20 @@
   padding: 5px;
   border: 0px;
   box-shadow: none;
-  background-color: shade(rgba(44, 62, 80, 0.75), 0.8);
+  background-color: lightgreen;
   background-image: none;
   transition: all 0.05s linear;
 }
 
 #SiDEPanelHiddenApp:hover {
 
-    background-color: shade(rgba(44, 62, 80, 0.75), 0.3);
+    background-color: shade(lightgreen, 0.7);
 
 }
 
 GtkButton:hover {
 
-    background-color: shade(rgba(44, 62, 80, 0.75), 0.5);
+    background-color: shade(lightgreen, 0.7);
 
 }
 
@@ -68,15 +68,21 @@ GtkButton {
 
 GtkMenuItem, GtkButton img {
 
-    background-color: rgb(44, 62, 80);
+    background-color: purple;
     border: none;
     transition: all 0.1s ease-in-out;
 
 }
 
+GtkMenuItem GtkLabel {
+
+  color: green;
+
+}
+
 .menu .menuitem:hover {
 
-    background-color: shade(rgba(44, 62, 80, 0.75), 0.5);
+    background-color: shade(lightgreen, 0.7);
     background-image: none;
 
 }

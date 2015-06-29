@@ -1,18 +1,18 @@
 /*
 
-  Nitrogen Theme
+  Greywolf Theme
   Copyright (C) 2015 Tom Messerschmidt
   Licensed under the terms of the MIT/X11 license.
 
  */
 
 #SiDEPanel, #SiDEPanelBox {
-    background-color: rgba(44, 62, 80, 0.75);
+    background-color: rgba(60, 60, 60, 0.75);
 }
 
 #SiDEPanel GtkLabel, GtkMenu GtkLabel {
 
-    color: #ACD5FF;
+    color: #6CC6F0;
 
 }
 
@@ -31,7 +31,7 @@
 
 #SiDEPanelAppMenuButton:hover {
 
-    background-color: shade(rgba(44, 62, 80, 0.75), 0.5);
+    background-color: shade(rgba(48, 97, 127, 0.75), 0.5);
 
 }
 
@@ -43,20 +43,20 @@
   padding: 5px;
   border: 0px;
   box-shadow: none;
-  background-color: shade(rgba(44, 62, 80, 0.75), 0.8);
+  background-color: rgba(60, 60, 60, 0.75);
   background-image: none;
   transition: all 0.05s linear;
 }
 
 #SiDEPanelHiddenApp:hover {
 
-    background-color: shade(rgba(44, 62, 80, 0.75), 0.3);
+    background-color: shade(rgba(48, 97, 127, 0.75), 0.3);
 
 }
 
 GtkButton:hover {
 
-    background-color: shade(rgba(44, 62, 80, 0.75), 0.5);
+    background-color: shade(rgba(48, 97, 127, 0.75), 0.5);
 
 }
 
@@ -68,7 +68,7 @@ GtkButton {
 
 GtkMenuItem, GtkButton img {
 
-    background-color: rgb(44, 62, 80);
+    background-color: rgb(60, 60, 60);
     border: none;
     transition: all 0.1s ease-in-out;
 
@@ -76,7 +76,7 @@ GtkMenuItem, GtkButton img {
 
 .menu .menuitem:hover {
 
-    background-color: shade(rgba(44, 62, 80, 0.75), 0.5);
+    background-color: shade(rgba(48, 97, 127, 0.75), 0.5);
     background-image: none;
 
 }
