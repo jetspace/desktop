@@ -235,17 +235,21 @@ void setup_panel(GtkWidget *box, char *app_list)
   GList *ch, *iter;
   ch = gtk_container_get_children(GTK_CONTAINER(app_box));
   for(iter = ch; iter != NULL; iter = g_list_next(iter))
-    if(GTK_WIDGET(iter->data) != app_menu_button)
+  {
+    if(iter->data != app_menu_button)
     {
       for(int x = 0; x < total_elements; x++)
        {
-         if(GTK_WIDGET(iter->data) == elements[x].button)
+        if(iter->data == elements[x].button)
         {
-          gtk_container_remove(GTK_CONTAINER(app_box), iter->data);
-          gtk_widget_destroy(iter->data);
+          if(GTK_IS_WIDGET(iter->data))
+          {
+            gtk_widget_destroy(iter->data);
+          }
         }
        }
     }
+  }
   g_list_free(ch);
   total_elements = 0;
 
@@ -270,10 +274,10 @@ gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box)
 {
   if(strcmp(key, "apps") == 0)
   {
-    char *apps = strdup(g_variant_get_string(g_settings_get_value(s, "apps"), NULL));
-    setup_panel(box, apps);
+    char *app_str = strdup(g_variant_get_string(g_settings_get_value(s, "apps"), NULL));
+    setup_panel(box, app_str);
     gtk_widget_show_all(box);
-    free(apps);
+    free(app_str);
   }
   else if(strcmp(key, "ignored-plugins") == 0)
   {
@@ -412,10 +416,6 @@ void create_app_menu(GtkWidget *box)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), education_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(education_entry), education);
 
-    GtkWidget *game_entry = gtk_menu_item_new_with_label("Game");
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), game_entry);
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(game_entry), game);
-
     GtkWidget *graphics_entry = gtk_menu_item_new_with_label("Graphics");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), graphics_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(graphics_entry), graphics);
@@ -426,11 +426,6 @@ void create_app_menu(GtkWidget *box)
 
     GtkWidget *office_entry = gtk_menu_item_new_with_label("Office");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), office_entry);
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(office_entry), office);
-
-    GtkWidget *science_entry = gtk_menu_item_new_with_label("Science");
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), science_entry);
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(science_entry), science);
 
     GtkWidget *settings_entry = gtk_menu_item_new_with_label("Settings");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), settings_entry);
