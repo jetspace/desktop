@@ -194,6 +194,12 @@ void create_volume_button(void)
 //MODLOADER
 G_MODULE_EXPORT void plugin_call(GtkWidget *root)
 {
+  if(!check_version(COMPATIBLE_SINCE, 0, 1))
+  {
+    g_warning("Volume plugin is not compatible!");
+    return;
+  }
+
   g_print("------------------------------\n-> SIDE Volume loading...\n------------------------------\n"); //notify the user...
   box = side_plugin_get_root_box(root);
   create_volume_button();

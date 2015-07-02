@@ -5,6 +5,7 @@ For more details view file 'LICENSE'
 */
 
 #include "plugin.h"
+#include "../../shared/info.h"
 
 GtkWidget *side_plugin_get_root_box(GtkWidget *root)
 {
@@ -70,6 +71,30 @@ gboolean load_plugins_from_dir(char *path, gpointer data, gboolean resident)
         }
     }
 
+  return TRUE;
+}
+
+
+//Version checker
+gboolean check_version(int type, int major, int minor)
+{
+  float ver = atof(VERSION);
+  float VER = (float) major + ((float)minor/100);
+  g_debug("%.2f comparing with: %.2f", ver, VER);
+
+  switch (type)
+  {
+    case COMPATIBLE_SINCE:
+    return VER <= ver;
+    break;
+
+    case COMPATIBLE_UNTIL:
+    return VER >= ver;
+    break;
+
+    case ONLY_FOR_VERSION:
+    return VER == ver;
+  }
 
   return TRUE;
 }

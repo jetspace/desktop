@@ -256,6 +256,12 @@ void show_clock(void)
 //MODLOADER
 G_MODULE_EXPORT void plugin_call(GtkWidget *root)
 {
+  if(!check_version(COMPATIBLE_SINCE, 0, 1))
+  {
+    g_warning("Panel clock is not compatible!");
+    return;
+  }
+
   g_print("------------------------------\n-> SIDE Panel clock loading...\n------------------------------\n"); //notify the user...
   box = side_plugin_get_root_box(root);
   show_clock();

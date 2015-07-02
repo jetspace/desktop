@@ -10,6 +10,7 @@ For more details view file 'LICENSE'
 #include <gtk/gtk.h>
 #include <gmodule.h>
 #include <string.h>
+#include <stdlib.h>
 
   //PANEL
 
@@ -36,5 +37,15 @@ gboolean load_plugin(char *path, gpointer data, gboolean resident);
 //loads all plugins in  path/*
 gboolean load_plugins_from_dir(char *path, gpointer data, gboolean resident);
 
+//version checker
+
+enum {
+
+  COMPATIBLE_SINCE = 0, //check if version number is greater or equal
+  COMPATIBLE_UNTIL,     //check if version number is smaller or equal
+  ONLY_FOR_VERSION      //check if version number is equal
+};
+gboolean check_version(int type, int major, int minor);
+//type is used with one of the ENUM above, major and minor are the target version.
 
 #endif

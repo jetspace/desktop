@@ -4,8 +4,11 @@ build:
 clean:
 	rm plugin.o
 	rm side-plugin.so
+	tester
 install:
 	sudo mv side-plugin.so /usr/lib/libside-plugin.so
 	sudo mkdir /usr/include/side -p
 	sudo cp plugin.h /usr/include/side/
 	rm plugin.o
+test:
+	gcc -std=c99 -Wall test.c -o tester -lside-plugin `pkg-config --libs --cflags gtk+-3.0`
