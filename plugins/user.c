@@ -16,6 +16,9 @@ For more details view file 'LICENSE'
  #include <sys/types.h>
  #include <pwd.h>
 
+ gboolean user_plugin_can_be_activated = FALSE;
+ gboolean user_plugin_enabled = FALSE;
+
 
 GtkWidget *box, *user_button, *user_menu, *p_buff;
 
@@ -46,6 +49,9 @@ gboolean show_user_context(GtkWidget *w, GdkEventButton *e, gpointer p)
 
 gboolean redraw_user(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 {
+  if(!user_plugin_enabled)
+    return FALSE;
+
   g_debug("captured destuction of the User item -> re-create");
   show_user(); //draw it again!!
   return FALSE;
@@ -80,8 +86,29 @@ G_MODULE_EXPORT void plugin_call(GtkWidget *root)
     g_warning("User plugin is not compatible!");
     return;
   }
+
+  user_plugin_can_be_activated = TRUE;
+
   g_print("------------------------------\n-> SIDE User Plugin loading...\n------------------------------\n"); //notify the user...
   p_buff = root;
   box = side_plugin_get_root_box(root);
+
+}
+
+G_MODULE_EXPORT void enable_plugin(GtkWidget *root)
+{
+  if(!user_plugin_can_be_activated || user_plugin_enabled)
+    return;
+
   show_user();
+  user_plugin_enabled = TRUE;
+}
+
+G_MODULE_EXPORT void disable_plugin(GtkWidget *root)
+{
+  if(!user_plugin_can_be_activated || !user_plugin_enabled)
+    return;
+
+  user_plugin_enabled = FALSE;
+  gtk_widget_destroy(user_button);
 }

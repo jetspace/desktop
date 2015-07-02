@@ -32,6 +32,8 @@ To workaround you can use: val = 100 - val
 #include <glib.h>
 #include <side/plugin.h>
 
+gboolean volume_button_can_be_activated = FALSE;
+gboolean volume_button_enabled = FALSE;
 
 GtkWidget *volume_button, *box, *s_mute;
 
@@ -175,6 +177,9 @@ gboolean show_mixer(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 
 gboolean redraw_volume_button(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 {
+  if(!volume_button_enabled)
+    return;
+
   g_debug("captured destuction of volume button -> re-create");
   create_volume_button(); //draw it again!!
   return FALSE;
@@ -200,7 +205,27 @@ G_MODULE_EXPORT void plugin_call(GtkWidget *root)
     return;
   }
 
+  volume_button_can_be_activated = TRUE;
+
   g_print("------------------------------\n-> SIDE Volume loading...\n------------------------------\n"); //notify the user...
   box = side_plugin_get_root_box(root);
+
+}
+
+G_MODULE_EXPORT void enable_plugin(GtkWidget *root)
+{
+  if(!volume_button_can_be_activated || volume_button_enabled)
+    return;
+
   create_volume_button();
+  volume_button_enabled = TRUE;
+}
+
+G_MODULE_EXPORT void disable_plugin(GtkWidget *root)
+{
+  if(!volume_button_can_be_activated || !volume_button_enabled)
+    return;
+
+  volume_button_enabled = FALSE;
+  gtk_widget_destroy(volume_button);
 }

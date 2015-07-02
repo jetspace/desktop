@@ -23,6 +23,8 @@ Planned function are:
 #define TIME_STYLE_12H_SEC  "%I:%M:%S %p"
 #define TIME_STYLE_12H      "%I:%M %p"
 
+gboolean clock_can_be_activated = FALSE;
+gboolean clock_enabled = FALSE;
 
 void show_clock(void);
 gboolean redraw(GtkWidget *widget, GdkEvent  *event, gpointer user_data);
@@ -33,6 +35,9 @@ GtkWidget *s_24, *s_sec, *s_utc;
 
 gboolean update_time(gpointer data)
 {
+  if(!clock_enabled)
+    return FALSE;
+
   GSettings *time_style;
   time_style = g_settings_new("org.jetspace.desktop.panel");
 
@@ -231,6 +236,10 @@ gboolean show_clock_context(GtkWidget *w, GdkEventButton *e, gpointer d)
 //will be called when clock is destroyed
 gboolean redraw(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 {
+  if(!clock_enabled)
+    return FALSE;
+
+
   g_debug("captured destuction of the clock -> re-create");
   show_clock(); //draw it again!!
   update_time(NULL); //don't show placeholder...
@@ -256,15 +265,32 @@ void show_clock(void)
 //MODLOADER
 G_MODULE_EXPORT void plugin_call(GtkWidget *root)
 {
-  if(!check_version(COMPATIBLE_SINCE, 0, 1))
+  if(!check_version(COMPATIBLE_SINCE, 0, 63))
   {
     g_warning("Panel clock is not compatible!");
     return;
   }
 
+  clock_can_be_activated = TRUE;
   g_print("------------------------------\n-> SIDE Panel clock loading...\n------------------------------\n"); //notify the user...
   box = side_plugin_get_root_box(root);
+}
+
+G_MODULE_EXPORT void enable_plugin(GtkWidget *root)
+{
+  if(!clock_can_be_activated || clock_enabled)
+    return;
+
   show_clock();
   g_timeout_add(1000, update_time, NULL);
+  clock_enabled = TRUE;
+}
 
+G_MODULE_EXPORT void disable_plugin(GtkWidget *root)
+{
+  if(!clock_can_be_activated || !clock_enabled)
+    return;
+
+  clock_enabled = FALSE;
+  gtk_widget_destroy(side_panel_clock_box);
 }

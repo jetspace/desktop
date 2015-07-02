@@ -16,6 +16,7 @@ GtkWidget *side_plugin_get_root_box(GtkWidget *root)
 gboolean load_plugin(char *path, gpointer data, gboolean resident)
 {
 
+  g_warning("Function outdated");
 
     //MODULE VARS
     GModule *module = NULL;

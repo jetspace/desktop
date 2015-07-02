@@ -10,12 +10,24 @@ For more details view file 'LICENSE'
 
 typedef void (*CallPlugin) (GtkWidget *root);
 
+struct plugins {
+  GModule *module;
+  CallPlugin call;
+  CallPlugin enable;
+  CallPlugin disable;
+  char *name;
+  gboolean is_working;
+};
+
+struct plugins *all_plugins;
+int n_plugins = 0;
+
+GtkWidget *root_box;
+
 void load_plugins(char *path, GtkWidget *root)
 {
-  //MODULE VARS
-  GModule *module = NULL;
-  CallPlugin call = NULL;
-  gchar module_path[2000];
+  root_box = root;
+  char module_path[2000];
 
   //SCAN VARS
   DIR *d;
@@ -57,30 +69,93 @@ void load_plugins(char *path, GtkWidget *root)
       if(strlen(de->d_name) < 4)
         continue; //skip files without .so
 
-      if(is_listed(mods, x, de->d_name) == TRUE)
-        continue; //skip ignored mods...
-
 
       g_print("-----\nModule path: %s\n-----\n", module_path);
 
-      module = g_module_open(module_path, G_MODULE_BIND_LAZY);
-      g_module_make_resident(module); //users are able to create callbacks, because the module would not be unloaded...
+      n_plugins++;
+      all_plugins = realloc(all_plugins, sizeof(struct plugins) * n_plugins);
 
-      if(module == NULL)
+
+      all_plugins[n_plugins -1].module = g_module_open(module_path, G_MODULE_BIND_LAZY);
+      g_module_make_resident(all_plugins[n_plugins -1].module); //users are able to create callbacks, because the module would not be unloaded...
+
+
+      if(all_plugins[n_plugins -1].module == NULL)
         {
-          g_warning("Loading Module failed: %s", g_module_error());
+          g_error("Loading Module failed: %s", g_module_error());
+          all_plugins[n_plugins -1].is_working = FALSE;
         }
 
-      if(g_module_symbol(module, "plugin_call", (gpointer *) &call) == FALSE)
+      all_plugins[n_plugins -1].name = malloc(strlen(de->d_name)+1);
+      strncpy(all_plugins[n_plugins -1].name, de->d_name, strlen(de->d_name)+1);
+
+      if(g_module_symbol(all_plugins[n_plugins -1].module, "plugin_call", (gpointer *) &all_plugins[n_plugins -1].call) == FALSE)
         {
           g_warning("Can't load symbol 'plugin_call': %s", g_module_error());
+          g_warning("Please note, that this is might caused by an outdated plugin!");
+          all_plugins[n_plugins -1].is_working = FALSE;
+          continue;
+        }
+      if(g_module_symbol(all_plugins[n_plugins -1].module, "enable_plugin", (gpointer *) &all_plugins[n_plugins -1].enable) == FALSE)
+        {
+          g_warning("Can't load symbol 'enable_plugin': %s", g_module_error());
+          g_warning("Please note, that this is might caused by an outdated plugin!");
+          all_plugins[n_plugins -1].is_working = FALSE;
+          continue;
+        }
+      if(g_module_symbol(all_plugins[n_plugins -1].module, "disable_plugin", (gpointer *) &all_plugins[n_plugins -1].disable) == FALSE)
+        {
+          g_warning("Can't load symbol 'disable_plugin': %s", g_module_error());
+          g_warning("Please note, that this is might caused by an outdated plugin!");
+          all_plugins[n_plugins -1].is_working = FALSE;
           continue;
         }
 
+      all_plugins[n_plugins -1].is_working = TRUE;
 
-      call(root);
+      //init func
+      all_plugins[n_plugins -1].call(root);
 
+
+      if(is_listed(mods, x, de->d_name) == TRUE)
+        continue; //skip ignored mods...
+
+      //if enabled, run
+        all_plugins[n_plugins -1].enable(root);
 
     }
+}
+
+void update_plugins(char *ignored_plugins)
+{
+  char **mods = malloc(sizeof(ignored_plugins));
+  char *mp = strtok(ignored_plugins, ";");
+
+  int x = 0;
+  while(mp != NULL)
+    {
+      mods[x] = strdup(mp);
+      x++;
+      mp = strtok(NULL, ";");
+    }
+
+
+
+  for(int y = 0; y < n_plugins; y++)
+  {
+    if(!all_plugins[y].is_working)
+      continue;
+
+    if(is_listed(mods, x, all_plugins[y].name) == TRUE)
+    {
+      all_plugins[y].disable(root_box);
+    }
+    else
+    {
+      all_plugins[y].enable(root_box);
+    }
+  }
+
+  free(mods);
 
 }
