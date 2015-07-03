@@ -222,7 +222,7 @@ gboolean save_win_data(GtkWidget *widget,GdkEvent *event, gpointer user_data)
     return FALSE;
 }
 
-GtkWidget *pos_switch, *num_switch, *high_switch;
+GtkWidget *pos_switch, *num_switch, *high_switch, *font_button;
 gboolean write_settings(GtkWidget *w, GdkEvent *e, gpointer p);
 gboolean show_settings(GtkWidget *w, GdkEvent *e, gpointer p)
 {
@@ -259,10 +259,17 @@ gboolean show_settings(GtkWidget *w, GdkEvent *e, gpointer p)
     gtk_container_add(GTK_CONTAINER(high_box), high_label);
     gtk_box_pack_end(GTK_BOX(high_box), high_switch, FALSE, TRUE, 0);
 
+    GtkWidget *font_label = gtk_label_new("Font:");
+    font_button = gtk_font_button_new_with_font(g_variant_get_string(g_settings_get_value(conf, "font"), FALSE));
+    GtkWidget *font_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_container_add(GTK_CONTAINER(font_box), font_label);
+    gtk_box_pack_end(GTK_BOX(font_box), font_button, FALSE, TRUE, 0);
+
 
     gtk_container_add(GTK_CONTAINER(appearance), pos_box);
     gtk_container_add(GTK_CONTAINER(appearance), num_box);
     gtk_container_add(GTK_CONTAINER(appearance), high_box);
+    gtk_container_add(GTK_CONTAINER(appearance), font_box);
 
     g_signal_connect(G_OBJECT(apply), "clicked", G_CALLBACK(write_settings), NULL);
 
@@ -279,6 +286,7 @@ gboolean write_settings(GtkWidget *w, GdkEvent *e, gpointer p)
     g_settings_set_value(conf, "savepos", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(pos_switch))));
     g_settings_set_value(conf, "linenumbers", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(num_switch))));
     g_settings_set_value(conf, "linehighlight", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(high_switch))));
+    g_settings_set_value(conf, "font", g_variant_new_string(gtk_font_chooser_get_font(GTK_FONT_CHOOSER(font_button))));
     return FALSE;
 }
 
@@ -287,6 +295,8 @@ gboolean update_source(GtkWidget *w, GdkEvent *e, gpointer p)
     GSettings *win_data = g_settings_new("org.jetspace.desktop.editor");
     gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(source), g_variant_get_boolean(g_settings_get_value(win_data, "linenumbers")));
     gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(source), g_variant_get_boolean(g_settings_get_value(win_data, "linehighlight")));
+    PangoFontDescription *font = pango_font_description_from_string(g_variant_get_string(g_settings_get_value(win_data, "font"), FALSE));
+    gtk_widget_override_font(GTK_WIDGET(source), font);
     return FALSE;
 }
 

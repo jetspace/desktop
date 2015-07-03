@@ -36,5 +36,10 @@
           <summary>xpos of editor window</summary>
           <description>IS SET AUTOMATICLY</description>
       </key>
+      <key type="s" name="font">
+          <default>"arial 12"</default>
+          <summary>Font which should be used in the editor</summary>
+          <description>we use arial as default, because we belive that this is installed on almost every system...</description>
+      </key>
   </schema>
 </schemalist>

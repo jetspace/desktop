@@ -42,6 +42,8 @@ int main(int argc, char **argv)
     source = gtk_source_view_new();
     gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(source), g_variant_get_boolean(g_settings_get_value(win_data, "linenumbers")));
     gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(source), g_variant_get_boolean(g_settings_get_value(win_data, "linehighlight")));
+    PangoFontDescription *font = pango_font_description_from_string(g_variant_get_string(g_settings_get_value(win_data, "font"), FALSE));
+    gtk_widget_override_font(GTK_WIDGET(source), font);
     gtk_container_add(GTK_CONTAINER(scroll), source);
     gtk_box_pack_end(GTK_BOX(box), scroll, TRUE, TRUE, 0);
 
