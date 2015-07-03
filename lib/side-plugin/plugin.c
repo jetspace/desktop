@@ -49,10 +49,10 @@ gboolean load_plugin(char *path, gpointer data, gboolean resident)
 
 gboolean load_plugins_from_dir(char *path, gpointer data, gboolean resident)
 {
+  g_warning("Function outdated");
   DIR *d;
   struct dirent *de;
   char module_path[2000];
-
   d = opendir(path);
   if(d == NULL)
     {
@@ -77,25 +77,24 @@ gboolean load_plugins_from_dir(char *path, gpointer data, gboolean resident)
 
 
 //Version checker
-gboolean check_version(int type, int major, int minor)
+gboolean check_version(int type, char *target)
 {
-  float ver = atof(VERSION);
-  float VER = (float) major + ((float)minor/100);
-  g_debug("%.2f comparing with: %.2f", ver, VER);
+  int result = strcmp(VERSION, target);
 
-  switch (type)
+  switch(type)
   {
     case COMPATIBLE_SINCE:
-    return VER <= ver;
+    return result == 1 || result == 0;
     break;
 
     case COMPATIBLE_UNTIL:
-    return VER >= ver;
+    return result == -1 || result == 0;
     break;
 
     case ONLY_FOR_VERSION:
-    return VER == ver;
-  }
+    return result == 0;
+    break;
 
-  return TRUE;
+  }
+  return FALSE;
 }

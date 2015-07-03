@@ -265,7 +265,7 @@ void show_clock(void)
 //MODLOADER
 G_MODULE_EXPORT void plugin_call(GtkWidget *root)
 {
-  if(!check_version(COMPATIBLE_SINCE, 0, 63))
+  if(!check_version(COMPATIBLE_SINCE, "0.64"))
   {
     g_warning("Panel clock is not compatible!");
     return;

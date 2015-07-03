@@ -199,7 +199,7 @@ void create_volume_button(void)
 //MODLOADER
 G_MODULE_EXPORT void plugin_call(GtkWidget *root)
 {
-  if(!check_version(COMPATIBLE_SINCE, 0, 1))
+  if(!check_version(COMPATIBLE_SINCE, "0.64"))
   {
     g_warning("Volume plugin is not compatible!");
     return;

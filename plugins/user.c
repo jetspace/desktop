@@ -81,7 +81,7 @@ void show_user(void)
 //MODLOADER
 G_MODULE_EXPORT void plugin_call(GtkWidget *root)
 {
-  if(!check_version(COMPATIBLE_SINCE, 0, 1))
+  if(!check_version(COMPATIBLE_SINCE, "0.64"))
   {
     g_warning("User plugin is not compatible!");
     return;

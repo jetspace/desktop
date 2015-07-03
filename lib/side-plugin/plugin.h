@@ -45,7 +45,7 @@ enum {
   COMPATIBLE_UNTIL,     //check if version number is smaller or equal
   ONLY_FOR_VERSION      //check if version number is equal
 };
-gboolean check_version(int type, int major, int minor);
-//type is used with one of the ENUM above, major and minor are the target version.
+gboolean check_version(int type, char *target);
+//type is used with one of the ENUM above, target is the version ("0.60", etc)
 
 #endif
