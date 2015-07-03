@@ -11,6 +11,8 @@ For more details view file 'LICENSE'
 #include "../shared/strdup.h"
 #include <ctype.h>
 
+#include <glib/gi18n.h>
+
 
 GtkEntryCompletion *comp;
 GtkListStore *apps;
@@ -116,20 +118,22 @@ gboolean querry_change(GtkWidget *b, GdkEvent *e, GtkTreeModelFilter *filter)
 int main(int argc, char **argv)
 {
 
+  textdomain("side");
+
   gtk_init(&argc, &argv);
 
   GSettings *conf = g_settings_new("org.jetspace.desktop.search");
 
   GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_resize(GTK_WINDOW(win), 500, 400);
-  gtk_window_set_title(GTK_WINDOW(win), "SIDE Search Tool");
+  gtk_window_set_title(GTK_WINDOW(win), _("SiDE Search Tool"));
   gtk_container_set_border_width(GTK_CONTAINER(win), 10);
   g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
 
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
 
   GtkWidget *notebook = gtk_notebook_new();
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box, gtk_label_new("Apps"));
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box, gtk_label_new(_("Apps")));
 
 
   gtk_container_add(GTK_CONTAINER(win), notebook);

@@ -1,0 +1,474 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SiDE\n"
+"POT-Creation-Date: 2015-07-03 23:58+0100\n"
+"PO-Revision-Date: 2015-07-03 23:58+0100\n"
+"Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail."
+"com>\n"
+"Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail."
+"com>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-SearchPath-0: /home/marius/desktop/tools/editor\n"
+"X-Poedit-SearchPath-1: /home/marius/desktop/tools/view\n"
+"X-Poedit-SearchPath-2: /home/marius/desktop/shared\n"
+"X-Poedit-SearchPath-3: /home/marius/desktop/panel\n"
+"X-Poedit-SearchPath-4: /home/marius/desktop/settings\n"
+"X-Poedit-SearchPath-5: /home/marius/desktop/search\n"
+
+#: /home/marius/desktop/panel/main.c:268
+#, c-format
+msgid ""
+"Path:\t%s\n"
+"Icon:\t%s"
+msgstr ""
+"Pfad:\t%s\n"
+"Icon:\t%s"
+
+#: /home/marius/desktop/panel/main.c:391
+msgid "Applications"
+msgstr "Anwendungen"
+
+#: /home/marius/desktop/panel/main.c:411
+msgid "Multimedia"
+msgstr "Multimedia"
+
+#: /home/marius/desktop/panel/main.c:415
+msgid "Development"
+msgstr "Entwicklung"
+
+#: /home/marius/desktop/panel/main.c:419
+msgid "Education"
+msgstr "Bildung"
+
+#: /home/marius/desktop/panel/main.c:423
+msgid "Graphics"
+msgstr "Grafiken"
+
+#: /home/marius/desktop/panel/main.c:427
+msgid "Network"
+msgstr "Netzwerk"
+
+#: /home/marius/desktop/panel/main.c:431
+msgid "Office"
+msgstr "Büro"
+
+#: /home/marius/desktop/panel/main.c:434
+#: /home/marius/desktop/tools/editor/editor.c:79
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: /home/marius/desktop/panel/main.c:438
+msgid "System"
+msgstr "System"
+
+#: /home/marius/desktop/panel/main.c:442
+msgid "Utility"
+msgstr "Zubehör"
+
+#: /home/marius/desktop/panel/main.c:447
+msgid "Other"
+msgstr "Sonstiges"
+
+#: /home/marius/desktop/panel/main.c:452
+msgid "Search..."
+msgstr "Suchen..."
+
+#: /home/marius/desktop/search/main.c:129
+msgid "SiDE Search Tool"
+msgstr "SiDE Suchwerkzeug"
+
+#: /home/marius/desktop/search/main.c:136
+#: /home/marius/desktop/settings/settings_panel.c:551
+msgid "Apps"
+msgstr "Anwendungen"
+
+#: /home/marius/desktop/settings/settings_explorer.c:66
+msgid "SiDE Settings"
+msgstr "SiDE Einstellungen"
+
+#: /home/marius/desktop/settings/settings_explorer.c:72
+msgid "Appearance:"
+msgstr "Erscheinungsbild:"
+
+#: /home/marius/desktop/settings/settings_explorer.c:73
+msgid "Informations:"
+msgstr "Informationen:"
+
+#: /home/marius/desktop/settings/settings_explorer.c:74
+msgid "System:"
+msgstr "System:"
+
+#: /home/marius/desktop/settings/settings_explorer.c:76
+msgid "Change Wallpaper"
+msgstr "Hintergrundbild ändern"
+
+#: /home/marius/desktop/settings/settings_explorer.c:79
+msgid "Configure Panel"
+msgstr "Panel konfigurieren"
+
+#: /home/marius/desktop/settings/settings_explorer.c:82
+msgid "Setup GTK"
+msgstr "GTK einrichten"
+
+#: /home/marius/desktop/settings/settings_explorer.c:85
+msgid "About SiDE"
+msgstr "Über SiDE"
+
+#: /home/marius/desktop/settings/settings_explorer.c:88
+msgid "Session Settings"
+msgstr "Sitzungseinstellungen"
+
+#: /home/marius/desktop/settings/settings_gtk.c:98
+msgid "Settings - GTK"
+msgstr "Einstellungen - GTK"
+
+#: /home/marius/desktop/settings/settings_gtk.c:105
+msgid "Select your GTK 2.0 theme:"
+msgstr "Wählen sie ihr GTK 2.0 Thema:"
+
+#: /home/marius/desktop/settings/settings_gtk.c:111
+msgid "Select your GTK 3.0 theme:"
+msgstr "Wählen sie ihr GTK 3.0 Thema:"
+
+#: /home/marius/desktop/settings/settings_gtk.c:155
+#: /home/marius/desktop/settings/settings_panel.c:265
+#: /home/marius/desktop/settings/settings_session.c:229
+#: /home/marius/desktop/settings/settings_wallpaper.c:104
+#: /home/marius/desktop/tools/editor/editor_callbacks.h:235
+msgid "Apply"
+msgstr "Übernehmen"
+
+#: /home/marius/desktop/settings/settings_panel.c:59
+msgid "#App Path"
+msgstr "#Anwendungs Pfad"
+
+#: /home/marius/desktop/settings/settings_panel.c:59
+msgid "#Icon"
+msgstr "#Symbol"
+
+#: /home/marius/desktop/settings/settings_panel.c:249
+msgid ""
+"On this page you can set up the Panel:\n"
+"\n"
+msgstr ""
+"Auf dieser Seite können sie ihr Panel einrichten:\n"
+"\n"
+
+#: /home/marius/desktop/settings/settings_panel.c:250
+msgid "Select the default Terminal Application:"
+msgstr "Wählen sie die Standard Terminal Anwendung:"
+
+#: /home/marius/desktop/settings/settings_panel.c:257
+msgid "Settings - Panel"
+msgstr "Einstellungen - Panel"
+
+#: /home/marius/desktop/settings/settings_panel.c:308
+msgid "Path"
+msgstr "Pfad"
+
+#: /home/marius/desktop/settings/settings_panel.c:315
+msgid "Icon"
+msgstr "Symbol"
+
+#: /home/marius/desktop/settings/settings_panel.c:321
+msgid "Enabled"
+msgstr "Aktiviert"
+
+#: /home/marius/desktop/settings/settings_panel.c:331
+msgid "Choose the Apps which are displayed in the Panel:"
+msgstr "Wählen sie die Anwendungen, die im Panel angezeigt werden sollen:"
+
+#: /home/marius/desktop/settings/settings_panel.c:343
+#: /home/marius/desktop/settings/settings_wallpaper.c:94
+msgid "Clear"
+msgstr "Alles Löschen"
+
+#: /home/marius/desktop/settings/settings_panel.c:348
+#: /home/marius/desktop/settings/settings_session.c:164
+msgid "Remove"
+msgstr "Entfernen"
+
+#: /home/marius/desktop/settings/settings_panel.c:354
+#: /home/marius/desktop/settings/settings_session.c:169
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: /home/marius/desktop/settings/settings_panel.c:414
+msgid "Plugin"
+msgstr "Plugin"
+
+#: /home/marius/desktop/settings/settings_panel.c:418
+msgid "Is Active"
+msgstr "Ist aktiviert"
+
+#: /home/marius/desktop/settings/settings_panel.c:427
+msgid "Here you can enable or disable plugins"
+msgstr "Hier können sie Plugins (de) aktivieren:"
+
+#: /home/marius/desktop/settings/settings_panel.c:429
+msgid ""
+"<b>NOTICE:</b> To install new plugins, you have to restart the panel, "
+"because plugins are loaded at startup."
+msgstr ""
+"<b>HINWEIS:</b> Um neue Plugins zu installieren müssen sie das Panel "
+"Neustarten, da die Plugins beim Start geladen werden."
+
+#: /home/marius/desktop/settings/settings_panel.c:441
+msgid "Enable built-in App menu:"
+msgstr "Aktiviere eingebautes Anwendungsmenü:"
+
+#: /home/marius/desktop/settings/settings_panel.c:449
+msgid "Enable built-in Window list:"
+msgstr "Aktiviere eingebaute Fensterliste:"
+
+#: /home/marius/desktop/settings/settings_panel.c:457
+msgid "Use custom themes?"
+msgstr "Benutzerdefiniertes Thema verwenden?"
+
+#: /home/marius/desktop/settings/settings_panel.c:466
+msgid "Select your theme:"
+msgstr "Wählen sie ihr Thema:"
+
+#: /home/marius/desktop/settings/settings_panel.c:552
+msgid "Plugins"
+msgstr "Plugins"
+
+#: /home/marius/desktop/settings/settings_panel.c:553
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: /home/marius/desktop/settings/settings_session.c:111
+msgid "Settings - Session"
+msgstr "Einstellungen - Sitzung"
+
+#: /home/marius/desktop/settings/settings_session.c:118
+msgid "Choose the autostart applications:"
+msgstr ""
+"Wählen sie Anwendungen, welche bei der Anmeldung gestartet werden sollen:"
+
+#: /home/marius/desktop/settings/settings_session.c:150
+msgid "App"
+msgstr "Anwendung"
+
+#: /home/marius/desktop/settings/settings_session.c:179
+msgid "Please choose the Window Manager (WM):"
+msgstr "Bitte wählen sie die Fensterverwaltung (WM):"
+
+#: /home/marius/desktop/settings/settings_session.c:196
+msgid "The command used to shutdown the computer:"
+msgstr "Der Befehl zum herunterfahren des Computers:"
+
+#: /home/marius/desktop/settings/settings_session.c:213
+msgid "The command used to reboot the computer:"
+msgstr "Der Befehl zum neustarten des Computers:"
+
+#: /home/marius/desktop/settings/settings_wallpaper.c:29
+msgid "Open Wallpaper"
+msgstr "Hintergrundbild Öffnen"
+
+#: /home/marius/desktop/settings/settings_wallpaper.c:70
+msgid "Settings - Wallpaper"
+msgstr "Einstellungen - Hintergrundbild"
+
+#: /home/marius/desktop/settings/settings_wallpaper.c:76
+msgid "On This page you can setup your Wallpaper:"
+msgstr "Auf dieser Seite können sie ihr Hintergrundbild ändern:"
+
+#: /home/marius/desktop/settings/settings_wallpaper.c:98
+#: /home/marius/desktop/tools/editor/editor.c:62
+#: /home/marius/desktop/tools/view/view.c:32
+msgid "Open"
+msgstr "Öffnen"
+
+#: /home/marius/desktop/tools/editor/editor.c:58
+#: /home/marius/desktop/tools/view/view.c:30
+msgid "File"
+msgstr "Datei"
+
+#: /home/marius/desktop/tools/editor/editor.c:60
+msgid "New"
+msgstr "Neu"
+
+#: /home/marius/desktop/tools/editor/editor.c:64
+msgid "Save"
+msgstr "Speichern"
+
+#: /home/marius/desktop/tools/editor/editor.c:66
+msgid "Save As"
+msgstr "Speichern unter"
+
+#: /home/marius/desktop/tools/editor/editor.c:68
+#: /home/marius/desktop/tools/view/view.c:34
+msgid "Quit"
+msgstr "Beenden"
+
+#: /home/marius/desktop/tools/editor/editor.c:73
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: /home/marius/desktop/tools/editor/editor.c:75
+msgid "Undo"
+msgstr "Rückgängig"
+
+#: /home/marius/desktop/tools/editor/editor.c:77
+msgid "Redo"
+msgstr "Wiederholen"
+
+#: /home/marius/desktop/tools/editor/editor.c:84
+#: /home/marius/desktop/tools/editor/editor.c:86
+#: /home/marius/desktop/tools/view/view.c:39
+#: /home/marius/desktop/tools/view/view.c:41
+msgid "About"
+msgstr "Über"
+
+#: /home/marius/desktop/tools/editor/editor.c:88
+#: /home/marius/desktop/tools/view/view.c:43
+msgid "Help"
+msgstr "Hilfe"
+
+#: /home/marius/desktop/tools/view/view.c:19
+#: /home/marius/desktop/tools/view/view_callbacks.h:10
+msgid "SiDE Picture Viewer"
+msgstr "SiDE Bildbetrachter"
+
+#: /home/marius/desktop/tools/view/view.c:57
+#: /home/marius/desktop/tools/view/view_callbacks.h:42
+#, c-format
+msgid "SiDE Picture Viewer - %s"
+msgstr "SiDE Bildbetrachter - %s"
+
+#: /home/marius/desktop/shared/context.h:55
+#: /home/marius/desktop/shared/context.h:83
+msgid "Run..."
+msgstr "Ausführen..."
+
+#: /home/marius/desktop/shared/context.h:56
+msgid "Open Terminal..."
+msgstr "Terminal Öffnen..."
+
+#: /home/marius/desktop/shared/context.h:59
+#: /home/marius/desktop/shared/context.h:86
+msgid "log out..."
+msgstr "Abmelden..."
+
+#: /home/marius/desktop/shared/context.h:60
+msgid "Settings..."
+msgstr "Einstellungen..."
+
+#: /home/marius/desktop/shared/context.h:84
+msgid "Change Wallpaper..."
+msgstr "Hintergrundbild ändern..."
+
+#: /home/marius/desktop/shared/info.h:17
+msgid "Simple Text Editor for SiDE"
+msgstr "Einfacher Texteditor für SiDE"
+
+#: /home/marius/desktop/shared/info.h:19
+msgid "Simple Picture Viewer for SiDE"
+msgstr "Einfacher Bildbetrachter für SiDE"
+
+#: /home/marius/desktop/shared/logout.h:48
+msgid "Shutdown"
+msgstr "Herunterfahren"
+
+#: /home/marius/desktop/shared/logout.h:51
+msgid "Reboot"
+msgstr "Neustarten"
+
+#: /home/marius/desktop/shared/logout.h:54
+msgid "Logout"
+msgstr "Abmelden"
+
+#: /home/marius/desktop/shared/logout.h:64
+msgid "Please save all your data before you continue..."
+msgstr "Bitte speichern sie alle Daten bevor sie fortfahren..."
+
+#: /home/marius/desktop/shared/run.h:47
+#: /home/marius/desktop/shared/run.h:58
+msgid "Run"
+msgstr "Ausführen"
+
+#: /home/marius/desktop/shared/run.h:52
+msgid "Enter a Programm to run:"
+msgstr "Geben sie ein Programm zum ausführen ein:"
+
+#: /home/marius/desktop/tools/editor/editor_callbacks.h:36
+#: /home/marius/desktop/tools/editor/editor_callbacks.h:135
+msgid ""
+"Warning, if you continue, your unsaved work is gone! Would you like to "
+"continue?"
+msgstr ""
+"Achtung, wenn sie fortfahren geht ihre ungesicherte Arbeit verloren! "
+"Trotzdem fortfahren?"
+
+#: /home/marius/desktop/tools/editor/editor_callbacks.h:109
+#, c-format
+msgid ""
+"Opening %s\n"
+" (as arg)"
+msgstr ""
+"Öffne %s\n"
+" (aus Kommandozeile)"
+
+#: /home/marius/desktop/tools/editor/editor_callbacks.h:142
+#: /home/marius/desktop/tools/view/view_callbacks.h:32
+msgid "Open File"
+msgstr "Öffne Datei"
+
+#: /home/marius/desktop/tools/editor/editor_callbacks.h:153
+#: /home/marius/desktop/tools/view/view_callbacks.h:43
+#, c-format
+msgid "Opening %s\n"
+msgstr "Öffne %s\n"
+
+#: /home/marius/desktop/tools/editor/editor_callbacks.h:195
+msgid "Save File"
+msgstr "Speichere Datei"
+
+#: /home/marius/desktop/tools/editor/editor_callbacks.h:231
+msgid "SiDE Editor - Settings"
+msgstr "SiDE Editor - Einstellungen"
+
+#: /home/marius/desktop/tools/editor/editor_callbacks.h:238
+msgid "Appearance"
+msgstr "Erscheinungsbild"
+
+#: /home/marius/desktop/tools/editor/editor_callbacks.h:242
+msgid "Restore window position:"
+msgstr "Fensterposition wiederherstellen:"
+
+#: /home/marius/desktop/tools/editor/editor_callbacks.h:249
+msgid "Enable line numbers:"
+msgstr "Zeilennummern anzeigen:"
+
+#: /home/marius/desktop/tools/editor/editor_callbacks.h:256
+msgid "Highlight current line:"
+msgstr "Aktuelle Zeile hervorheben:"
+
+#: /home/marius/desktop/tools/editor/editor_callbacks.h:263
+msgid "Font:"
+msgstr "Schriftart: "
+
+#: /home/marius/desktop/tools/view/view_callbacks.h:35
+msgid "Supported Images"
+msgstr "Unterstützte Grafiken"
+
+#~ msgid "SIDE Search Tool"
+#~ msgstr "SiDE "
+
+#~ msgid "About SIDE"
+#~ msgstr "Über SiDE"
+
+#~ msgid "SIDE Picture Viewer"
+#~ msgstr "SiD"
+
+#~ msgid "SIDE Editor - Settings"
+#~ msgstr "Si"

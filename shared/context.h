@@ -52,12 +52,12 @@ void add_context_menu_pannel(GtkWidget *menu, GtkWidget *panel)
   //All Actions from context menu
   GtkWidget *run, *terminal, *sep , *sep2, *logout, *settings;
 
-  run = gtk_menu_item_new_with_label("Run...");
-  terminal = gtk_menu_item_new_with_label("Open Terminal...");
+  run = gtk_menu_item_new_with_label(_("Run..."));
+  terminal = gtk_menu_item_new_with_label(_("Open Terminal..."));
   sep = gtk_separator_menu_item_new();
   sep2 = gtk_separator_menu_item_new();
-  logout = gtk_menu_item_new_with_label("log out...");
-  settings = gtk_menu_item_new_with_label("Settings...");
+  logout = gtk_menu_item_new_with_label(_("log out..."));
+  settings = gtk_menu_item_new_with_label(_("Settings..."));
 
 
   g_signal_connect(G_OBJECT(run), "activate", G_CALLBACK(run_clicked), NULL);
@@ -80,10 +80,10 @@ void add_context_menu_desktop(GtkWidget *menu, GtkWidget *desktop)
 {
   GtkWidget *run, *change_wallpaper, *sep, *logout;
 
-  run = gtk_menu_item_new_with_label("Run...");
-  change_wallpaper = gtk_menu_item_new_with_label("Change Wallpaper...");
+  run = gtk_menu_item_new_with_label(_("Run..."));
+  change_wallpaper = gtk_menu_item_new_with_label(_("Change Wallpaper..."));
   sep = gtk_separator_menu_item_new();
-  logout = gtk_menu_item_new_with_label("log out...");
+  logout = gtk_menu_item_new_with_label(_("log out..."));
 
 
   g_signal_connect(G_OBJECT(run), "activate", G_CALLBACK(run_clicked), NULL);

@@ -5,7 +5,7 @@ For more details view file 'LICENSE'
 */
 #include <gtk/gtk.h>
 #include <gtksourceview/gtksource.h>
-
+#include <glib/gi18n.h>
 
 
 GtkWidget *win;
@@ -20,6 +20,9 @@ gboolean modified = FALSE;
 
 int main(int argc, char **argv)
 {
+
+    textdomain("side");
+
     cmd = argv[0];
     gtk_init(&argc, &argv);
     GSettings *win_data = g_settings_new("org.jetspace.desktop.editor");
@@ -52,37 +55,37 @@ int main(int argc, char **argv)
 
     //FILE
     GtkWidget *filemenu   = gtk_menu_new();
-    GtkWidget *file       = gtk_menu_item_new_with_label("File");
+    GtkWidget *file       = gtk_menu_item_new_with_label(_("File"));
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(file), filemenu);
-        GtkWidget *new   = gtk_menu_item_new_with_label("New");
+        GtkWidget *new   = gtk_menu_item_new_with_label(_("New"));
         gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), new);
-        GtkWidget *open   = gtk_menu_item_new_with_label("Open");
+        GtkWidget *open   = gtk_menu_item_new_with_label(_("Open"));
         gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), open);
-        GtkWidget *save   = gtk_menu_item_new_with_label("Save");
+        GtkWidget *save   = gtk_menu_item_new_with_label(_("Save"));
         gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), save);
-        GtkWidget *saveas = gtk_menu_item_new_with_label("Save As");
+        GtkWidget *saveas = gtk_menu_item_new_with_label(_("Save As"));
         gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), saveas);
-        GtkWidget *quit   = gtk_menu_item_new_with_label("Quit");
+        GtkWidget *quit   = gtk_menu_item_new_with_label(_("Quit"));
         gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), quit);
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), file);
     //EDIT
     GtkWidget *editmenu         = gtk_menu_new();
-    GtkWidget *edit             = gtk_menu_item_new_with_label("Edit");
+    GtkWidget *edit             = gtk_menu_item_new_with_label(_("Edit"));
         gtk_menu_item_set_submenu(GTK_MENU_ITEM(edit), editmenu);
-        GtkWidget *undo         = gtk_menu_item_new_with_label("Undo");
+        GtkWidget *undo         = gtk_menu_item_new_with_label(_("Undo"));
         gtk_menu_shell_append(GTK_MENU_SHELL(editmenu), undo);
-        GtkWidget *redo         = gtk_menu_item_new_with_label("Redo");
+        GtkWidget *redo         = gtk_menu_item_new_with_label(_("Redo"));
         gtk_menu_shell_append(GTK_MENU_SHELL(editmenu), redo);
-        GtkWidget *settings     = gtk_menu_item_new_with_label("Settings");
+        GtkWidget *settings     = gtk_menu_item_new_with_label(_("Settings"));
         gtk_menu_shell_append(GTK_MENU_SHELL(editmenu), settings);
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), edit);
     //ABOUT
     GtkWidget *aboutmenu   = gtk_menu_new();
-    GtkWidget *about       = gtk_menu_item_new_with_label("About");
+    GtkWidget *about       = gtk_menu_item_new_with_label(_("About"));
         gtk_menu_item_set_submenu(GTK_MENU_ITEM(about), aboutmenu);
-        GtkWidget *ab     = gtk_menu_item_new_with_label("About");
+        GtkWidget *ab     = gtk_menu_item_new_with_label(_("About"));
         gtk_menu_shell_append(GTK_MENU_SHELL(aboutmenu), ab);
-        GtkWidget *help   = gtk_menu_item_new_with_label("Help");
+        GtkWidget *help   = gtk_menu_item_new_with_label(_("Help"));
         gtk_menu_shell_append(GTK_MENU_SHELL(aboutmenu), help);
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), about);
 

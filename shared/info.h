@@ -7,16 +7,16 @@ For more details view file 'LICENSE'
 //SOME SHARED INFOS
 
 //DESKTOP
-#define VERSION "0.65"
+#define VERSION "0.66"
 #define COPYRIGHT "Copyright (c) 2015 Marius Messerschmidt"
 #define DISCRIPTION "Simple Desktop Enviroment"
 
 
 
 //EDITOR
-#define EDITOR_DISCRIPTION "Simple Text Editor for SiDE"
+#define EDITOR_DISCRIPTION _("Simple Text Editor for SiDE")
 //TASKMANAGER
-#define PICTURE_VIEWER_DISCRIPTION "Simple Picture Viewer for SiDE"
+#define PICTURE_VIEWER_DISCRIPTION _("Simple Picture Viewer for SiDE")
 
 
 //ADD YOUR NAME HERE:

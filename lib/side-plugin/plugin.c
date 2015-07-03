@@ -84,11 +84,11 @@ gboolean check_version(int type, char *target)
   switch(type)
   {
     case COMPATIBLE_SINCE:
-    return result == 1 || result == 0;
+    return result >= 0;
     break;
 
     case COMPATIBLE_UNTIL:
-    return result == -1 || result == 0;
+    return result <= 0;
     break;
 
     case ONLY_FOR_VERSION:

@@ -44,18 +44,18 @@ void run_dialog (gchar *app_call)
 
 
   dialog = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(dialog), "Run...");
+  gtk_window_set_title(GTK_WINDOW(dialog), _("Run"));
   gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
   gtk_window_set_icon_name(GTK_WINDOW(dialog), "system-run");
   gtk_container_set_border_width(GTK_CONTAINER(dialog), 15);
 
-  label = gtk_label_new("Enter a Programm to run:");
+  label = gtk_label_new(_("Enter a Programm to run:"));
 
   path = gtk_entry_new();
 
   icon = gtk_image_new_from_icon_name("system-run", GTK_ICON_SIZE_DIALOG);
 
-  button = gtk_button_new_with_label("Execute");
+  button = gtk_button_new_with_label(_("Run"));
   g_signal_connect (G_OBJECT(button), "button-press-event", G_CALLBACK(execute), NULL);
   g_signal_connect (G_OBJECT(path), "key-press-event", G_CALLBACK(path_key), NULL);
 

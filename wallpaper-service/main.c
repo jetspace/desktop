@@ -10,8 +10,10 @@ For more details view file 'LICENSE'
 
 #include <gtk/gtk.h>
 #include <string.h>
+#include <glib/gi18n.h>
 #include "../shared/run.h"
 #include "../shared/context.h"
+
 
 GtkWidget *window, *ev_box, *pic;
 
@@ -34,6 +36,8 @@ gboolean update_wallpaper(GSettings *s, gchar *key, GtkWidget *box)
 
 int main(int argc, char **argv)
 {
+
+  textdomain("side");
   gtk_init(&argc, &argv);
 
   GSettings *gnome_conf;

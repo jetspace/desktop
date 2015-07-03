@@ -13,6 +13,7 @@ For more details view file 'LICENSE'
 #include <dirent.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <glib/gi18n.h>
 
 GtkWidget *win, *box, *label, *label2, *cb, *cb2,  *apply;
 
@@ -87,24 +88,27 @@ gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer *p)
 
 int main(int argc, char **argv)
 {
+
+  textdomain("side");
+
   gtk_init(&argc, &argv);
 
   win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_resize(GTK_WINDOW(win), 400, 300);
-  gtk_window_set_title(GTK_WINDOW(win), "Settings - GTK");
+  gtk_window_set_title(GTK_WINDOW(win), _("Settings - GTK"));
   gtk_container_set_border_width(GTK_CONTAINER(win), 10);
   g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
 
 
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
 
-  label = gtk_label_new("Select your GTK 2.0 theme:");
+  label = gtk_label_new(_("Select your GTK 2.0 theme:"));
   gtk_container_add(GTK_CONTAINER(box), label);
 
   cb = gtk_combo_box_text_new();
   gtk_container_add(GTK_CONTAINER(box), cb);
 
-  label2 = gtk_label_new("Select your GTK 3.0 theme:");
+  label2 = gtk_label_new(_("Select your GTK 3.0 theme:"));
   gtk_container_add(GTK_CONTAINER(box), label2);
 
   cb2 = gtk_combo_box_text_new();
@@ -148,7 +152,7 @@ int main(int argc, char **argv)
     }
     closedir(d);
 
-  apply = gtk_button_new_with_label("Apply");
+  apply = gtk_button_new_with_label(_("Apply"));
   g_signal_connect(G_OBJECT(apply), "button_press_event", G_CALLBACK(write_gtk_settings), NULL);
   gtk_box_pack_end(GTK_BOX(box), apply, FALSE, FALSE, 5);
 

@@ -34,6 +34,7 @@ install:
 	sudo mv clock.so /usr/lib/jetspace/panel/plugins/
 	sudo mv volume.so /usr/lib/jetspace/panel/plugins/
 	sudo mv user.so /usr/lib/jetspace/panel/plugins/
+	sudo cp translations/de.mo /usr/share/locale/de/LC_MESSAGES/side.mo
 clean:
 	rm side-panel
 	rm side-wallpaper-service

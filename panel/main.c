@@ -14,6 +14,7 @@ For more details view file 'LICENSE'
 #include <side/apps.h>
 #include <side/log.h>
 
+#include <glib/gi18n.h>
 
 #include <errno.h>
 
@@ -79,6 +80,9 @@ GtkWidget *app_box;
 
 int main(int argc, char **argv)
 {
+
+  textdomain("side");
+
   gtk_init(&argc, &argv);
 
   GSettings *apps = g_settings_new("org.jetspace.desktop.panel");
@@ -261,7 +265,7 @@ void setup_panel(GtkWidget *box, char *app_list)
   a = strdup(strtok(NULL, ";"));
   while(i != NULL && e != NULL)
     {
-      add_new_element(box, i, e, g_strdup_printf("Exec:\t%s\nIcon:\t%s", e, i) ,atoi(a));
+      add_new_element(box, i, e, g_strdup_printf(_("Path:\t%s\nIcon:\t%s"), e, i) ,atoi(a));
       i = strtok(NULL, ":");
       e = strtok(NULL, ":");
       a = strtok(NULL, ";");
@@ -384,7 +388,7 @@ static int sort_apps(const void *p1, const void *p2)
 void create_app_menu(GtkWidget *box)
 {
     GtkWidget *menu;
-    app_menu_button = gtk_button_new_with_label("Applications");
+    app_menu_button = gtk_button_new_with_label(_("Applications"));
     gtk_widget_set_name(app_menu_button, "SiDEPanelAppMenuButton");
     gtk_box_pack_start(GTK_BOX(box), app_menu_button, FALSE, FALSE, 0);
 
@@ -404,48 +408,48 @@ void create_app_menu(GtkWidget *box)
     GtkWidget *other = gtk_menu_new();
 
 
-    GtkWidget *multimedia_entry = gtk_menu_item_new_with_label("Multimedia");
+    GtkWidget *multimedia_entry = gtk_menu_item_new_with_label(_("Multimedia"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), multimedia_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(multimedia_entry), multimedia);
 
-    GtkWidget *development_entry = gtk_menu_item_new_with_label("Development");
+    GtkWidget *development_entry = gtk_menu_item_new_with_label(_("Development"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), development_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(development_entry), development);
 
-    GtkWidget *education_entry = gtk_menu_item_new_with_label("Education");
+    GtkWidget *education_entry = gtk_menu_item_new_with_label(_("Education"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), education_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(education_entry), education);
 
-    GtkWidget *graphics_entry = gtk_menu_item_new_with_label("Graphics");
+    GtkWidget *graphics_entry = gtk_menu_item_new_with_label(_("Graphics"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), graphics_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(graphics_entry), graphics);
 
-    GtkWidget *network_entry = gtk_menu_item_new_with_label("Network");
+    GtkWidget *network_entry = gtk_menu_item_new_with_label(_("Network"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), network_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(network_entry), network);
 
-    GtkWidget *office_entry = gtk_menu_item_new_with_label("Office");
+    GtkWidget *office_entry = gtk_menu_item_new_with_label(_("Office"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), office_entry);
 
-    GtkWidget *settings_entry = gtk_menu_item_new_with_label("Settings");
+    GtkWidget *settings_entry = gtk_menu_item_new_with_label(_("Settings"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), settings_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(settings_entry), settings);
 
-    GtkWidget *sys_entry = gtk_menu_item_new_with_label("System");
+    GtkWidget *sys_entry = gtk_menu_item_new_with_label(_("System"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), sys_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(sys_entry), sys);
 
-    GtkWidget *utility_entry = gtk_menu_item_new_with_label("Utility");
+    GtkWidget *utility_entry = gtk_menu_item_new_with_label(_("Utility"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), utility_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(utility_entry), utility);
 
 
-    GtkWidget *other_entry = gtk_menu_item_new_with_label("Other");
+    GtkWidget *other_entry = gtk_menu_item_new_with_label(_("Other"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), other_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(other_entry), other);
 
 
-    search_entry = gtk_menu_item_new_with_label("Search...");
+    search_entry = gtk_menu_item_new_with_label(_("Search..."));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), search_entry);
     g_signal_connect(G_OBJECT(search_entry), "activate", G_CALLBACK(run_app), NULL);
 

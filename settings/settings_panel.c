@@ -13,6 +13,7 @@ For more details view file 'LICENSE'
 #include <dirent.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <glib/gi18n.h>
 
 //page basic layout
 GtkWidget *win_box;
@@ -55,7 +56,7 @@ gboolean write_themes = FALSE;
 gboolean add_item(GtkWidget *w, GdkEvent *e, gpointer p)
 {
   gtk_list_store_append(list, &iter);
-  gtk_list_store_set(list, &iter, COL_EXEC, "#App Path", COL_ICON, "#Icon", COL_ACTIVE, TRUE, -1);
+  gtk_list_store_set(list, &iter, COL_EXEC, _("#App Path"), COL_ICON, _("#Icon"), COL_ACTIVE, TRUE, -1);
   return FALSE;
 }
 
@@ -245,15 +246,15 @@ gboolean panel_settings(void)
 
 
 
-  label_sum = gtk_label_new("On this page you can set up the Panel:\n\n");
-  label_term= gtk_label_new("Select the default Terminal Application:");
+  label_sum = gtk_label_new(_("On this page you can set up the Panel:\n\n"));
+  label_term= gtk_label_new(_("Select the default Terminal Application:"));
 
   entry_path = gtk_entry_new();
   gtk_entry_set_text(GTK_ENTRY(entry_path), ptr);
 
   win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_resize(GTK_WINDOW(win), 800, 500);
-  gtk_window_set_title(GTK_WINDOW(win), "Settings - Panel");
+  gtk_window_set_title(GTK_WINDOW(win), _("Settings - Panel"));
   gtk_container_set_border_width(GTK_CONTAINER(win), 10);
   g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
 
@@ -261,7 +262,7 @@ gboolean panel_settings(void)
   //page 1
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
-    apply = gtk_button_new_with_label("Apply");
+    apply = gtk_button_new_with_label(_("Apply"));
 
     gtk_container_add(GTK_CONTAINER(box), label_sum);
     gtk_container_add(GTK_CONTAINER(box), label_term);
@@ -304,20 +305,20 @@ gboolean panel_settings(void)
 
     renderer = gtk_cell_renderer_text_new();
     g_object_set(renderer, "editable", TRUE, "editable-set", TRUE, NULL); //make it editable...
-    column = gtk_tree_view_column_new_with_attributes("Path", renderer, "text", COL_EXEC, NULL);
+    column = gtk_tree_view_column_new_with_attributes(_("Path"), renderer, "text", COL_EXEC, NULL);
     //signal
     g_signal_connect(G_OBJECT(renderer), "edited", G_CALLBACK(cell_edit_e), (gpointer) tree);
     gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
 
     renderer = gtk_cell_renderer_text_new();
     g_object_set(renderer, "editable", TRUE, "editable-set", TRUE, NULL); //make it editable...
-    column = gtk_tree_view_column_new_with_attributes("Icon", renderer, "text", COL_ICON, NULL);
+    column = gtk_tree_view_column_new_with_attributes(_("Icon"), renderer, "text", COL_ICON, NULL);
     //signal
     g_signal_connect(G_OBJECT(renderer), "edited", G_CALLBACK(cell_edit_i), (gpointer) tree);
     gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
 
     renderer = gtk_cell_renderer_toggle_new();
-    column = gtk_tree_view_column_new_with_attributes("Enabled", renderer, "active", COL_ACTIVE, NULL);
+    column = gtk_tree_view_column_new_with_attributes(_("Enabled"), renderer, "active", COL_ACTIVE, NULL);
     //signal
     g_signal_connect(G_OBJECT(renderer), "toggled", G_CALLBACK(check_box_toggle), (gpointer) tree);
 
@@ -327,7 +328,7 @@ gboolean panel_settings(void)
     gtk_tree_view_expand_all(GTK_TREE_VIEW(tree));
 
     //disc for the app editor
-    label_apps = gtk_label_new("Choose the Apps which are displayed in the Panel. You can disable, edit or add a new icon.");
+    label_apps = gtk_label_new(_("Choose the Apps which are displayed in the Panel:"));
     gtk_container_add(GTK_CONTAINER(box), label_apps);
 
     //put the scroll_win in the box
@@ -339,18 +340,18 @@ gboolean panel_settings(void)
     gtk_box_set_homogeneous(GTK_BOX(app_button_box), TRUE);
 
     //ADD a button to clear all apps
-    clear_app_button = gtk_button_new_with_label("Clear");
+    clear_app_button = gtk_button_new_with_label(_("Clear"));
     gtk_container_add(GTK_CONTAINER(app_button_box), clear_app_button);
     g_signal_connect(G_OBJECT(clear_app_button), "button_press_event", G_CALLBACK(clear_items), NULL);
 
     //ADD a button to remove a app
-    remove_app_button = gtk_button_new_with_label("Delete");
+    remove_app_button = gtk_button_new_with_label(_("Remove"));
     gtk_container_add(GTK_CONTAINER(app_button_box), remove_app_button);
     g_signal_connect(G_OBJECT(remove_app_button), "button_press_event", G_CALLBACK(remove_item), NULL);
 
 
     //ADD a button for a new app
-    add_app_button = gtk_button_new_with_label("Add");
+    add_app_button = gtk_button_new_with_label(_("Add"));
     gtk_container_add(GTK_CONTAINER(app_button_box), add_app_button);
     g_signal_connect(G_OBJECT(add_app_button), "button_press_event", G_CALLBACK(add_item), NULL);
 
@@ -410,11 +411,11 @@ gboolean panel_settings(void)
 
 
     renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes("Plugin", renderer, "text", COL_NAME, NULL);
+    column = gtk_tree_view_column_new_with_attributes(_("Plugin"), renderer, "text", COL_NAME, NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(modview), column);
 
     renderer = gtk_cell_renderer_toggle_new();
-    column = gtk_tree_view_column_new_with_attributes("Is Active", renderer, "active", COL_ENABLED, NULL);
+    column = gtk_tree_view_column_new_with_attributes(_("Is Active"), renderer, "active", COL_ENABLED, NULL);
     g_signal_connect(G_OBJECT(renderer), "toggled", G_CALLBACK(check_box_toggle_mods), (gpointer) modview);
     gtk_tree_view_append_column(GTK_TREE_VIEW(modview), column);
 
@@ -423,9 +424,9 @@ gboolean panel_settings(void)
 
     gtk_container_add(GTK_CONTAINER(scroll_win2), modview);
 
-    label_mod = gtk_label_new("Here you can enable or disable plugins");
+    label_mod = gtk_label_new(_("Here you can enable or disable plugins"));
     label_apply = gtk_label_new("");
-    gtk_label_set_markup(GTK_LABEL(label_apply), "<b>NOTICE:</b> To install new plugins, you have to restart the panel, because plugins are loaded at startup.");
+    gtk_label_set_markup(GTK_LABEL(label_apply), _("<b>NOTICE:</b> To install new plugins, you have to restart the panel, because plugins are loaded at startup."));
 
 
     gtk_container_add(GTK_CONTAINER(box2), label_mod);
@@ -437,7 +438,7 @@ gboolean panel_settings(void)
     box3 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
     //app menu
-    label_visible = gtk_label_new("Would you like to enable the built-in application menu?");
+    label_visible = gtk_label_new(_("Enable built-in App menu:"));
     s_visible = gtk_switch_new();
     visible_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
     gtk_container_add(GTK_CONTAINER(visible_box), label_visible);
@@ -445,7 +446,7 @@ gboolean panel_settings(void)
     gtk_switch_set_active(GTK_SWITCH(s_visible), g_variant_get_boolean(g_settings_get_value(icons, "show-app-menu")));
 
     //window list
-    GtkWidget *label_list = gtk_label_new("Would you like to enable the built-in Window List?");
+    GtkWidget *label_list = gtk_label_new(_("Enable built-in Window list:"));
     s_list = gtk_switch_new();
     GtkWidget *list_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
     gtk_container_add(GTK_CONTAINER(list_box), label_list);
@@ -453,7 +454,7 @@ gboolean panel_settings(void)
     gtk_switch_set_active(GTK_SWITCH(s_list), g_variant_get_boolean(g_settings_get_value(icons, "show-window-list")));
 
     //enable themes
-    GtkWidget *label_theme1 = gtk_label_new("Use custom themes?");
+    GtkWidget *label_theme1 = gtk_label_new(_("Use custom themes?"));
     s_theme = gtk_switch_new();
     GtkWidget *theme_box1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
     gtk_container_add(GTK_CONTAINER(theme_box1), label_theme1);
@@ -462,7 +463,7 @@ gboolean panel_settings(void)
 
     //Themes
 
-    GtkWidget *label_theme = gtk_label_new("Select your theme:");
+    GtkWidget *label_theme = gtk_label_new(_("Select your theme:"));
     list3 = gtk_list_store_new(1, G_TYPE_STRING);
 
     int id = 0;
@@ -547,9 +548,9 @@ gboolean panel_settings(void)
     gtk_container_add(GTK_CONTAINER(box3), theme_box1);
     gtk_container_add(GTK_CONTAINER(box3), theme_box);
 
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box, gtk_label_new("Apps"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box2, gtk_label_new("Plugins"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box3, gtk_label_new("Advanced"));
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box, gtk_label_new(_("Apps")));
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box2, gtk_label_new(_("Plugins")));
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box3, gtk_label_new(_("Advanced")));
 
   //create win_box
 
@@ -570,6 +571,9 @@ gboolean panel_settings(void)
 
 int main(int argc, char **argv)
 {
+
+  textdomain("side");
+
   gtk_init(&argc, &argv);
 
   panel_settings();

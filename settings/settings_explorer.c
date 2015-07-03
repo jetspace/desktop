@@ -6,6 +6,7 @@ For more details view file 'LICENSE'
 
 #include <gtk/gtk.h>
 #include <stdlib.h>
+#include <glib/gi18n.h>
 #include "../shared/info.h"
 
 gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer *p)
@@ -37,7 +38,7 @@ gboolean session_settings(GtkWidget *w, GdkEvent *e, gpointer p)
 gboolean about_d(GtkWidget *w, GdkEvent *e, gpointer p)
 {
   GtkWidget *dialog = gtk_about_dialog_new();
-  gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(dialog), "SIDE");
+  gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(dialog), "SiDE");
   gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(dialog), VERSION);
   gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(dialog), COPYRIGHT);
   gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(dialog), DISCRIPTION);
@@ -54,35 +55,37 @@ gboolean about_d(GtkWidget *w, GdkEvent *e, gpointer p)
 int main(int argc, char **argv)
 {
 
+  textdomain("side");
+
   gtk_init(&argc, &argv);
 
   GtkWidget *win, *wallpaper, *panel, *about, *box, *label_a, *label_i, *label_s ,*gtk, *session;
 
   win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_resize(GTK_WINDOW(win), 300, 200);
-  gtk_window_set_title(GTK_WINDOW(win), "SIDE Settings");
+  gtk_window_set_title(GTK_WINDOW(win), _("SiDE Settings"));
   gtk_container_set_border_width(GTK_CONTAINER(win), 10);
   g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
 
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
-  label_a = gtk_label_new("Appearance:");
-  label_i = gtk_label_new("Informations:");
-  label_s = gtk_label_new("System:");
+  label_a = gtk_label_new(_("Appearance:"));
+  label_i = gtk_label_new(_("Informations:"));
+  label_s = gtk_label_new(_("System:"));
 
-  wallpaper = gtk_button_new_with_label("Change Wallpaper");
+  wallpaper = gtk_button_new_with_label(_("Change Wallpaper"));
   g_signal_connect(G_OBJECT(wallpaper), "button_press_event", G_CALLBACK(wallpaper_settings), NULL);
 
-  panel = gtk_button_new_with_label("Configure Panel");
+  panel = gtk_button_new_with_label(_("Configure Panel"));
   g_signal_connect(G_OBJECT(panel), "button_press_event", G_CALLBACK(panel_settings), NULL);
 
-  gtk = gtk_button_new_with_label("Setup GTK");
+  gtk = gtk_button_new_with_label(_("Setup GTK"));
   g_signal_connect(G_OBJECT(gtk), "button_press_event", G_CALLBACK(gtk_settings), NULL);
 
-  about = gtk_button_new_with_label("About SIDE");
+  about = gtk_button_new_with_label(_("About SiDE"));
   g_signal_connect(G_OBJECT(about), "button_press_event", G_CALLBACK(about_d), NULL);
 
-  session = gtk_button_new_with_label("Session Settings");
+  session = gtk_button_new_with_label(_("Session Settings"));
   g_signal_connect(G_OBJECT(session), "button_press_event", G_CALLBACK(session_settings), NULL);
 
 

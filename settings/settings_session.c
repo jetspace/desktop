@@ -8,6 +8,7 @@ For more details view file 'LICENSE'
 #include <string.h>
 #include <stdlib.h>
 #include "../shared/strdup.h"
+#include <glib/gi18n.h>
 
 enum
 {
@@ -101,18 +102,20 @@ gboolean remove_item(GtkWidget *w, GdkEvent *e, gpointer p)
 
 int main(int argc, char **argv)
 {
+  textdomain("side");
+
   gtk_init(&argc, &argv);
 
   win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_resize(GTK_WINDOW(win), 800, 500);
-  gtk_window_set_title(GTK_WINDOW(win), "Settings - Session");
+  gtk_window_set_title(GTK_WINDOW(win), _("Settings - Session"));
   gtk_container_set_border_width(GTK_CONTAINER(win), 10);
   g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
 
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
   gtk_container_add(GTK_CONTAINER(win), box);
 
-  label = gtk_label_new("Choose the autostart applications:");
+  label = gtk_label_new(_("Choose the autostart applications:"));
   gtk_container_add(GTK_CONTAINER(box), label);
 
   scroll_win = gtk_scrolled_window_new(NULL, NULL);
@@ -144,7 +147,7 @@ int main(int argc, char **argv)
 
   renderer = gtk_cell_renderer_text_new();
   g_object_set(renderer, "editable", TRUE, "editable-set", TRUE, NULL); //make it editable...
-  column = gtk_tree_view_column_new_with_attributes("App", renderer, "text", COL_EXEC, NULL);
+  column = gtk_tree_view_column_new_with_attributes(_("App"), renderer, "text", COL_EXEC, NULL);
   g_signal_connect(G_OBJECT(renderer), "edited", G_CALLBACK(cell_edit_e), (gpointer) view);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
 
@@ -158,12 +161,12 @@ int main(int argc, char **argv)
   gtk_box_set_homogeneous(GTK_BOX(button_box), TRUE);
 
   //ADD a button to remove a app
-  del = gtk_button_new_with_label("Delete");
+  del = gtk_button_new_with_label(_("Remove"));
   gtk_container_add(GTK_CONTAINER(button_box), del);
   g_signal_connect(G_OBJECT(del), "button_press_event", G_CALLBACK(remove_item), NULL);
 
   //ADD a button for a new app
-  add = gtk_button_new_with_label("Add");
+  add = gtk_button_new_with_label(_("Add"));
   gtk_container_add(GTK_CONTAINER(button_box), add);
   g_signal_connect(G_OBJECT(add), "button_press_event", G_CALLBACK(add_item), NULL);
 
@@ -173,7 +176,7 @@ int main(int argc, char **argv)
 
   wm_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 
-    wm_label = gtk_label_new("Please choose the Window Manager (WM):");
+    wm_label = gtk_label_new(_("Please choose the Window Manager (WM):"));
     gtk_box_pack_start(GTK_BOX(wm_box), wm_label, FALSE, FALSE, 5);
 
     wm = gtk_entry_new();
@@ -190,7 +193,7 @@ int main(int argc, char **argv)
 
   s_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 
-    s_label = gtk_label_new("The command used to shutdown the computer:");
+    s_label = gtk_label_new(_("The command used to shutdown the computer:"));
     gtk_box_pack_start(GTK_BOX(s_box), s_label, FALSE, FALSE, 5);
 
     s = gtk_entry_new();
@@ -207,7 +210,7 @@ int main(int argc, char **argv)
 
   r_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 
-    r_label = gtk_label_new("The command used to reboot the computer:");
+    r_label = gtk_label_new(_("The command used to reboot the computer:"));
     gtk_box_pack_start(GTK_BOX(r_box), r_label, FALSE, FALSE, 5);
 
     r = gtk_entry_new();
@@ -223,7 +226,7 @@ int main(int argc, char **argv)
 
 
 
-  apply = gtk_button_new_with_label("Apply");
+  apply = gtk_button_new_with_label(_("Apply"));
 gtk_box_pack_end(GTK_BOX(box), apply, FALSE, FALSE, 5);
   g_signal_connect(G_OBJECT(apply), "button-press-event", G_CALLBACK(write_session_settings), NULL);
 

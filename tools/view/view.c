@@ -1,10 +1,14 @@
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 
 GtkWidget *win, *pic;
 char *filename;
 #include "view_callbacks.h"
 int main(int argc, char **argv)
 {
+
+    textdomain("side");
+
     gtk_init(&argc, &argv);
 
     if(argc > 1)
@@ -12,7 +16,7 @@ int main(int argc, char **argv)
 
     win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_resize(GTK_WINDOW(win), 500, 350);
-    gtk_window_set_title(GTK_WINDOW(win), "SIDE Picture Viewer");
+    gtk_window_set_title(GTK_WINDOW(win), _("SiDE Picture Viewer"));
     gtk_container_set_border_width(GTK_CONTAINER(win), 10);
 
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
@@ -23,20 +27,20 @@ int main(int argc, char **argv)
 
     //FILE
     GtkWidget *filemenu   = gtk_menu_new();
-    GtkWidget *file       = gtk_menu_item_new_with_label("File");
+    GtkWidget *file       = gtk_menu_item_new_with_label(_("File"));
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(file), filemenu);
-        GtkWidget *open   = gtk_menu_item_new_with_label("Open");
+        GtkWidget *open   = gtk_menu_item_new_with_label(_("Open"));
         gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), open);
-        GtkWidget *quit   = gtk_menu_item_new_with_label("Quit");
+        GtkWidget *quit   = gtk_menu_item_new_with_label(_("Quit"));
         gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), quit);
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), file);
     //ABOUT
     GtkWidget *aboutmenu   = gtk_menu_new();
-    GtkWidget *about       = gtk_menu_item_new_with_label("About");
+    GtkWidget *about       = gtk_menu_item_new_with_label(_("About"));
         gtk_menu_item_set_submenu(GTK_MENU_ITEM(about), aboutmenu);
-        GtkWidget *ab     = gtk_menu_item_new_with_label("About");
+        GtkWidget *ab     = gtk_menu_item_new_with_label(_("About"));
         gtk_menu_shell_append(GTK_MENU_SHELL(aboutmenu), ab);
-        GtkWidget *help   = gtk_menu_item_new_with_label("Help");
+        GtkWidget *help   = gtk_menu_item_new_with_label(_("Help"));
         gtk_menu_shell_append(GTK_MENU_SHELL(aboutmenu), help);
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), about);
 
@@ -50,7 +54,7 @@ int main(int argc, char **argv)
     if(argc > 1)
         {
             gtk_image_set_from_file(GTK_IMAGE(pic), filename);
-            gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf("SiDE Picture Viewer - %s", filename));
+            gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf(_("SiDE Picture Viewer - %s"), filename));
         }
 
     gtk_container_add(GTK_CONTAINER(scroll), pic);

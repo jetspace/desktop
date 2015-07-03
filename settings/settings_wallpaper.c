@@ -7,6 +7,7 @@ For more details view file 'LICENSE'
 #include <string.h>
 #include <stdlib.h>
 #include "../shared/strdup.h"
+#include <glib/gi18n.h>
 
 
 
@@ -25,7 +26,7 @@ gboolean clear_wallpaper(GtkWidget *w, GdkEvent *e, gpointer *p)
 
 gboolean open_wallpaper(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
-  GtkWidget *dialog = gtk_file_chooser_dialog_new("Open Wallpaper", GTK_WINDOW(win), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
+  GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open Wallpaper"), GTK_WINDOW(win), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
   GtkFileFilter *pics = gtk_file_filter_new();
   gtk_file_filter_add_pixbuf_formats(pics);
   gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), pics);
@@ -66,14 +67,13 @@ gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer *p)
 gboolean wallpaper_settings(void)
 {
     win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_resize(GTK_WINDOW(win), 800, 500);
-    gtk_window_set_title(GTK_WINDOW(win), "Settings - Wallpaper");
+    gtk_window_set_title(GTK_WINDOW(win), _("Settings - Wallpaper"));
     gtk_container_set_border_width(GTK_CONTAINER(win), 10);
     g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
 
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
-    label = gtk_label_new("On This page you can setup your Wallpaper:");
+    label = gtk_label_new(_("On This page you can setup your Wallpaper:"));
 
     //Get Current Wallpaper
     GSettings *gnome_conf;
@@ -91,24 +91,25 @@ gboolean wallpaper_settings(void)
     button_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
     gtk_box_set_homogeneous(GTK_BOX(button_box), TRUE);
 
-    clear  = gtk_button_new_with_label("Clear");
+    clear  = gtk_button_new_with_label(_("Clear"));
     gtk_container_add(GTK_CONTAINER(button_box), clear);
     g_signal_connect(G_OBJECT(clear), "button_press_event", G_CALLBACK(clear_wallpaper), NULL);
 
-    choose = gtk_button_new_with_label("Open...");
+    choose = gtk_button_new_with_label(_("Open"));
     gtk_container_add(GTK_CONTAINER(button_box), choose);
     g_signal_connect(G_OBJECT(choose), "button_press_event", G_CALLBACK(open_wallpaper), NULL);
 
     path = gtk_label_new(ptr);
 
-    apply = gtk_button_new_with_label("Apply");
+    apply = gtk_button_new_with_label(_("Apply"));
     g_signal_connect(G_OBJECT(apply), "button_press_event", G_CALLBACK(write_wallpaper_settings), NULL);
 
     gtk_container_add(GTK_CONTAINER(box), label);
     gtk_container_add(GTK_CONTAINER(box), image);
     gtk_container_add(GTK_CONTAINER(box), path);
-    gtk_container_add(GTK_CONTAINER(box), button_box);
-    gtk_container_add(GTK_CONTAINER(box), apply);
+    gtk_box_pack_end(GTK_BOX(box), apply, FALSE, TRUE, 0);
+    gtk_box_pack_end(GTK_BOX(box), button_box, FALSE, TRUE, 0);
+
 
     gtk_container_add(GTK_CONTAINER(win), box);
     gtk_widget_show_all(win);
@@ -118,6 +119,8 @@ gboolean wallpaper_settings(void)
 
 int main(int argc, char **argv)
 {
+  textdomain("side");
+
   gtk_init(&argc, &argv);
 
   wallpaper_settings();

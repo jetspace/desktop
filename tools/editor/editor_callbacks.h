@@ -9,6 +9,7 @@ For more details view file 'LICENSE'
 #include <stdlib.h>
 #include <ctype.h>
 #include "../../shared/info.h"
+
 void destroy(GtkWidget *w, GdkEvent *e, gpointer p)
 {
     gtk_main_quit();
@@ -32,7 +33,7 @@ gboolean data_protect(GtkWidget *w, GdkEvent *e, gpointer p)
                                  GTK_DIALOG_MODAL,
                                  GTK_MESSAGE_ERROR,
                                  GTK_BUTTONS_YES_NO,
-                                 "Warning, if you continue, your unsaved work is gone! Would you like to continue?");
+                                 _("Warning, if you continue, your unsaved work is gone! Would you like to continue?"));
             int x = gtk_dialog_run(GTK_DIALOG(dialog));
             gtk_widget_destroy(dialog);
 
@@ -105,7 +106,7 @@ gboolean new_file(GtkWidget *w, GdkEvent *e, gpointer data)
 
 void fetch_file(void)
 {
-    printf("Opening %s\n (as arg)", filename);
+    printf(_("Opening %s\n (as arg)"), filename);
     FILE *file = fopen(filename, "r");
     if(file == NULL)
         {
@@ -131,14 +132,14 @@ gboolean open_file(GtkWidget *w, GdkEvent *e, gpointer p)
                                  GTK_DIALOG_MODAL,
                                  GTK_MESSAGE_ERROR,
                                  GTK_BUTTONS_YES_NO,
-                                 "Warning, if you continue, your unsaved work is gone! Would you like to continue?");
+                                 _("Warning, if you continue, your unsaved work is gone! Would you like to continue?"));
             int x = gtk_dialog_run(GTK_DIALOG(dialog));
             gtk_widget_destroy(dialog);
 
             if(x != GTK_RESPONSE_YES)
                 return FALSE;
         }
-    GtkWidget *dialog = gtk_file_chooser_dialog_new("Open File", GTK_WINDOW(gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(w)))), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
+    GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open File"), GTK_WINDOW(gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(w)))), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
     int result = gtk_dialog_run(GTK_DIALOG(dialog));
     if(result == GTK_RESPONSE_ACCEPT)
         {
@@ -149,7 +150,7 @@ gboolean open_file(GtkWidget *w, GdkEvent *e, gpointer p)
             gtk_text_buffer_delete(buffer, &start, &end);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
             gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf("SiDE Editor - %s", filename));
-            printf("Opening %s\n", filename);
+            printf(_("Opening %s\n"), filename);
 
             FILE *file = fopen(filename, "r");
             if(file == NULL)
@@ -191,7 +192,7 @@ gboolean save_file(GtkWidget *w, GdkEvent *e, gpointer p)
 
 gboolean save_file_as(GtkWidget *w, GdkEvent *e, gpointer p)
 {
-    GtkWidget *dialog = gtk_file_chooser_dialog_new("Save File", GTK_WINDOW(gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(w)))), GTK_FILE_CHOOSER_ACTION_SAVE, "Cancel", GTK_RESPONSE_CANCEL, "Save", GTK_RESPONSE_ACCEPT, NULL);
+    GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Save File"), GTK_WINDOW(gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(w)))), GTK_FILE_CHOOSER_ACTION_SAVE, "Cancel", GTK_RESPONSE_CANCEL, "Save", GTK_RESPONSE_ACCEPT, NULL);
     int result = gtk_dialog_run(GTK_DIALOG(dialog));
     if(result == GTK_RESPONSE_ACCEPT)
         {
@@ -227,39 +228,39 @@ gboolean write_settings(GtkWidget *w, GdkEvent *e, gpointer p);
 gboolean show_settings(GtkWidget *w, GdkEvent *e, gpointer p)
 {
     GtkWidget *swin = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(swin), "SIDE Editor - Settings");
+    gtk_window_set_title(GTK_WINDOW(swin), _("SiDE Editor - Settings"));
     gtk_container_set_border_width(GTK_CONTAINER(swin), 10);
-    gtk_window_resize(GTK_WINDOW(swin), 300, 400);
+    gtk_window_resize(GTK_WINDOW(swin), 425, 400);
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    GtkWidget *apply = gtk_button_new_with_label("Apply");
+    GtkWidget *apply = gtk_button_new_with_label(_("Apply"));
     GtkWidget *notebook = gtk_notebook_new();
     GtkWidget *appearance = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), appearance, gtk_label_new("Appearance"));
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), appearance, gtk_label_new(_("Appearance")));
 
     GSettings *conf = g_settings_new("org.jetspace.desktop.editor");
 
-    GtkWidget *pos_label = gtk_label_new("Restore window position:");
+    GtkWidget *pos_label = gtk_label_new(_("Restore window position:"));
     pos_switch = gtk_switch_new();
     gtk_switch_set_active(GTK_SWITCH(pos_switch), g_variant_get_boolean(g_settings_get_value(conf, "savepos")));
     GtkWidget *pos_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_container_add(GTK_CONTAINER(pos_box), pos_label);
     gtk_box_pack_end(GTK_BOX(pos_box), pos_switch, FALSE, TRUE, 0);
 
-    GtkWidget *num_label = gtk_label_new("Enable line numbers:");
+    GtkWidget *num_label = gtk_label_new(_("Enable line numbers:"));
     num_switch = gtk_switch_new();
     gtk_switch_set_active(GTK_SWITCH(num_switch), g_variant_get_boolean(g_settings_get_value(conf, "linenumbers")));
     GtkWidget *num_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_container_add(GTK_CONTAINER(num_box), num_label);
     gtk_box_pack_end(GTK_BOX(num_box), num_switch, FALSE, TRUE, 0);
 
-    GtkWidget *high_label = gtk_label_new("Highlight current line:");
+    GtkWidget *high_label = gtk_label_new(_("Highlight current line:"));
     high_switch = gtk_switch_new();
     gtk_switch_set_active(GTK_SWITCH(high_switch), g_variant_get_boolean(g_settings_get_value(conf, "linehighlight")));
     GtkWidget *high_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_container_add(GTK_CONTAINER(high_box), high_label);
     gtk_box_pack_end(GTK_BOX(high_box), high_switch, FALSE, TRUE, 0);
 
-    GtkWidget *font_label = gtk_label_new("Font:");
+    GtkWidget *font_label = gtk_label_new(_("Font:"));
     font_button = gtk_font_button_new_with_font(g_variant_get_string(g_settings_get_value(conf, "font"), FALSE));
     GtkWidget *font_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_container_add(GTK_CONTAINER(font_box), font_label);

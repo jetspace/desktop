@@ -45,13 +45,13 @@ void logout(void)
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
   button_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 
-  shutdown = gtk_button_new_with_label("Shutdown");
+  shutdown = gtk_button_new_with_label(_("Shutdown"));
   g_signal_connect(G_OBJECT(shutdown), "button_press_event", G_CALLBACK(shutdown_f), NULL);
 
-  reboot = gtk_button_new_with_label("Reboot");
+  reboot = gtk_button_new_with_label(_("Reboot"));
   g_signal_connect(G_OBJECT(reboot), "button_press_event", G_CALLBACK(reboot_f), NULL);
 
-  logout = gtk_button_new_with_label("Logout");
+  logout = gtk_button_new_with_label(_("Logout"));
   g_signal_connect(G_OBJECT(logout), "button_press_event", G_CALLBACK(logout_f), NULL);
 
   gtk_box_pack_end(GTK_BOX(button_box), shutdown, FALSE, FALSE, 5);
@@ -61,7 +61,7 @@ void logout(void)
   icon = gtk_image_new_from_icon_name("application-exit", GTK_ICON_SIZE_DIALOG);
   gtk_box_pack_start(GTK_BOX(box), icon, FALSE, FALSE, 5);
 
-  label = gtk_label_new("Please save all your data before you continue...");
+  label = gtk_label_new(_("Please save all your data before you continue..."));
   gtk_box_pack_end(GTK_BOX(box), label, FALSE, FALSE, 5);
 
   gtk_box_pack_end(GTK_BOX(box), button_box, FALSE, FALSE, 5);
