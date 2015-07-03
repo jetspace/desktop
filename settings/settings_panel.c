@@ -423,9 +423,9 @@ gboolean panel_settings(void)
 
     gtk_container_add(GTK_CONTAINER(scroll_win2), modview);
 
-    label_mod = gtk_label_new("Here you can disable Plugins from beeing loaded");
+    label_mod = gtk_label_new("Here you can enable or disable plugins");
     label_apply = gtk_label_new("");
-    gtk_label_set_markup(GTK_LABEL(label_apply), "<b>NOTICE:</b> a restart of the Desktop is requierd to reload the Plugins!\nThis is because all plugins are loaded at startup and are fixed, so they can not be changed later...");
+    gtk_label_set_markup(GTK_LABEL(label_apply), "<b>NOTICE:</b> To install new plugins, you have to restart the panel, because plugins are loaded at startup.");
 
 
     gtk_container_add(GTK_CONTAINER(box2), label_mod);

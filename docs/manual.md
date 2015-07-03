@@ -43,10 +43,9 @@ Clear will delete _all_  favorite applications.
 
 ![Plugin Settings](img/side-panel-settings-2.png)
 
-In the list, you can select the plugins, which the Panel should load
-on startup. Plugins extend the function of the panel. The panel comes with
-a few pre-installed plugins like `clock.so` or `user.so`. `libplugin.so` should
-not be enabled, because it is a example for developers on how to create
+You can enable or disable some plugin. Plugins extend the function of the panel.
+The panel comes with a few pre-installed plugins like `clock.so` or `user.so`.
+`libplugin.so` should not be enabled, because it is a example for developers on how to create
 plugins.
 
 You can simply enable plugins via checking the __Is Active__ box.
@@ -55,8 +54,7 @@ If you want to add new plugins you have to put the .so file in:
 
 `/usr/lib/jetspace/panel/plugins/`.
 
-As you can see, to enable new plugins you have to restart your session (or the panel).
-The simplest way to do this is to logout and login again.
+If you want to add a new plugin you have to restart the panel, so it would be loaded.
 
 ### Advanced
 
