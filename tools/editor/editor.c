@@ -33,7 +33,7 @@ int main(int argc, char **argv)
     y = g_variant_get_int32(g_settings_get_value(win_data, "ypos"));
     if(x >= 0 && y >= 0 && g_variant_get_boolean(g_settings_get_value(win_data, "savepos")))
         gtk_window_move(GTK_WINDOW(win), x, y);
-    gtk_window_set_title(GTK_WINDOW(win), "SIDE Editor");
+    gtk_window_set_title(GTK_WINDOW(win), _("SiDE Editor"));
     gtk_container_set_border_width(GTK_CONTAINER(win), 10);
 
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);

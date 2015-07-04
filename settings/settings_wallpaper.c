@@ -26,7 +26,7 @@ gboolean clear_wallpaper(GtkWidget *w, GdkEvent *e, gpointer *p)
 
 gboolean open_wallpaper(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
-  GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open Wallpaper"), GTK_WINDOW(win), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
+  GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open Wallpaper"), GTK_WINDOW(win), GTK_FILE_CHOOSER_ACTION_OPEN, _("Cancel"), GTK_RESPONSE_CANCEL, _("Open"), GTK_RESPONSE_ACCEPT, NULL);
   GtkFileFilter *pics = gtk_file_filter_new();
   gtk_file_filter_add_pixbuf_formats(pics);
   gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), pics);

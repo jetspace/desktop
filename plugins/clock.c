@@ -17,6 +17,7 @@ Planned function are:
 #include <time.h>
 #include <gmodule.h>
 #include <side/plugin.h>
+#include <glib/gi18n.h>
 
 #define TIME_STYLE_24H_SEC  "%H:%M:%S"
 #define TIME_STYLE_24H      "%H:%M"
@@ -115,11 +116,11 @@ gboolean clock_settings(GtkWidget *w, GdkEventButton *e, gpointer d)
     gtk_container_set_border_width(GTK_CONTAINER(win), 10);
     GdkScreen *screen = gdk_screen_get_default();
     gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen) -460  , gdk_screen_get_height(screen) - 150);
-    gtk_window_set_title(GTK_WINDOW(win), "Panel Clock Settings");
+    gtk_window_set_title(GTK_WINDOW(win), _("Panel Clock Settings"));
 
     GtkWidget *box        = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
-    GtkWidget *label      = gtk_label_new("Set up the time format:");
+    GtkWidget *label      = gtk_label_new(_("Set up the time format:"));
     gtk_container_add(GTK_CONTAINER(box), label);
 
     GtkWidget *sep        = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
@@ -128,22 +129,22 @@ gboolean clock_settings(GtkWidget *w, GdkEventButton *e, gpointer d)
 
     GtkWidget *l_box1     = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 25);
 
-    GtkWidget *l2         = gtk_label_new("24h time format?");
+    GtkWidget *l2         = gtk_label_new(_("24h time format?"));
     gtk_container_add(GTK_CONTAINER(l_box1), l2);
 
     s_24                  = gtk_switch_new();
-    gtk_container_add(GTK_CONTAINER(l_box1), s_24);
+    gtk_box_pack_end(GTK_BOX(l_box1), s_24, FALSE, TRUE, 0);
 
 
     gtk_container_add(GTK_CONTAINER(box), l_box1);
 
     GtkWidget *l_box2     = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 38);
 
-    GtkWidget *l3         = gtk_label_new("Show Seconds?");
+    GtkWidget *l3         = gtk_label_new(_("Show Seconds?"));
     gtk_container_add(GTK_CONTAINER(l_box2), l3);
 
     s_sec      = gtk_switch_new();
-    gtk_container_add(GTK_CONTAINER(l_box2), s_sec);
+    gtk_box_pack_end(GTK_BOX(l_box2), s_sec, FALSE, TRUE, 0);
 
 
     gtk_container_add(GTK_CONTAINER(box), l_box2);
@@ -151,16 +152,16 @@ gboolean clock_settings(GtkWidget *w, GdkEventButton *e, gpointer d)
 
     GtkWidget *l_box3     = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 76);
 
-    GtkWidget *l4         = gtk_label_new("Use UTC?");
+    GtkWidget *l4         = gtk_label_new(_("Use UTC?"));
     gtk_container_add(GTK_CONTAINER(l_box3), l4);
 
     s_utc      = gtk_switch_new();
-    gtk_container_add(GTK_CONTAINER(l_box3), s_utc);
-
     gtk_container_add(GTK_CONTAINER(box), l_box3);
 
+    gtk_box_pack_end(GTK_BOX(l_box3), s_utc, FALSE, TRUE, 0);
+
     GtkWidget *apply      = gtk_button_new_with_label("Apply");
-    gtk_container_add(GTK_CONTAINER(box), apply);
+    gtk_box_pack_end(GTK_BOX(box), apply, FALSE, TRUE, 12);
 
     //Read GSETTINGS
     GSettings *time_style;
@@ -211,7 +212,7 @@ gboolean show_clock_context(GtkWidget *w, GdkEventButton *e, gpointer d)
     {
       g_debug("Popup Callender");
       GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-      gtk_window_set_title(GTK_WINDOW(win), "SIDE Panel Clock");
+      gtk_window_set_title(GTK_WINDOW(win), _("SIDE Panel Clock"));
       gtk_container_set_border_width(GTK_CONTAINER(win), 10);
       GdkScreen *screen = gdk_screen_get_default();
       gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen), gdk_screen_get_height(screen) - 265);
@@ -219,7 +220,7 @@ gboolean show_clock_context(GtkWidget *w, GdkEventButton *e, gpointer d)
       GtkWidget *cal = gtk_calendar_new();
       GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
-      GtkWidget *set = gtk_button_new_with_label("Clock Settings");
+      GtkWidget *set = gtk_button_new_with_label(_("Clock Settings"));
       g_signal_connect(G_OBJECT(set), "button-press-event", G_CALLBACK(clock_settings), NULL);
 
       gtk_container_add(GTK_CONTAINER(box), cal);

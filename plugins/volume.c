@@ -31,6 +31,7 @@ To workaround you can use: val = 100 - val
 #include <alsa/control.h>
 #include <glib.h>
 #include <side/plugin.h>
+#include <glib/gi18n.h>
 
 gboolean volume_button_can_be_activated = FALSE;
 gboolean volume_button_enabled = FALSE;
@@ -105,7 +106,7 @@ gboolean show_mixer(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 {
 
   GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(win), "SIDE Mixer");
+  gtk_window_set_title(GTK_WINDOW(win), _("SiDE Mixer"));
   gtk_container_set_border_width(GTK_CONTAINER(win), 10);
   gtk_window_resize(GTK_WINDOW(win), 150, 300);
   GdkScreen *screen = gdk_screen_get_default();
@@ -115,14 +116,14 @@ gboolean show_mixer(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
   g_timeout_add(100, check_focus, win);
 
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-  GtkWidget *dsc = gtk_label_new("master");
+  GtkWidget *dsc = gtk_label_new(_("Master"));
 
   GtkAdjustment *adj = gtk_adjustment_new(50, 0, 100, 5, 0, 0);
   g_signal_connect(G_OBJECT(adj), "value-changed", G_CALLBACK(set_volume), NULL);
   GtkWidget     *scl = gtk_scale_new(GTK_ORIENTATION_VERTICAL, adj);
   gtk_scale_set_draw_value(GTK_SCALE(scl), FALSE);
 
-  s_mute = gtk_toggle_button_new_with_label("mute");
+  s_mute = gtk_toggle_button_new_with_label(_("Mute"));
 
   g_signal_connect(G_OBJECT(s_mute), "toggled", G_CALLBACK(set_mute), (gpointer) adj);
 

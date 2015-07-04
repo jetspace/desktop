@@ -15,6 +15,7 @@ For more details view file 'LICENSE'
  #include <unistd.h>
  #include <sys/types.h>
  #include <pwd.h>
+ #include <glib/gi18n.h>
 
  gboolean user_plugin_can_be_activated = FALSE;
  gboolean user_plugin_enabled = FALSE;
@@ -30,7 +31,7 @@ gboolean user_logout(GtkWidget *w, GdkEventButton *e, gpointer p)
                         GTK_DIALOG_MODAL,
                         GTK_MESSAGE_WARNING,
                         GTK_BUTTONS_YES_NO,
-                        "Do you really want to logout?");
+                        _("Do you really want to logout?"));
 
   gint r = gtk_dialog_run(GTK_DIALOG(d));
 
@@ -70,7 +71,7 @@ void show_user(void)
 
   user_menu = gtk_menu_new();
 
-  GtkWidget *logout = gtk_menu_item_new_with_label("Logout");
+  GtkWidget *logout = gtk_menu_item_new_with_label(_("Logout"));
   gtk_menu_shell_append(GTK_MENU_SHELL(user_menu), logout);
   g_signal_connect(G_OBJECT(logout), "button-press-event", G_CALLBACK(user_logout), NULL);
 

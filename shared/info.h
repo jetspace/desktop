@@ -7,7 +7,7 @@ For more details view file 'LICENSE'
 //SOME SHARED INFOS
 
 //DESKTOP
-#define VERSION "0.66"
+#define VERSION "0.67"
 #define COPYRIGHT "Copyright (c) 2015 Marius Messerschmidt"
 #define DISCRIPTION "Simple Desktop Enviroment"
 
@@ -20,7 +20,7 @@ For more details view file 'LICENSE'
 
 
 //ADD YOUR NAME HERE:
-const char *ARTISTS[] = { "Tom Messerschmidt <tom.messerschmidt@googlemail.com>", NULL};
+const char *ARTISTS[] = {"Tom Messerschmidt <tom.messerschmidt@googlemail.com>", NULL};
 const char *AUTHORS[] = {"Marius Messerschmdit <marius.messerschmidt@googlemail.com>", "JetSpace <marius.messerschmidt@googlemail.com>", NULL};
 
 //SPACE FOR NOTES:

@@ -56,7 +56,7 @@ gboolean show_about(GtkWidget *w, GdkEvent *e, gpointer p)
     modified = FALSE;
 
     GtkWidget *dialog = gtk_about_dialog_new();
-    gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(dialog), "SIDE Editor");
+    gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(dialog), _("SiDE Editor"));
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(dialog), VERSION);
     gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(dialog), "http://jetspace.tk");
     gtk_about_dialog_set_artists(GTK_ABOUT_DIALOG(dialog), ARTISTS);
@@ -118,7 +118,7 @@ void fetch_file(void)
     while(fgets(buff, 2000, file) != NULL)
         append_text(buffer, buff);
     fclose(file);
-    gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf("SiDE Editor - %s", filename));
+    gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf(_("SiDE Editor - %s"), filename));
     modified = FALSE;
 }
 
@@ -139,7 +139,7 @@ gboolean open_file(GtkWidget *w, GdkEvent *e, gpointer p)
             if(x != GTK_RESPONSE_YES)
                 return FALSE;
         }
-    GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open File"), GTK_WINDOW(gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(w)))), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, NULL);
+    GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open File"), GTK_WINDOW(gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(w)))), GTK_FILE_CHOOSER_ACTION_OPEN, _("Cancel"), GTK_RESPONSE_CANCEL, _("Open"), GTK_RESPONSE_ACCEPT, NULL);
     int result = gtk_dialog_run(GTK_DIALOG(dialog));
     if(result == GTK_RESPONSE_ACCEPT)
         {
@@ -149,8 +149,8 @@ gboolean open_file(GtkWidget *w, GdkEvent *e, gpointer p)
             gtk_text_buffer_get_start_iter(buffer, &start);
             gtk_text_buffer_delete(buffer, &start, &end);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-            gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf("SiDE Editor - %s", filename));
-            printf(_("Opening %s\n"), filename);
+            gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf(_("SiDE Editor - %s"), filename));
+            g_print(_("Opening %s\n"), filename);
 
             FILE *file = fopen(filename, "r");
             if(file == NULL)
@@ -183,7 +183,7 @@ gboolean save_file(GtkWidget *w, GdkEvent *e, gpointer p)
             save_file_as(w,e,p);
             return FALSE;
         }
-    gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf("SiDE Editor - %s", filename));
+    gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf(_("SiDE Editor - %s"), filename));
     FILE *output = fopen(filename, "w");
     fprintf(output, "%s", gtk_text_buffer_get_text(buffer, &start, &end, TRUE));
     modified = FALSE;
@@ -192,7 +192,7 @@ gboolean save_file(GtkWidget *w, GdkEvent *e, gpointer p)
 
 gboolean save_file_as(GtkWidget *w, GdkEvent *e, gpointer p)
 {
-    GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Save File"), GTK_WINDOW(gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(w)))), GTK_FILE_CHOOSER_ACTION_SAVE, "Cancel", GTK_RESPONSE_CANCEL, "Save", GTK_RESPONSE_ACCEPT, NULL);
+    GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Save File"), GTK_WINDOW(gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(w)))), GTK_FILE_CHOOSER_ACTION_SAVE, _("Cancel"), GTK_RESPONSE_CANCEL, _("Save"), GTK_RESPONSE_ACCEPT, NULL);
     int result = gtk_dialog_run(GTK_DIALOG(dialog));
     if(result == GTK_RESPONSE_ACCEPT)
         {
@@ -206,7 +206,7 @@ gboolean save_file_as(GtkWidget *w, GdkEvent *e, gpointer p)
 void update_modify(GtkTextView *t, gchar *p,gpointer data)
 {
     modified = TRUE;
-    gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf("SiDE Editor - %s*", filename));
+    gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf(_("SiDE Editor - %s*"), filename));
 }
 GSettings *stats;
 gboolean save_win_data(GtkWidget *widget,GdkEvent *event, gpointer user_data)
@@ -222,6 +222,7 @@ gboolean save_win_data(GtkWidget *widget,GdkEvent *event, gpointer user_data)
     g_settings_set_value(stats, "ypos", g_variant_new_int32(ypos));
     return FALSE;
 }
+
 
 GtkWidget *pos_switch, *num_switch, *high_switch, *font_button;
 gboolean write_settings(GtkWidget *w, GdkEvent *e, gpointer p);
