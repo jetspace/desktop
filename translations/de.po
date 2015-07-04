@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-07-04 10:58+0100\n"
-"PO-Revision-Date: 2015-07-04 10:58+0100\n"
+"POT-Creation-Date: 2015-07-04 12:07+0100\n"
+"PO-Revision-Date: 2015-07-04 12:07+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail."
 "com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail."
@@ -136,7 +136,7 @@ msgid "SiDE Search Tool"
 msgstr "SiDE Suchwerkzeug"
 
 #: /home/marius/desktop/search/main.c:136
-#: /home/marius/desktop/settings/settings_panel.c:551
+#: /home/marius/desktop/settings/settings_panel.c:634
 msgid "Apps"
 msgstr "Anwendungen"
 
@@ -189,22 +189,32 @@ msgid "Select your GTK 3.0 theme:"
 msgstr "Wählen sie ihr GTK 3.0 Thema:"
 
 #: /home/marius/desktop/settings/settings_gtk.c:155
-#: /home/marius/desktop/settings/settings_panel.c:265
+#: /home/marius/desktop/settings/settings_panel.c:343
 #: /home/marius/desktop/settings/settings_session.c:229
 #: /home/marius/desktop/settings/settings_wallpaper.c:104
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:236
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: /home/marius/desktop/settings/settings_panel.c:59
+#: /home/marius/desktop/settings/settings_panel.c:89
+msgid "Add App"
+msgstr "Anwendung Hinzufügen"
+
+#: /home/marius/desktop/settings/settings_panel.c:101
+#: /home/marius/desktop/settings/settings_panel.c:432
+#: /home/marius/desktop/settings/settings_session.c:169
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: /home/marius/desktop/settings/settings_panel.c:114
 msgid "#App Path"
 msgstr "#Anwendungs Pfad"
 
-#: /home/marius/desktop/settings/settings_panel.c:59
+#: /home/marius/desktop/settings/settings_panel.c:114
 msgid "#Icon"
 msgstr "#Symbol"
 
-#: /home/marius/desktop/settings/settings_panel.c:249
+#: /home/marius/desktop/settings/settings_panel.c:327
 msgid ""
 "On this page you can set up the Panel:\n"
 "\n"
@@ -212,58 +222,57 @@ msgstr ""
 "Auf dieser Seite können sie ihr Panel einrichten:\n"
 "\n"
 
-#: /home/marius/desktop/settings/settings_panel.c:250
+#: /home/marius/desktop/settings/settings_panel.c:328
 msgid "Select the default Terminal Application:"
 msgstr "Wählen sie die Standard Terminal Anwendung:"
 
-#: /home/marius/desktop/settings/settings_panel.c:257
+#: /home/marius/desktop/settings/settings_panel.c:335
 msgid "Settings - Panel"
 msgstr "Einstellungen - Panel"
 
-#: /home/marius/desktop/settings/settings_panel.c:308
+#: /home/marius/desktop/settings/settings_panel.c:386
 msgid "Path"
 msgstr "Pfad"
 
-#: /home/marius/desktop/settings/settings_panel.c:315
+#: /home/marius/desktop/settings/settings_panel.c:393
 msgid "Icon"
 msgstr "Symbol"
 
-#: /home/marius/desktop/settings/settings_panel.c:321
+#: /home/marius/desktop/settings/settings_panel.c:399
 msgid "Enabled"
 msgstr "Aktiviert"
 
-#: /home/marius/desktop/settings/settings_panel.c:331
+#: /home/marius/desktop/settings/settings_panel.c:409
 msgid "Choose the Apps which are displayed in the Panel:"
 msgstr "Wählen sie die Anwendungen, die im Panel angezeigt werden sollen:"
 
-#: /home/marius/desktop/settings/settings_panel.c:343
+#: /home/marius/desktop/settings/settings_panel.c:421
 #: /home/marius/desktop/settings/settings_wallpaper.c:94
 msgid "Clear"
 msgstr "Alles Löschen"
 
-#: /home/marius/desktop/settings/settings_panel.c:348
+#: /home/marius/desktop/settings/settings_panel.c:426
 #: /home/marius/desktop/settings/settings_session.c:164
 msgid "Remove"
 msgstr "Entfernen"
 
-#: /home/marius/desktop/settings/settings_panel.c:354
-#: /home/marius/desktop/settings/settings_session.c:169
-msgid "Add"
-msgstr "Hinzufügen"
+#: /home/marius/desktop/settings/settings_panel.c:437
+msgid "Add custom"
+msgstr "Eigene Hinzufügen"
 
-#: /home/marius/desktop/settings/settings_panel.c:414
+#: /home/marius/desktop/settings/settings_panel.c:497
 msgid "Plugin"
 msgstr "Plugin"
 
-#: /home/marius/desktop/settings/settings_panel.c:418
+#: /home/marius/desktop/settings/settings_panel.c:501
 msgid "Is Active"
 msgstr "Ist aktiviert"
 
-#: /home/marius/desktop/settings/settings_panel.c:427
+#: /home/marius/desktop/settings/settings_panel.c:510
 msgid "Here you can enable or disable plugins"
 msgstr "Hier können sie Plugins (de) aktivieren:"
 
-#: /home/marius/desktop/settings/settings_panel.c:429
+#: /home/marius/desktop/settings/settings_panel.c:512
 msgid ""
 "<b>NOTICE:</b> To install new plugins, you have to restart the panel, "
 "because plugins are loaded at startup."
@@ -271,27 +280,27 @@ msgstr ""
 "<b>HINWEIS:</b> Um neue Plugins zu installieren müssen sie das Panel "
 "Neustarten, da die Plugins beim Start geladen werden."
 
-#: /home/marius/desktop/settings/settings_panel.c:441
+#: /home/marius/desktop/settings/settings_panel.c:524
 msgid "Enable built-in App menu:"
 msgstr "Aktiviere eingebautes Anwendungsmenü:"
 
-#: /home/marius/desktop/settings/settings_panel.c:449
+#: /home/marius/desktop/settings/settings_panel.c:532
 msgid "Enable built-in Window list:"
 msgstr "Aktiviere eingebaute Fensterliste:"
 
-#: /home/marius/desktop/settings/settings_panel.c:457
+#: /home/marius/desktop/settings/settings_panel.c:540
 msgid "Use custom themes?"
 msgstr "Benutzerdefiniertes Thema verwenden?"
 
-#: /home/marius/desktop/settings/settings_panel.c:466
+#: /home/marius/desktop/settings/settings_panel.c:549
 msgid "Select your theme:"
 msgstr "Wählen sie ihr Thema:"
 
-#: /home/marius/desktop/settings/settings_panel.c:552
+#: /home/marius/desktop/settings/settings_panel.c:635
 msgid "Plugins"
 msgstr "Plugins"
 
-#: /home/marius/desktop/settings/settings_panel.c:553
+#: /home/marius/desktop/settings/settings_panel.c:636
 msgid "Advanced"
 msgstr "Erweitert"
 

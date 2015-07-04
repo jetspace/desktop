@@ -12,6 +12,7 @@ For more details view file 'LICENSE'
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <side/apps.h>
 #include <errno.h>
 #include <glib/gi18n.h>
 
@@ -21,7 +22,7 @@ GtkWidget *win_box;
 //page 1
 GtkTreeIter iter;
 GtkListStore *list;
-GtkWidget *win, *box, *apply, *entry_path, *label_term, *label_sum, *tree, *scroll_win, *label_apps, *add_app_button, *remove_app_button, *clear_app_button, *app_button_box, *notebook;
+GtkWidget *win, *box, *apply, *entry_path, *label_term, *label_sum, *tree, *scroll_win, *label_apps, *add_app_button, *add_predef_button,*remove_app_button, *clear_app_button, *app_button_box, *notebook;
 
 //page 2
 
@@ -52,6 +53,60 @@ enum
 };
 
 gboolean write_themes = FALSE;
+
+/*
+  Will let the user choose an App from an predefined list...
+*/
+GtkTreeIter app_iter;
+GtkListStore *app_store;
+GtkWidget *app_list;
+GtkTreeModel *sorted_apps;
+
+GtkWidget *app_chooser;
+
+gboolean final_add_predef(GtkWidget *w, GdkEvent *ev, gpointer p)
+{
+  gtk_combo_box_get_active_iter(GTK_COMBO_BOX(app_list), &app_iter);
+  char *e, *i;
+  gtk_tree_model_get(sorted_apps, &app_iter, 1, &e, 2, &i, -1);
+
+
+  gtk_list_store_append(list, &iter);
+  gtk_list_store_set(list, &iter, COL_EXEC, g_strdup_printf("%s &", e), COL_ICON, i, COL_ACTIVE, TRUE, -1);
+
+  free(e);
+  free(i);
+
+  gtk_widget_destroy(app_chooser);
+
+  return FALSE;
+
+}
+
+gboolean add_predef(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  app_chooser = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(GTK_WINDOW(app_chooser), _("Add App"));
+  GtkWidget *chooser_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+
+  app_list = gtk_combo_box_new_with_model (GTK_TREE_MODEL(sorted_apps));
+
+  GtkCellRenderer *column_r = gtk_cell_renderer_text_new();
+  gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(app_list), column_r, TRUE);
+  gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(app_list), column_r,
+                                 "text", 0,
+                                 NULL);
+ gtk_combo_box_set_active(GTK_COMBO_BOX(app_list), 0);
+
+ GtkWidget *apply_button = gtk_button_new_with_label(_("Add"));
+ g_signal_connect(apply_button, "clicked", G_CALLBACK(final_add_predef),NULL);
+
+ gtk_container_add(GTK_CONTAINER(app_chooser), chooser_box);
+ gtk_container_add(GTK_CONTAINER(chooser_box), app_list);
+ gtk_box_pack_end(GTK_BOX(chooser_box), apply_button, FALSE, TRUE, 5);
+ gtk_widget_show_all(app_chooser);
+  return FALSE;
+}
 
 gboolean add_item(GtkWidget *w, GdkEvent *e, gpointer p)
 {
@@ -241,6 +296,29 @@ gboolean cell_edit_i(GtkCellRendererText *renderer, gchar *path, gchar *text, Gt
 
 gboolean panel_settings(void)
 {
+  //NAME, EXEC, ICON
+  app_store = gtk_list_store_new(3, G_TYPE_STRING,G_TYPE_STRING, G_TYPE_STRING);
+
+  //fill liststore
+  side_apps_load();
+  AppEntry ent;
+
+  ent.valid == TRUE;
+
+  while(ent.valid)
+  {
+    ent = side_apps_get_next_entry();
+
+    gtk_list_store_append(GTK_LIST_STORE(app_store), &app_iter);
+    gtk_list_store_set(GTK_LIST_STORE(app_store), &app_iter, 0, ent.app_name, 1, ent.exec, 2, ent.icon, -1);
+  }
+  side_apps_close();
+
+  sorted_apps = gtk_tree_model_sort_new_with_model(GTK_TREE_MODEL(app_store));
+  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(sorted_apps), 0, GTK_SORT_ASCENDING);
+
+
+
   GSettings *term_app = g_settings_new("org.gnome.desktop.default-applications.terminal");
   char *ptr = strdup(g_variant_get_string(g_settings_get_value(term_app, "exec"), NULL));
 
@@ -351,7 +429,12 @@ gboolean panel_settings(void)
 
 
     //ADD a button for a new app
-    add_app_button = gtk_button_new_with_label(_("Add"));
+    add_predef_button = gtk_button_new_with_label(_("Add"));
+    gtk_container_add(GTK_CONTAINER(app_button_box), add_predef_button);
+    g_signal_connect(G_OBJECT(add_predef_button), "button_press_event", G_CALLBACK(add_predef), NULL);
+
+    //ADD a button for a new app
+    add_app_button = gtk_button_new_with_label(_("Add custom"));
     gtk_container_add(GTK_CONTAINER(app_button_box), add_app_button);
     g_signal_connect(G_OBJECT(add_app_button), "button_press_event", G_CALLBACK(add_item), NULL);
 
