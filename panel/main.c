@@ -430,6 +430,7 @@ void create_app_menu(GtkWidget *box)
 
     GtkWidget *office_entry = gtk_menu_item_new_with_label(_("Office"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), office_entry);
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(office_entry), office);
 
     GtkWidget *settings_entry = gtk_menu_item_new_with_label(_("Settings"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), settings_entry);
