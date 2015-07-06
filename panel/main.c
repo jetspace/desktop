@@ -467,6 +467,8 @@ void create_app_menu(GtkWidget *box)
           if(ent.show == FALSE)
             continue;
 
+          if(ent.show_in_side == FALSE)
+            continue;
           if(ent.exec_length == 0)
             continue;
 

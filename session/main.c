@@ -43,7 +43,7 @@ void XDG_autostart(void)
   {
     char *buff;
     ent = side_apps_get_next_entry();
-    if(ent.show_in_side == false)
+    if(ent.show_in_side == false || ent.hidden == true)
       continue;
     buff = g_strdup_printf("%s &", ent.exec);
     system(buff);

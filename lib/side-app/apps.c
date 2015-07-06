@@ -35,6 +35,7 @@ AppEntry side_apps_get_next_entry(void)
 	bool g_name = false;
 	bool icon = false;
 	ret.show_in_side = true;
+	ret.hidden = false;
 
 	struct dirent *d;
 
@@ -114,6 +115,11 @@ AppEntry side_apps_get_next_entry(void)
 		{//visible
 			if(strncmp(buffer, "NoDisplay=true", 14) == 0)
 			ret.show = false;
+		}
+		if(strncmp(buffer , "Hidden=", 7) == 0)
+		{//visible
+			if(strncmp(buffer, "Hidden=true", 11) == 0)
+			ret.hidden = false;
 		}
 		if(strncmp(buffer , "OnlyShowIn=", 11) == 0)
 		{//visible

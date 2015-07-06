@@ -18,7 +18,7 @@ enum
 
 GtkTreeIter iter;
 GtkListStore *list;
-GtkWidget *win, *box, *label, *apply, *add, *del ,*view, *scroll_win, *button_box, *wm, *wm_label, *wm_box, *s, *s_label, *s_box, *r, *r_label, *r_box;
+GtkWidget *win, *box, *label, *apply, *add, *del ,*view, *scroll_win, *button_box, *wm, *wm_label, *wm_box, *s, *s_label, *s_box, *r, *r_label, *r_box, *xdg_box, *xdg_switch, *xdg_label;
 
 gboolean write_session_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
@@ -27,6 +27,7 @@ gboolean write_session_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   g_settings_set_value(se, "wm", g_variant_new_string(gtk_entry_get_text(GTK_ENTRY(wm))));
   g_settings_set_value(se, "reboot", g_variant_new_string(gtk_entry_get_text(GTK_ENTRY(r))));
   g_settings_set_value(se, "shutdown", g_variant_new_string(gtk_entry_get_text(GTK_ENTRY(s))));
+  g_settings_set_value(se, "xdg-autostart", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(xdg_switch))));
 
   char *str = malloc(1);
   memset(str, 0, sizeof(str));
@@ -219,15 +220,28 @@ int main(int argc, char **argv)
     free(ptr);
 
     gtk_box_pack_end(GTK_BOX(r_box), r, FALSE, FALSE, 5);
+    gtk_container_add(GTK_CONTAINER(box), r_box);
+
+  //XDG autostart
+
+    xdg_label = gtk_label_new(_("Enable XDG autostart:"));
+    xdg_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+    gtk_box_pack_start(GTK_BOX(xdg_box), xdg_label, FALSE, FALSE, 5);
+
+    xdg_switch = gtk_switch_new();
+    gtk_box_pack_end(GTK_BOX(xdg_box), xdg_switch, FALSE, FALSE, 5);
+
+    gtk_switch_set_active(GTK_SWITCH(xdg_switch), g_variant_get_boolean(g_settings_get_value(se, "xdg-autostart")));
+
+    gtk_container_add(GTK_CONTAINER(box), xdg_box);
 
 
-  gtk_container_add(GTK_CONTAINER(box), r_box);
 
 
 
 
   apply = gtk_button_new_with_label(_("Apply"));
-gtk_box_pack_end(GTK_BOX(box), apply, FALSE, FALSE, 5);
+  gtk_box_pack_end(GTK_BOX(box), apply, FALSE, FALSE, 5);
   g_signal_connect(G_OBJECT(apply), "button-press-event", G_CALLBACK(write_session_settings), NULL);
 
 

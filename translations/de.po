@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-07-06 08:56+0100\n"
-"PO-Revision-Date: 2015-07-06 08:57+0100\n"
+"POT-Creation-Date: 2015-07-06 14:18+0100\n"
+"PO-Revision-Date: 2015-07-06 14:18+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail."
 "com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail."
@@ -190,7 +190,7 @@ msgstr "Wählen sie ihr GTK 3.0 Thema:"
 
 #: /home/marius/desktop/settings/settings_gtk.c:155
 #: /home/marius/desktop/settings/settings_panel.c:343
-#: /home/marius/desktop/settings/settings_session.c:229
+#: /home/marius/desktop/settings/settings_session.c:243
 #: /home/marius/desktop/settings/settings_wallpaper.c:104
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:236
 msgid "Apply"
@@ -202,7 +202,7 @@ msgstr "Anwendung Hinzufügen"
 
 #: /home/marius/desktop/settings/settings_panel.c:101
 #: /home/marius/desktop/settings/settings_panel.c:432
-#: /home/marius/desktop/settings/settings_session.c:169
+#: /home/marius/desktop/settings/settings_session.c:170
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -252,7 +252,7 @@ msgid "Clear"
 msgstr "Alles Löschen"
 
 #: /home/marius/desktop/settings/settings_panel.c:426
-#: /home/marius/desktop/settings/settings_session.c:164
+#: /home/marius/desktop/settings/settings_session.c:165
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -304,30 +304,34 @@ msgstr "Plugins"
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: /home/marius/desktop/settings/settings_session.c:111
+#: /home/marius/desktop/settings/settings_session.c:112
 msgid "Settings - Session"
 msgstr "Einstellungen - Sitzung"
 
-#: /home/marius/desktop/settings/settings_session.c:118
+#: /home/marius/desktop/settings/settings_session.c:119
 msgid "Choose the autostart applications:"
 msgstr ""
 "Wählen sie Anwendungen, welche bei der Anmeldung gestartet werden sollen:"
 
-#: /home/marius/desktop/settings/settings_session.c:150
+#: /home/marius/desktop/settings/settings_session.c:151
 msgid "App"
 msgstr "Anwendung"
 
-#: /home/marius/desktop/settings/settings_session.c:179
+#: /home/marius/desktop/settings/settings_session.c:180
 msgid "Please choose the Window Manager (WM):"
 msgstr "Bitte wählen sie die Fensterverwaltung (WM):"
 
-#: /home/marius/desktop/settings/settings_session.c:196
+#: /home/marius/desktop/settings/settings_session.c:197
 msgid "The command used to shutdown the computer:"
 msgstr "Der Befehl zum herunterfahren des Computers:"
 
-#: /home/marius/desktop/settings/settings_session.c:213
+#: /home/marius/desktop/settings/settings_session.c:214
 msgid "The command used to reboot the computer:"
 msgstr "Der Befehl zum neustarten des Computers:"
+
+#: /home/marius/desktop/settings/settings_session.c:227
+msgid "Enable XDG autostart:"
+msgstr "XDG Autostart aktivieren:"
 
 #: /home/marius/desktop/settings/settings_wallpaper.c:29
 msgid "Open Wallpaper"

@@ -54,6 +54,7 @@ typedef struct
 	bool show;
 	bool terminal;
 	bool valid;
+	bool hidden;
 	bool show_in_side;
 	AppType type;
 	SubType sub;
