@@ -21,5 +21,10 @@
           <summary>The apps executed at startup seperated by ';'</summary>
           <description>Choose all you need, like deamons, services and/or applications to start working directly after login</description>
       </key>
+      <key type="b" name="xdg-autostart">
+          <default>true</default>
+          <summary>Should SiDE respect the XDG autostart configuration</summary>
+          <description>Should SiDE respect the XDG autostart configuration? see etc-xdg-autostart</description>
+      </key>
   </schema>
 </schemalist>

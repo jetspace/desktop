@@ -16,7 +16,8 @@ For more details view file 'LICENSE'
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
-#define APP_DIR "/usr/share/applications/"
+
+char *APP_DIR;
 
 #define SIDE_APP_VERSION "2.1" //will be changed if changes are made which are revlevant for compatability
 
@@ -53,6 +54,7 @@ typedef struct
 	bool show;
 	bool terminal;
 	bool valid;
+	bool show_in_side;
 	AppType type;
 	SubType sub;
 }AppEntry;
@@ -62,8 +64,10 @@ FILE *side_apps_entry_file;
 
 
 int side_apps_load(void);
+int side_apps_load_dir(char *path);
 AppEntry side_apps_get_next_entry(void);
 int side_apps_close(void);
+
 
 
 #endif

@@ -8,7 +8,18 @@ For more details view file 'LICENSE'
 
 int side_apps_load(void)
 {
+	APP_DIR = "/usr/share/applications/";
 	side_apps_dir = opendir(APP_DIR);
+	if(side_apps_dir == NULL)
+		return -1;
+	else
+		return 0;
+}
+
+int side_apps_load_dir(char *path)
+{
+	APP_DIR = path;
+	side_apps_dir = opendir(path);
 	if(side_apps_dir == NULL)
 		return -1;
 	else
@@ -23,7 +34,7 @@ AppEntry side_apps_get_next_entry(void)
 	bool path = false;
 	bool g_name = false;
 	bool icon = false;
-
+	ret.show_in_side = true;
 
 	struct dirent *d;
 
@@ -99,6 +110,13 @@ AppEntry side_apps_get_next_entry(void)
 		{//visible
 			if(strncmp(buffer, "NoDisplay=true", 14) == 0)
 			ret.show = false;
+		}
+		if(strncmp(buffer , "OnlyShowIn=", 11) == 0)
+		{//visible
+			if(strstr(buffer, "SiDE") == NULL)
+				ret.show_in_side = false;
+			else
+				ret.show_in_side = true;
 		}
 		if(strncmp(buffer, "Categories=", 11) == 0)
 		{

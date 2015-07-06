@@ -10,6 +10,7 @@ For more details view file 'LICENSE'
 #include "../shared/strdup.h"
 #include <string.h>
 #include <stdlib.h>
+#include <side/apps.h>
 
 
 /*
@@ -31,6 +32,30 @@ gboolean notify    = TRUE;
 #define PANEL "dbus-launch side-panel &"
 #define WALLPAPER "dbus-launch side-wallpaper-service &"
 #define NOTIFY "dbus-launch side-notifyd &"
+
+void XDG_autostart(void)
+{
+  side_apps_load_dir("/etc/xdg/autostart/");
+  AppEntry ent;
+  ent.valid = TRUE;
+  int count = 0;
+  while(ent.valid == TRUE)
+  {
+    char *buff;
+    ent = side_apps_get_next_entry();
+    if(ent.show_in_side == false)
+      continue;
+    buff = g_strdup_printf("%s &", ent.exec);
+    system(buff);
+    free(buff);
+    count++;
+  }
+  side_apps_close();
+
+  g_print("Loaded %d Autostart apps.\n", count);
+
+}
+
 
 void autorun(void)
 {
@@ -84,8 +109,6 @@ int main(int argc, char **argv)
 
   if(notify)
     system(NOTIFY);
-
-  if(wm)
     system(g_variant_get_string(g_settings_get_value(session, "wm"), NULL));
 
   if(panel)
@@ -96,6 +119,8 @@ int main(int argc, char **argv)
 
   if(autostart)
     autorun();
+  if(g_variant_get_boolean(g_settings_get_value(session, "xdg-autostart")))
+    XDG_autostart();
 
   //now go to endless mode, so the session won't fail
   g_print("switching to endless loop...\n");
