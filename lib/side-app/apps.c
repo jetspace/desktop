@@ -44,7 +44,11 @@ AppEntry side_apps_get_next_entry(void)
 		return ret;
 
 	while(strlen(d->d_name) < 8 || strstr(d->d_name, ".desktop") == NULL) //.desktop == 8 so if name is shoter, not a .desktop file
+    {
 		d = readdir(side_apps_dir);
+        if(d == NULL)
+            return ret; //return if dirent is NULL while scanning for valid file...
+    }
 
 	char *filename = malloc(sizeof(d->d_name) + sizeof(APP_DIR));
 	filename[0] = '\0';
