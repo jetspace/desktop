@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-07-04 12:07+0100\n"
-"PO-Revision-Date: 2015-07-04 12:07+0100\n"
+"POT-Creation-Date: 2015-07-06 08:37+0100\n"
+"PO-Revision-Date: 2015-07-06 08:37+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail."
 "com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail."
@@ -61,24 +61,24 @@ msgstr "Netzwerk"
 msgid "Office"
 msgstr "Büro"
 
-#: /home/marius/desktop/panel/main.c:434
+#: /home/marius/desktop/panel/main.c:435
 #: /home/marius/desktop/tools/editor/editor.c:79
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: /home/marius/desktop/panel/main.c:438
+#: /home/marius/desktop/panel/main.c:439
 msgid "System"
 msgstr "System"
 
-#: /home/marius/desktop/panel/main.c:442
+#: /home/marius/desktop/panel/main.c:443
 msgid "Utility"
 msgstr "Zubehör"
 
-#: /home/marius/desktop/panel/main.c:447
+#: /home/marius/desktop/panel/main.c:448
 msgid "Other"
 msgstr "Sonstiges"
 
-#: /home/marius/desktop/panel/main.c:452
+#: /home/marius/desktop/panel/main.c:453
 msgid "Search..."
 msgstr "Suchen..."
 
@@ -336,16 +336,16 @@ msgstr "Hintergrundbild Öffnen"
 #: /home/marius/desktop/settings/settings_wallpaper.c:29
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:142
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:195
-#: /home/marius/desktop/tools/view/view_callbacks.h:32
+#: /home/marius/desktop/tools/view/view_callbacks.h:34
 msgid "Cancel"
 msgstr "Abbrechen"
 
 #: /home/marius/desktop/settings/settings_wallpaper.c:29
 #: /home/marius/desktop/settings/settings_wallpaper.c:98
 #: /home/marius/desktop/tools/editor/editor.c:62
-#: /home/marius/desktop/tools/view/view.c:32
+#: /home/marius/desktop/tools/view/view.c:36
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:142
-#: /home/marius/desktop/tools/view/view_callbacks.h:32
+#: /home/marius/desktop/tools/view/view_callbacks.h:34
 msgid "Open"
 msgstr "Öffnen"
 
@@ -363,7 +363,7 @@ msgid "SiDE Editor"
 msgstr "SiDE Editor"
 
 #: /home/marius/desktop/tools/editor/editor.c:58
-#: /home/marius/desktop/tools/view/view.c:30
+#: /home/marius/desktop/tools/view/view.c:34
 msgid "File"
 msgstr "Datei"
 
@@ -381,7 +381,7 @@ msgid "Save As"
 msgstr "Speichern unter"
 
 #: /home/marius/desktop/tools/editor/editor.c:68
-#: /home/marius/desktop/tools/view/view.c:34
+#: /home/marius/desktop/tools/view/view.c:38
 msgid "Quit"
 msgstr "Beenden"
 
@@ -399,26 +399,50 @@ msgstr "Wiederholen"
 
 #: /home/marius/desktop/tools/editor/editor.c:84
 #: /home/marius/desktop/tools/editor/editor.c:86
-#: /home/marius/desktop/tools/view/view.c:39
-#: /home/marius/desktop/tools/view/view.c:41
+#: /home/marius/desktop/tools/view/view.c:56
+#: /home/marius/desktop/tools/view/view.c:58
 msgid "About"
 msgstr "Über"
 
 #: /home/marius/desktop/tools/editor/editor.c:88
-#: /home/marius/desktop/tools/view/view.c:43
+#: /home/marius/desktop/tools/view/view.c:60
 msgid "Help"
 msgstr "Hilfe"
 
-#: /home/marius/desktop/tools/view/view.c:19
-#: /home/marius/desktop/tools/view/view_callbacks.h:10
+#: /home/marius/desktop/tools/view/view.c:23
+#: /home/marius/desktop/tools/view/view_callbacks.h:12
 msgid "SiDE Picture Viewer"
 msgstr "SiDE Bildbetrachter"
 
-#: /home/marius/desktop/tools/view/view.c:57
-#: /home/marius/desktop/tools/view/view_callbacks.h:42
+#: /home/marius/desktop/tools/view/view.c:43
+msgid "View"
+msgstr "Ansicht"
+
+#: /home/marius/desktop/tools/view/view.c:45
+msgid "Zoom in"
+msgstr "Hereinzoomen"
+
+#: /home/marius/desktop/tools/view/view.c:47
+msgid "Zoom out"
+msgstr "Herauszoomen"
+
+#: /home/marius/desktop/tools/view/view.c:49
+msgid "Original Size"
+msgstr "Originalgröße"
+
+#: /home/marius/desktop/tools/view/view.c:51
+msgid "Fit to Window"
+msgstr "An Fenster Anpassen"
+
+#: /home/marius/desktop/tools/view/view.c:71
+#: /home/marius/desktop/tools/view/view_callbacks.h:45
 #, c-format
 msgid "SiDE Picture Viewer - %s"
 msgstr "SiDE Bildbetrachter - %s"
+
+#: /home/marius/desktop/tools/view/view.c:79
+msgid "No File"
+msgstr "Keine Datei"
 
 #: /home/marius/desktop/shared/context.h:55
 #: /home/marius/desktop/shared/context.h:83
@@ -497,12 +521,12 @@ msgid "SiDE Editor - %s"
 msgstr "SiDE Editor - %s"
 
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:142
-#: /home/marius/desktop/tools/view/view_callbacks.h:32
+#: /home/marius/desktop/tools/view/view_callbacks.h:34
 msgid "Open File"
 msgstr "Öffne Datei"
 
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:153
-#: /home/marius/desktop/tools/view/view_callbacks.h:43
+#: /home/marius/desktop/tools/view/view_callbacks.h:46
 #, c-format
 msgid "Opening %s\n"
 msgstr "Öffne %s\n"
@@ -540,9 +564,14 @@ msgstr "Aktuelle Zeile hervorheben:"
 msgid "Font:"
 msgstr "Schriftart: "
 
-#: /home/marius/desktop/tools/view/view_callbacks.h:35
+#: /home/marius/desktop/tools/view/view_callbacks.h:37
 msgid "Supported Images"
 msgstr "Unterstützte Grafiken"
+
+#: /home/marius/desktop/tools/view/view_callbacks.h:139
+#, c-format
+msgid "(%dpx x %dpx) - %d%%"
+msgstr "(%dpx x %dpx) - %d%%"
 
 #~ msgid "SIDE Mixer"
 #~ msgstr "SiDE Mixer"

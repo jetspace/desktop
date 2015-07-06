@@ -1,3 +1,5 @@
+void set_status(void);
+
 void destroy(GtkWidget *w, GdkEvent *e, gpointer p)
 {
     gtk_main_quit();
@@ -38,12 +40,103 @@ gboolean open_file(GtkWidget *w, GdkEvent *e, gpointer p)
     int result = gtk_dialog_run(GTK_DIALOG(dialog));
     if(result == GTK_RESPONSE_ACCEPT)
         {
+            scale = 1;
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
             gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf(_("SiDE Picture Viewer - %s"), filename));
             printf(_("Opening %s\n"), filename);
             gtk_image_set_from_file(GTK_IMAGE(pic), filename);
+            origin = gdk_pixbuf_copy(gtk_image_get_pixbuf(GTK_IMAGE(pic)));
+            set_status();
         }
         gtk_widget_destroy(dialog);
 
     return FALSE;
+}
+
+gboolean scale_in(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  if(!filename)
+    return FALSE;
+
+  if(scale < 1.5)
+    scale += 0.1;
+  else if(scale < 5)
+    scale += 0.5;
+  else
+    return FALSE;
+
+  float height = gdk_pixbuf_get_height(origin) * scale;
+  float width  = gdk_pixbuf_get_width(origin) * scale;
+  GdkPixbuf *temp = gdk_pixbuf_scale_simple(origin, (int) width, (int) height, GDK_INTERP_TILES);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(pic), temp);
+  g_object_unref(temp);
+  set_status();
+  return FALSE;
+}
+
+gboolean scale_out(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  if(!filename)
+    return FALSE;
+
+  if(scale > 1.5)
+    scale -= 0.5;
+  else if(scale > 0.1)
+    scale -= 0.1;
+
+
+  float height = gdk_pixbuf_get_height(origin) * scale;
+  float width  = gdk_pixbuf_get_width(origin) * scale;
+  GdkPixbuf *temp = gdk_pixbuf_scale_simple(origin, (int) width, (int) height, GDK_INTERP_TILES);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(pic), temp);
+  g_object_unref(temp);
+  set_status();
+  return FALSE;
+}
+
+gboolean scale_reset(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  if(!filename)
+    return FALSE;
+
+  scale = 1.0;
+
+  float height = gdk_pixbuf_get_height(origin) * scale;
+  float width  = gdk_pixbuf_get_width(origin) * scale;
+  GdkPixbuf *temp = gdk_pixbuf_scale_simple(origin, (int) width, (int) height, GDK_INTERP_TILES);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(pic), temp);
+  g_object_unref(temp);
+  set_status();
+  return FALSE;
+}
+
+gboolean scale_fit(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  if(!filename)
+    return FALSE;
+
+
+  int height = gdk_pixbuf_get_height(origin);
+  int width  = gdk_pixbuf_get_width(origin);
+
+  GtkAllocation alloc;
+  gtk_widget_get_allocation(scroll, &alloc);
+
+  float fit_h = (float) alloc.height / height;
+  float fit_v = (float) alloc.width / width;
+
+  scale = fit_h < fit_v ? fit_h : fit_v;
+
+  GdkPixbuf *temp = gdk_pixbuf_scale_simple(origin, (float) width * scale, (float) height * scale, GDK_INTERP_TILES);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(pic), temp);
+  g_object_unref(temp);
+  set_status();
+  return FALSE;
+}
+
+void set_status(void)
+{
+  char *s = g_strdup_printf(_("(%dpx x %dpx) - %d%%"), gdk_pixbuf_get_width(origin), gdk_pixbuf_get_height(origin), (int) (scale * 100));
+  gtk_label_set_text(GTK_LABEL(status), s);
+  g_free(s);
 }
