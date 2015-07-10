@@ -6,7 +6,6 @@ For more details view file 'LICENSE'
 #include "../../shared/info.h"
 #include <stdlib.h>
 #include <limits.h>
-#include <unistd.h>
 gboolean destroy_cb(GtkWidget *w, GdkEvent *e, gpointer p)
 {
   gtk_main_quit();
@@ -35,16 +34,25 @@ gboolean show_help(GtkWidget *w, GdkEvent *e, gpointer p)
     return FALSE;
 }
 
-void update_files(gboolean get_path, char *name)
+/*
+
+  0 -From sidebar
+  1 - From click
+  2 - From pathbar
+
+*/
+void update_files(int get_path, char *name)
 {
 
-  if(get_path)
+  if(get_path == 0)
   {
+    if(g_file_get_path(gtk_places_sidebar_get_location(GTK_PLACES_SIDEBAR(places_bar))) == NULL)
+      return;
     if(path)
       g_free(path);
     path = g_file_get_path(gtk_places_sidebar_get_location(GTK_PLACES_SIDEBAR(places_bar)));
   }
-  else
+  else if(get_path == 1)
   {
     if(!path)
       path = g_strdup_printf("%s", name);
@@ -54,7 +62,12 @@ void update_files(gboolean get_path, char *name)
 
   if(!path)
     return;
+  else if(access(g_strdup_printf("%s/", path), F_OK) != 0 && get_path == 2)
+  {
+    return;
+  }
 
+  gtk_entry_set_text(GTK_ENTRY(path_entry), path);
 
   chdir(path);
 
@@ -122,7 +135,7 @@ void open_location_cb (GtkPlacesSidebar  *sidebar, GObject *location,GtkPlacesOp
 {
   if(location == NULL)
     return;
-  update_files(TRUE, NULL);
+  update_files(0, NULL);
 }
 
 gboolean activated_file(GtkIconView *fileview, gpointer *data)
@@ -135,7 +148,7 @@ gboolean activated_file(GtkIconView *fileview, gpointer *data)
       if(gtk_icon_view_path_is_selected(fileview, it->data))
         {
           GtkTreeIter i;
-          GtkTreePath *p = it->data;
+          GtkTreePath *p =  gtk_tree_model_sort_convert_path_to_child_path(GTK_TREE_MODEL_SORT(sorted_files), it->data);
           GtkTreeModel *model = GTK_TREE_MODEL(files);
 
           gboolean dir;
@@ -145,16 +158,40 @@ gboolean activated_file(GtkIconView *fileview, gpointer *data)
 
           if(dir)
           {
-            update_files(FALSE, name);
+            update_files(1, name);
             return FALSE;
           }
           else
           {
+            //get mime
+            GFile *gf = g_file_new_for_path(g_strdup_printf("%s/%s", path, name));
+            GFileInfo *fi = g_file_query_info(gf, "standard::*", G_FILE_QUERY_INFO_NONE ,NULL, NULL);
+            char *mime = g_content_type_get_mime_type(g_file_info_get_content_type(fi));
+
+            //TODO: Improve file opening...
             system(g_strdup_printf("xdg-open \"%s/%s\" &", path, name));
+
+            g_object_unref(gf);
+            g_object_unref(fi);
+            g_free(mime);
+
           }
 
 
         }
     }
+  return FALSE;
+}
+
+
+gboolean update_from_pathbar(GtkWidget *widget, GdkEventKey *event, gpointer data)
+{
+  if(event->keyval == GDK_KEY_Return)
+  {
+    path = g_strdup(gtk_entry_get_text(GTK_ENTRY(path_entry)));
+    update_files(2, NULL);
+  }
+
+
   return FALSE;
 }

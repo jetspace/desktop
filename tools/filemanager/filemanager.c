@@ -6,6 +6,7 @@ For more details view file 'LICENSE'
 #define _XOPEN_SOURCE 500
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <glib/gi18n.h>
 
 enum {
@@ -18,8 +19,9 @@ enum {
 };
 char *path;
 GtkListStore *files;
+GtkTreeModel *sorted_files;
 GtkTreeIter iter;
-GtkWidget *places_bar;
+GtkWidget *places_bar, *path_entry;
 #include "filemanager_callbacks.h"
 
 
@@ -72,12 +74,26 @@ int main(int argc, char **argv)
 
   gtk_box_pack_start(GTK_BOX(main_box), menubar, FALSE, FALSE, 0);
 
+  //create NavBox
+  GtkWidget *navbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+  gtk_box_pack_start(GTK_BOX(main_box), navbox, FALSE, FALSE, 0);
+
+  path_entry = gtk_entry_new();
+  gtk_box_pack_end(GTK_BOX(navbox), path_entry, TRUE, TRUE, 0);
+
   //icon view
   files = gtk_list_store_new(5, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_INT, G_TYPE_BOOLEAN, G_TYPE_STRING);
-  update_files(FALSE, ".");
+  sorted_files = gtk_tree_model_sort_new_with_model(GTK_TREE_MODEL(files));
+  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(sorted_files), COL_NAME, GTK_SORT_ASCENDING);
+
+  char cwd[2048];
+
+  getcwd(cwd, sizeof(cwd));
+
+  update_files(1, cwd);
   GtkWidget *scroll_win = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  GtkWidget *file_view = gtk_icon_view_new_with_model(GTK_TREE_MODEL(files));
+  GtkWidget *file_view = gtk_icon_view_new_with_model(GTK_TREE_MODEL(sorted_files));
   gtk_icon_view_set_text_column(GTK_ICON_VIEW(file_view), COL_NAME);
   gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(file_view), COL_ICON);
   gtk_container_add(GTK_CONTAINER(scroll_win), file_view);
@@ -88,6 +104,7 @@ int main(int argc, char **argv)
   g_signal_connect(G_OBJECT(places_bar), "open-location", G_CALLBACK(open_location_cb), NULL);
   g_signal_connect(G_OBJECT(win), "destroy", G_CALLBACK(destroy_cb), NULL);
   g_signal_connect(G_OBJECT(file_view), "item-activated", G_CALLBACK(activated_file), NULL);
+  g_signal_connect(G_OBJECT(path_entry), "key-press-event", G_CALLBACK(update_from_pathbar), NULL);
   g_signal_connect(G_OBJECT(ab), "activate", G_CALLBACK(show_about), NULL);
   g_signal_connect(G_OBJECT(help), "activate", G_CALLBACK(show_help), NULL);
 
