@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=SiDE Files
+Comment=Basic File Manager for SiDE
+Exec=side-files
+Categories=Utility;
+Icon=system-file-manager

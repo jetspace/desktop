@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-07-06 14:18+0100\n"
-"PO-Revision-Date: 2015-07-06 14:18+0100\n"
+"POT-Creation-Date: 2015-07-10 15:28+0100\n"
+"PO-Revision-Date: 2015-07-10 15:28+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail."
 "com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail."
@@ -23,6 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-4: /home/marius/desktop/settings\n"
 "X-Poedit-SearchPath-5: /home/marius/desktop/search\n"
 "X-Poedit-SearchPath-6: /home/marius/desktop/plugins\n"
+"X-Poedit-SearchPath-7: /home/marius/desktop/tools/filemanager\n"
 
 #: /home/marius/desktop/panel/main.c:268
 #, c-format
@@ -403,15 +404,23 @@ msgstr "Wiederholen"
 
 #: /home/marius/desktop/tools/editor/editor.c:84
 #: /home/marius/desktop/tools/editor/editor.c:86
+#: /home/marius/desktop/tools/filemanager/filemanager.c:65
+#: /home/marius/desktop/tools/filemanager/filemanager.c:67
 #: /home/marius/desktop/tools/view/view.c:56
 #: /home/marius/desktop/tools/view/view.c:58
 msgid "About"
 msgstr "Über"
 
 #: /home/marius/desktop/tools/editor/editor.c:88
+#: /home/marius/desktop/tools/filemanager/filemanager.c:69
 #: /home/marius/desktop/tools/view/view.c:60
 msgid "Help"
 msgstr "Hilfe"
+
+#: /home/marius/desktop/tools/filemanager/filemanager.c:34
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:19
+msgid "SiDE File Manager"
+msgstr "SiDE Dateimanager"
 
 #: /home/marius/desktop/tools/view/view.c:23
 #: /home/marius/desktop/tools/view/view_callbacks.h:12
@@ -477,6 +486,10 @@ msgstr "Einfacher Texteditor für SiDE"
 #: /home/marius/desktop/shared/info.h:19
 msgid "Simple Picture Viewer for SiDE"
 msgstr "Einfacher Bildbetrachter für SiDE"
+
+#: /home/marius/desktop/shared/info.h:21
+msgid "Simple File Manager for SiDE"
+msgstr "Einfacher Dateimanager für SiDE"
 
 #: /home/marius/desktop/shared/logout.h:48
 msgid "Shutdown"

@@ -37,6 +37,8 @@ cd editor
 make
 cd ../view
 make
+cd ../filemanager
+make
 cd ..
 cd ..
 
