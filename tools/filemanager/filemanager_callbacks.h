@@ -6,6 +6,9 @@ For more details view file 'LICENSE'
 #include "../../shared/info.h"
 #include <stdlib.h>
 #include <limits.h>
+
+gboolean open_file (GtkWidget *w, GdkEvent *e, gpointer p);
+
 gboolean destroy_cb(GtkWidget *w, GdkEvent *e, gpointer p)
 {
   gtk_main_quit();
@@ -138,6 +141,7 @@ void open_location_cb (GtkPlacesSidebar  *sidebar, GObject *location,GtkPlacesOp
   update_files(0, NULL);
 }
 
+char *run_buff;
 gboolean activated_file(GtkIconView *fileview, gpointer *data)
 {
   GList *list = gtk_icon_view_get_selected_items(fileview);
@@ -169,7 +173,8 @@ gboolean activated_file(GtkIconView *fileview, gpointer *data)
             char *mime = g_content_type_get_mime_type(g_file_info_get_content_type(fi));
 
             //TODO: Improve file opening...
-            system(g_strdup_printf("xdg-open \"%s/%s\" &", path, name));
+            run_buff = g_strdup_printf("%s/%s", path, name);
+            open_file(NULL, NULL, NULL);
 
             g_object_unref(gf);
             g_object_unref(fi);
@@ -217,6 +222,97 @@ gboolean go_up(GtkWidget *widget, GdkEventKey *event, gpointer data)
   else
     path[x] = 0;
   update_files(2, NULL);
+
+  return FALSE;
+}
+GtkWidget *menu;
+
+
+gboolean open_file (GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  char *cmd = g_strdup_printf("xdg-open \"%s\" &", run_buff);
+  system(cmd);
+  free(cmd);
+}
+
+gboolean open_terminalcb (GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  GSettings *term = g_settings_new("org.gnome.desktop.default-applications.terminal");
+  char *terminal_cmd = g_strdup(g_variant_get_string(g_settings_get_value(term, "exec"), NULL));
+
+
+  if(terminal_cmd[strlen(terminal_cmd) -1] == '&')
+  terminal_cmd[strlen(terminal_cmd) -1] = 0;
+
+
+
+  char *cmd = g_strdup_printf("xterm -e \"cd %s && bash\" &", path);
+  system(cmd);
+  free(cmd);
+  return FALSE;
+}
+
+gboolean show_file_stats (GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  g_warning("FUNCTION NOT IMPLEMENTED");
+}
+
+void create_menu(void)
+{
+  menu = gtk_menu_new();
+  GtkWidget *open, *open_terminal, *sep, *file_stats;
+
+  open = gtk_menu_item_new_with_label(_("Open"));
+  open_terminal = gtk_menu_item_new_with_label(_("Open Terminal here"));
+  sep = gtk_separator_menu_item_new();
+  file_stats = gtk_menu_item_new_with_label(_("Properties"));
+
+
+    g_signal_connect(G_OBJECT(open), "activate", G_CALLBACK(open_file), NULL);
+    g_signal_connect(G_OBJECT(open_terminal), "activate", G_CALLBACK(open_terminalcb), NULL);
+    g_signal_connect(G_OBJECT(file_stats), "activate", G_CALLBACK(show_file_stats), NULL);
+
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), open);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), file_stats);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), open_terminal);
+
+  gtk_menu_attach_to_widget(GTK_MENU(menu), file_view, NULL);
+  gtk_widget_show_all(menu);
+
+}
+
+
+gboolean click_callback(GtkWidget *w, GdkEventButton *e, gpointer pnt)
+{
+  if(e->button != 3)
+    return FALSE; //no right click detected
+
+
+  GtkTreeIter i;
+  GtkTreePath *op = gtk_icon_view_get_path_at_pos(GTK_ICON_VIEW(file_view), e->x, e->y);
+  if(op)
+  {
+    GtkTreePath *p = gtk_tree_model_sort_convert_path_to_child_path(GTK_TREE_MODEL_SORT(sorted_files), op);
+    if(!p)
+      return FALSE;
+    GtkTreeModel *model = GTK_TREE_MODEL(files);
+
+    gboolean dir;
+    gchar *name;
+    gtk_tree_model_get_iter(model, &i, p);
+    gtk_tree_model_get(model, &i, COL_DIR, &dir, COL_FULL_NAME, &name, -1);
+
+    //save file path
+    run_buff = g_strdup_printf("%s/%s", path, name);
+
+    //now, show context menu for file...
+      gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL,  e->button, e->time);
+  }
+  else
+  {
+    g_warning("FUNCTION NOT IMPLEMENTED");
+  }
 
   return FALSE;
 }

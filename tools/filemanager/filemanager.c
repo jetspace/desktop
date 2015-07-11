@@ -21,7 +21,7 @@ char *path;
 GtkListStore *files;
 GtkTreeModel *sorted_files;
 GtkTreeIter iter;
-GtkWidget *places_bar, *path_entry;
+GtkWidget *places_bar, *path_entry, *file_view;
 #include "filemanager_callbacks.h"
 
 
@@ -95,17 +95,21 @@ int main(int argc, char **argv)
   update_files(1, cwd);
   GtkWidget *scroll_win = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  GtkWidget *file_view = gtk_icon_view_new_with_model(GTK_TREE_MODEL(sorted_files));
+  file_view = gtk_icon_view_new_with_model(GTK_TREE_MODEL(sorted_files));
   gtk_icon_view_set_text_column(GTK_ICON_VIEW(file_view), COL_NAME);
   gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(file_view), COL_ICON);
+  GtkWidget *event = gtk_event_box_new();
+  gtk_widget_set_events(event, GDK_BUTTON_PRESS_MASK);
+  gtk_container_add(GTK_CONTAINER(event), scroll_win);
   gtk_container_add(GTK_CONTAINER(scroll_win), file_view);
-  gtk_box_pack_end(GTK_BOX(second_box), scroll_win, TRUE, TRUE, 2);
+  gtk_box_pack_end(GTK_BOX(second_box), event, TRUE, TRUE, 2);
 
 
   //signals
   g_signal_connect(G_OBJECT(places_bar), "open-location", G_CALLBACK(open_location_cb), NULL);
   g_signal_connect(G_OBJECT(win), "destroy", G_CALLBACK(destroy_cb), NULL);
   g_signal_connect(G_OBJECT(file_view), "item-activated", G_CALLBACK(activated_file), NULL);
+  g_signal_connect(G_OBJECT(event), "button-press-event", G_CALLBACK(click_callback), NULL);
   g_signal_connect(G_OBJECT(path_entry), "key-press-event", G_CALLBACK(update_from_pathbar), NULL);
   g_signal_connect(G_OBJECT(up_button), "clicked", G_CALLBACK(go_up), NULL);
   g_signal_connect(G_OBJECT(ab), "activate", G_CALLBACK(show_about), NULL);
@@ -113,6 +117,7 @@ int main(int argc, char **argv)
 
 
   //show
+  create_menu(); // create context menu(s)
   gtk_widget_show_all(win);
   gtk_main();
 

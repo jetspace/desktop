@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-07-10 15:28+0100\n"
-"PO-Revision-Date: 2015-07-10 15:28+0100\n"
+"POT-Creation-Date: 2015-07-11 17:52+0100\n"
+"PO-Revision-Date: 2015-07-11 17:53+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail."
 "com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail."
@@ -350,6 +350,7 @@ msgstr "Abbrechen"
 #: /home/marius/desktop/tools/editor/editor.c:62
 #: /home/marius/desktop/tools/view/view.c:36
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:142
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:265
 #: /home/marius/desktop/tools/view/view_callbacks.h:34
 msgid "Open"
 msgstr "Öffnen"
@@ -404,21 +405,21 @@ msgstr "Wiederholen"
 
 #: /home/marius/desktop/tools/editor/editor.c:84
 #: /home/marius/desktop/tools/editor/editor.c:86
-#: /home/marius/desktop/tools/filemanager/filemanager.c:65
 #: /home/marius/desktop/tools/filemanager/filemanager.c:67
+#: /home/marius/desktop/tools/filemanager/filemanager.c:69
 #: /home/marius/desktop/tools/view/view.c:56
 #: /home/marius/desktop/tools/view/view.c:58
 msgid "About"
 msgstr "Über"
 
 #: /home/marius/desktop/tools/editor/editor.c:88
-#: /home/marius/desktop/tools/filemanager/filemanager.c:69
+#: /home/marius/desktop/tools/filemanager/filemanager.c:71
 #: /home/marius/desktop/tools/view/view.c:60
 msgid "Help"
 msgstr "Hilfe"
 
-#: /home/marius/desktop/tools/filemanager/filemanager.c:34
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:19
+#: /home/marius/desktop/tools/filemanager/filemanager.c:36
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:21
 msgid "SiDE File Manager"
 msgstr "SiDE Dateimanager"
 
@@ -580,6 +581,14 @@ msgstr "Aktuelle Zeile hervorheben:"
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:264
 msgid "Font:"
 msgstr "Schriftart: "
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:266
+msgid "Open Terminal here"
+msgstr "Terminal hier öffnen"
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:268
+msgid "Properties"
+msgstr "Eigenschaften"
 
 #: /home/marius/desktop/tools/view/view_callbacks.h:37
 msgid "Supported Images"
