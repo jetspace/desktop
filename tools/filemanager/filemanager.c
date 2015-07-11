@@ -79,6 +79,8 @@ int main(int argc, char **argv)
   gtk_box_pack_start(GTK_BOX(main_box), navbox, FALSE, FALSE, 0);
 
   path_entry = gtk_entry_new();
+  GtkWidget *up_button = gtk_button_new_from_icon_name("go-previous", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  gtk_box_pack_start(GTK_BOX(navbox), up_button, FALSE, FALSE, 0);
   gtk_box_pack_end(GTK_BOX(navbox), path_entry, TRUE, TRUE, 0);
 
   //icon view
@@ -105,6 +107,7 @@ int main(int argc, char **argv)
   g_signal_connect(G_OBJECT(win), "destroy", G_CALLBACK(destroy_cb), NULL);
   g_signal_connect(G_OBJECT(file_view), "item-activated", G_CALLBACK(activated_file), NULL);
   g_signal_connect(G_OBJECT(path_entry), "key-press-event", G_CALLBACK(update_from_pathbar), NULL);
+  g_signal_connect(G_OBJECT(up_button), "clicked", G_CALLBACK(go_up), NULL);
   g_signal_connect(G_OBJECT(ab), "activate", G_CALLBACK(show_about), NULL);
   g_signal_connect(G_OBJECT(help), "activate", G_CALLBACK(show_help), NULL);
 

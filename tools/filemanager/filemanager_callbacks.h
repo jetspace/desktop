@@ -195,3 +195,28 @@ gboolean update_from_pathbar(GtkWidget *widget, GdkEventKey *event, gpointer dat
 
   return FALSE;
 }
+
+gboolean go_up(GtkWidget *widget, GdkEventKey *event, gpointer data)
+{
+  int n = 0,x = 0;
+
+  for(unsigned int y = 0; y < strlen(path); y++)
+  {
+    if(path[y] == '/')
+    {
+      n++;
+      x = y;
+    }
+  }
+
+  if(n == 0 || strlen(path) == 1) // ignore /
+    return FALSE;
+
+  if(n == 1)
+    path[x+1] = 0;
+  else
+    path[x] = 0;
+  update_files(2, NULL);
+
+  return FALSE;
+}
