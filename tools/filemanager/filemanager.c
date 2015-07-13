@@ -96,6 +96,7 @@ int main(int argc, char **argv)
   GtkWidget *scroll_win = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   file_view = gtk_icon_view_new_with_model(GTK_TREE_MODEL(sorted_files));
+  gtk_icon_view_set_item_padding(GTK_ICON_VIEW(file_view), 8);
   gtk_icon_view_set_text_column(GTK_ICON_VIEW(file_view), COL_NAME);
   gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(file_view), COL_ICON);
   GtkWidget *event = gtk_event_box_new();

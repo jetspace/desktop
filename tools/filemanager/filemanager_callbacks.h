@@ -6,6 +6,9 @@ For more details view file 'LICENSE'
 #include "../../shared/info.h"
 #include <stdlib.h>
 #include <limits.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 gboolean open_file (GtkWidget *w, GdkEvent *e, gpointer p);
 
@@ -252,9 +255,117 @@ gboolean open_terminalcb (GtkWidget *w, GdkEvent *e, gpointer p)
   return FALSE;
 }
 
-gboolean show_file_stats (GtkWidget *w, GdkEvent *e, gpointer p)
+gboolean properties_cb(GtkWidget *w, GdkEvent *e, gpointer p)
 {
-  g_warning("FUNCTION NOT IMPLEMENTED");
+    GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_resize(GTK_WINDOW(win), 450, 300);
+    gtk_window_set_title(GTK_WINDOW(win), _("SiDE File Manager - Properties"));
+    gtk_container_set_border_width(GTK_CONTAINER(win), 10);
+
+    GtkWidget *main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    gtk_container_add(GTK_CONTAINER(win), main_box);
+
+
+    GtkWidget *b1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    GtkWidget *l1 = gtk_label_new(_("Icon:"));
+    gtk_box_pack_start(GTK_BOX(b1), l1, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_box), b1, FALSE, FALSE, 0);
+
+    GtkWidget *b2 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    GtkWidget *l2 = gtk_label_new(_("Path:"));
+    gtk_box_pack_start(GTK_BOX(b2), l2, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_box), b2, FALSE, FALSE, 0);
+
+    GtkWidget *b3 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    GtkWidget *l3 = gtk_label_new(_("Filename:"));
+    gtk_box_pack_start(GTK_BOX(b3), l3, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_box), b3, FALSE, FALSE, 0);
+
+    GtkWidget *b4 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    GtkWidget *l4 = gtk_label_new(_("Size:"));
+    gtk_box_pack_start(GTK_BOX(b4), l4, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_box), b4, FALSE, FALSE, 0);
+
+    GtkWidget *b5 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    GtkWidget *l5 = gtk_label_new(_("MIME Type:"));
+    gtk_box_pack_start(GTK_BOX(b5), l5, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_box), b5, FALSE, FALSE, 0);
+
+    GtkWidget *b6 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    GtkWidget *l6 = gtk_label_new(_("Last Modified:"));
+    gtk_box_pack_start(GTK_BOX(b6), l6, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(main_box), b6, FALSE, FALSE, 0);
+
+
+    GList *list = gtk_icon_view_get_selected_items(GTK_ICON_VIEW(file_view));
+    GList *it;
+
+    for(it = list; it != NULL; it = g_list_next(it))
+      {
+        if(gtk_icon_view_path_is_selected(GTK_ICON_VIEW(file_view), it->data))
+          {
+            GtkTreeIter i;
+            GtkTreePath *p =  gtk_tree_model_sort_convert_path_to_child_path(GTK_TREE_MODEL_SORT(sorted_files), it->data);
+            GtkTreeModel *model = GTK_TREE_MODEL(files);
+
+            gboolean dir;
+            gchar *name;
+            GdkPixbuf *pix;
+            gtk_tree_model_get_iter(model, &i, p);
+            gtk_tree_model_get(model, &i, COL_DIR, &dir, COL_FULL_NAME, &name, COL_ICON, &pix, -1);
+
+            //now create user feedback
+            GtkWidget *icon = gtk_image_new_from_pixbuf(pix);
+            gtk_box_pack_end(GTK_BOX(b1), icon, FALSE, FALSE, 0);
+
+            GtkWidget *pl = gtk_label_new(path);
+            gtk_box_pack_end(GTK_BOX(b2), pl, FALSE, FALSE, 0);
+
+            GtkWidget *nl = gtk_label_new(name);
+            gtk_box_pack_end(GTK_BOX(b3), nl, FALSE, FALSE, 0);
+
+            char *file = g_strdup_printf("%s/%s", path, name);
+            FILE *f = fopen(file, "rb");
+            fseek(f, 0L, SEEK_END);
+            long size = ftell(f) / 1000;
+            char *s = g_strdup_printf("%ld kB", size);
+            GtkWidget *sl = gtk_label_new(s);
+            gtk_box_pack_end(GTK_BOX(b4), sl, FALSE, FALSE, 0);
+            free(s);
+            fclose(f);
+
+            //get mime
+            GFile *gf = g_file_new_for_path(g_strdup_printf("%s/%s", path, name));
+            GFileInfo *fi = g_file_query_info(gf, "standard::*", G_FILE_QUERY_INFO_NONE ,NULL, NULL);
+            char *mime = g_content_type_get_mime_type(g_file_info_get_content_type(fi));
+            GtkWidget *ml = gtk_label_new(mime);
+            gtk_box_pack_end(GTK_BOX(b5), ml, FALSE, FALSE, 0);
+            g_object_unref(gf);
+            g_object_unref(fi);
+            g_object_unref(pix);
+            g_free(mime);
+            g_free(name);
+
+            //last modified
+            struct stat attr;
+            stat(file, &attr);
+            char date[35];
+            strftime(date, 35, "%A %d-%m-%y (%H:%M)", localtime(&(attr.st_mtime)));
+            GtkWidget *lml = gtk_label_new(date);
+            gtk_box_pack_end(GTK_BOX(b6), lml, FALSE, FALSE, 0);
+
+            free(file);
+
+            GtkWidget *button = gtk_button_new_with_label(_("Close"));
+            g_signal_connect_swapped(button, "clicked", G_CALLBACK(gtk_widget_destroy), win);
+            gtk_box_pack_end(GTK_BOX(main_box), button, FALSE, FALSE, 0);
+
+          }
+      }
+
+
+    gtk_widget_show_all(win);
+    return FALSE;
 }
 
 void create_menu(void)
@@ -270,7 +381,7 @@ void create_menu(void)
 
     g_signal_connect(G_OBJECT(open), "activate", G_CALLBACK(open_file), NULL);
     g_signal_connect(G_OBJECT(open_terminal), "activate", G_CALLBACK(open_terminalcb), NULL);
-    g_signal_connect(G_OBJECT(file_stats), "activate", G_CALLBACK(show_file_stats), NULL);
+    g_signal_connect(G_OBJECT(file_stats), "activate", G_CALLBACK(properties_cb), NULL);
 
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), open);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), file_stats);
@@ -293,6 +404,7 @@ gboolean click_callback(GtkWidget *w, GdkEventButton *e, gpointer pnt)
   GtkTreePath *op = gtk_icon_view_get_path_at_pos(GTK_ICON_VIEW(file_view), e->x, e->y);
   if(op)
   {
+    gtk_icon_view_select_path(GTK_ICON_VIEW(file_view), op);
     GtkTreePath *p = gtk_tree_model_sort_convert_path_to_child_path(GTK_TREE_MODEL_SORT(sorted_files), op);
     if(!p)
       return FALSE;

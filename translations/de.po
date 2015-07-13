@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-07-11 17:52+0100\n"
-"PO-Revision-Date: 2015-07-11 17:53+0100\n"
+"POT-Creation-Date: 2015-07-13 17:41+0100\n"
+"PO-Revision-Date: 2015-07-13 17:42+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail."
 "com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail."
@@ -350,7 +350,7 @@ msgstr "Abbrechen"
 #: /home/marius/desktop/tools/editor/editor.c:62
 #: /home/marius/desktop/tools/view/view.c:36
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:142
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:265
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:376
 #: /home/marius/desktop/tools/view/view_callbacks.h:34
 msgid "Open"
 msgstr "Öffnen"
@@ -419,7 +419,7 @@ msgid "Help"
 msgstr "Hilfe"
 
 #: /home/marius/desktop/tools/filemanager/filemanager.c:36
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:21
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:24
 msgid "SiDE File Manager"
 msgstr "SiDE Dateimanager"
 
@@ -582,11 +582,43 @@ msgstr "Aktuelle Zeile hervorheben:"
 msgid "Font:"
 msgstr "Schriftart: "
 
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:266
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:262
+msgid "SiDE File Manager - Properties"
+msgstr "SiDE Dateimanager - Eigenschaften"
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:270
+msgid "Icon:"
+msgstr "Symbol:"
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:275
+msgid "Path:"
+msgstr "Pfad:"
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:280
+msgid "Filename:"
+msgstr "Dateiname:"
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:285
+msgid "Size:"
+msgstr "Größe:"
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:290
+msgid "MIME Type:"
+msgstr "MIME Typ:"
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:295
+msgid "Last Modified:"
+msgstr "Zuletzt geändert:"
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:359
+msgid "Close"
+msgstr "Schließen"
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:377
 msgid "Open Terminal here"
 msgstr "Terminal hier öffnen"
 
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:268
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:379
 msgid "Properties"
 msgstr "Eigenschaften"
 
