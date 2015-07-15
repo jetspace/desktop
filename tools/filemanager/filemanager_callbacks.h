@@ -9,6 +9,7 @@ For more details view file 'LICENSE'
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <errno.h>
 
 gboolean open_file (GtkWidget *w, GdkEvent *e, gpointer p);
 
@@ -62,8 +63,10 @@ void update_files(int get_path, char *name)
   {
     if(!path)
       path = g_strdup_printf("%s", name);
-    else
+    else if(strlen(path) > 1)
       path = g_strdup_printf("%s/%s", path, name);
+    else
+      path = g_strdup_printf("/%s", name);
   }
 
   if(!path)
@@ -368,13 +371,106 @@ gboolean properties_cb(GtkWidget *w, GdkEvent *e, gpointer p)
     return FALSE;
 }
 
+GtkWidget *file_entry;
+GtkWidget *rename_win;
+gboolean apply_rename(GtkWidget *w, GdkEvent *e, char *p)
+{
+  char *new_name = g_strdup(gtk_entry_get_text(GTK_ENTRY(file_entry)));
+  char *old_name = (char *) p;
+  if(strlen(new_name) == 0)
+  {
+    return FALSE;
+  }
+  else if(strcmp(old_name, new_name) == 0)
+  {
+    free(old_name);
+    free(new_name);
+    gtk_widget_destroy(rename_win);
+    return FALSE;
+  }
+
+  if(rename(old_name, new_name) != 0)
+  {
+    GtkWidget *dialog = gtk_message_dialog_new (GTK_WINDOW(rename_win),
+                                 GTK_DIALOG_DESTROY_WITH_PARENT,
+                                 GTK_MESSAGE_ERROR,
+                                 GTK_BUTTONS_CLOSE,
+                                 _("Error renaming '%s' to '%s': %s"),
+                                 old_name, new_name,
+                                 g_strerror (errno));
+    g_signal_connect_swapped (dialog, "response",
+                          G_CALLBACK (gtk_widget_destroy),
+                          dialog);
+
+    gtk_dialog_run(GTK_DIALOG(dialog));
+    free(old_name);
+    free(new_name);
+    return FALSE;
+  }
+
+  update_files(2, NULL);
+  gtk_widget_destroy(rename_win);
+  free(old_name);
+  free(new_name);
+  return FALSE;
+}
+
+
+gboolean rename_cb(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  rename_win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_resize(GTK_WINDOW(rename_win), 300, 100);
+  gtk_window_set_title(GTK_WINDOW(rename_win), _("SiDE File Manager - Rename"));
+  gtk_container_set_border_width(GTK_CONTAINER(rename_win), 10);
+
+  GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+  gtk_container_add(GTK_CONTAINER(rename_win), box);
+
+  gtk_box_pack_start(GTK_BOX(box), gtk_label_new(_("Enter the new name:")), FALSE, FALSE, 0);
+
+  file_entry = gtk_entry_new();
+  gtk_box_pack_start(GTK_BOX(box), file_entry, FALSE, FALSE, 0);
+
+  GtkWidget *button = gtk_button_new_with_label(_("Apply"));
+  gtk_box_pack_end(GTK_BOX(box), button, FALSE, FALSE, 0);
+
+
+  //fill entry
+  GList *list = gtk_icon_view_get_selected_items(GTK_ICON_VIEW(file_view));
+  GList *it;
+
+  for(it = list; it != NULL; it = g_list_next(it))
+    {
+      if(gtk_icon_view_path_is_selected(GTK_ICON_VIEW(file_view), it->data))
+        {
+          GtkTreeIter i;
+          GtkTreePath *p =  gtk_tree_model_sort_convert_path_to_child_path(GTK_TREE_MODEL_SORT(sorted_files), it->data);
+          GtkTreeModel *model = GTK_TREE_MODEL(files);
+
+          gboolean dir;
+          gchar *name;
+          gtk_tree_model_get_iter(model, &i, p);
+          gtk_tree_model_get(model, &i, COL_DIR, &dir, COL_FULL_NAME, &name, -1);
+
+          gtk_entry_set_text(GTK_ENTRY(file_entry), name);
+          g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(apply_rename), name);
+        }
+    }
+
+
+
+  gtk_widget_show_all(rename_win);
+  return FALSE;
+}
+
 void create_menu(void)
 {
   menu = gtk_menu_new();
-  GtkWidget *open, *open_terminal, *sep, *file_stats;
+  GtkWidget *open, *open_terminal, *sep, *file_stats, *ren;
 
   open = gtk_menu_item_new_with_label(_("Open"));
   open_terminal = gtk_menu_item_new_with_label(_("Open Terminal here"));
+  ren = gtk_menu_item_new_with_label(_("Rename"));
   sep = gtk_separator_menu_item_new();
   file_stats = gtk_menu_item_new_with_label(_("Properties"));
 
@@ -382,9 +478,11 @@ void create_menu(void)
     g_signal_connect(G_OBJECT(open), "activate", G_CALLBACK(open_file), NULL);
     g_signal_connect(G_OBJECT(open_terminal), "activate", G_CALLBACK(open_terminalcb), NULL);
     g_signal_connect(G_OBJECT(file_stats), "activate", G_CALLBACK(properties_cb), NULL);
+    g_signal_connect(G_OBJECT(ren), "activate", G_CALLBACK(rename_cb), NULL);
 
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), open);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), file_stats);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), ren);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), open_terminal);
 

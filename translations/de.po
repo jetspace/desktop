@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-07-13 17:41+0100\n"
-"PO-Revision-Date: 2015-07-13 17:42+0100\n"
+"POT-Creation-Date: 2015-07-15 11:42+0100\n"
+"PO-Revision-Date: 2015-07-15 11:44+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail."
 "com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail."
@@ -194,6 +194,7 @@ msgstr "Wählen sie ihr GTK 3.0 Thema:"
 #: /home/marius/desktop/settings/settings_session.c:243
 #: /home/marius/desktop/settings/settings_wallpaper.c:104
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:236
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:434
 msgid "Apply"
 msgstr "Übernehmen"
 
@@ -350,7 +351,7 @@ msgstr "Abbrechen"
 #: /home/marius/desktop/tools/editor/editor.c:62
 #: /home/marius/desktop/tools/view/view.c:36
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:142
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:376
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:471
 #: /home/marius/desktop/tools/view/view_callbacks.h:34
 msgid "Open"
 msgstr "Öffnen"
@@ -419,7 +420,7 @@ msgid "Help"
 msgstr "Hilfe"
 
 #: /home/marius/desktop/tools/filemanager/filemanager.c:36
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:24
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:25
 msgid "SiDE File Manager"
 msgstr "SiDE Dateimanager"
 
@@ -582,43 +583,60 @@ msgstr "Aktuelle Zeile hervorheben:"
 msgid "Font:"
 msgstr "Schriftart: "
 
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:262
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:265
 msgid "SiDE File Manager - Properties"
 msgstr "SiDE Dateimanager - Eigenschaften"
 
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:270
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:273
 msgid "Icon:"
 msgstr "Symbol:"
 
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:275
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:278
 msgid "Path:"
 msgstr "Pfad:"
 
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:280
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:283
 msgid "Filename:"
 msgstr "Dateiname:"
 
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:285
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:288
 msgid "Size:"
 msgstr "Größe:"
 
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:290
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:293
 msgid "MIME Type:"
 msgstr "MIME Typ:"
 
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:295
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:298
 msgid "Last Modified:"
 msgstr "Zuletzt geändert:"
 
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:359
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:362
 msgid "Close"
 msgstr "Schließen"
 
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:377
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:398
+#, c-format
+msgid "Error renaming '%s' to '%s': %s"
+msgstr "Fehler beim umbenennen von '%s' zu '%s': %s"
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:423
+msgid "SiDE File Manager - Rename"
+msgstr "SiDE Dateimanager - Umbenennen"
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:429
+msgid "Enter the new name:"
+msgstr "Geben sie den neuen Namen ein:"
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:472
 msgid "Open Terminal here"
 msgstr "Terminal hier öffnen"
 
-#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:379
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:473
+msgid "Rename"
+msgstr "Umbenennen"
+
+#: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:475
 msgid "Properties"
 msgstr "Eigenschaften"
 
