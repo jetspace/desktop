@@ -67,7 +67,7 @@ int main(int argc, char **argv)
     if(argc > 1)
         {
             gtk_image_set_from_file(GTK_IMAGE(pic), filename);
-            origin = gtk_image_get_pixbuf(GTK_IMAGE(pic));
+            origin = gdk_pixbuf_copy(gtk_image_get_pixbuf(GTK_IMAGE(pic)));
             gtk_window_set_title(GTK_WINDOW(win), g_strdup_printf(_("SiDE Picture Viewer - %s"), filename));
             set_status();
         }
