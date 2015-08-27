@@ -290,6 +290,10 @@ gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box)
     gtk_widget_show_all(box);
     free(plugins);
   }
+  else if(strcmp(key, "use-custom-theme") == 0 || strcmp(key, "custom-theme-path") == 0)
+  {
+    use_css(s);
+  }
 
 }
 
