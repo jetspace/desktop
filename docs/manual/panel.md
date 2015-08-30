@@ -1,9 +1,3 @@
-# Intro
-
-This is the User-manual for SiDE.
-
-## Panel
-
 ### Layout
 
 The Panel is normally at the bottom of your screen.
@@ -24,7 +18,7 @@ To save the changes press the Apply button.
 
 #### Apps
 
-![App Settings](img/side-panel-settings.png)
+![App Settings](../img/side-panel-settings.png)
 
 In the first entry box, you can choose your terminal. Please note,
 the terminal command must have an `&` at the end or the panel
@@ -39,9 +33,11 @@ which should be shown in the panel. You have to fill in three fields:
 
 Clear will delete _all_  favorite applications.
 
+Add will allow you to choose an app for the Panel, Add cutom will allow you to create your own shortcut.
+
 #### Plugins
 
-![Plugin Settings](img/side-panel-settings-2.png)
+![Plugin Settings](../img/side-panel-settings-2.png)
 
 You can enable or disable some plugin. Plugins extend the function of the panel.
 The panel comes with a few pre-installed plugins like `clock.so` or `user.so`.
@@ -58,7 +54,7 @@ If you want to add a new plugin you have to restart the panel, so it would be lo
 
 ### Advanced
 
-![Advanced Settings](img/side-panel-settings-3.png)
+![Advanced Settings](../img/side-panel-settings-3.png)
 
 On this page you can simply enable some built-in features of the Panel:
 
@@ -71,50 +67,3 @@ But you can also choose custom themes. This themes must be located in `/usr/shar
 and contain a valid theme (`side-panel`).
 
 To use a theme, enable the switch and select one from the list below.
-
-## Wallpaper
-
-### Layout
-
-The Wallpaper service is currently quite simple. It displays the Wallpaper ;)
-and provides a basic context menu:
-
-* Run (run dialog, see [above](#panel))
-* Change Wallpaper (opens the wallpaper settings)
-* Log Out (end session, see [above](#panel))
-
-### Options
-
-![Wallpaper Settings](img/side-wallpaper-settings.png)
-
-Here you can simply change the Wallpaper (like the [SpaceX Dragon](http://spacex.com/dragon)). Use
-Open to load a file browser, where you can select an image to use as background.
-
-__Note:__ The Image is scaled, so it should fit more or less the resolution of your screen,
-otherwise you will get bad results.
-
-Use clear to remove the current Wallpaper and use an empty window as background.
-
-## Editor
-
-### Layout
-
-![SiDE Editor](img/side-edit.png)
-
-This is how the editor looks like:
-
-You have a menu and the text editing part. Also, the title bar is displaying some infos:
-
-* Filename (or `untitled`)
-* Indicator if file was changed (`*`)
-
-The Text area highlights the current line and will also show line numbers.
-
-### Features
-
-* Indicate file changing
-* Line Highlighting
-* Line Numbers
-* show matching brackets
-* save window position + size
-* warning if work would be lost

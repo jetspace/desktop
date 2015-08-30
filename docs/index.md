@@ -1,6 +1,6 @@
 # Welcome to SiDE
 
-SiDE stands for Simple Desktop Enviroment.
+SiDE means Simple Desktop Enviroment.
 
 This is what it tries to be. Simple means 2 things:
 * Easy to use
@@ -8,15 +8,13 @@ This is what it tries to be. Simple means 2 things:
 
 For more informations visit the About tab.
 
-## Apps
+## Features
 
-* Panel
-* Wallpaper Service
-* Settings Manager
-* Notification Daemon
-* App Search
-* Session with Autostart support
+  * Comes with some basic applications
+  * Low resource usage (RAM/CPU)
+  * Theme support
+
 
 ## Version
 
-This Documentation is build for version 0.70 (unreleased).
+This Documentation is build for version 0.80 (unreleased).
