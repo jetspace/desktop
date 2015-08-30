@@ -5,10 +5,12 @@ For more details view file 'LICENSE'
 */
 
 #include <glib.h>
+#include <gtk/gtk.h>
 #include <string.h>
 #include <stdio.h>
 #include <dbus/dbus.h>
 #include <stdlib.h>
+#include "popup.h"
 #include "../shared/info.h"
 
 DBusError err;
@@ -16,13 +18,10 @@ DBusConnection* con;
 
 gboolean cmd_line_output = FALSE;
 
-int SIDE_NOTIFICATION_ID_COUNTER = 0;
+int SiDE_NOTIFICATION_ID_COUNTER = 0;
 
 static DBusMessage* create_notification(DBusMessage *msg)
 {
-
-
-
   DBusMessage *r;
 	DBusMessageIter arg;
 
@@ -49,8 +48,8 @@ static DBusMessage* create_notification(DBusMessage *msg)
   if(cmd_line_output)
     {
       g_print("------------------------------------------------------>\n");
-      g_print("SIDE-notifyd - New Notification\n");
-      g_print("SIDE-ID: %d\n", SIDE_NOTIFICATION_ID_COUNTER);
+      g_print("SiDE-notifyd - New Notification\n");
+      g_print("SiDE-ID: %d\n", SiDE_NOTIFICATION_ID_COUNTER);
       g_print("App    : %s\n", app);
       g_print("Icon   : %s\n", icon);
       g_print("Summary: %s\n", sum);
@@ -61,17 +60,15 @@ static DBusMessage* create_notification(DBusMessage *msg)
 
   r = dbus_message_new_method_return(msg);
 	dbus_message_iter_init_append(r, &arg);
-	if (!dbus_message_iter_append_basic(&arg, DBUS_TYPE_UINT32, &SIDE_NOTIFICATION_ID_COUNTER))
+	if (!dbus_message_iter_append_basic(&arg, DBUS_TYPE_UINT32, &SiDE_NOTIFICATION_ID_COUNTER))
 		return NULL;
 
-  if(SIDE_NOTIFICATION_ID_COUNTER < INT_MAX)
-    SIDE_NOTIFICATION_ID_COUNTER++;
+  if(SiDE_NOTIFICATION_ID_COUNTER < INT_MAX)
+    SiDE_NOTIFICATION_ID_COUNTER++;
   else
-    SIDE_NOTIFICATION_ID_COUNTER = 0;
+    SiDE_NOTIFICATION_ID_COUNTER = 0;
 
-  char buffer[5000];
-  snprintf(buffer, 5000, "side-notify-popup \"%d\" \"%s\" \"%s\" \"%s\" &", SIDE_NOTIFICATION_ID_COUNTER, icon, sum, body);
-  system(buffer);
+  side_notify_popup_create(SiDE_NOTIFICATION_ID_COUNTER, app, icon, sum, body, cmd_line_output);
 
 	return r;
 
@@ -142,6 +139,12 @@ static DBusHandlerResult bus(DBusConnection *con, DBusMessage *msg, void *data)
 	return DBUS_HANDLER_RESULT_HANDLED;
 }
 
+gboolean refresh_bus(gpointer data)
+{
+  dbus_connection_read_write_dispatch(con, 1);
+  return TRUE;
+}
+
 int main(int argc, char **argv)
 {
 
@@ -156,12 +159,12 @@ int main(int argc, char **argv)
   con = dbus_bus_get(DBUS_BUS_SESSION, &err);
 	if (dbus_error_is_set(&err))
   {
-		g_warning("SIDE-notifyd: failed to connect to D-bus: %s\n", err.message);
+		g_warning("SiDE-notifyd: failed to connect to D-bus: %s\n", err.message);
 		dbus_error_free(&err);
 	}
 	if (con == NULL)
     {
-      g_error("SIDE-notifyd: failed to connect to D-bus!");
+      g_error("SiDE-notifyd: failed to connect to D-bus!");
     }
 
   int x = dbus_bus_request_name(con, "org.freedesktop.Notifications", DBUS_NAME_FLAG_REPLACE_EXISTING, &err);
@@ -173,7 +176,9 @@ int main(int argc, char **argv)
 
   dbus_connection_register_object_path(con, "/org/freedesktop/Notifications", bus_v, NULL);
 
+  gtk_init(&argc, &argv);
 
+  g_timeout_add(250, refresh_bus, NULL);
 
-  while(dbus_connection_read_write_dispatch(con, -1));
+  gtk_main();
 }
