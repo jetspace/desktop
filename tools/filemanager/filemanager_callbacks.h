@@ -236,7 +236,7 @@ GtkWidget *menu;
 
 gboolean open_file (GtkWidget *w, GdkEvent *e, gpointer p)
 {
-  char *cmd = g_strdup_printf("xdg-open \"%s\" &", run_buff);
+  char *cmd = g_strdup_printf("side-open \"%s\" &", run_buff);
   system(cmd);
   free(cmd);
 }
