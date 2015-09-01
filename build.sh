@@ -11,6 +11,9 @@ make install
 cd ../side-log
 make
 make install
+cd ../side-config
+make
+make install
 cd ../..
 
 #BUILDING BIN
@@ -24,11 +27,11 @@ cd ../plugins
 make
 cd ../session
 make
-cd ../utility
-make
 cd ../notify
 make
 cd ../search
+make
+cd ../open
 make
 
 #tools

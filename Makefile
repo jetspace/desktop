@@ -28,8 +28,8 @@ install:
 	sudo mv side-session-settings /bin/
 	sudo mv side-session /bin/
 	sudo mv side-notifyd /bin/
-	sudo mv side-notify-popup /bin/
 	sudo mv side-search /bin/
+	sudo mv side-open /bin/
 	sudo mv side-edit /bin/
 	sudo mv side-view /bin/
 	sudo mv side-files /bin/
@@ -37,6 +37,8 @@ install:
 	sudo mv volume.so /usr/lib/jetspace/panel/plugins/
 	sudo mv user.so /usr/lib/jetspace/panel/plugins/
 	sudo cp translations/de.mo /usr/share/locale/de/LC_MESSAGES/side.mo
+	mkdir -p /usr/share/side/
+	sudo cp open/mime.conf /usr/share/side/
 clean:
 	rm side-panel
 	rm side-wallpaper-service
