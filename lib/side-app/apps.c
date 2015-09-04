@@ -36,6 +36,7 @@ AppEntry side_apps_get_next_entry(void)
 	bool icon = false;
 	ret.show_in_side = true;
 	ret.hidden = false;
+	memset(ret.mime_types, 0, 1000);
 
 	struct dirent *d;
 
@@ -127,6 +128,11 @@ AppEntry side_apps_get_next_entry(void)
 				ret.show_in_side = false;
 			else
 				ret.show_in_side = true;
+		}
+		if(strncmp(buffer , "MimeType=", 9) == 0)
+		{//MiME
+			strtok(buffer, "=");
+			strncpy(ret.mime_types, strtok(NULL, "\n") , 1000);
 		}
 		if(strncmp(buffer, "Categories=", 11) == 0)
 		{

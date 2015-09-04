@@ -58,6 +58,7 @@ typedef struct
 	bool show_in_side;
 	AppType type;
 	SubType sub;
+	char mime_types[1000];
 }AppEntry;
 
 DIR  *side_apps_dir;

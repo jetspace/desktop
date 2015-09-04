@@ -50,6 +50,7 @@ cd ..
 if [ "$1" == "-r" ]
 then
 sudo make install
+make installuserconf
 make
 fi
 
@@ -57,4 +58,5 @@ fi
 if [ "$1" == "-i" ]
 then
 sudo make install
+make installuserconf
 fi

@@ -37,8 +37,13 @@ install:
 	sudo mv volume.so /usr/lib/jetspace/panel/plugins/
 	sudo mv user.so /usr/lib/jetspace/panel/plugins/
 	sudo cp translations/de.mo /usr/share/locale/de/LC_MESSAGES/side.mo
-	mkdir -p /usr/share/side/
-	sudo cp open/mime.conf /usr/share/side/
+	mkdir -p /etc/side/
+	sudo cp open/mime.conf /etc/side/
+
+installuserconf:
+	mkdir -p ~/.config/side
+	cp open/mime.conf ~/.config/side/
+
 clean:
 	rm side-panel
 	rm side-wallpaper-service
