@@ -13,6 +13,7 @@ For more details view file 'LICENSE'
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
+#include <glib/gi18n.h>
 
 #include <gtk/gtk.h>
 
@@ -60,7 +61,7 @@ void choose_new_app(char *mime)
   found_new_app = false;
   side_apps_load();
   AppEntry e;
-  puts("Possible Apps:");
+  printf(_("Possible Apps for type '%s':\n"), mime);
   do
   {
       e = side_apps_get_next_entry();
@@ -74,14 +75,14 @@ void choose_new_app(char *mime)
   side_apps_close();
 
   GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(win), "SiDE Open...");
+  gtk_window_set_title(GTK_WINDOW(win), _("SiDE Open..."));
   gtk_window_resize(GTK_WINDOW(win), 500, 400);
   g_signal_connect(G_OBJECT(win), "destroy", G_CALLBACK(destroy), NULL);
 
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
   gtk_container_add(GTK_CONTAINER(win), box);
 
-  GtkWidget *text = gtk_label_new("Select an app for the current content type.\nIf you close this window, SiDE will try to find a fallback Application for this file.");
+  GtkWidget *text = gtk_label_new(_("Select an app for the current content type.\nIf you close this window, SiDE will try to find a fallback Application for this file."));
   gtk_box_pack_start(GTK_BOX(box), text, FALSE, FALSE, 5);
 
   tree = gtk_tree_view_new();
@@ -94,14 +95,14 @@ void choose_new_app(char *mime)
   GtkTreeViewColumn *column;
 
   renderer = gtk_cell_renderer_text_new();
-  column = gtk_tree_view_column_new_with_attributes("App", renderer, "text", 0, NULL);
+  column = gtk_tree_view_column_new_with_attributes(_("App"), renderer, "text", 0, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
 
   gtk_tree_view_set_model(GTK_TREE_VIEW(tree), GTK_TREE_MODEL(list));
   gtk_tree_view_expand_all(GTK_TREE_VIEW(tree));
   gtk_box_pack_start(GTK_BOX(box), scroll_win, TRUE, TRUE, 0);
 
-  GtkWidget *button = gtk_button_new_with_label("Select");
+  GtkWidget *button = gtk_button_new_with_label(_("Select"));
   gtk_box_pack_end(GTK_BOX(box), button, FALSE, FALSE, 0);
 
   g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(use_app), g_strdup(mime));
@@ -128,6 +129,7 @@ char *get_mime_type(char *file)
 
 int main(int argc, char **argv)
 {
+  textdomain("side");
   gtk_init(&argc, &argv);
   memset(MIMEDB, 0, 2000);
   struct passwd *pw = getpwuid(getuid());
@@ -138,7 +140,7 @@ int main(int argc, char **argv)
 
   if(access(MIMEDB, F_OK ) == -1 )
   {
-    fprintf(stderr, "Can't find local configuration {%s} using system fallback {%s}\n", MIMEDB, MIMEFALLBACK);
+    fprintf(stderr, _("Can't find local configuration {%s} using system fallback {%s}\n"), MIMEDB, MIMEFALLBACK);
     memset(MIMEDB, 0, 2000);
     strcat(MIMEDB, MIMEFALLBACK);
   }
@@ -160,14 +162,14 @@ int main(int argc, char **argv)
           continue;
         }
 
-      fprintf(stderr, "can't find full match for type %s\n", mime_type);
+      fprintf(stderr, _("can't find full match for type %s\n"), mime_type);
       subtype = strtok(mime_type, "/");
       app = side_lookup_value(MIMEDB, subtype);
     }
 
     if(!app)
     {
-      fprintf(stderr, "Unable to open MIME type %s or subtype %s\n",mime_type, subtype);
+      fprintf(stderr, _("Unable to open MIME type %s or subtype %s\n"),mime_type, subtype);
       g_free(mime_type);
       continue;
     }
