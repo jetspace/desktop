@@ -36,9 +36,17 @@ gboolean update_wallpaper(GSettings *s, gchar *key, GtkWidget *box)
 
 int main(int argc, char **argv)
 {
-
   textdomain("side");
   gtk_init(&argc, &argv);
+
+  GtkCssProvider *p = gtk_css_provider_new();
+  GdkDisplay *display;
+  GdkScreen *screen;
+  display = gdk_display_get_default ();
+  screen = gdk_display_get_default_screen (display);
+  gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (p), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  gtk_css_provider_load_from_data(p, "GtkImage \n{\nbackground-color: transparent;\n-gtk-image-effect: none;\n}", -1, NULL);
+
 
   GSettings *gnome_conf;
   gnome_conf = g_settings_new("org.gnome.desktop.background");
