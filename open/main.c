@@ -16,41 +16,75 @@ For more details view file 'LICENSE'
 
 #include <gtk/gtk.h>
 
+char MIMEDB[2000];
+#define MIMEFALLBACK "/etc/side/mime.conf"
+
+bool found_new_app = false;
+
 //GUI
 
 GtkTreeIter iter;
 GtkListStore *list;
+GtkWidget *tree;
+
+gboolean use_app (GtkWidget *w, GdkEvent *e, gpointer data)
+{
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+
+  model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree));
+
+  char *exec;
+
+  if(gtk_tree_selection_get_selected(gtk_tree_view_get_selection(GTK_TREE_VIEW(tree)), &model, &iter))
+  {
+    gtk_tree_model_get(model, &iter, 1, &exec, -1);
+    side_set_value(MIMEDB, (char *)data, exec, true);
+    gtk_widget_destroy(GTK_WIDGET(gtk_widget_get_parent_window(w)));
+    gtk_main_quit();
+    found_new_app = true;
+  }
+  return FALSE;
+}
+
+gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer data)
+{
+  gtk_main_quit();
+  return FALSE;
+}
+
 
 void choose_new_app(char *mime)
 {
   list = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
-
+  found_new_app = false;
   side_apps_load();
   AppEntry e;
   puts("Possible Apps:");
   do
   {
-    e = (AppEntry) side_apps_get_next_entry();
-    if(strstr(e.mime_types, mime) != NULL)
-    {
+      e = side_apps_get_next_entry();
+      if(strstr(e.mime_types, mime) == 0)
+        continue;
       printf(" :: %s\n", e.app_name);
       gtk_list_store_append(GTK_LIST_STORE(list), &iter);
       gtk_list_store_set(GTK_LIST_STORE(list), &iter, 0, e.app_name, 1, e.exec, -1);
-    }
+
   }while(e.valid == true);
   side_apps_close();
 
   GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(win), "SiDE Open...");
   gtk_window_resize(GTK_WINDOW(win), 500, 400);
+  g_signal_connect(G_OBJECT(win), "destroy", G_CALLBACK(destroy), NULL);
 
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
   gtk_container_add(GTK_CONTAINER(win), box);
 
-  GtkWidget *text = gtk_label_new("Select an app for the current content:");
-  gtk_box_pack_start(GTK_BOX(box), text, FALSE, FALSE, 0);
+  GtkWidget *text = gtk_label_new("Select an app for the current content type.\nIf you close this window, SiDE will try to find a fallback Application for this file.");
+  gtk_box_pack_start(GTK_BOX(box), text, FALSE, FALSE, 5);
 
-  GtkWidget *tree = gtk_tree_view_new();
+  tree = gtk_tree_view_new();
   GtkWidget *scroll_win = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll_win), 200);
@@ -66,6 +100,11 @@ void choose_new_app(char *mime)
   gtk_tree_view_set_model(GTK_TREE_VIEW(tree), GTK_TREE_MODEL(list));
   gtk_tree_view_expand_all(GTK_TREE_VIEW(tree));
   gtk_box_pack_start(GTK_BOX(box), scroll_win, TRUE, TRUE, 0);
+
+  GtkWidget *button = gtk_button_new_with_label("Select");
+  gtk_box_pack_end(GTK_BOX(box), button, FALSE, FALSE, 0);
+
+  g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(use_app), g_strdup(mime));
 
   gtk_widget_show_all(win);
   gtk_main();
@@ -85,12 +124,11 @@ char *get_mime_type(char *file)
   return mime;
 }
 
-#define MIMEFALLBACK "/etc/side/mime.conf"
+
 
 int main(int argc, char **argv)
 {
   gtk_init(&argc, &argv);
-  char MIMEDB[2000];
   memset(MIMEDB, 0, 2000);
   struct passwd *pw = getpwuid(getuid());
   const char *homedir = pw->pw_dir;
@@ -116,6 +154,12 @@ int main(int argc, char **argv)
     if(!app)
     {
       choose_new_app(mime_type);
+      if(found_new_app)
+        {
+          x--;
+          continue;
+        }
+
       fprintf(stderr, "can't find full match for type %s\n", mime_type);
       subtype = strtok(mime_type, "/");
       app = side_lookup_value(MIMEDB, subtype);
@@ -135,7 +179,6 @@ int main(int argc, char **argv)
     strcat(op, argv[x]);
     strcat(op, "\" &");
     system(op);
-    free(op);
 
     g_free(mime_type);
 
