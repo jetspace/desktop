@@ -144,19 +144,39 @@ int main(int argc, char **argv)
     memset(MIMEDB, 0, 2000);
     strcat(MIMEDB, MIMEFALLBACK);
   }
-
+  bool select = false;
   for (int x = 1; x < argc; x++)
   {
-    char *mime_type = get_mime_type(argv[x]);
+    if(strcmp(argv[x], "--select") == 0)
+      {
+        select = true;
+        continue;
+      }
+    char *mime_type;
+    if(strncmp(argv[x], "http://", 7) == 0)
+    {
+      mime_type = g_strdup("x-scheme-handler/http");
+    }
+    else if (strncmp(argv[x], "https://", 8) == 0)
+    {
+      mime_type = g_strdup("x-scheme-handler/https");
+    }
+    else
+      mime_type = get_mime_type(argv[x]);
 
+    if(select)
+    {
+      choose_new_app(mime_type);
+    }
 
     char *app = side_lookup_value(MIMEDB, mime_type);
     char *subtype;
 
     if(!app)
     {
-      choose_new_app(mime_type);
-      if(found_new_app)
+      if(!select)
+        choose_new_app(mime_type);
+      if(found_new_app && !select)
         {
           x--;
           continue;
@@ -183,6 +203,6 @@ int main(int argc, char **argv)
     system(op);
 
     g_free(mime_type);
-
+    select = false;
   }
 }

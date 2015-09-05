@@ -241,6 +241,13 @@ gboolean open_file (GtkWidget *w, GdkEvent *e, gpointer p)
   free(cmd);
 }
 
+gboolean open_file_with (GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  char *cmd = g_strdup_printf("side-open --select \"%s\" &", run_buff);
+  system(cmd);
+  free(cmd);
+}
+
 gboolean open_terminalcb (GtkWidget *w, GdkEvent *e, gpointer p)
 {
   GSettings *term = g_settings_new("org.gnome.desktop.default-applications.terminal");
@@ -466,9 +473,10 @@ gboolean rename_cb(GtkWidget *w, GdkEvent *e, gpointer p)
 void create_menu(void)
 {
   menu = gtk_menu_new();
-  GtkWidget *open, *open_terminal, *sep, *file_stats, *ren;
+  GtkWidget *open, *openw, *open_terminal, *sep, *file_stats, *ren;
 
   open = gtk_menu_item_new_with_label(_("Open"));
+  openw = gtk_menu_item_new_with_label(_("Open with..."));
   open_terminal = gtk_menu_item_new_with_label(_("Open Terminal here"));
   ren = gtk_menu_item_new_with_label(_("Rename"));
   sep = gtk_separator_menu_item_new();
@@ -476,11 +484,13 @@ void create_menu(void)
 
 
     g_signal_connect(G_OBJECT(open), "activate", G_CALLBACK(open_file), NULL);
+    g_signal_connect(G_OBJECT(openw), "activate", G_CALLBACK(open_file_with), NULL);
     g_signal_connect(G_OBJECT(open_terminal), "activate", G_CALLBACK(open_terminalcb), NULL);
     g_signal_connect(G_OBJECT(file_stats), "activate", G_CALLBACK(properties_cb), NULL);
     g_signal_connect(G_OBJECT(ren), "activate", G_CALLBACK(rename_cb), NULL);
 
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), open);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), openw);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), file_stats);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), ren);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
