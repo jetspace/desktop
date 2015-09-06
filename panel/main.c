@@ -509,7 +509,9 @@ void create_app_menu(GtkWidget *box)
           GtkWidget *appbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
           gtk_container_add(GTK_CONTAINER(apps[total_apps -1].item), appbox);
 
-          GtkWidget *icon = gtk_image_new_from_icon_name(ent.icon, GTK_ICON_SIZE_MENU);
+          GtkIconTheme *icons = gtk_icon_theme_get_default();
+          GdkPixbuf *pb = gtk_icon_theme_load_icon(icons, ent.icon, 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL);
+          GtkWidget *icon = gtk_image_new_from_pixbuf(pb);
           gtk_box_pack_start(GTK_BOX(appbox), icon, FALSE, FALSE, 0);
 
           GtkWidget *label = gtk_label_new(ent.app_name);
