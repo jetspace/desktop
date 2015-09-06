@@ -97,7 +97,7 @@ AppEntry side_apps_get_next_entry(void)
 		{//EXEC PATH
 			path = true;
 			strtok(buffer, "=");
-			char *ptr = strtok(NULL, "\n");
+			char *ptr = strtok(NULL, "%\n");
 			strncpy(ret.exec, ptr != NULL ? ptr : "", 2000);
 			ret.exec_length = strlen(ret.exec);
 			ret.exec[strlen(ret.exec)] = '\0';

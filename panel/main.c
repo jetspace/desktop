@@ -505,7 +505,15 @@ void create_app_menu(GtkWidget *box)
           strncpy(apps[total_apps - 1].exec, ent.exec, ent.exec_length);
           strncpy(apps[total_apps - 1].name, ent.app_name, strlen(ent.app_name));
           apps[total_apps - 1].exec[ent.exec_length] = '\0';
-          apps[total_apps - 1].item = gtk_menu_item_new_with_label(ent.app_name);
+          apps[total_apps - 1].item = gtk_menu_item_new();
+          GtkWidget *appbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+          gtk_container_add(GTK_CONTAINER(apps[total_apps -1].item), appbox);
+
+          GtkWidget *icon = gtk_image_new_from_icon_name(ent.icon, GTK_ICON_SIZE_MENU);
+          gtk_box_pack_start(GTK_BOX(appbox), icon, FALSE, FALSE, 0);
+
+          GtkWidget *label = gtk_label_new(ent.app_name);
+          gtk_box_pack_start(GTK_BOX(appbox), label, FALSE, FALSE, 0);
           apps[total_apps - 1].terminal = ent.terminal;
 
           if(apps[total_apps - 1].item == NULL || !GTK_IS_WIDGET(apps[total_apps - 1].item))
