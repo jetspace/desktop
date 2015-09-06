@@ -236,16 +236,67 @@ GtkWidget *menu;
 
 gboolean open_file (GtkWidget *w, GdkEvent *e, gpointer p)
 {
-  char *cmd = g_strdup_printf("side-open \"%s\" &", run_buff);
-  system(cmd);
-  free(cmd);
+  GList *list = gtk_icon_view_get_selected_items(GTK_ICON_VIEW(file_view));
+  GList *it;
+
+  for(it = list; it != NULL; it = g_list_next(it))
+    {
+      if(gtk_icon_view_path_is_selected(GTK_ICON_VIEW(file_view), it->data))
+        {
+          GtkTreeIter i;
+          GtkTreePath *p =  gtk_tree_model_sort_convert_path_to_child_path(GTK_TREE_MODEL_SORT(sorted_files), it->data);
+          GtkTreeModel *model = GTK_TREE_MODEL(files);
+
+          gboolean dir;
+          gchar *name;
+          gtk_tree_model_get_iter(model, &i, p);
+          gtk_tree_model_get(model, &i, COL_DIR, &dir, COL_FULL_NAME, &name, -1);
+
+          if(dir)
+          {
+            update_files(1, name);
+            return FALSE;
+          }
+
+          char *cmd = g_strdup_printf("side-open \"%s\" &", run_buff);
+          system(cmd);
+          free(cmd);
+        }
+      }
+      return FALSE;
 }
 
 gboolean open_file_with (GtkWidget *w, GdkEvent *e, gpointer p)
 {
-  char *cmd = g_strdup_printf("side-open --select \"%s\" &", run_buff);
-  system(cmd);
-  free(cmd);
+  GList *list = gtk_icon_view_get_selected_items(GTK_ICON_VIEW(file_view));
+  GList *it;
+
+  for(it = list; it != NULL; it = g_list_next(it))
+    {
+      if(gtk_icon_view_path_is_selected(GTK_ICON_VIEW(file_view), it->data))
+        {
+          GtkTreeIter i;
+          GtkTreePath *p =  gtk_tree_model_sort_convert_path_to_child_path(GTK_TREE_MODEL_SORT(sorted_files), it->data);
+          GtkTreeModel *model = GTK_TREE_MODEL(files);
+
+          gboolean dir;
+          gchar *name;
+          gtk_tree_model_get_iter(model, &i, p);
+          gtk_tree_model_get(model, &i, COL_DIR, &dir, COL_FULL_NAME, &name, -1);
+
+          if(dir)
+          {
+            update_files(1, name);
+            return FALSE;
+          }
+
+          char *cmd = g_strdup_printf("side-open --select \"%s\" &", run_buff);
+          system(cmd);
+          free(cmd);
+        }
+      }
+
+    return FALSE;
 }
 
 gboolean open_terminalcb (GtkWidget *w, GdkEvent *e, gpointer p)

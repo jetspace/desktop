@@ -24,7 +24,24 @@ GtkTreeIter iter;
 GtkWidget *places_bar, *path_entry, *file_view;
 #include "filemanager_callbacks.h"
 
+gint sorter (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer userdata)
+{
+  char *an = NULL, *bn = NULL;
+  gboolean ad = FALSE, bd = FALSE;
+  gtk_tree_model_get(model, a, COL_NAME, &an, COL_DIR, &ad, -1);
+  gtk_tree_model_get(model, b, COL_NAME, &bn, COL_DIR, &bd, -1);
 
+  if(!an || !bn)
+    return 0;
+
+  if(ad && !bd)
+    return -1;
+  else if(!ad && bd)
+    return 1;
+
+  return strcmp(an, bn);
+
+}
 
 int main(int argc, char **argv)
 {
@@ -87,6 +104,7 @@ int main(int argc, char **argv)
   files = gtk_list_store_new(5, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_INT, G_TYPE_BOOLEAN, G_TYPE_STRING);
   sorted_files = gtk_tree_model_sort_new_with_model(GTK_TREE_MODEL(files));
   gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(sorted_files), COL_NAME, GTK_SORT_ASCENDING);
+  gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(sorted_files), COL_NAME, sorter, NULL, NULL);
 
   char cwd[2048];
 
