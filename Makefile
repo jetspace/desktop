@@ -36,6 +36,7 @@ install:
 	sudo mv clock.so /usr/lib/jetspace/panel/plugins/
 	sudo mv volume.so /usr/lib/jetspace/panel/plugins/
 	sudo mv user.so /usr/lib/jetspace/panel/plugins/
+	sudo mv icon_app_button.so /usr/lib/jetspace/panel/plugins/
 	sudo cp translations/de.mo /usr/share/locale/de/LC_MESSAGES/side.mo
 	mkdir -p /etc/side/
 	sudo cp open/mime.conf /etc/side/
