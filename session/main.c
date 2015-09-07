@@ -103,12 +103,22 @@ int main(int argc, char **argv)
         system(g_variant_get_string(g_settings_get_value(session, "shutdown"), NULL));
         return 0;
       }
+    if(strcmp(argv[1], "--restart") == 0)
+      {
+        system("killall side-panel && side-panel &");
+        system("killall side-wallpaper-service && side-wallpaper-service &");
+        system("killall side-notifyd && side-notifyd &");
+        puts("restarted services!");
+        exit(0);
+      }
   }
 
   g_print("SIDE-session Version %s loading...\n", VERSION);
 
   if(notify)
     system(NOTIFY);
+
+  if(wm)
     system(g_variant_get_string(g_settings_get_value(session, "wm"), NULL));
 
   if(panel)

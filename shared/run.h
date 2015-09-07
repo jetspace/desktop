@@ -18,6 +18,13 @@ gboolean execute(GtkWidget *widget, GdkEvent *event, GtkWidget *data)
 {
 
   const char *ptr = gtk_entry_get_text(GTK_ENTRY(path));
+
+  if(strcmp(ptr, "r") == 0)
+  {
+    system("side-session --restart");
+    gtk_main_quit();
+  }
+
   char *dup = strdup(ptr);
   char cmd[strlen(ptr) + 5];
   snprintf(cmd, strlen(ptr) +5,  "%s &", dup); //atach a & to run it independant!
@@ -38,7 +45,7 @@ gboolean path_key(GtkWidget *widget, GdkEventKey *event, gpointer data)
 }
 
 //will show an run dialog
-//app_call is the calling app -> will be phrased somedays....
+//app_call is the calling app -> will be parsed somedays....
 void run_dialog (gchar *app_call)
 {
 
