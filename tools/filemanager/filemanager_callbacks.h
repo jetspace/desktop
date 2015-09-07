@@ -231,7 +231,7 @@ gboolean go_up(GtkWidget *widget, GdkEventKey *event, gpointer data)
 
   return FALSE;
 }
-GtkWidget *menu;
+GtkWidget *menu, *folder_menu;
 
 
 gboolean open_file (GtkWidget *w, GdkEvent *e, gpointer p)
@@ -258,9 +258,10 @@ gboolean open_file (GtkWidget *w, GdkEvent *e, gpointer p)
             return FALSE;
           }
 
-          char *cmd = g_strdup_printf("side-open \"%s\" &", run_buff);
+          char *cmd = g_strdup_printf("side-open \"%s\"", name);
           system(cmd);
           free(cmd);
+          g_free(name);
         }
       }
       return FALSE;
@@ -290,9 +291,10 @@ gboolean open_file_with (GtkWidget *w, GdkEvent *e, gpointer p)
             return FALSE;
           }
 
-          char *cmd = g_strdup_printf("side-open --select \"%s\" &", run_buff);
+          char *cmd = g_strdup_printf("side-open --select \"%s\" ", name);
           system(cmd);
           free(cmd);
+          g_free(name);
         }
       }
 
@@ -542,13 +544,25 @@ void create_menu(void)
 
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), open);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), openw);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), file_stats);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), ren);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), open_terminal);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), file_stats);
 
   gtk_menu_attach_to_widget(GTK_MENU(menu), file_view, NULL);
   gtk_widget_show_all(menu);
+
+  folder_menu = gtk_menu_new();
+  GtkWidget *open_terminal_f;
+
+  open_terminal_f = gtk_menu_item_new_with_label(_("Open Terminal here"));
+  g_signal_connect(G_OBJECT(open_terminal_f), "activate", G_CALLBACK(open_terminalcb), NULL);
+
+  gtk_menu_shell_append(GTK_MENU_SHELL(folder_menu), open_terminal_f);
+  gtk_menu_attach_to_widget(GTK_MENU(folder_menu), file_view, NULL);
+  gtk_widget_show_all(folder_menu);
+
+
 
 }
 
@@ -582,7 +596,7 @@ gboolean click_callback(GtkWidget *w, GdkEventButton *e, gpointer pnt)
   }
   else
   {
-    g_warning("FUNCTION NOT IMPLEMENTED");
+    gtk_menu_popup(GTK_MENU(folder_menu), NULL, NULL, NULL, NULL,  e->button, e->time);
   }
 
   return FALSE;
