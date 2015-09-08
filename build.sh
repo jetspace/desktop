@@ -1,8 +1,6 @@
 #!/bin/bash
 #Simple build script
 
-bash install-deps.sh
-
 #BUILDING LIBS
 cd lib/side-app
 make
