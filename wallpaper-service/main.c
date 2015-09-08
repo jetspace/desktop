@@ -12,10 +12,11 @@ For more details view file 'LICENSE'
 #include <string.h>
 #include <glib/gi18n.h>
 #include "../shared/run.h"
+#include "../shared/plugins.h"
 #include "../shared/context.h"
 
 
-GtkWidget *window, *ev_box, *pic;
+GtkWidget *window, *ev_box, *pic, *grid;
 
 gboolean key_press(GtkWidget *w, GdkEventButton *e, GtkWidget *menu);
 
@@ -74,10 +75,14 @@ int main(int argc, char **argv)
   pic = gtk_image_new_from_file(""); //create empty box
   update_wallpaper(gnome_conf, "picture-uri", NULL);
   gtk_container_add(GTK_CONTAINER(ev_box), pic);
-  gtk_container_add(GTK_CONTAINER(window), ev_box);
 
+  grid = gtk_fixed_new();
+  gtk_container_add(GTK_CONTAINER(window), grid);
 
+  gtk_fixed_put(GTK_FIXED(grid), ev_box, 0, 0);
 
+  //now, load plugins...
+  load_plugins_wallpaper("/usr/lib/jetspace/wallpaper/plugins/", grid);
 
 
 

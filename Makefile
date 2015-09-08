@@ -6,10 +6,12 @@ install:
 	sudo cp gsettings/org.jetspace.desktop.session.gschema.xml /usr/share/glib-2.0/schemas/
 	sudo cp gsettings/org.jetspace.desktop.search.gschema.xml /usr/share/glib-2.0/schemas/
 	sudo cp gsettings/org.jetspace.desktop.editor.gschema.xml /usr/share/glib-2.0/schemas/
+	sudo cp gsettings/org.jetspace.desktop.wallpaper.gschema.xml /usr/share/glib-2.0/schemas/
 	sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 	sudo mkdir /usr/lib/jetspace -p
 	sudo mkdir /usr/lib/jetspace/panel -p
 	sudo mkdir /usr/lib/jetspace/panel/plugins -p
+	sudo mkdir /usr/lib/jetspace/wallpaper/plugins -p
 	sudo mkdir /usr/share/icons/jetspace -p
 	sudo cp icons/JetSpace.png /usr/share/icons/jetspace/
 	sudo cp icons/speaker.png /usr/share/icons/jetspace/
@@ -38,6 +40,7 @@ install:
 	sudo mv volume.so /usr/lib/jetspace/panel/plugins/
 	sudo mv user.so /usr/lib/jetspace/panel/plugins/
 	sudo mv icon_app_button.so /usr/lib/jetspace/panel/plugins/
+	sudo mv desktop_clock.so /usr/lib/jetspace/wallpaper/plugins/
 	sudo cp translations/de.mo /usr/share/locale/de/LC_MESSAGES/side.mo
 	mkdir -p /etc/side/
 	sudo cp open/mime.conf /etc/side/

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.jetspace.desktop.wallpaper" path="/org/jetspace/desktop/wallpaper/">
+      <key type="s" name="ignored-plugins">
+          <default>""</default>
+          <summary>Ignored Plugins</summary>
+          <description>Ignored Plugins for the wallpaper service</description>
+      </key>
+  </schema>
+</schemalist>
