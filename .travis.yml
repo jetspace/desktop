@@ -1,2 +1,2 @@
 sudo: required
-script: sudo ./test.sh
+script: sudo bash test.sh
