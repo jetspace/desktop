@@ -286,7 +286,7 @@ gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box)
   else if(strcmp(key, "ignored-plugins") == 0)
   {
     char *plugins = strdup(g_variant_get_string(g_settings_get_value(s, "ignored-plugins"), NULL));
-    update_plugins(plugins);
+    update_plugins(plugins, panel);
     gtk_widget_show_all(box);
     free(plugins);
   }

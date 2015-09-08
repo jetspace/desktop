@@ -20,6 +20,13 @@ GtkWidget *window, *ev_box, *pic, *grid;
 
 gboolean key_press(GtkWidget *w, GdkEventButton *e, GtkWidget *menu);
 
+gboolean plugins_cb(GSettings *s, gchar *key, GtkWidget *box)
+{
+  g_warning("CALLBACK TRIGGERD");
+  char *plugins = strdup(g_variant_get_string(g_settings_get_value(s, "ignored-plugins"), NULL));
+  update_plugins(plugins, grid);
+}
+
 gboolean update_wallpaper(GSettings *s, gchar *key, GtkWidget *box)
 {
     char *pic_path = strdup(g_variant_get_string(g_settings_get_value(s, "picture-uri"), NULL));
@@ -47,6 +54,9 @@ int main(int argc, char **argv)
   screen = gdk_display_get_default_screen (display);
   gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (p), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   gtk_css_provider_load_from_data(p, "GtkImage \n{\nbackground-color: transparent;\n-gtk-image-effect: none;\n}", -1, NULL);
+
+  GSettings *p_s = g_settings_new("org.jetspace.desktop.wallpaper");
+  g_signal_connect(G_OBJECT(p_s), "changed", G_CALLBACK(plugins_cb), box);
 
 
   GSettings *gnome_conf;
@@ -83,8 +93,6 @@ int main(int argc, char **argv)
 
   //now, load plugins...
   load_plugins_wallpaper("/usr/lib/jetspace/wallpaper/plugins/", grid);
-
-
 
   gtk_widget_show_all(window);
   gtk_main();

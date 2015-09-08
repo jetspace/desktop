@@ -228,7 +228,7 @@ void load_plugins(char *path, GtkWidget *root)
     }
 }
 
-void update_plugins(char *ignored_plugins)
+void update_plugins(char *ignored_plugins, GtkWidget *root_box)
 {
   char **mods = malloc(sizeof(ignored_plugins));
   char *mp = strtok(ignored_plugins, ";");
