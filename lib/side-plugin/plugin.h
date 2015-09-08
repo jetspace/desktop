@@ -11,6 +11,7 @@ For more details view file 'LICENSE'
 #include <gmodule.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
   //PANEL
 
