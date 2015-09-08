@@ -6,3 +6,5 @@ install:
 	sudo mkdir /usr/include/side -p
 	sudo cp config.h /usr/include/side/
 	rm config.o
+tester:
+	gcc -std=c99 test.c -o test -lside-config

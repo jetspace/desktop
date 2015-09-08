@@ -10,5 +10,5 @@ install:
 	sudo mkdir /usr/include/side -p
 	sudo cp plugin.h /usr/include/side/
 	rm plugin.o
-test:
-	gcc -std=c99 -Wall test.c -o tester -lside-plugin `pkg-config --libs --cflags gtk+-3.0`
+tester:
+	gcc -std=c99 -Wall test.c -o test -lside-plugin `pkg-config --libs --cflags gtk+-3.0`
