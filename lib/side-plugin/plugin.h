@@ -12,6 +12,8 @@ For more details view file 'LICENSE'
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <dirent.h>
 
   //PANEL
 
