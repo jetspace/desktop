@@ -1,5 +1,5 @@
 build:
-	gcc -c -std=c11 -Wall -Werror -fPIC  config.c -o config.o
+	gcc -c -std=c99 -Wall -Werror -fPIC  config.c -o config.o
 	gcc -shared -o side-config.so config.o
 install:
 	sudo mv side-config.so /usr/lib/libside-config.so
