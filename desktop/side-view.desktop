@@ -6,3 +6,4 @@ Comment=Basic Picture Viewer for SiDE
 Exec=side-view
 Categories=Utility;
 Icon=applications-graphics
+MimeType=image/png;image/jpeg;image/gif;image/tiff/;image/x-xpixmap;image/svg;image/svg-xml;
