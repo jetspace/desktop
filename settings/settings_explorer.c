@@ -35,6 +35,11 @@ gboolean session_settings(GtkWidget *w, GdkEvent *e, gpointer p)
   system("side-session-settings");
 }
 
+gboolean mime_settings(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  system("side-mime-settings");
+}
+
 gboolean about_d(GtkWidget *w, GdkEvent *e, gpointer p)
 {
   GtkWidget *dialog = gtk_about_dialog_new();
@@ -59,7 +64,7 @@ int main(int argc, char **argv)
 
   gtk_init(&argc, &argv);
 
-  GtkWidget *win, *wallpaper, *panel, *about, *box, *label_a, *label_i, *label_s ,*gtk, *session;
+  GtkWidget *win, *wallpaper, *panel, *about, *box, *label_a, *label_i, *label_s ,*gtk, *session, *mime;
 
   win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_resize(GTK_WINDOW(win), 300, 200);
@@ -88,6 +93,9 @@ int main(int argc, char **argv)
   session = gtk_button_new_with_label(_("Session Settings"));
   g_signal_connect(G_OBJECT(session), "button_press_event", G_CALLBACK(session_settings), NULL);
 
+  mime = gtk_button_new_with_label(_("MIME Settings"));
+  g_signal_connect(G_OBJECT(mime), "button_press_event", G_CALLBACK(mime_settings), NULL);
+
 
 
   gtk_container_add(GTK_CONTAINER(box), label_a);
@@ -96,6 +104,7 @@ int main(int argc, char **argv)
   gtk_container_add(GTK_CONTAINER(box), gtk);
   gtk_container_add(GTK_CONTAINER(box), label_s);
   gtk_container_add(GTK_CONTAINER(box), session);
+  gtk_container_add(GTK_CONTAINER(box), mime);
   gtk_container_add(GTK_CONTAINER(box), label_i);
   gtk_container_add(GTK_CONTAINER(box), about);
 

@@ -129,3 +129,28 @@ void side_set_value(char *file, char *entry, char *value, bool add)
   fclose(temp);
   fclose(f);
 }
+
+void side_init_config_read(char *file)
+{
+  side_config_file = fopen(file, "r");
+}
+
+void side_close_config_read(void)
+{
+  fclose(side_config_file);
+}
+
+char *side_get_next_entry(void)
+{
+  char buffer[2000];
+
+  fgets(buffer, 2000, side_config_file);
+
+  if(is_ignored(buffer))
+    return side_get_next_entry();
+
+  if(strstr(buffer, ":") == 0)
+    return NULL;
+
+  return strtok(buffer, ":");
+}

@@ -26,6 +26,7 @@ install:
 	sudo mv side-settings-explorer /bin/
 	sudo mv side-gtk-settings /bin/
 	sudo mv side-session-settings /bin/
+	sudo mv side-mime-settings /bin/
 	sudo mv side-session /bin/
 	sudo mv side-notifyd /bin/
 	sudo mv side-search /bin/

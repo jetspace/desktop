@@ -24,5 +24,11 @@ void side_add_new_value(char *file,  char *entry, char *value);
 //set value to entry in file. If add is true, a new one will be created if value entry is not found
 void side_set_value(char *file, char *entry, char *value, bool add);
 
+FILE *side_config_file;
+
+void side_init_config_read(char *file);
+char *side_get_next_entry(void);
+void side_close_config_read(void);
+
 
 #endif
