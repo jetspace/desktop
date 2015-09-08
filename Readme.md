@@ -3,6 +3,7 @@
 SImple Desktop Enviroment (SIDE)
 
 [![Documentation Status](https://readthedocs.org/projects/side/badge/?version=latest)](https://readthedocs.org/projects/side/?badge=latest)
+![Build Status](https://travis-ci.org/jetspace/desktop.svg)
 
 it is not useable yet... (of course you can try it :D )
 
