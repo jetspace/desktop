@@ -20,14 +20,7 @@ GtkWidget *window, *ev_box, *pic, *grid;
 
 gboolean key_press(GtkWidget *w, GdkEventButton *e, GtkWidget *menu);
 
-gboolean plugins_cb(GSettings *s, gchar *key, GtkWidget *box)
-{
-  g_warning("CALLBACK TRIGGERD");
-  char *plugins = strdup(g_variant_get_string(g_settings_get_value(s, "ignored-plugins"), NULL));
-  update_plugins(plugins, grid);
-}
-
-gboolean update_wallpaper(GSettings *s, gchar *key, GtkWidget *box)
+void update_wallpaper(GSettings *s, gchar *key, GtkWidget *box)
 {
     char *pic_path = strdup(g_variant_get_string(g_settings_get_value(s, "picture-uri"), NULL));
     pic_path = strtok(pic_path, "//");
@@ -40,6 +33,12 @@ gboolean update_wallpaper(GSettings *s, gchar *key, GtkWidget *box)
 
     //SCALE AND SET
     gtk_image_set_from_pixbuf(GTK_IMAGE(pic), gdk_pixbuf_scale_simple(gdk_pixbuf_new_from_file(pic_path, NULL), w, h, GDK_INTERP_BILINEAR));
+}
+
+void plugin_callback(GSettings *s, gchar *key, gpointer data)
+{
+  char *plugins = strdup(g_variant_get_string(g_settings_get_value(s, "ignored-plugins"), NULL));
+  update_plugins(plugins, grid);
 }
 
 int main(int argc, char **argv)
@@ -55,14 +54,14 @@ int main(int argc, char **argv)
   gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (p), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   gtk_css_provider_load_from_data(p, "GtkImage \n{\nbackground-color: transparent;\n-gtk-image-effect: none;\n}", -1, NULL);
 
-  GSettings *p_s = g_settings_new("org.jetspace.desktop.wallpaper");
-  g_signal_connect(G_OBJECT(p_s), "changed", G_CALLBACK(plugins_cb), box);
+  GSettings *plugin_config;
+  plugin_config = g_settings_new("org.jetspace.desktop.wallpaper");
+  g_signal_connect(G_OBJECT(plugin_config), "changed", G_CALLBACK(plugin_callback), NULL);
 
 
   GSettings *gnome_conf;
   gnome_conf = g_settings_new("org.gnome.desktop.background");
-
-  g_signal_connect(G_OBJECT(gnome_conf), "changed", G_CALLBACK(update_wallpaper), box);
+  g_signal_connect(G_OBJECT(gnome_conf), "changed", G_CALLBACK(update_wallpaper), NULL);
 
 
   //Setup Window

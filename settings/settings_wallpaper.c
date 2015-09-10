@@ -12,9 +12,9 @@ For more details view file 'LICENSE'
 
 
 
-GtkWidget *win, *label, *image, *box, *path, *clear, *choose, *button_box, *apply;
-
-
+GtkWidget *win, *label, *image, *box, *path, *clear, *choose, *button_box, *apply, *notebook;
+GtkWidget *mainbox;
+GtkWidget *box2;
 
 
 gboolean clear_wallpaper(GtkWidget *w, GdkEvent *e, gpointer *p)
@@ -66,6 +66,7 @@ gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer *p)
 
 gboolean wallpaper_settings(void)
 {
+    notebook = gtk_notebook_new();
     win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(win), _("Settings - Wallpaper"));
     gtk_container_set_border_width(GTK_CONTAINER(win), 10);
@@ -104,14 +105,27 @@ gboolean wallpaper_settings(void)
     apply = gtk_button_new_with_label(_("Apply"));
     g_signal_connect(G_OBJECT(apply), "button_press_event", G_CALLBACK(write_wallpaper_settings), NULL);
 
-    gtk_container_add(GTK_CONTAINER(box), label);
-    gtk_container_add(GTK_CONTAINER(box), image);
-    gtk_container_add(GTK_CONTAINER(box), path);
-    gtk_box_pack_end(GTK_BOX(box), apply, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(box), image, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(box), path, FALSE, FALSE, 0);
     gtk_box_pack_end(GTK_BOX(box), button_box, FALSE, TRUE, 0);
 
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box, gtk_label_new(_("Wallpaper")));
 
-    gtk_container_add(GTK_CONTAINER(win), box);
+
+    //PLUGIN Page
+    box2 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box2, gtk_label_new(_("Plugins")));
+
+
+    mainbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_box_pack_start(GTK_BOX(mainbox), notebook, TRUE, TRUE, 0);
+
+
+
+
+    gtk_container_add(GTK_CONTAINER(win), mainbox);
+    gtk_box_pack_end(GTK_BOX(mainbox), apply, FALSE, TRUE, 0);
     gtk_widget_show_all(win);
     return FALSE;
 }
