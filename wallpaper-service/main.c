@@ -31,14 +31,20 @@ void update_wallpaper(GSettings *s, gchar *key, GtkWidget *box)
     gint w = gdk_screen_get_width(sc);
     gint h = gdk_screen_get_height(sc);
 
+    GdkPixbuf *src = gdk_pixbuf_new_from_file(pic_path, NULL);
+    GdkPixbuf *pb = gdk_pixbuf_scale_simple(src, w, h, GDK_INTERP_BILINEAR);
+
     //SCALE AND SET
-    gtk_image_set_from_pixbuf(GTK_IMAGE(pic), gdk_pixbuf_scale_simple(gdk_pixbuf_new_from_file(pic_path, NULL), w, h, GDK_INTERP_BILINEAR));
+    gtk_image_set_from_pixbuf(GTK_IMAGE(pic), pb);
+    g_object_unref(pb);
+    g_object_unref(src);
 }
 
 void plugin_callback(GSettings *s, gchar *key, gpointer data)
 {
-  char *plugins = strdup(g_variant_get_string(g_settings_get_value(s, "ignored-plugins"), NULL));
-  update_plugins(plugins, grid);
+  char *plugin_string = strdup(g_variant_get_string(g_settings_get_value(s, "ignored-plugins"), NULL));
+  update_plugins(plugin_string, grid);
+  free(plugin_string);
 }
 
 int main(int argc, char **argv)

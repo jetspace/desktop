@@ -32,7 +32,12 @@ void center_side_desktop_clock(void)
 {
   int width = gtk_widget_get_allocated_width(side_desktop_clock);
   int height = gtk_widget_get_allocated_height(side_desktop_clock);
-  gtk_fixed_move(GTK_FIXED(box), side_desktop_clock, 1920/2-width/2,1080/2 - height / 2);
+
+  GdkScreen *screen = gdk_screen_get_default();
+  int screen_width = gdk_screen_get_width(screen);
+  int screen_height = gdk_screen_get_height(screen);
+
+  gtk_fixed_move(GTK_FIXED(box), side_desktop_clock, screen_width/2-width/2, screen_height/2 - height / 2);
 }
 
 gboolean update_time(gpointer data)
