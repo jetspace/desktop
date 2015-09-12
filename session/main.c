@@ -105,9 +105,12 @@ int main(int argc, char **argv)
       }
     if(strcmp(argv[1], "--restart") == 0)
       {
-        system("killall side-panel && side-panel &");
-        system("killall side-wallpaper-service && side-wallpaper-service &");
-        system("killall side-notifyd && side-notifyd &");
+        system("killall side-panel");
+        system("side-panel &");
+        system("killall side-wallpaper-service");
+        system("side-wallpaper-service &");
+        system("killall side-notifyd");
+        system("side-notifyd &");
         puts("restarted services!");
         exit(0);
       }
