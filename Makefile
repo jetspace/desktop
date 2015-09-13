@@ -9,6 +9,7 @@ build:
 	$(MAKE) -C lib/side-log
 	$(MAKE) -C lib/side-plugin
 
+
 	make install-libs
 
 	@echo "building tools"
@@ -34,6 +35,10 @@ clean:
 
 install-libs:
 	sudo mv libs/* $(LIBPATH)
+	sudo cp lib/side-app/apps.h /usr/include/side/
+	sudo cp lib/side-config/config.h /usr/include/side/
+	sudo cp lib/side-log/log.h /usr/include/side/
+	sudo cp lib/side-plugin/plugin.h /usr/include/side/
 
 install:
 	sudo mv bin/* $(BINPATH)
