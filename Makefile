@@ -30,7 +30,6 @@ install:
 	sudo mv side-session-settings /bin/
 	sudo mv side-mime-settings /bin/
 	sudo mv side-session /bin/
-	sudo mv side-notifyd /bin/
 	sudo mv side-search /bin/
 	sudo mv side-open /bin/
 	sudo mv side-edit /bin/

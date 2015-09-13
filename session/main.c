@@ -27,11 +27,9 @@ gboolean panel     = TRUE;
 gboolean wallpaper = TRUE;
 gboolean wm        = TRUE;
 gboolean autostart = TRUE;
-gboolean notify    = TRUE;
 
 #define PANEL "dbus-launch side-panel &"
 #define WALLPAPER "dbus-launch side-wallpaper-service &"
-#define NOTIFY "dbus-launch side-notifyd &"
 
 void XDG_autostart(void)
 {
@@ -109,17 +107,12 @@ int main(int argc, char **argv)
         system("side-panel &");
         system("killall side-wallpaper-service");
         system("side-wallpaper-service &");
-        system("killall side-notifyd");
-        system("side-notifyd &");
         puts("restarted services!");
         exit(0);
       }
   }
 
   g_print("SIDE-session Version %s loading...\n", VERSION);
-
-  if(notify)
-    system(NOTIFY);
 
   if(wm)
     system(g_variant_get_string(g_settings_get_value(session, "wm"), NULL));

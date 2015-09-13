@@ -27,8 +27,6 @@ cd ../plugins
 make
 cd ../session
 make
-cd ../notify
-make
 cd ../search
 make
 cd ../open
