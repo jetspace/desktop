@@ -35,6 +35,7 @@ clean:
 
 install-libs:
 	sudo mv libs/* $(LIBPATH)
+	sudo mkdir -p /usr/include/side/
 	sudo cp lib/side-app/apps.h /usr/include/side/
 	sudo cp lib/side-config/config.h /usr/include/side/
 	sudo cp lib/side-log/log.h /usr/include/side/
