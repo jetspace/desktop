@@ -16,8 +16,8 @@ build:
 	mkdir bin -p
 	mkdir panel_plugins -p
 	mkdir wallpaper_plugins -p
-	$(MAKE) -C panel
 	$(MAKE) -C wallpaper-service
+	$(MAKE) -C panel
 	$(MAKE) -C open
 	$(MAKE) -C plugins
 	$(MAKE) -C search
