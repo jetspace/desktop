@@ -4,45 +4,46 @@
 # This file is used for travis-ci automated testing
 #
 
-cd lib
-cd side-app
 make
-make install
-make tester
-./test
-if [ "$?" != "0" ]
+if [ "$?" != "0"]
 then
-exit 1
+	return 1;
 fi
 
-cd ../side-config
-make
 make install
-make tester
-./test
-if [ "$?" != "0" ]
+if [ "$?" != "0"]
 then
-exit 2
+	return 1;
 fi
 
-cd ../side-log
-make
-make install
-make tester
-./test
-if [ "$?" != "0" ]
+make tester -C lib/side-app/
+
+./lib/side-app/test
+if [ "$?" != "0"]
 then
-exit 3
+	return 1;
 fi
 
-cd ../side-plugin
-make
-make install
-make tester
-./test
-if [ "$?" != "0" ]
+make tester -C lib/side-config/
+
+./lib/side-config/test
+if [ "$?" != "0"]
 then
-exit 4
+	return 1;
 fi
 
-echo "Testing done!"
+make tester -C lib/side-log/
+
+./lib/side-log/test
+if [ "$?" != "0"]
+then
+	return 1;
+fi
+
+make tester -C lib/side-plugin/
+
+./lib/side-plugin/test
+if [ "$?" != "0"]
+then
+	return 1;
+fi
