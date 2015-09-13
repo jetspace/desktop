@@ -11,7 +11,7 @@ it is not useable yet... (of course you can try it :D )
 
 
 ```bash
-$ sudo bash build.sh -i # You will need root rights
+$ sudo bash build.sh -if # You will need root rights (f overrides your old settings, so only use it if you installing a new install, else use -i)
 $ cd ~ # OR cd $HOME
 $ cp .xinitrc xinitrc_backup # Save old xinit config
 $ echo "side-session" > .xinitrc
