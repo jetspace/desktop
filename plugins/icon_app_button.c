@@ -57,7 +57,6 @@ G_MODULE_EXPORT void plugin_call(GtkWidget *root)
   //g_list_free(ch);
 
   gtk_image_new_from_icon_name("gtk-home", GTK_ICON_SIZE_LARGE_TOOLBAR);
-    g_warning("HEY");
 }
 
 /*
