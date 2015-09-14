@@ -1,0 +1,11 @@
+Package: side
+Version:SIDE_VERSION
+Section: base
+Priority: optional
+Architecture: SIDE_ARCH
+Depends: libgtk-3-dev
+Maintainer: Marius Messerschmidt <marius.messerschmidt@googlemail.com>
+Description: Simple Desktop Enviroment
+  SiDE is a simple desktop Enviroment which aims to run on low
+  power machines as well as on high power machines. It also tries
+  to provide a nice appereance.
