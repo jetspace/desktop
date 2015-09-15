@@ -6,7 +6,7 @@ RIGHTS=sudo
 VERSION=$(shell ./version.sh)
 
 build:
-	@echo Building Version$(VERSION)
+	@echo Building Version $(VERSION)
 	@echo "building libs"
 	mkdir libs -p
 	$(MAKE) -C lib/side-config
@@ -97,8 +97,9 @@ deb:
 	make package
 	mkdir pkg/DEBIAN -p
 	cat pkgdata/debian/control | sed 's/SIDE_VERSION/$(VERSION)/g' | sed 's/SIDE_ARCH/$(shell dpkg --print-architecture)/g' > pkg/DEBIAN/control
-	dpkg -b pkg side.deb
+	cp pkgdata/debian/postinst pkg/DEBIAN/postinst
+	dpkg -b pkg side_$(VERSION)-0_$(shell dpkg --print-architecture).deb
 	rm -r pkg
 
 cleardeb:
-	rm side.deb
+	rm side*.deb

@@ -1,9 +1,9 @@
 Package: side
-Version:SIDE_VERSION
+Version: SIDE_VERSION
 Section: base
 Priority: optional
 Architecture: SIDE_ARCH
-Depends: libgtk-3-dev
+Depends: libgtk-3-0, lightdm, xfwm4, libx11-6, libglib2.0-0
 Maintainer: Marius Messerschmidt <marius.messerschmidt@googlemail.com>
 Description: Simple Desktop Enviroment
   SiDE is a simple desktop Enviroment which aims to run on low
