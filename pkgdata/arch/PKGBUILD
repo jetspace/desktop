@@ -2,7 +2,7 @@ pkgname=SiDE
 pkgver=VERSION
 pkgrel=1
 pkgdesc="Simple Desktop Enviroment, Build with C and GTK3"
-depends('gtk3', 'xfwm4', 'libx11', 'glib2')
+depends=('gtk3' 'xfwm4' 'libx11' 'glib2')
 arch=('any')
 url="https://github.com/jetspace/desktop"
 license=('MIT')
