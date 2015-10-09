@@ -33,7 +33,7 @@ For more details view file 'LICENSE'
 
 GtkWidget *app_menu_button;
 GtkWidget *search_entry;
-
+GtkWidget *panel;
 
 
 //callbacks
@@ -76,7 +76,33 @@ void setup_panel(GtkWidget *box, char *app_list);
 void create_app_menu(GtkWidget *box);
 void running_apps(GtkWidget *box);
 
+GtkWidget *running_box = NULL;
 GtkWidget *app_box;
+
+
+int get_available_space(void)
+{
+  int total_width=0;
+  gtk_window_get_size(GTK_WINDOW(panel), &total_width, NULL);
+  GList *ch, *iter;
+  ch = gtk_container_get_children(GTK_CONTAINER(gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(GTK_BIN(panel))))));
+
+  for(iter = ch; iter != NULL; iter = g_list_next(iter))
+  {
+          if(GTK_IS_WIDGET(iter->data) && GTK_WIDGET(iter->data) != running_box)
+          {
+            GtkAllocation all;
+            gtk_widget_get_allocation(GTK_WIDGET(iter->data), &all);
+            total_width -= all.width;
+          }
+    }
+  g_list_free(ch);
+
+  return total_width;
+
+}
+
+
 
 int main(int argc, char **argv)
 {
@@ -107,7 +133,7 @@ int main(int argc, char **argv)
   apps = malloc(sizeof(Apps));
 
   //Setup Main Window
-  GtkWidget *panel, *event, *menu;
+  GtkWidget *event, *menu;
   panel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_decorated(GTK_WINDOW(panel), FALSE);
   gtk_window_set_title(GTK_WINDOW(panel), "");
@@ -297,7 +323,7 @@ gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box)
 
 }
 
-GtkWidget *running_box = NULL;
+
 GtkWidget *top_box = NULL;
 
 gboolean update_apps(gpointer data)
@@ -355,12 +381,11 @@ void running_apps(GtkWidget *box)
 
             top_box = box;
         }
-
+  int space = get_available_space();
     Display *d = XOpenDisplay(NULL);
     Window *list;
     unsigned long len;
     list = list_windows(d, &len);
-
     char *ptr = NULL;
     for (int i = 0; i < (int) len; i++)
     {
@@ -370,14 +395,28 @@ void running_apps(GtkWidget *box)
         {
             GtkWidget *button = gtk_button_new_with_label(ptr);
             gtk_widget_set_name(button, "SiDEPanelHiddenApp");
-            g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(toggle_win), NULL);
-            gtk_container_add(GTK_CONTAINER(running_box), button);
+
+            gtk_widget_show_all(button);
+
+            int width = 0;
+            gtk_widget_get_preferred_width(button, &width, NULL);
+            space -= width;
+
+            if(space <= 50)
+            {
+              side_log_warning("New Widget can not be rendered");
+              continue;
+            }
+            else
+            {
+              g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(toggle_win), NULL);
+              gtk_container_add(GTK_CONTAINER(running_box), button);
+            }
 
         }
         free(ptr);
     }
-    gtk_widget_set_size_request(running_box, 400, -1);
-    gtk_widget_show_all(running_box);
+
     XCloseDisplay(d);
 }
 
