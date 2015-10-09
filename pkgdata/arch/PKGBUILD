@@ -1,0 +1,26 @@
+pkgname=SiDE
+pkgver=VERSION
+pkgrel=1
+pkgdesc="Simple Desktop Enviroment, Build with C and GTK3"
+depends('gtk3', 'xfwm4', 'libx11', 'glib2')
+arch=('any')
+url="https://github.com/jetspace/desktop"
+license=('MIT')
+source=("http://github.com/jetspace/desktop/archive/master.tar.gz")
+md5sums=('SKIP')
+
+build()
+{
+    cd "${srcdir}"
+
+    #extract and move files to sourcedir
+    tar -xzf master.tar.gz
+    mv desktop-master/* .
+    rm desktop-master -r
+    make package
+}
+
+package()
+{
+    cp "${srcdir}/pkg/"* -r "${pkgdir}"
+}

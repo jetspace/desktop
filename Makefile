@@ -3,7 +3,7 @@ BINPATH=/bin/
 
 RIGHTS=sudo
 
-VERSION=$(shell ./version.sh)
+VERSION=$(shell ./version.sh | sed 's/-/./')
 
 build:
 	@echo Building Version $(VERSION)
@@ -103,3 +103,10 @@ deb:
 
 cleardeb:
 	rm side*.deb
+
+arch:
+	
+	cat pkgdata/arch/PKGBUILD | sed 's/VERSION/$(VERSION)/g' > PKGBUILD
+
+cleararch:
+	rm PKGBUILD
