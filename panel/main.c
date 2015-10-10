@@ -339,26 +339,21 @@ struct OpenWindows {
 
 static gboolean toggle_win(GtkWidget *wid, GdkEvent *e, gpointer p)
 {
-    char *querry = (char *) p;
+    unsigned int search = GPOINTER_TO_INT(p);
 
     Display *d = XOpenDisplay(NULL);
     unsigned long len;
     Window *list = list_windows(d, &len);;
 
-    char *ptr = NULL;
-    for (int i = 0; i < (int) len; i++)
+    if(search > len)
     {
-        ptr = get_window_name(d, list[i]);
-            if(ptr == NULL)
-                continue;
-            if(strcmp(ptr, querry) == 0)
-            {
-                unhide(d, list[i]);
-            }
+      side_log_error("CAN'T FIND TARGET (unhide)");
     }
 
-    free(querry);
+    unhide(d, list[search]);
+
     XCloseDisplay(d);
+    return FALSE;
 }
 
 unsigned int max_lenght = 100; // The maximum width of one app entry
@@ -434,7 +429,7 @@ void running_apps(GtkWidget *box)
             }
             else
             {
-              g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(toggle_win), g_strdup(ptr));
+              g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(toggle_win), GINT_TO_POINTER(i));
               gtk_container_add(GTK_CONTAINER(running_box), button);
             }
 
