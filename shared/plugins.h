@@ -6,6 +6,8 @@ For more details view file 'LICENSE'
 
 #include <gmodule.h>
 #include <gtk/gtk.h>
+#include <sys/types.h>
+#include <dirent.h>
 #include "../shared/listed.h"
 
 typedef void (*CallPlugin) (GtkWidget *root);
