@@ -80,9 +80,9 @@ GtkWidget *running_box = NULL;
 GtkWidget *app_box;
 
 
-int get_available_space(void)
+unsigned int get_available_space(void)
 {
-  int total_width=0;
+  unsigned int total_width=0;
   gtk_window_get_size(GTK_WINDOW(panel), &total_width, NULL);
   GList *ch, *iter;
   ch = gtk_container_get_children(GTK_CONTAINER(gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(GTK_BIN(panel))))));
@@ -97,7 +97,6 @@ int get_available_space(void)
           }
     }
   g_list_free(ch);
-
   return total_width;
 
 }
@@ -363,7 +362,7 @@ static gboolean toggle_win(GtkWidget *wid, GdkEvent *e, gpointer p)
 }
 
 unsigned int max_lenght = 100; // The maximum width of one app entry
-
+long last_len = 0;
 void running_apps(GtkWidget *box)
 {
 
@@ -386,7 +385,7 @@ void running_apps(GtkWidget *box)
     int space = get_available_space();
     Display *d = XOpenDisplay(NULL);
     Window *list;
-    unsigned long len;
+    long len;
     list = list_windows(d, &len);
     char *ptr = NULL;
     for (int i = 0; i < (int) len; i++)
@@ -399,25 +398,29 @@ void running_apps(GtkWidget *box)
             memset(title, max_lenght+5, '\0');
             strncpy(title, ptr, max_lenght);
             if(strlen(ptr) > max_lenght)
-              strcat(title, " ...");
+              strcat(title, " ...\0");
 
 
             GtkWidget *button = gtk_button_new_with_label(title);
             gtk_widget_set_name(button, "SiDEPanelHiddenApp");
+
+
+            free(title);
 
             gtk_widget_show_all(button);
 
             int width = 0;
             gtk_widget_get_preferred_width(button, &width, NULL);
             space -= width;
-
             if(space <= 50)
             {
-
               if(max_lenght > 5)
               {
                 max_lenght -= 5;
+                XCloseDisplay(d);
+                free(ptr);
                 running_apps(box);
+                return;
               }
               else
                 side_log_warning("New Widget can not be rendered");
@@ -434,12 +437,12 @@ void running_apps(GtkWidget *box)
 
     XCloseDisplay(d);
 
-    if(space >= 100 && max_lenght < 100)
+    if(space >= 50 * len && max_lenght < 100 && len < last_len)
     {
       max_lenght += 5;
       running_apps(box);
     }
-
+    last_len = len;
 }
 
 static int sort_apps(const void *p1, const void *p2)
