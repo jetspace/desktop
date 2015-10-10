@@ -340,7 +340,7 @@ struct OpenWindows {
 
 static gboolean toggle_win(GtkWidget *wid, GdkEvent *e, gpointer p)
 {
-    char *querry = strdup(gtk_button_get_label(GTK_BUTTON(wid)));
+    char *querry = (char *) p;
 
     Display *d = XOpenDisplay(NULL);
     unsigned long len;
@@ -362,6 +362,8 @@ static gboolean toggle_win(GtkWidget *wid, GdkEvent *e, gpointer p)
     XCloseDisplay(d);
 }
 
+unsigned int max_lenght = 100; // The maximum width of one app entry
+
 void running_apps(GtkWidget *box)
 {
 
@@ -381,7 +383,7 @@ void running_apps(GtkWidget *box)
 
             top_box = box;
         }
-  int space = get_available_space();
+    int space = get_available_space();
     Display *d = XOpenDisplay(NULL);
     Window *list;
     unsigned long len;
@@ -390,10 +392,17 @@ void running_apps(GtkWidget *box)
     for (int i = 0; i < (int) len; i++)
     {
         ptr = get_window_name(d, list[i]);
-        side_log_debug(ptr);
+
         if(ptr != NULL && strlen(ptr) > 0 && is_minimized(d, list[i]))
         {
-            GtkWidget *button = gtk_button_new_with_label(ptr);
+            char *title = malloc(max_lenght +5);
+            memset(title, max_lenght+5, '\0');
+            strncpy(title, ptr, max_lenght);
+            if(strlen(ptr) > max_lenght)
+              strcat(title, " ...");
+
+
+            GtkWidget *button = gtk_button_new_with_label(title);
             gtk_widget_set_name(button, "SiDEPanelHiddenApp");
 
             gtk_widget_show_all(button);
@@ -404,12 +413,18 @@ void running_apps(GtkWidget *box)
 
             if(space <= 50)
             {
-              side_log_warning("New Widget can not be rendered");
-              continue;
+
+              if(max_lenght > 5)
+              {
+                max_lenght -= 5;
+                running_apps(box);
+              }
+              else
+                side_log_warning("New Widget can not be rendered");
             }
             else
             {
-              g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(toggle_win), NULL);
+              g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(toggle_win), g_strdup(ptr));
               gtk_container_add(GTK_CONTAINER(running_box), button);
             }
 
@@ -418,6 +433,13 @@ void running_apps(GtkWidget *box)
     }
 
     XCloseDisplay(d);
+
+    if(space >= 100 && max_lenght < 100)
+    {
+      max_lenght += 5;
+      running_apps(box);
+    }
+
 }
 
 static int sort_apps(const void *p1, const void *p2)
