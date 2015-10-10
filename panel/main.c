@@ -382,6 +382,7 @@ void running_apps(GtkWidget *box)
 
             top_box = box;
         }
+    int hidden = 0;
     int space = get_available_space();
     Display *d = XOpenDisplay(NULL);
     Window *list;
@@ -394,16 +395,17 @@ void running_apps(GtkWidget *box)
 
         if(ptr != NULL && strlen(ptr) > 0 && is_minimized(d, list[i]))
         {
+            hidden++;
             char *title = malloc(max_lenght +5);
             for(unsigned int x = 0; x < max_lenght +5; x++)
               title[x] = '\0';
-            g_warning(title);
+
             for(unsigned int x = 0; x < max_lenght && x <= strlen(ptr); x++)
               title[x] = ptr[x];
+
             if(strlen(ptr) > max_lenght)
               strcat(title, " ...\0");
 
-            g_warning(title);
 
             GtkWidget *button = gtk_button_new_with_label(title);
             gtk_widget_set_name(button, "SiDEPanelHiddenApp");
@@ -423,6 +425,7 @@ void running_apps(GtkWidget *box)
                 max_lenght -= 5;
                 XCloseDisplay(d);
                 free(ptr);
+                last_len = hidden;
                 running_apps(box);
                 return;
               }
@@ -440,13 +443,12 @@ void running_apps(GtkWidget *box)
     }
 
     XCloseDisplay(d);
-
-    if(space >= 50 * len && max_lenght < 100 && len < last_len)
+    if(space >= 150 && max_lenght < 100 && hidden < last_len)
     {
       max_lenght += 5;
       running_apps(box);
     }
-    last_len = len;
+    last_len = hidden;
 }
 
 static int sort_apps(const void *p1, const void *p2)
