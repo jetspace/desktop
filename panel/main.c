@@ -395,11 +395,15 @@ void running_apps(GtkWidget *box)
         if(ptr != NULL && strlen(ptr) > 0 && is_minimized(d, list[i]))
         {
             char *title = malloc(max_lenght +5);
-            memset(title, max_lenght+5, '\0');
-            strncpy(title, ptr, max_lenght);
+            for(unsigned int x = 0; x < max_lenght +5; x++)
+              title[x] = '\0';
+            g_warning(title);
+            for(unsigned int x = 0; x < max_lenght && x <= strlen(ptr); x++)
+              title[x] = ptr[x];
             if(strlen(ptr) > max_lenght)
               strcat(title, " ...\0");
 
+            g_warning(title);
 
             GtkWidget *button = gtk_button_new_with_label(title);
             gtk_widget_set_name(button, "SiDEPanelHiddenApp");
