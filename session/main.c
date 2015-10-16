@@ -55,6 +55,11 @@ void XDG_autostart(void)
   side_apps_close();
 
   char *d = g_strdup_printf("%s/.config/autostart/", g_get_home_dir());
+  if(!g_file_test(d, G_FILE_TEST_EXISTS))
+  {
+    g_print("Loaded %d Autostart apps.\n (no autostart from .config)", count);
+    return;
+  }
 
   side_apps_load_dir(d);
   ent.valid = TRUE;
