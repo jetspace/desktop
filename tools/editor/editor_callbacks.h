@@ -58,7 +58,7 @@ gboolean show_about(GtkWidget *w, GdkEvent *e, gpointer p)
     GtkWidget *dialog = gtk_about_dialog_new();
     gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(dialog), _("SiDE Editor"));
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(dialog), VERSION);
-    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(dialog), "http://jetspace.tk");
+    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(dialog), "http://jetspace.github.io");
     gtk_about_dialog_set_artists(GTK_ABOUT_DIALOG(dialog), ARTISTS);
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(dialog), COPYRIGHT);
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(dialog), EDITOR_DISCRIPTION);

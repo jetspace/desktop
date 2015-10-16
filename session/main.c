@@ -17,7 +17,7 @@ For more details view file 'LICENSE'
 This file contains the startup tool
 to run the desktop enviroment you just have to type:
 
-side-shell
+side-session
 
 */
 
@@ -33,10 +33,31 @@ gboolean autostart = TRUE;
 
 void XDG_autostart(void)
 {
-  side_apps_load_dir("/etc/xdg/autostart/");
-  AppEntry ent;
-  ent.valid = TRUE;
+  //Variables
   int count = 0;
+  AppEntry ent;
+
+  side_apps_load_dir("/etc/xdg/autostart/");
+
+  ent.valid = TRUE;
+
+  while(ent.valid == TRUE)
+  {
+    char *buff;
+    ent = side_apps_get_next_entry();
+    if(ent.show_in_side == false || ent.hidden == true)
+      continue;
+    buff = g_strdup_printf("%s &", ent.exec);
+    system(buff);
+    free(buff);
+    count++;
+  }
+  side_apps_close();
+
+  char *d = g_strdup_printf("%s/.config/autostart/", g_get_home_dir());
+
+  side_apps_load_dir(d);
+  ent.valid = TRUE;
   while(ent.valid == TRUE)
   {
     char *buff;

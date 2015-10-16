@@ -51,7 +51,7 @@ gboolean about_d(GtkWidget *w, GdkEvent *e, gpointer p)
   gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(dialog), AUTHORS);
   gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(dialog), gdk_pixbuf_scale_simple(gdk_pixbuf_new_from_file("/usr/share/icons/jetspace/JetSpace.png", NULL), 100, 100, GDK_INTERP_BILINEAR));
   gtk_about_dialog_set_artists(GTK_ABOUT_DIALOG(dialog), ARTISTS);
-  gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(dialog), "http://jetspace.tk");
+  gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(dialog), "http://jetspace.github.io");
   gtk_dialog_run(GTK_DIALOG(dialog));
   gtk_widget_destroy(dialog);
 
