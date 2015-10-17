@@ -11,7 +11,6 @@ build:
 	mkdir libs -p
 	$(MAKE) -C lib/side-config
 	$(MAKE) -C lib/side-app
-	$(MAKE) -C lib/side-log
 	$(MAKE) -C lib/side-plugin
 
 
@@ -105,7 +104,7 @@ cleardeb:
 	rm side*.deb
 
 arch:
-	
+
 	cat pkgdata/arch/PKGBUILD | sed 's/VERSION/$(VERSION)/g' > PKGBUILD
 
 cleararch:

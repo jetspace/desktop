@@ -4,6 +4,8 @@
 # This file is used for travis-ci automated testing
 #
 
+./install_libs.sh
+
 make
 if [ "$?" != "0" ]
 then

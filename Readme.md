@@ -5,10 +5,13 @@ SImple Desktop Enviroment (SIDE)
 [![Documentation Status](https://readthedocs.org/projects/side/badge/?version=latest)](https://readthedocs.org/projects/side/?badge=latest)
 ![Build Status](https://travis-ci.org/jetspace/desktop.svg)
 
-it is not useable yet... (of course you can try it :D )
+##to build:
 
-##to test:
+If you do not have the JetSpaceLibs installed do:
 
+`./install_libs.sh`
+
+Then continue to the 'real' build:
 
 ```bash
 $ sudo bash build.sh -if # You will need root rights (f overrides your old settings, so only use it if you installing a new install, else use -i)
