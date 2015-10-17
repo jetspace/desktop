@@ -236,7 +236,11 @@ void add_new_element(GtkWidget *box, char *icon, char *exec, char *tooltip,  gin
   total_elements++;
   elements = realloc(elements, sizeof(PanelEntry) * total_elements);
 
-  elements[total_elements -1].button = gtk_button_new_from_icon_name(icon, GTK_ICON_SIZE_SMALL_TOOLBAR);
+  //REPLACED gkt_button_new_from_icon_name to make SiDE available on older machines
+  elements[total_elements -1].button = gtk_button_new();
+  GtkWidget *img = gtk_image_new_from_icon_name(icon, GTK_ICON_SIZE_SMALL_TOOLBAR);
+  gtk_button_set_image(GTK_BUTTON(elements[total_elements -1].button), img);
+
   strncpy(elements[total_elements -1].icon, icon, 100);
   strncpy(elements[total_elements -1].exec, exec, 100);
 
