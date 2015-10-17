@@ -120,6 +120,12 @@ int main(int argc, char **argv)
 
   use_css(apps);
 
+  //remove effects from icons
+  GtkCssProvider *p = gtk_css_provider_new();
+  gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (p), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  gtk_css_provider_load_from_data(p, "GtkImage, GtkLabel \n{\nbackground-color: transparent;\n-gtk-image-effect: none;\n}", -1, NULL);
+
+
 
 
   side_log_set_log_level_from_enviroment();
