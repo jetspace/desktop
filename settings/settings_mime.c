@@ -4,7 +4,7 @@ Copyright (c) 2015 Marius Messerschmidt
 For more details view file 'LICENSE'
 */
 
-#include <side/config.h>
+#include <jetspace/configkit.h>
 #include <gtk/gtk.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -56,7 +56,7 @@ gboolean write_mime_config(GtkWidget *w, GdkEvent *e, gpointer p)
       gtk_tree_model_get(model, &iter, 0, &ent, -1);
       gtk_tree_model_get(model, &iter, 1, &val, -1);
 
-      side_set_value(MIMEDB, ent, val, true);
+      jet_set_value(MIMEDB, ent, val, true);
 
       x++;
       snprintf(i_b, 5, "%d", x);
@@ -88,23 +88,23 @@ int main(int argc, char **argv)
 
   list = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
 
-  side_init_config_read(MIMEDB);
+  jet_init_config_read(MIMEDB);
 
   char *ret = NULL;
   do
     {
-      ret = side_get_next_entry();
+      ret = jet_get_next_entry();
       if(ret == NULL)
         break;
 
       gtk_list_store_append(GTK_LIST_STORE(list), &iter);
-      gtk_list_store_set(GTK_LIST_STORE(list), &iter, 0, ret, 1, side_lookup_value(MIMEDB, ret), -1);
+      gtk_list_store_set(GTK_LIST_STORE(list), &iter, 0, ret, 1, jet_lookup_value(MIMEDB, ret), -1);
 
 
 
     } while(ret != NULL);
 
-  side_close_config_read();
+  jet_close_config_read();
 
   //Create window
   GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);

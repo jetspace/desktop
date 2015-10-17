@@ -9,7 +9,6 @@ build:
 	@echo Building Version $(VERSION)
 	@echo "building libs"
 	mkdir libs -p
-	$(MAKE) -C lib/side-config
 	$(MAKE) -C lib/side-app
 	$(MAKE) -C lib/side-plugin
 
@@ -42,7 +41,6 @@ install-libs:
 	$(RIGHTS) mv libs/* $(BUILDPREFIX)$(LIBPATH)
 	$(RIGHTS) mkdir -p $(BUILDPREFIX)/usr/include/side/
 	$(RIGHTS) cp lib/side-app/apps.h $(BUILDPREFIX)/usr/include/side/
-	$(RIGHTS) cp lib/side-config/config.h $(BUILDPREFIX)/usr/include/side/
 	$(RIGHTS) cp lib/side-plugin/plugin.h $(BUILDPREFIX)/usr/include/side/
 
 install:

@@ -26,21 +26,6 @@ then
 	return 1;
 fi
 
-make tester -C lib/side-config/
-
-./lib/side-config/test
-if [ "$?" != "0" ]
-then
-	return 1;
-fi
-
-make tester -C lib/side-log/
-
-./lib/side-log/test
-if [ "$?" != "0" ]
-then
-	return 1;
-fi
 
 make tester -C lib/side-plugin/
 

@@ -4,7 +4,8 @@ Copyright (c) 2015 Marius Messerschmidt
 For more details view file 'LICENSE'
 */
 
-#include <side/config.h>
+#include <jetspace/configkit.h>
+
 #include <side/apps.h>
 #include <string.h>
 #include <stdio.h>
@@ -40,7 +41,7 @@ gboolean use_app (GtkWidget *w, GdkEvent *e, gpointer data)
   if(gtk_tree_selection_get_selected(gtk_tree_view_get_selection(GTK_TREE_VIEW(tree)), &model, &iter))
   {
     gtk_tree_model_get(model, &iter, 1, &exec, -1);
-    side_set_value(MIMEDB, (char *)data, exec, true);
+    jet_set_value(MIMEDB, (char *)data, exec, true);
     gtk_widget_destroy(GTK_WIDGET(gtk_widget_get_parent_window(w)));
     gtk_main_quit();
     found_new_app = true;
@@ -169,7 +170,7 @@ int main(int argc, char **argv)
       choose_new_app(mime_type);
     }
 
-    char *app = side_lookup_value(MIMEDB, mime_type);
+    char *app = jet_lookup_value(MIMEDB, mime_type);
     char *subtype;
 
     if(!app)
@@ -184,7 +185,7 @@ int main(int argc, char **argv)
 
       fprintf(stderr, _("can't find full match for type %s\n"), mime_type);
       subtype = strtok(mime_type, "/");
-      app = side_lookup_value(MIMEDB, subtype);
+      app = jet_lookup_value(MIMEDB, subtype);
     }
 
     if(!app)
