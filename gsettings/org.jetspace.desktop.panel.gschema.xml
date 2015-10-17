@@ -48,5 +48,10 @@
           <summary>Refresh rate</summary>
           <description>Lower Values have problems when trying to click the button, higher values takes longer to refresh</description>
       </key>
+      <key type="b" name="window-list-only-hidden">
+          <default>false</default>
+          <summary>Should there be only hidden windows in the panel</summary>
+          <description>Should there be only hidden windows in the panel or should you see all active windows</description>
+      </key>
   </schema>
 </schemalist>

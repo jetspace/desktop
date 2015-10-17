@@ -32,7 +32,7 @@ GtkTreeIter iter2;
 
 //page 3
 
-GtkWidget *box3, *s_visible, *label_visible, *visible_box, *s_list, *s_theme;
+GtkWidget *box3, *s_visible, *label_visible, *visible_box, *s_list, *s_theme,*s_only_hidden, *label_only_hidden, *only_hidden_box;
 GtkWidget *cb_theme;
 GtkTreeIter iter3;
 GtkListStore *list3;
@@ -209,6 +209,7 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 
   g_settings_set_value(icons, "show-app-menu", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_visible))));
   g_settings_set_value(icons, "show-window-list", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_list))));
+  g_settings_set_value(icons, "window-list-only-hidden", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_only_hidden))));
   g_settings_set_value(icons, "use-custom-theme", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_theme))));
   if(write_themes)
     g_settings_set_value(icons, "custom-theme-path", g_variant_new_string(g_strdup_printf("/usr/share/themes/%s",  buff1)));
@@ -528,6 +529,14 @@ gboolean panel_settings(void)
     gtk_box_pack_end(GTK_BOX(visible_box), s_visible, FALSE, FALSE, 5);
     gtk_switch_set_active(GTK_SWITCH(s_visible), g_variant_get_boolean(g_settings_get_value(icons, "show-app-menu")));
 
+    label_only_hidden = gtk_label_new(_("Show only hidden windows in Window list:"));
+    s_only_hidden = gtk_switch_new();
+    only_hidden_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+    gtk_container_add(GTK_CONTAINER(only_hidden_box), label_only_hidden);
+    gtk_box_pack_end(GTK_BOX(only_hidden_box), s_only_hidden, FALSE, FALSE, 5);
+    gtk_switch_set_active(GTK_SWITCH(s_only_hidden), g_variant_get_boolean(g_settings_get_value(icons, "window-list-only-hidden")));
+
+
     //window list
     GtkWidget *label_list = gtk_label_new(_("Enable built-in Window list:"));
     s_list = gtk_switch_new();
@@ -628,6 +637,7 @@ gboolean panel_settings(void)
 
     gtk_container_add(GTK_CONTAINER(box3), visible_box);
     gtk_container_add(GTK_CONTAINER(box3), list_box);
+    gtk_container_add(GTK_CONTAINER(box3), only_hidden_box);
     gtk_container_add(GTK_CONTAINER(box3), theme_box1);
     gtk_container_add(GTK_CONTAINER(box3), theme_box);
 

@@ -399,7 +399,11 @@ void running_apps(GtkWidget *box)
     {
         ptr = get_window_name(d, list[i]);
 
-        if(ptr != NULL && strlen(ptr) > 0 && is_minimized(d, list[i]))
+        GSettings *x = g_settings_new("org.jetspace.desktop.panel");
+        gboolean onlyHidden = g_settings_get_boolean(x, "window-list-only-hidden");
+        g_object_unref(G_OBJECT(x));
+
+        if(ptr != NULL && strlen(ptr) > 0 && (onlyHidden ? is_minimized(d, list[i]) : TRUE )&& strcmp(ptr, "side-wallpaper-service") != 0)
         {
             hidden++;
             char *title = malloc(max_lenght +5);
