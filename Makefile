@@ -43,7 +43,6 @@ install-libs:
 	$(RIGHTS) mkdir -p $(BUILDPREFIX)/usr/include/side/
 	$(RIGHTS) cp lib/side-app/apps.h $(BUILDPREFIX)/usr/include/side/
 	$(RIGHTS) cp lib/side-config/config.h $(BUILDPREFIX)/usr/include/side/
-	$(RIGHTS) cp lib/side-log/log.h $(BUILDPREFIX)/usr/include/side/
 	$(RIGHTS) cp lib/side-plugin/plugin.h $(BUILDPREFIX)/usr/include/side/
 
 install:
