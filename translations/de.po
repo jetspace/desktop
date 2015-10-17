@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-09-08 14:19+0100\n"
-"PO-Revision-Date: 2015-09-08 14:20+0100\n"
+"POT-Creation-Date: 2015-10-17 19:35+0100\n"
+"PO-Revision-Date: 2015-10-17 19:36+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
@@ -24,16 +24,16 @@ msgstr ""
 "X-Poedit-SearchPath-7: /home/marius/desktop/tools/filemanager\n"
 "X-Poedit-SearchPath-8: /home/marius/desktop/open\n"
 
-#: /home/marius/desktop/open/main.c:64
+#: /home/marius/desktop/open/main.c:65
 #, c-format
 msgid "Possible Apps for type '%s':\n"
 msgstr "Passende Anwendungen für Typ '%s':\n"
 
-#: /home/marius/desktop/open/main.c:78
+#: /home/marius/desktop/open/main.c:79
 msgid "SiDE Open..."
 msgstr "SiDE Öffnen..."
 
-#: /home/marius/desktop/open/main.c:85
+#: /home/marius/desktop/open/main.c:86
 msgid ""
 "Select an app for the current content type.\n"
 "If you close this window, SiDE will try to find a fallback Application for "
@@ -43,17 +43,17 @@ msgstr ""
 "Wenn sie dieses Fenster schließen, versucht SiDE eine Ersatzanwendung zu "
 "finden."
 
-#: /home/marius/desktop/open/main.c:98
+#: /home/marius/desktop/open/main.c:99
 #: /home/marius/desktop/settings/settings_mime.c:138
 #: /home/marius/desktop/settings/settings_session.c:151
 msgid "App"
 msgstr "Anwendung"
 
-#: /home/marius/desktop/open/main.c:105
+#: /home/marius/desktop/open/main.c:106
 msgid "Select"
 msgstr "Auswählen"
 
-#: /home/marius/desktop/open/main.c:143
+#: /home/marius/desktop/open/main.c:144
 #: /home/marius/desktop/settings/settings_mime.c:81
 #, c-format
 msgid "Can't find local configuration {%s} using system fallback {%s}\n"
@@ -61,17 +61,17 @@ msgstr ""
 "Kann lokale Konfiguration nicht finden {%s} benutze Systemweite "
 "Konfiguration {%s}\n"
 
-#: /home/marius/desktop/open/main.c:185
+#: /home/marius/desktop/open/main.c:186
 #, c-format
 msgid "can't find full match for type %s\n"
 msgstr "Kann keine Exakte Übereinstimmung für Typ %s finden\n"
 
-#: /home/marius/desktop/open/main.c:192
+#: /home/marius/desktop/open/main.c:193
 #, c-format
 msgid "Unable to open MIME type %s or subtype %s\n"
 msgstr "Kann MIME Typ %s und Untertyp %s nicht Öffnen\n"
 
-#: /home/marius/desktop/panel/main.c:268
+#: /home/marius/desktop/panel/main.c:304
 #, c-format
 msgid ""
 "Path:\t%s\n"
@@ -80,54 +80,54 @@ msgstr ""
 "Pfad:\t%s\n"
 "Icon:\t%s"
 
-#: /home/marius/desktop/panel/main.c:395
+#: /home/marius/desktop/panel/main.c:475
 #: /home/marius/desktop/plugins/icon_app_button.c:50
-#: /home/marius/desktop/plugins/icon_app_button.c:78
+#: /home/marius/desktop/plugins/icon_app_button.c:77
 msgid "Applications"
 msgstr "Anwendungen"
 
-#: /home/marius/desktop/panel/main.c:415
+#: /home/marius/desktop/panel/main.c:495
 msgid "Multimedia"
 msgstr "Multimedia"
 
-#: /home/marius/desktop/panel/main.c:419
+#: /home/marius/desktop/panel/main.c:499
 msgid "Development"
 msgstr "Entwicklung"
 
-#: /home/marius/desktop/panel/main.c:423
+#: /home/marius/desktop/panel/main.c:503
 msgid "Education"
 msgstr "Bildung"
 
-#: /home/marius/desktop/panel/main.c:427
+#: /home/marius/desktop/panel/main.c:507
 msgid "Graphics"
 msgstr "Grafiken"
 
-#: /home/marius/desktop/panel/main.c:431
+#: /home/marius/desktop/panel/main.c:511
 msgid "Network"
 msgstr "Netzwerk"
 
-#: /home/marius/desktop/panel/main.c:435
+#: /home/marius/desktop/panel/main.c:515
 msgid "Office"
 msgstr "Büro"
 
-#: /home/marius/desktop/panel/main.c:439
+#: /home/marius/desktop/panel/main.c:519
 #: /home/marius/desktop/tools/editor/editor.c:79
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: /home/marius/desktop/panel/main.c:443
+#: /home/marius/desktop/panel/main.c:523
 msgid "System"
 msgstr "System"
 
-#: /home/marius/desktop/panel/main.c:447
+#: /home/marius/desktop/panel/main.c:527
 msgid "Utility"
 msgstr "Zubehör"
 
-#: /home/marius/desktop/panel/main.c:452
+#: /home/marius/desktop/panel/main.c:532
 msgid "Other"
 msgstr "Sonstiges"
 
-#: /home/marius/desktop/panel/main.c:457
+#: /home/marius/desktop/panel/main.c:537
 msgid "Search..."
 msgstr "Suchen..."
 
@@ -185,7 +185,7 @@ msgid "SiDE Search Tool"
 msgstr "SiDE Suchwerkzeug"
 
 #: /home/marius/desktop/search/main.c:136
-#: /home/marius/desktop/settings/settings_panel.c:634
+#: /home/marius/desktop/settings/settings_panel.c:644
 msgid "Apps"
 msgstr "Anwendungen"
 
@@ -243,9 +243,9 @@ msgstr "Wählen sie ihr GTK 3.0 Thema:"
 
 #: /home/marius/desktop/settings/settings_gtk.c:155
 #: /home/marius/desktop/settings/settings_mime.c:148
-#: /home/marius/desktop/settings/settings_panel.c:343
+#: /home/marius/desktop/settings/settings_panel.c:344
 #: /home/marius/desktop/settings/settings_session.c:243
-#: /home/marius/desktop/settings/settings_wallpaper.c:104
+#: /home/marius/desktop/settings/settings_wallpaper.c:154
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:236
 #: /home/marius/desktop/tools/filemanager/filemanager_callbacks.h:494
 msgid "Apply"
@@ -269,7 +269,7 @@ msgid "Add App"
 msgstr "Anwendung Hinzufügen"
 
 #: /home/marius/desktop/settings/settings_panel.c:101
-#: /home/marius/desktop/settings/settings_panel.c:432
+#: /home/marius/desktop/settings/settings_panel.c:433
 #: /home/marius/desktop/settings/settings_session.c:170
 msgid "Add"
 msgstr "Hinzufügen"
@@ -282,7 +282,7 @@ msgstr "#Anwendungs Pfad"
 msgid "#Icon"
 msgstr "#Symbol"
 
-#: /home/marius/desktop/settings/settings_panel.c:327
+#: /home/marius/desktop/settings/settings_panel.c:328
 msgid ""
 "On this page you can set up the Panel:\n"
 "\n"
@@ -290,57 +290,59 @@ msgstr ""
 "Auf dieser Seite können sie ihr Panel einrichten:\n"
 "\n"
 
-#: /home/marius/desktop/settings/settings_panel.c:328
+#: /home/marius/desktop/settings/settings_panel.c:329
 msgid "Select the default Terminal Application:"
 msgstr "Wählen sie die Standard Terminal Anwendung:"
 
-#: /home/marius/desktop/settings/settings_panel.c:335
+#: /home/marius/desktop/settings/settings_panel.c:336
 msgid "Settings - Panel"
 msgstr "Einstellungen - Panel"
 
-#: /home/marius/desktop/settings/settings_panel.c:386
+#: /home/marius/desktop/settings/settings_panel.c:387
 msgid "Path"
 msgstr "Pfad"
 
-#: /home/marius/desktop/settings/settings_panel.c:393
+#: /home/marius/desktop/settings/settings_panel.c:394
 msgid "Icon"
 msgstr "Symbol"
 
-#: /home/marius/desktop/settings/settings_panel.c:399
+#: /home/marius/desktop/settings/settings_panel.c:400
 msgid "Enabled"
 msgstr "Aktiviert"
 
-#: /home/marius/desktop/settings/settings_panel.c:409
+#: /home/marius/desktop/settings/settings_panel.c:410
 msgid "Choose the Apps which are displayed in the Panel:"
 msgstr "Wählen sie die Anwendungen, die im Panel angezeigt werden sollen:"
 
-#: /home/marius/desktop/settings/settings_panel.c:421
-#: /home/marius/desktop/settings/settings_wallpaper.c:94
+#: /home/marius/desktop/settings/settings_panel.c:422
+#: /home/marius/desktop/settings/settings_wallpaper.c:144
 msgid "Clear"
 msgstr "Alles Löschen"
 
-#: /home/marius/desktop/settings/settings_panel.c:426
+#: /home/marius/desktop/settings/settings_panel.c:427
 #: /home/marius/desktop/settings/settings_session.c:165
 msgid "Remove"
 msgstr "Entfernen"
 
-#: /home/marius/desktop/settings/settings_panel.c:437
+#: /home/marius/desktop/settings/settings_panel.c:438
 msgid "Add custom"
 msgstr "Eigene Hinzufügen"
 
-#: /home/marius/desktop/settings/settings_panel.c:497
+#: /home/marius/desktop/settings/settings_panel.c:498
+#: /home/marius/desktop/settings/settings_wallpaper.c:216
 msgid "Plugin"
 msgstr "Plugin"
 
-#: /home/marius/desktop/settings/settings_panel.c:501
+#: /home/marius/desktop/settings/settings_panel.c:502
+#: /home/marius/desktop/settings/settings_wallpaper.c:220
 msgid "Is Active"
 msgstr "Ist aktiviert"
 
-#: /home/marius/desktop/settings/settings_panel.c:510
+#: /home/marius/desktop/settings/settings_panel.c:511
 msgid "Here you can enable or disable plugins"
 msgstr "Hier können sie Plugins (de) aktivieren:"
 
-#: /home/marius/desktop/settings/settings_panel.c:512
+#: /home/marius/desktop/settings/settings_panel.c:513
 msgid ""
 "<b>NOTICE:</b> To install new plugins, you have to restart the panel, "
 "because plugins are loaded at startup."
@@ -348,27 +350,32 @@ msgstr ""
 "<b>HINWEIS:</b> Um neue Plugins zu installieren müssen sie das Panel "
 "Neustarten, da die Plugins beim Start geladen werden."
 
-#: /home/marius/desktop/settings/settings_panel.c:524
+#: /home/marius/desktop/settings/settings_panel.c:525
 msgid "Enable built-in App menu:"
 msgstr "Aktiviere eingebautes Anwendungsmenü:"
 
 #: /home/marius/desktop/settings/settings_panel.c:532
+msgid "Show only hidden windows in Window list:"
+msgstr "Nur versteckte Fenster in der Fensterliste anzeigen:"
+
+#: /home/marius/desktop/settings/settings_panel.c:541
 msgid "Enable built-in Window list:"
 msgstr "Aktiviere eingebaute Fensterliste:"
 
-#: /home/marius/desktop/settings/settings_panel.c:540
+#: /home/marius/desktop/settings/settings_panel.c:549
 msgid "Use custom themes?"
 msgstr "Benutzerdefiniertes Thema verwenden?"
 
-#: /home/marius/desktop/settings/settings_panel.c:549
+#: /home/marius/desktop/settings/settings_panel.c:558
 msgid "Select your theme:"
 msgstr "Wählen sie ihr Thema:"
 
-#: /home/marius/desktop/settings/settings_panel.c:635
+#: /home/marius/desktop/settings/settings_panel.c:645
+#: /home/marius/desktop/settings/settings_wallpaper.c:167
 msgid "Plugins"
 msgstr "Plugins"
 
-#: /home/marius/desktop/settings/settings_panel.c:636
+#: /home/marius/desktop/settings/settings_panel.c:646
 msgid "Advanced"
 msgstr "Erweitert"
 
@@ -397,19 +404,19 @@ msgstr "Der Befehl zum neustarten des Computers:"
 msgid "Enable XDG autostart:"
 msgstr "XDG Autostart aktivieren:"
 
-#: /home/marius/desktop/settings/settings_wallpaper.c:29
+#: /home/marius/desktop/settings/settings_wallpaper.c:49
 msgid "Open Wallpaper"
 msgstr "Hintergrundbild Öffnen"
 
-#: /home/marius/desktop/settings/settings_wallpaper.c:29
+#: /home/marius/desktop/settings/settings_wallpaper.c:49
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:142
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:195
 #: /home/marius/desktop/tools/view/view_callbacks.h:34
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: /home/marius/desktop/settings/settings_wallpaper.c:29
-#: /home/marius/desktop/settings/settings_wallpaper.c:98
+#: /home/marius/desktop/settings/settings_wallpaper.c:49
+#: /home/marius/desktop/settings/settings_wallpaper.c:148
 #: /home/marius/desktop/tools/editor/editor.c:62
 #: /home/marius/desktop/tools/view/view.c:36
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:142
@@ -418,13 +425,17 @@ msgstr "Abbrechen"
 msgid "Open"
 msgstr "Öffnen"
 
-#: /home/marius/desktop/settings/settings_wallpaper.c:70
+#: /home/marius/desktop/settings/settings_wallpaper.c:120
 msgid "Settings - Wallpaper"
 msgstr "Einstellungen - Hintergrundbild"
 
-#: /home/marius/desktop/settings/settings_wallpaper.c:76
+#: /home/marius/desktop/settings/settings_wallpaper.c:126
 msgid "On This page you can setup your Wallpaper:"
 msgstr "Auf dieser Seite können sie ihr Hintergrundbild ändern:"
+
+#: /home/marius/desktop/settings/settings_wallpaper.c:162
+msgid "Wallpaper"
+msgstr "Hintergrundbild"
 
 #: /home/marius/desktop/tools/editor/editor.c:36
 #: /home/marius/desktop/tools/editor/editor_callbacks.h:59
