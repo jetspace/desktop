@@ -35,23 +35,38 @@ then
   then
     logger "Mounting of $disk failed: Mounpoint exists {$mp} cecking if amount is able to solve the problem..."
     clear_mp $mp
+
     if [ -d $mp ]
     then
       exit 1
     else
       logger "Problem solved, removed $mp"
     fi
+
   fi
 
   mkdir -p $mp
   mount $disk $mp 2>&1 | logger
 
+
   if [ "$?" != "0" ]
   then
+    logger "mounting failed"
     exit 1
   fi
-  logger $USER
-  notify-send "New Mass Storage Device" "Succesfully mounted $disk"
+
+  export DISPLAY=":0.0"
+  users=$(who | cut -d ' ' -f1)
+  last=""
+  for u in $users
+  do
+    if [ "$u" != "$last" ]
+      then
+        logger "notifying user $user"
+        su $u -c "notify-send 'New Mass Storage Device' 'Mounted $id to $mp'"
+        last=$u
+      fi
+  done
 
 elif [ "$1" == "remove" ]
 then
