@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Copyright Marius Messerschmidt (C) 2015
+# automaticly mount drives based on udev events
+# needs 10-amount.rules
+
+function clear_mp()
+{
+  $mp = $1
+  if [ "$(ls -A $mp)" ]
+  then
+    logger "Could not remove Mounpoint '$mp': Directiory not empty!"
+    ls -l $mp | logger
+  else
+    rm -r $mp 2>&1 | logger
+    logger "removed Mounpoint $mp"
+    if [ -d $mp ]
+    then
+      logger "Failed to remove Mounpoint"
+    fi
+  fi
+}
+
+if [ "$1" == "add" ]
+then
+  disk=$2
+  id=$3
+
+  mp="/media/$id"
+
+  logger "Beginning mount of $disk {$mp}"
+
+
+  if [ -d $mp ]
+  then
+    logger "Mounting of $disk failed: Mounpoint exists {$mp} cecking if amount is able to solve the problem..."
+    clear_mp $mp
+    if [ -d $mp ]
+    then
+      exit 1
+    else
+      logger "Problem solved, removed $mp"
+    fi
+  fi
+
+  mkdir -p $mp
+  mount $disk $mp 2>&1 | logger
+
+  if [ "$?" != "0" ]
+  then
+    exit 1
+  fi
+  logger $USER
+  notify-send "New Mass Storage Device" "Succesfully mounted $disk"
+
+elif [ "$1" == "remove" ]
+then
+  mp="/media/$3"
+  sleep 1 # Wait a little bit for all other processes to finish
+  clear_mp $mp
+else
+  echo "--- SiDE AMount ---"
+  echo
+  echo "This tool is used by udev to automaticly mount new storage devices like usb drives"
+  echo "-- WARNING --"
+  echo "You should not use this manualy unless you know what you are doing, output can be found in the syslog"
+fi

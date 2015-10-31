@@ -1,5 +1,6 @@
 LIBPATH=/usr/lib/
 BINPATH=/bin/
+CONFPATH="/etc/"
 
 RIGHTS=sudo
 
@@ -17,6 +18,7 @@ build:
 
 	@echo "building tools"
 	mkdir bin -p
+	mkdir etc/udev/rules.d -p
 	mkdir panel_plugins -p
 	mkdir wallpaper_plugins -p
 	$(MAKE) -C wallpaper-service
@@ -26,6 +28,7 @@ build:
 	$(MAKE) -C search
 	$(MAKE) -C session
 	$(MAKE) -C settings
+	$(MAKE) -C deamons
 	$(MAKE) -C tools/editor
 	$(MAKE) -C tools/filemanager
 	$(MAKE) -C tools/view
@@ -45,6 +48,7 @@ install-libs:
 
 install:
 	$(RIGHTS) mv bin/* $(BUILDPREFIX)$(BINPATH)
+	$(RIGHTS) mv etc/udev/rules.d/* $(BUILDPREFIX)$(CONFPATH)udev/rules.d/
 	$(RIGHTS) cp gsettings/* $(BUILDPREFIX)/usr/share/glib-2.0/schemas/
 ifndef NOCOMPILE
 	sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
