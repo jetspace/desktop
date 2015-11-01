@@ -4,6 +4,13 @@
 # automaticly mount drives based on udev events
 # needs 10-amount.rules
 
+LOGFILE="/tmp/mountlog.txt"
+
+function logger()
+{
+  echo $1 >> $LOGFILE
+}
+
 function clear_mp()
 {
   $mp = $1
