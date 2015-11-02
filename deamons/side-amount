@@ -53,7 +53,7 @@ then
   fi
 
   mkdir -p $mp
-  mount $disk $mp 2>&1 | logger
+  mount $disk $mp -o utf8,gid=100,umask=002 2>&1 | logger
 
 
   if [ "$?" != "0" ]
