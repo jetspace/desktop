@@ -12,7 +12,7 @@ For more details view file 'LICENSE'
 #include <stdlib.h>
 #include <unistd.h>
 
-GtkWidget *dialog, *box, *panel, *label, *path, *icon, *button;
+GtkWidget *dialog, *box, *run_panel, *label, *path, *icon, *button;
 
 gboolean execute(GtkWidget *widget, GdkEvent *event, GtkWidget *data)
 {
@@ -68,14 +68,14 @@ void run_dialog (gchar *app_call)
 
 
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
-  panel = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 15);
+  run_panel = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 15);
 
   gtk_box_pack_end (GTK_BOX(box), button, TRUE, FALSE, 0);
   gtk_box_pack_end (GTK_BOX(box), path, TRUE, FALSE, 0);
-  gtk_box_pack_end (GTK_BOX(box), panel, TRUE, FALSE, 0);
+  gtk_box_pack_end (GTK_BOX(box), run_panel, TRUE, FALSE, 0);
 
-  gtk_box_pack_end (GTK_BOX(panel), label, TRUE, FALSE, 0);
-  gtk_box_pack_end (GTK_BOX(panel), icon, TRUE, FALSE, 0);
+  gtk_box_pack_end (GTK_BOX(run_panel), label, TRUE, FALSE, 0);
+  gtk_box_pack_end (GTK_BOX(run_panel), icon, TRUE, FALSE, 0);
 
 
   gtk_container_add(GTK_CONTAINER(dialog), box);

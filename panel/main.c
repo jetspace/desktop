@@ -83,8 +83,10 @@ GtkWidget *app_box;
 
 unsigned int get_available_space(void)
 {
+  gint temp;
   unsigned int total_width=0;
-  gtk_window_get_size(GTK_WINDOW(panel), &total_width, NULL);
+  gtk_window_get_size(GTK_WINDOW(panel), &temp, NULL);
+  total_width = temp;
   GList *ch, *iter;
   ch = gtk_container_get_children(GTK_CONTAINER(gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(GTK_BIN(panel))))));
 
@@ -371,7 +373,6 @@ unsigned int max_lenght = 100; // The maximum width of one app entry
 long last_len = 0;
 void running_apps(GtkWidget *box)
 {
-
     if(running_box != NULL)
         {
             //clear list

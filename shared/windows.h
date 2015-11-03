@@ -54,7 +54,7 @@ char *get_window_name(Display *d, Window w)
             return NULL;
         }
 
-    return (char*)list;
+    return (char *)list;
 }
 
 gboolean is_minimized(Display *d, Window w)
