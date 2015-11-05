@@ -32,6 +32,7 @@ build:
 	$(MAKE) -C tools/editor
 	$(MAKE) -C tools/filemanager
 	$(MAKE) -C tools/view
+	$(MAKE) -C tools/notifier
 
 clean:
 	rm -r bin

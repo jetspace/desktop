@@ -110,7 +110,12 @@ int main(int argc, char **argv)
 
   getcwd(cwd, sizeof(cwd));
 
-  update_files(1, cwd);
+  if(argc < 2)
+    update_files(1, cwd);
+  else
+    update_files(1, argv[1]);
+
+
   GtkWidget *scroll_win = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   file_view = gtk_icon_view_new_with_model(GTK_TREE_MODEL(sorted_files));

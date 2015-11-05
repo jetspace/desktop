@@ -70,7 +70,7 @@ then
     if [ "$u" != "$last" ]
       then
         logger "notifying user $user"
-        su $u -c "notify-send 'New Mass Storage Device' 'Mounted $id to $mp' -i drive-removable-media"
+        su $u -c "side-notifier --new-storage-device $id $mp"
         last=$u
       fi
   done
