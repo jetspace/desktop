@@ -83,7 +83,7 @@ int main(int argc, char **argv)
   add_context_menu_desktop(menu, ev_box);
 
 
-  g_signal_connect(G_OBJECT(ev_box), "button_press_event", G_CALLBACK(key_press), menu);
+  g_signal_connect(G_OBJECT(window), "button_press_event", G_CALLBACK(key_press), menu);
   gtk_widget_set_events(ev_box, GDK_BUTTON_PRESS_MASK);
 
   //Setup GtkImage
@@ -98,6 +98,9 @@ int main(int argc, char **argv)
 
   //now, load plugins...
   load_plugins_wallpaper("/usr/lib/jetspace/wallpaper/plugins/", grid);
+
+
+  gtk_window_resize(GTK_WINDOW(window), gdk_screen_get_width(screen), gdk_screen_get_height(screen));
 
   gtk_widget_show_all(window);
   gtk_main();
