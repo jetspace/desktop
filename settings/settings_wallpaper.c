@@ -47,6 +47,25 @@ gboolean clear_wallpaper(GtkWidget *w, GdkEvent *e, gpointer *p)
 gboolean open_wallpaper(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
   GtkWidget *dialog = gtk_file_chooser_dialog_new(_("Open Wallpaper"), GTK_WINDOW(win), GTK_FILE_CHOOSER_ACTION_OPEN, _("Cancel"), GTK_RESPONSE_CANCEL, _("Open"), GTK_RESPONSE_ACCEPT, NULL);
+
+  GSettings *s = g_settings_new("org.gnome.desktop.background");
+  char *t = g_settings_get_string(s, "picture-uri");
+
+  char *n = t;
+  // try to skip file://
+  for(int x = 0; x < strlen(t) && x <7;x++)
+    ++t;
+
+  char *pathstr = g_path_get_dirname(t);
+
+  if(pathstr != NULL && strlen(pathstr) >0)
+  {
+    gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), pathstr);
+    g_free(pathstr);
+    g_free(n);
+  }
+
+
   GtkFileFilter *pics = gtk_file_filter_new();
   gtk_file_filter_add_pixbuf_formats(pics);
   gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), pics);
