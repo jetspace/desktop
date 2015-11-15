@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-11-05 14:48+0100\n"
-"PO-Revision-Date: 2015-11-05 14:50+0100\n"
+"POT-Creation-Date: 2015-11-15 19:57+0100\n"
+"PO-Revision-Date: 2015-11-15 19:58+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
@@ -188,45 +188,45 @@ msgstr "SiDE Suchwerkzeug"
 msgid "Apps"
 msgstr "Anwendungen"
 
-#: settings/settings_explorer.c:71
+#: settings/settings_explorer.c:68
 msgid "SiDE Settings"
 msgstr "SiDE Einstellungen"
 
-#: settings/settings_explorer.c:77
+#: settings/settings_explorer.c:74
 msgid "Appearance:"
 msgstr "Erscheinungsbild:"
 
-#: settings/settings_explorer.c:78
-msgid "Informations:"
+#: settings/settings_explorer.c:76
+msgid "Information:"
 msgstr "Informationen:"
 
-#: settings/settings_explorer.c:79
+#: settings/settings_explorer.c:78
 msgid "System:"
 msgstr "System:"
 
-#: settings/settings_explorer.c:81
-msgid "Change Wallpaper"
-msgstr "Hintergrundbild ändern"
+#: settings/settings_explorer.c:98 settings/settings_wallpaper.c:181
+msgid "Wallpaper"
+msgstr "Hintergrundbild"
 
-#: settings/settings_explorer.c:84
-msgid "Configure Panel"
-msgstr "Panel konfigurieren"
+#: settings/settings_explorer.c:101
+msgid "GTK Theme"
+msgstr "GTK Thema"
 
-#: settings/settings_explorer.c:87
-msgid "Setup GTK"
-msgstr "GTK einrichten"
+#: settings/settings_explorer.c:104
+msgid "Panel"
+msgstr "Leiste"
 
-#: settings/settings_explorer.c:90
+#: settings/settings_explorer.c:129
+msgid "Session"
+msgstr "Sitzung"
+
+#: settings/settings_explorer.c:132
+msgid "MiME-Types"
+msgstr "MiME-Typen"
+
+#: settings/settings_explorer.c:153
 msgid "About SiDE"
 msgstr "Über SiDE"
-
-#: settings/settings_explorer.c:93
-msgid "Session Settings"
-msgstr "Sitzungseinstellungen"
-
-#: settings/settings_explorer.c:96
-msgid "MIME Settings"
-msgstr "MIME Einstellungen"
 
 #: settings/settings_gtk.c:98
 msgid "Settings - GTK"
@@ -242,7 +242,7 @@ msgstr "Wählen sie ihr GTK 3.0 Thema:"
 
 #: settings/settings_gtk.c:155 settings/settings_mime.c:148
 #: settings/settings_panel.c:344 settings/settings_session.c:243
-#: settings/settings_wallpaper.c:154 tools/editor/editor_callbacks.h:236
+#: settings/settings_wallpaper.c:173 tools/editor/editor_callbacks.h:236
 #: tools/filemanager/filemanager_callbacks.h:494
 msgid "Apply"
 msgstr "Übernehmen"
@@ -309,7 +309,7 @@ msgstr "Aktiviert"
 msgid "Choose the Apps which are displayed in the Panel:"
 msgstr "Wählen sie die Anwendungen, die im Panel angezeigt werden sollen:"
 
-#: settings/settings_panel.c:422 settings/settings_wallpaper.c:144
+#: settings/settings_panel.c:422 settings/settings_wallpaper.c:163
 msgid "Clear"
 msgstr "Alles Löschen"
 
@@ -321,11 +321,11 @@ msgstr "Entfernen"
 msgid "Add custom"
 msgstr "Eigene Hinzufügen"
 
-#: settings/settings_panel.c:498 settings/settings_wallpaper.c:216
+#: settings/settings_panel.c:498 settings/settings_wallpaper.c:235
 msgid "Plugin"
 msgstr "Plugin"
 
-#: settings/settings_panel.c:502 settings/settings_wallpaper.c:220
+#: settings/settings_panel.c:502 settings/settings_wallpaper.c:239
 msgid "Is Active"
 msgstr "Ist aktiviert"
 
@@ -361,7 +361,7 @@ msgstr "Benutzerdefiniertes Thema verwenden?"
 msgid "Select your theme:"
 msgstr "Wählen sie ihr Thema:"
 
-#: settings/settings_panel.c:645 settings/settings_wallpaper.c:167
+#: settings/settings_panel.c:645 settings/settings_wallpaper.c:186
 msgid "Plugins"
 msgstr "Plugins"
 
@@ -403,7 +403,7 @@ msgstr "Hintergrundbild Öffnen"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: settings/settings_wallpaper.c:49 settings/settings_wallpaper.c:148
+#: settings/settings_wallpaper.c:49 settings/settings_wallpaper.c:167
 #: tools/editor/editor.c:62 tools/notifier/notifier.c:35 tools/view/view.c:36
 #: tools/editor/editor_callbacks.h:142
 #: tools/filemanager/filemanager_callbacks.h:531
@@ -411,17 +411,13 @@ msgstr "Abbrechen"
 msgid "Open"
 msgstr "Öffnen"
 
-#: settings/settings_wallpaper.c:120
+#: settings/settings_wallpaper.c:139
 msgid "Settings - Wallpaper"
 msgstr "Einstellungen - Hintergrundbild"
 
-#: settings/settings_wallpaper.c:126
+#: settings/settings_wallpaper.c:145
 msgid "On This page you can setup your Wallpaper:"
 msgstr "Auf dieser Seite können sie ihr Hintergrundbild ändern:"
-
-#: settings/settings_wallpaper.c:162
-msgid "Wallpaper"
-msgstr "Hintergrundbild"
 
 #: tools/editor/editor.c:36 tools/editor/editor_callbacks.h:59
 msgid "SiDE Editor"
@@ -704,6 +700,24 @@ msgstr "Unterstützte Grafiken"
 #, c-format
 msgid "(%dpx x %dpx) - %d%%"
 msgstr "(%dpx x %dpx) - %d%%"
+
+#~ msgid "Informations:"
+#~ msgstr "Informationen:"
+
+#~ msgid "Change Wallpaper"
+#~ msgstr "Hintergrundbild ändern"
+
+#~ msgid "Configure Panel"
+#~ msgstr "Panel konfigurieren"
+
+#~ msgid "Setup GTK"
+#~ msgstr "GTK einrichten"
+
+#~ msgid "Session Settings"
+#~ msgstr "Sitzungseinstellungen"
+
+#~ msgid "MIME Settings"
+#~ msgstr "MIME Einstellungen"
 
 #~ msgid "SIDE Mixer"
 #~ msgstr "SiDE Mixer"

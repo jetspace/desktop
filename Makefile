@@ -12,6 +12,7 @@ build:
 	mkdir libs -p
 	$(MAKE) -C lib/side-app
 	$(MAKE) -C lib/side-plugin
+	$(MAKE) -C lib/side-widgets
 
 
 	make install-libs BUILDPREFIX=$(BUILDPREFIX) RIGHTS=$(RIGHTS)
@@ -46,6 +47,7 @@ install-libs:
 	$(RIGHTS) mkdir -p $(BUILDPREFIX)/usr/include/side/
 	$(RIGHTS) cp lib/side-app/apps.h $(BUILDPREFIX)/usr/include/side/
 	$(RIGHTS) cp lib/side-plugin/plugin.h $(BUILDPREFIX)/usr/include/side/
+	$(RIGHTS) cp lib/side-widgets/widgets.h $(BUILDPREFIX)/usr/include/side/
 
 install:
 	$(RIGHTS) mv bin/* $(BUILDPREFIX)$(BINPATH)
