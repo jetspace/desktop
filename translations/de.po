@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-11-15 19:57+0100\n"
-"PO-Revision-Date: 2015-11-15 19:58+0100\n"
+"POT-Creation-Date: 2015-11-19 19:18+0100\n"
+"PO-Revision-Date: 2015-11-19 19:19+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
@@ -188,59 +188,67 @@ msgstr "SiDE Suchwerkzeug"
 msgid "Apps"
 msgstr "Anwendungen"
 
-#: settings/settings_explorer.c:68
-msgid "SiDE Settings"
-msgstr "SiDE Einstellungen"
-
-#: settings/settings_explorer.c:74
+#: settings/settings_explorer.c:93
 msgid "Appearance:"
 msgstr "Erscheinungsbild:"
 
-#: settings/settings_explorer.c:76
+#: settings/settings_explorer.c:95
 msgid "Information:"
 msgstr "Informationen:"
 
-#: settings/settings_explorer.c:78
+#: settings/settings_explorer.c:97
 msgid "System:"
 msgstr "System:"
 
-#: settings/settings_explorer.c:98 settings/settings_wallpaper.c:181
+#: settings/settings_explorer.c:119 settings/settings_wallpaper.c:181
 msgid "Wallpaper"
 msgstr "Hintergrundbild"
 
-#: settings/settings_explorer.c:101
-msgid "GTK Theme"
-msgstr "GTK Thema"
-
-#: settings/settings_explorer.c:104
+#: settings/settings_explorer.c:122
 msgid "Panel"
 msgstr "Leiste"
 
-#: settings/settings_explorer.c:129
+#: settings/settings_explorer.c:148
 msgid "Session"
 msgstr "Sitzung"
 
-#: settings/settings_explorer.c:132
+#: settings/settings_explorer.c:151
 msgid "MiME-Types"
 msgstr "MiME-Typen"
 
-#: settings/settings_explorer.c:153
+#: settings/settings_explorer.c:172
 msgid "About SiDE"
 msgstr "Über SiDE"
 
-#: settings/settings_gtk.c:98
-msgid "Settings - GTK"
-msgstr "Einstellungen - GTK"
+#: settings/settings_explorer.c:204
+msgid "SiDE Settings"
+msgstr "SiDE Einstellungen"
 
-#: settings/settings_gtk.c:105
-msgid "Select your GTK 2.0 theme:"
-msgstr "Wählen sie ihr GTK 2.0 Thema:"
+#: settings/settings_explorer.c:217
+msgid "All Settings"
+msgstr "Alle Einstellungen"
 
-#: settings/settings_gtk.c:111
+#: settings/settings_gtk.c:36
+msgid "GTK Theme"
+msgstr "GTK Thema"
+
+#: settings/settings_gtk.c:37
+msgid "Setup GTK Themes"
+msgstr "GTK Themen Einrichten"
+
+#: settings/settings_gtk.c:225
 msgid "Select your GTK 3.0 theme:"
 msgstr "Wählen sie ihr GTK 3.0 Thema:"
 
-#: settings/settings_gtk.c:155 settings/settings_mime.c:148
+#: settings/settings_gtk.c:291 settings/settings_panel.c:646
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: settings/settings_gtk.c:297
+msgid "Select your GTK 2.0 theme:"
+msgstr "Wählen sie ihr GTK 2.0 Thema:"
+
+#: settings/settings_gtk.c:350 settings/settings_mime.c:148
 #: settings/settings_panel.c:344 settings/settings_session.c:243
 #: settings/settings_wallpaper.c:173 tools/editor/editor_callbacks.h:236
 #: tools/filemanager/filemanager_callbacks.h:494
@@ -364,10 +372,6 @@ msgstr "Wählen sie ihr Thema:"
 #: settings/settings_panel.c:645 settings/settings_wallpaper.c:186
 msgid "Plugins"
 msgstr "Plugins"
-
-#: settings/settings_panel.c:646
-msgid "Advanced"
-msgstr "Erweitert"
 
 #: settings/settings_session.c:112
 msgid "Settings - Session"
@@ -700,6 +704,9 @@ msgstr "Unterstützte Grafiken"
 #, c-format
 msgid "(%dpx x %dpx) - %d%%"
 msgstr "(%dpx x %dpx) - %d%%"
+
+#~ msgid "Settings - GTK"
+#~ msgstr "Einstellungen - GTK"
 
 #~ msgid "Informations:"
 #~ msgstr "Informationen:"

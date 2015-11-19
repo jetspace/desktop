@@ -22,6 +22,7 @@ build:
 	mkdir etc/udev/rules.d -p
 	mkdir panel_plugins -p
 	mkdir wallpaper_plugins -p
+	mkdir settings_plugins -p
 	$(MAKE) -C wallpaper-service
 	$(MAKE) -C panel
 	$(MAKE) -C open
@@ -60,6 +61,7 @@ endif
 	$(RIGHTS) mkdir $(BUILDPREFIX)/usr/lib/jetspace/panel -p
 	$(RIGHTS) mkdir $(BUILDPREFIX)/usr/lib/jetspace/panel/plugins -p
 	$(RIGHTS) mkdir $(BUILDPREFIX)/usr/lib/jetspace/wallpaper/plugins -p
+	$(RIGHTS) mkdir $(BUILDPREFIX)/usr/lib/jetspace/settings/ -p
 	$(RIGHTS) mkdir $(BUILDPREFIX)/usr/share/icons/jetspace -p
 	$(RIGHTS) cp icons/* $(BUILDPREFIX)/usr/share/icons/jetspace/
 	$(RIGHTS) cp desktop/side-settings-explorer.desktop $(BUILDPREFIX)/usr/share/applications/
@@ -70,6 +72,7 @@ endif
 	$(RIGHTS) cp desktop/side-view.desktop $(BUILDPREFIX)/usr/share/applications/
 	$(RIGHTS) cp desktop/side-files.desktop $(BUILDPREFIX)/usr/share/applications/
 	$(RIGHTS) mv wallpaper_plugins/* $(BUILDPREFIX)/usr/lib/jetspace/wallpaper/plugins/
+	$(RIGHTS) mv settings_plugins/* $(BUILDPREFIX)/usr/lib/jetspace/settings/
 	$(RIGHTS) mv panel_plugins/* $(BUILDPREFIX)/usr/lib/jetspace/panel/plugins/
 	$(RIGHTS) cp translations/de.mo $(BUILDPREFIX)/usr/share/locale/de/LC_MESSAGES/side.mo
 	$(RIGHTS) mkdir -p $(BUILDPREFIX)/etc/side/

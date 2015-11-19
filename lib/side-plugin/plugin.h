@@ -51,4 +51,27 @@ enum {
 gboolean check_version(int type, char *target);
 //type is used with one of the ENUM above, target is the version ("0.60", etc)
 
+typedef void (*OpenSettings) (gpointer data);
+typedef struct
+{
+  char *label;
+  char *icon;
+  char *hover;
+  int category;
+}SiDESettingsPluginDescription;
+
+
+typedef SiDESettingsPluginDescription * (*SiDESettingsPlugin_Identify) (gpointer data);
+
+typedef struct {
+  GModule *module;
+  SiDESettingsPlugin_Identify identify;
+  SiDESettingsPluginDescription *identity;
+  OpenSettings callback;
+}SettingPlugins;
+
+
+
+void load_side_settings_plugins(GtkListStore *app,GtkListStore *sys,GtkListStore *inf, char *path, gboolean onlyOld);
+void exec_callback(int id, GtkWidget *box);
 #endif

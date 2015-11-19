@@ -18,6 +18,8 @@ For more details view file 'LICENSE'
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
+#include <gmodule.h>
+#include <side/plugin.h>
 
 typedef struct {
   GtkWidget *gtk3;
@@ -25,6 +27,19 @@ typedef struct {
 }SiDEGTKSettingsData;
 
 SiDEGTKSettingsData data;
+
+SiDESettingsPluginDescription side_gtk_plugin_desc;
+void callback(gpointer data);
+
+SiDESettingsPluginDescription *identify(gpointer data)
+{
+  side_gtk_plugin_desc.label = _("GTK Theme");
+  side_gtk_plugin_desc.hover = _("Setup GTK Themes");
+  side_gtk_plugin_desc.icon  = "preferences-desktop-theme";
+  side_gtk_plugin_desc.category = 0;
+  return &side_gtk_plugin_desc;
+}
+
 
 gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
@@ -164,6 +179,7 @@ char *get_current_theme()
       strncpy(ret, p, strlen(p) +1);
 
       free(buffer);
+      fclose(in);
       return ret;
     }
   }
@@ -191,6 +207,7 @@ char *get_current_theme2()
       ret = malloc(strlen(p) +1);
       strncpy(ret, p, strlen(p) +1);
 
+      fclose(in);
       free(buffer);
       return ret;
     }
@@ -200,23 +217,9 @@ char *get_current_theme2()
 
 }
 
-int main(int argc, char **argv)
+GtkWidget *build_gtk_settings(void)
 {
-  GtkWidget *win, *box, *label, *apply, *cb;
-
-
-  textdomain("side");
-
-  gtk_init(&argc, &argv);
-  side_set_application_mode(SIDE_APPLICATION_MODE_SETTINGS); // set application to be a settings app
-
-  win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_resize(GTK_WINDOW(win), 400, 300);
-  gtk_window_set_title(GTK_WINDOW(win), _("Settings - GTK"));
-  gtk_container_set_border_width(GTK_CONTAINER(win), 10);
-  g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
-
-
+  GtkWidget *box, *label, *apply, *cb;
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
 
   label = side_gtk_label_new(_("Select your GTK 3.0 theme:"));
@@ -347,10 +350,13 @@ int main(int argc, char **argv)
   apply = gtk_button_new_with_label(_("Apply"));
   g_signal_connect(G_OBJECT(apply), "button_press_event", G_CALLBACK(apply_clicked), NULL);
   gtk_box_pack_end(GTK_BOX(box), apply, FALSE, FALSE, 5);
+  return box;
+}
 
-
-  gtk_container_add(GTK_CONTAINER(win), box);
-  gtk_widget_show_all(win);
-  gtk_main();
-  return 0;
+void callback(gpointer d)
+{
+  counter = 0;
+  GtkBox *container = GTK_BOX(d);
+  GtkWidget *cont = build_gtk_settings();
+  gtk_box_pack_start(container, cont, TRUE, TRUE, 0);
 }
