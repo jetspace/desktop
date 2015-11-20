@@ -32,5 +32,5 @@ running with xfwm4
 
 ## Documentation
 
- Documentation is generated using mkdocs! you can find the markdown files in docs/
+ Documentation is generated using sphinx! you can find the documentation files in docs/
  The documentation is hosted at [rtfd.org](http://side.rtfd.org/)
