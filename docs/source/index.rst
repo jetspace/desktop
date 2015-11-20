@@ -14,7 +14,6 @@ like this...
 .. toctree::
    :maxdepth: 4
 
-   index
    about
    apps
    tool_editor
