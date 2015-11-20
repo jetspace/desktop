@@ -181,17 +181,17 @@ void load_side_settings_plugins(GtkListStore *app,GtkListStore *sys,GtkListStore
         {
           case 0:
           gtk_list_store_append(app, &iter);
-          gtk_list_store_set(app, &iter, 0, SettingPluginsStore[x].identity->label,1,ex,2, gtk_icon_theme_load_icon(theme, SettingPluginsStore[x].identity->icon, 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), -1);
+          gtk_list_store_set(app, &iter, 0, SettingPluginsStore[x].identity->label,1,ex,2, gtk_icon_theme_load_icon(theme, SettingPluginsStore[x].identity->icon, 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL),3, SettingPluginsStore[x].identity->hover, -1);
           break;
 
           case 1:
           gtk_list_store_append(sys, &iter);
-          gtk_list_store_set(sys, &iter, 0, SettingPluginsStore[x].identity->label,1,ex,2, gtk_icon_theme_load_icon(theme, SettingPluginsStore[x].identity->icon, 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), -1);
+          gtk_list_store_set(sys, &iter, 0, SettingPluginsStore[x].identity->label,1,ex,2, gtk_icon_theme_load_icon(theme, SettingPluginsStore[x].identity->icon, 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL),3, SettingPluginsStore[x].identity->hover,-1);
           break;
 
           case 2:
           gtk_list_store_append(inf, &iter);
-          gtk_list_store_set(inf, &iter, 0, SettingPluginsStore[x].identity->label,1,ex,2, gtk_icon_theme_load_icon(theme, SettingPluginsStore[x].identity->icon, 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), -1);
+          gtk_list_store_set(inf, &iter, 0, SettingPluginsStore[x].identity->label,1,ex,2, gtk_icon_theme_load_icon(theme, SettingPluginsStore[x].identity->icon, 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), 3, SettingPluginsStore[x].identity->hover, -1);
           break;
 
         }

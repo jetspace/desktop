@@ -10,6 +10,7 @@ For more details view file 'LICENSE'
 #include <sys/types.h>
 #include <pwd.h>
 #include <glib/gi18n.h>
+#include <side/plugin.h>
 
 char MIMEDB[2000];
 #define MIMEFALLBACK "/etc/side/mime.conf"
@@ -65,10 +66,8 @@ gboolean write_mime_config(GtkWidget *w, GdkEvent *e, gpointer p)
   return FALSE;
 }
 
-int main(int argc, char **argv)
+GtkWidget *build_mime_settigns(void)
 {
-  textdomain("side");
-
   memset(MIMEDB, 0, 2000);
   struct passwd *pw = getpwuid(getuid());
   const char *homedir = pw->pw_dir;
@@ -82,9 +81,6 @@ int main(int argc, char **argv)
     memset(MIMEDB, 0, 2000);
     strcat(MIMEDB, MIMEFALLBACK);
   }
-
-
-  gtk_init(&argc, &argv);
 
   list = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
 
@@ -106,16 +102,8 @@ int main(int argc, char **argv)
 
   jet_close_config_read();
 
-  //Create window
-  GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_resize(GTK_WINDOW(win), 650, 500);
-  gtk_window_set_title(GTK_WINDOW(win), _("Settings - MIME Types"));
-  gtk_container_set_border_width(GTK_CONTAINER(win), 10);
-  g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
-
   GtkWidget *label = gtk_label_new(_("Here you can select which app should handle which MIME type by default:"));
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
-  gtk_container_add(GTK_CONTAINER(win), box);
   gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);
 
 
@@ -149,6 +137,24 @@ int main(int argc, char **argv)
   g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(write_mime_config), NULL);
   gtk_box_pack_end(GTK_BOX(box), button, FALSE, FALSE, 0);
 
-  gtk_widget_show_all(win);
-  gtk_main();
+  return box;
+
+}
+
+void callback(gpointer d)
+{
+  GtkBox *container = GTK_BOX(d);
+  GtkWidget *cont = build_mime_settigns();
+  gtk_box_pack_start(container, cont, TRUE, TRUE, 0);
+}
+
+SiDESettingsPluginDescription side_mime_plugin_desc;
+
+SiDESettingsPluginDescription *identify(gpointer data)
+{
+  side_mime_plugin_desc.label = _("MiME-Types");
+  side_mime_plugin_desc.hover = _("Setup MiME types and default applications");
+  side_mime_plugin_desc.icon  = "preferences-desktop-personal";
+  side_mime_plugin_desc.category = 1;
+  return &side_mime_plugin_desc;
 }

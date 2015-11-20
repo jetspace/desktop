@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-11-19 19:18+0100\n"
-"PO-Revision-Date: 2015-11-19 19:19+0100\n"
+"POT-Creation-Date: 2015-11-20 16:04+0100\n"
+"PO-Revision-Date: 2015-11-20 16:05+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
@@ -50,7 +50,7 @@ msgstr ""
 "Wenn sie dieses Fenster schließen, versucht SiDE eine Ersatzanwendung zu "
 "finden."
 
-#: open/main.c:99 settings/settings_mime.c:138 settings/settings_session.c:151
+#: open/main.c:99 settings/settings_mime.c:126 settings/settings_session.c:151
 msgid "App"
 msgstr "Anwendung"
 
@@ -58,7 +58,7 @@ msgstr "Anwendung"
 msgid "Select"
 msgstr "Auswählen"
 
-#: open/main.c:144 settings/settings_mime.c:81
+#: open/main.c:144 settings/settings_mime.c:80
 #, c-format
 msgid "Can't find local configuration {%s} using system fallback {%s}\n"
 msgstr ""
@@ -208,15 +208,11 @@ msgstr "Hintergrundbild"
 msgid "Panel"
 msgstr "Leiste"
 
-#: settings/settings_explorer.c:148
+#: settings/settings_explorer.c:149
 msgid "Session"
 msgstr "Sitzung"
 
-#: settings/settings_explorer.c:151
-msgid "MiME-Types"
-msgstr "MiME-Typen"
-
-#: settings/settings_explorer.c:172
+#: settings/settings_explorer.c:171
 msgid "About SiDE"
 msgstr "Über SiDE"
 
@@ -248,25 +244,29 @@ msgstr "Erweitert"
 msgid "Select your GTK 2.0 theme:"
 msgstr "Wählen sie ihr GTK 2.0 Thema:"
 
-#: settings/settings_gtk.c:350 settings/settings_mime.c:148
+#: settings/settings_gtk.c:350 settings/settings_mime.c:136
 #: settings/settings_panel.c:344 settings/settings_session.c:243
 #: settings/settings_wallpaper.c:173 tools/editor/editor_callbacks.h:236
 #: tools/filemanager/filemanager_callbacks.h:494
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: settings/settings_mime.c:112
-msgid "Settings - MIME Types"
-msgstr "Einstellungen MIME Typen"
-
-#: settings/settings_mime.c:116
+#: settings/settings_mime.c:105
 msgid "Here you can select which app should handle which MIME type by default:"
 msgstr ""
 "Hier können sie festlegen welche Anwendung welchen MIME Typ öffnen soll:"
 
-#: settings/settings_mime.c:133
+#: settings/settings_mime.c:121
 msgid "MIME Type"
 msgstr "MIME Typ"
+
+#: settings/settings_mime.c:155
+msgid "MiME-Types"
+msgstr "MiME-Typen"
+
+#: settings/settings_mime.c:156
+msgid "Setup MiME types and default applications"
+msgstr "MiME Typen und Standartanwendungen festlegen"
 
 #: settings/settings_panel.c:89
 msgid "Add App"
@@ -704,6 +704,9 @@ msgstr "Unterstützte Grafiken"
 #, c-format
 msgid "(%dpx x %dpx) - %d%%"
 msgstr "(%dpx x %dpx) - %d%%"
+
+#~ msgid "Settings - MIME Types"
+#~ msgstr "Einstellungen MIME Typen"
 
 #~ msgid "Settings - GTK"
 #~ msgstr "Einstellungen - GTK"

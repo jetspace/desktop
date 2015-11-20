@@ -106,13 +106,13 @@ GtkWidget *main_menu(void)
   //Appearance
     GtkWidget *iconview = gtk_icon_view_new();
     GtkWidget *scroll = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll), 80);
+    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll), 90);
     gtk_container_add(GTK_CONTAINER(scroll), iconview);
 
     gtk_box_pack_start(GTK_BOX(box), label_a, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(box), scroll, TRUE, TRUE, 0);
 
-    list = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_PIXBUF, -1);
+    list = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_STRING,-1);
     a=list;
 
     gtk_list_store_append(list, &iter);
@@ -124,6 +124,7 @@ GtkWidget *main_menu(void)
 
     gtk_icon_view_set_model(GTK_ICON_VIEW(iconview), GTK_TREE_MODEL(list));
     gtk_icon_view_set_text_column(GTK_ICON_VIEW(iconview), 0);
+    gtk_icon_view_set_tooltip_column(GTK_ICON_VIEW(iconview), 3);
     gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(iconview), 2);
 
     gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(iconview), TRUE);
@@ -135,48 +136,47 @@ GtkWidget *main_menu(void)
   //System
     iconview = gtk_icon_view_new();
     scroll = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll), 80);
+    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll), 90);
     gtk_container_add(GTK_CONTAINER(scroll), iconview);
 
     gtk_box_pack_start(GTK_BOX(box), label_s, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(box), scroll, TRUE, TRUE, 0);
 
-    list = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_PIXBUF, -1);
+    list = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_STRING,-1);
     s=list;
 
     gtk_list_store_append(list, &iter);
     gtk_list_store_set(list, &iter, 0, _("Session"), 1, "side-session-settings", 2,gtk_icon_theme_load_icon(theme, "preferences-system", 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), -1);
 
-    gtk_list_store_append(list, &iter);
-    gtk_list_store_set(list, &iter, 0, _("MiME-Types"), 1, "side-mime-settings", 2,gtk_icon_theme_load_icon(theme, "preferences-desktop-personal", 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), -1);
-
     gtk_icon_view_set_model(GTK_ICON_VIEW(iconview), GTK_TREE_MODEL(list));
     gtk_icon_view_set_text_column(GTK_ICON_VIEW(iconview), 0);
+    gtk_icon_view_set_tooltip_column(GTK_ICON_VIEW(iconview), 3);
     gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(iconview), 2);
 
     gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(iconview), TRUE);
-    g_signal_connect(G_OBJECT(iconview), "item-activated", G_CALLBACK(activated_item), NULL);
+    g_signal_connect(G_OBJECT(iconview), "item-activated", G_CALLBACK(activated_item), box);
 
     //Infrormation
     iconview = gtk_icon_view_new();
     scroll = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll), 80);
+    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll), 90);
     gtk_container_add(GTK_CONTAINER(scroll), iconview);
 
     gtk_box_pack_start(GTK_BOX(box), label_i, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(box), scroll, TRUE, TRUE, 0);
 
-    list = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_PIXBUF, -1);
+    list = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_STRING,-1);
 
     gtk_list_store_append(list, &iter);
     gtk_list_store_set(list, &iter, 0, _("About SiDE"), 1, "side-about", 2,gtk_icon_theme_load_icon(theme, "dialog-information", 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), -1);
 
     gtk_icon_view_set_model(GTK_ICON_VIEW(iconview), GTK_TREE_MODEL(list));
     gtk_icon_view_set_text_column(GTK_ICON_VIEW(iconview), 0);
+    gtk_icon_view_set_tooltip_column(GTK_ICON_VIEW(iconview), 3);
     gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(iconview), 2);
 
     gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(iconview), TRUE);
-    g_signal_connect(G_OBJECT(iconview), "item-activated", G_CALLBACK(activated_item), NULL);
+    g_signal_connect(G_OBJECT(iconview), "item-activated", G_CALLBACK(activated_item), box);
 
     if(load_plugins)
     {

@@ -301,7 +301,7 @@ GtkWidget *build_gtk_settings(void)
   gtk_box_pack_start(GTK_BOX(subbox), cb, FALSE, FALSE, 0);
 
   gtk_container_add(GTK_CONTAINER(advanced), subbox);
-  gtk_box_pack_start(GTK_BOX(box), advanced, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(box), advanced, TRUE, TRUE, 0);
 
 
 
@@ -349,7 +349,7 @@ GtkWidget *build_gtk_settings(void)
 
   apply = gtk_button_new_with_label(_("Apply"));
   g_signal_connect(G_OBJECT(apply), "button_press_event", G_CALLBACK(apply_clicked), NULL);
-  gtk_box_pack_end(GTK_BOX(box), apply, FALSE, FALSE, 5);
+  gtk_box_pack_end(GTK_BOX(box), apply, TRUE, TRUE, 5);
   return box;
 }
 
