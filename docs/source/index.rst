@@ -11,4 +11,12 @@ classic. Classic means, that we want to keep the traditional layout of an interf
 A simple bar at the bottom, a wallpaper and an application menu. No fancy tiles or anything
 like this...
 
-:doc:`toc`
+.. toctree::
+   :maxdepth: 4
+
+   index
+   about
+   apps
+   tool_editor
+   tool_filemanager
+   tool_view
