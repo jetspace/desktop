@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-11-21 11:58+0100\n"
-"PO-Revision-Date: 2015-11-21 11:59+0100\n"
+"POT-Creation-Date: 2015-11-21 12:42+0100\n"
+"PO-Revision-Date: 2015-11-21 12:43+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
@@ -188,25 +188,21 @@ msgstr "SiDE Suchwerkzeug"
 msgid "Apps"
 msgstr "Anwendungen"
 
-#: settings/settings_explorer.c:98
+#: settings/settings_explorer.c:100
 msgid "Main Menu"
 msgstr "Hauptmenü"
 
-#: settings/settings_explorer.c:104
+#: settings/settings_explorer.c:106
 msgid "Appearance:"
 msgstr "Erscheinungsbild:"
 
-#: settings/settings_explorer.c:106
+#: settings/settings_explorer.c:108
 msgid "Information:"
 msgstr "Informationen:"
 
-#: settings/settings_explorer.c:108
+#: settings/settings_explorer.c:110
 msgid "System:"
 msgstr "System:"
-
-#: settings/settings_explorer.c:130
-msgid "Panel"
-msgstr "Leiste"
 
 #: settings/settings_explorer.c:157
 msgid "Session"
@@ -237,7 +233,7 @@ msgid "Select your GTK 2.0 theme:"
 msgstr "Wählen sie ihr GTK 2.0 Thema:"
 
 #: settings/settings_gtk.c:341 settings/settings_mime.c:136
-#: settings/settings_panel.c:344 settings/settings_session.c:243
+#: settings/settings_panel.c:340 settings/settings_session.c:243
 #: settings/settings_wallpaper.c:164 tools/editor/editor_callbacks.h:236
 #: tools/filemanager/filemanager_callbacks.h:494
 msgid "Apply"
@@ -268,24 +264,24 @@ msgstr "Standardanwendungen"
 msgid "Setup MIME types and default applications"
 msgstr "MIME Typen und Standardanwendungen einrichten"
 
-#: settings/settings_panel.c:89
+#: settings/settings_panel.c:90
 msgid "Add App"
 msgstr "Anwendung Hinzufügen"
 
-#: settings/settings_panel.c:101 settings/settings_panel.c:433
+#: settings/settings_panel.c:102 settings/settings_panel.c:429
 #: settings/settings_session.c:170
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: settings/settings_panel.c:114
+#: settings/settings_panel.c:115
 msgid "#App Path"
 msgstr "#Anwendungs Pfad"
 
-#: settings/settings_panel.c:114
+#: settings/settings_panel.c:115
 msgid "#Icon"
 msgstr "#Symbol"
 
-#: settings/settings_panel.c:328
+#: settings/settings_panel.c:329
 msgid ""
 "On this page you can set up the Panel:\n"
 "\n"
@@ -293,55 +289,51 @@ msgstr ""
 "Auf dieser Seite können sie ihr Panel einrichten:\n"
 "\n"
 
-#: settings/settings_panel.c:329
+#: settings/settings_panel.c:330
 msgid "Select the default Terminal Application:"
 msgstr "Wählen sie die Standard Terminal Anwendung:"
 
-#: settings/settings_panel.c:336
-msgid "Settings - Panel"
-msgstr "Einstellungen - Panel"
-
-#: settings/settings_panel.c:387
+#: settings/settings_panel.c:383
 msgid "Path"
 msgstr "Pfad"
 
-#: settings/settings_panel.c:394
+#: settings/settings_panel.c:390
 msgid "Icon"
 msgstr "Symbol"
 
-#: settings/settings_panel.c:400
+#: settings/settings_panel.c:396
 msgid "Enabled"
 msgstr "Aktiviert"
 
-#: settings/settings_panel.c:410
+#: settings/settings_panel.c:406
 msgid "Choose the Apps which are displayed in the Panel:"
 msgstr "Wählen sie die Anwendungen, die im Panel angezeigt werden sollen:"
 
-#: settings/settings_panel.c:422 settings/settings_wallpaper.c:154
+#: settings/settings_panel.c:418 settings/settings_wallpaper.c:154
 msgid "Clear"
 msgstr "Alles Löschen"
 
-#: settings/settings_panel.c:427 settings/settings_session.c:165
+#: settings/settings_panel.c:423 settings/settings_session.c:165
 msgid "Remove"
 msgstr "Entfernen"
 
-#: settings/settings_panel.c:438
+#: settings/settings_panel.c:434
 msgid "Add custom"
 msgstr "Eigene Hinzufügen"
 
-#: settings/settings_panel.c:498 settings/settings_wallpaper.c:226
+#: settings/settings_panel.c:497 settings/settings_wallpaper.c:227
 msgid "Plugin"
 msgstr "Plugin"
 
-#: settings/settings_panel.c:502 settings/settings_wallpaper.c:230
+#: settings/settings_panel.c:501 settings/settings_wallpaper.c:231
 msgid "Is Active"
 msgstr "Ist aktiviert"
 
-#: settings/settings_panel.c:511
+#: settings/settings_panel.c:510
 msgid "Here you can enable or disable plugins"
 msgstr "Hier können sie Plugins (de) aktivieren:"
 
-#: settings/settings_panel.c:513
+#: settings/settings_panel.c:512
 msgid ""
 "<b>NOTICE:</b> To install new plugins, you have to restart the panel, "
 "because plugins are loaded at startup."
@@ -371,7 +363,15 @@ msgstr "Wählen sie ihr Thema:"
 
 #: settings/settings_panel.c:645 settings/settings_wallpaper.c:177
 msgid "Plugins"
-msgstr "Plugins"
+msgstr "Erweiterungen"
+
+#: settings/settings_panel.c:670 settings/settings_panel.c:673
+msgid "Panel"
+msgstr "Leiste"
+
+#: settings/settings_panel.c:671
+msgid "Setup panel themes, apps and plugins"
+msgstr "Leisten Themen, Anwendungen und Erweiterungen einrichten"
 
 #: settings/settings_session.c:112
 msgid "Settings - Session"
@@ -419,12 +419,12 @@ msgstr "Öffnen"
 msgid "On This page you can setup your Wallpaper:"
 msgstr "Auf dieser Seite können sie ihr Hintergrundbild ändern:"
 
-#: settings/settings_wallpaper.c:172 settings/settings_wallpaper.c:259
-#: settings/settings_wallpaper.c:262
+#: settings/settings_wallpaper.c:172 settings/settings_wallpaper.c:260
+#: settings/settings_wallpaper.c:263
 msgid "Wallpaper"
 msgstr "Hintergrundbild"
 
-#: settings/settings_wallpaper.c:260
+#: settings/settings_wallpaper.c:261
 msgid "Setup background of your environment"
 msgstr "Hintergrund der Arbeitsumgebung festlegen"
 
@@ -709,6 +709,9 @@ msgstr "Unterstützte Grafiken"
 #, c-format
 msgid "(%dpx x %dpx) - %d%%"
 msgstr "(%dpx x %dpx) - %d%%"
+
+#~ msgid "Settings - Panel"
+#~ msgstr "Einstellungen - Panel"
 
 #~ msgid "MiME-Types"
 #~ msgstr "MiME-Typen"

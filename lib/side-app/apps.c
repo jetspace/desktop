@@ -40,6 +40,12 @@ AppEntry side_apps_get_next_entry(void)
 
 	struct dirent *d;
 
+	if(!side_apps_dir)
+	{
+		fprintf(stderr, "SiDEApps: Invalid read on not initialized librarry!");
+		return ret;
+	}
+
 	d = readdir(side_apps_dir);
 
 	if(d == NULL)
@@ -228,7 +234,7 @@ AppEntry side_apps_get_next_entry(void)
 		}
 
 	}
-
+	fclose(side_apps_entry_file);
 	ret.valid = true;
 	return ret;
 }

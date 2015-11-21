@@ -15,14 +15,15 @@ For more details view file 'LICENSE'
 #include <side/apps.h>
 #include <errno.h>
 #include <glib/gi18n.h>
+#include <gmodule.h>
+#include <side/plugin.h>
 
-//page basic layout
-GtkWidget *win_box;
+
 
 //page 1
 GtkTreeIter iter;
 GtkListStore *list;
-GtkWidget *win, *box, *apply, *entry_path, *label_term, *label_sum, *tree, *scroll_win, *label_apps, *add_app_button, *add_predef_button,*remove_app_button, *clear_app_button, *app_button_box, *notebook;
+GtkWidget *box, *apply, *entry_path, *label_term, *label_sum, *tree, *scroll_win, *label_apps, *add_app_button, *add_predef_button,*remove_app_button, *clear_app_button, *app_button_box, *notebook;
 
 //page 2
 
@@ -295,7 +296,7 @@ gboolean cell_edit_i(GtkCellRendererText *renderer, gchar *path, gchar *text, Gt
 }
 
 
-gboolean panel_settings(void)
+GtkWidget *build_panel_settings(void)
 {
   //NAME, EXEC, ICON
   app_store = gtk_list_store_new(3, G_TYPE_STRING,G_TYPE_STRING, G_TYPE_STRING);
@@ -331,15 +332,10 @@ gboolean panel_settings(void)
   entry_path = gtk_entry_new();
   gtk_entry_set_text(GTK_ENTRY(entry_path), ptr);
 
-  win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_resize(GTK_WINDOW(win), 800, 500);
-  gtk_window_set_title(GTK_WINDOW(win), _("Settings - Panel"));
-  gtk_container_set_border_width(GTK_CONTAINER(win), 10);
-  g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
-
   notebook = gtk_notebook_new();
   //page 1
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_container_set_border_width(GTK_CONTAINER(box), 6);
 
     apply = gtk_button_new_with_label(_("Apply"));
 
@@ -412,7 +408,7 @@ gboolean panel_settings(void)
 
     //put the scroll_win in the box
     gtk_container_add(GTK_CONTAINER(scroll_win), tree);
-    gtk_container_add(GTK_CONTAINER(box), scroll_win);
+    gtk_box_pack_start(GTK_BOX(box), scroll_win, TRUE, TRUE, 0);
 
     //Button Box
     app_button_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
@@ -439,12 +435,14 @@ gboolean panel_settings(void)
     gtk_container_add(GTK_CONTAINER(app_button_box), add_app_button);
     g_signal_connect(G_OBJECT(add_app_button), "button_press_event", G_CALLBACK(add_item), NULL);
 
-    gtk_container_add(GTK_CONTAINER(box), app_button_box);
+    gtk_box_pack_end(GTK_BOX(box), app_button_box, FALSE, FALSE, 0);
+
 
 
   //Page 2
 
     box2 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_container_set_border_width(GTK_CONTAINER(box2), 6);
                                       //   name        Bool
     modlist = gtk_list_store_new(COLS_MOD, G_TYPE_STRING, G_TYPE_BOOLEAN);
 
@@ -486,6 +484,7 @@ gboolean panel_settings(void)
         gtk_list_store_append(modlist, &iter2);
         gtk_list_store_set(modlist, &iter2, COL_NAME, de->d_name, COL_ENABLED, c, -1);
       }
+  closedir(d);
 
     modview = gtk_tree_view_new();
 
@@ -520,6 +519,7 @@ gboolean panel_settings(void)
   // Page 3
 
     box3 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_container_set_border_width(GTK_CONTAINER(box3), 6);
 
     //app menu
     label_visible = gtk_label_new(_("Enable built-in App menu:"));
@@ -647,29 +647,30 @@ gboolean panel_settings(void)
 
   //create win_box
 
-  win_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
+  GtkWidget *win_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
 
 
-  gtk_container_add(GTK_CONTAINER(win_box), notebook);
-  gtk_container_add(GTK_CONTAINER(win_box), apply);
-
-  gtk_container_add(GTK_CONTAINER(win), win_box);
-
-
-
-  gtk_widget_show_all(win);
-  return FALSE;
+  gtk_box_pack_start(GTK_BOX(win_box), notebook, TRUE, TRUE, 0);
+  gtk_box_pack_end(GTK_BOX(win_box), apply, FALSE, FALSE, 0);
+  return win_box;
 
 }
 
-int main(int argc, char **argv)
+
+void callback(gpointer d)
 {
+  GtkBox *container = GTK_BOX(d);
+  GtkWidget *cont = build_panel_settings();
+  gtk_box_pack_start(container, cont, TRUE, TRUE, 0);
+}
 
-  textdomain("side");
-
-  gtk_init(&argc, &argv);
-
-  panel_settings();
-
-  gtk_main();
+SiDESettingsPluginDescription side_panel_plugin_desc;
+SiDESettingsPluginDescription *identify(gpointer data)
+{
+  side_panel_plugin_desc.label = _("Panel");
+  side_panel_plugin_desc.hover = _("Setup panel themes, apps and plugins");
+  side_panel_plugin_desc.icon  = "preferences-desktop";
+  side_panel_plugin_desc.title = _("Panel");
+  side_panel_plugin_desc.category = 0;
+  return &side_panel_plugin_desc;
 }

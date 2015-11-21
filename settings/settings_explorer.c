@@ -17,6 +17,7 @@ typedef struct
 {
   GtkWidget *header;
   GtkWidget *box;
+  GtkWidget *home_button;
 }SiDESettingsExplorer;
 
 SiDESettingsExplorer se_data;
@@ -48,6 +49,7 @@ gboolean about_dialog(GtkWidget *w, GdkEvent *e, gpointer p)
 gboolean go_back(GtkWidget *w, GdkEvent *e, gpointer p)
 {
   GList *ch, *iter;
+  gtk_widget_set_sensitive(se_data.home_button, FALSE);
   ch = gtk_container_get_children(GTK_CONTAINER(se_data.box));
   for(iter = ch; iter != NULL; iter = g_list_next(iter))
   {
@@ -82,7 +84,7 @@ gboolean activated_item (GtkIconView *iv, GtkTreePath *path, gpointer p)
 
     strtok(exec, ":");
     int id = atoi(strtok(NULL, "\0"));
-
+    gtk_widget_set_sensitive(se_data.home_button, TRUE);
     exec_callback(id, se_data.box, se_data.header);
     gtk_widget_show_all(se_data.box);
   }
@@ -126,8 +128,6 @@ GtkWidget *main_menu(void)
     list = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_STRING,-1);
     a=list;
 
-    gtk_list_store_append(list, &iter);
-    gtk_list_store_set(list, &iter, 0, _("Panel"), 1, "side-panel-settings", 2,gtk_icon_theme_load_icon(theme, "preferences-desktop", 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), -1);
 
 
     gtk_icon_view_set_model(GTK_ICON_VIEW(iconview), GTK_TREE_MODEL(list));
@@ -223,9 +223,10 @@ int main(int argc, char **argv)
   gtk_header_bar_set_title(GTK_HEADER_BAR(se_data.header), "SiDE Settings");
   gtk_window_set_titlebar (GTK_WINDOW(win), se_data.header);
 
-  GtkWidget *allsettings = gtk_button_new_with_label(_("All Settings"));
-  gtk_header_bar_pack_start(GTK_HEADER_BAR(se_data.header), allsettings);
-  g_signal_connect(G_OBJECT(allsettings), "clicked", G_CALLBACK(go_back), NULL);
+  se_data.home_button = gtk_button_new_with_label(_("All Settings"));
+  gtk_widget_set_sensitive(se_data.home_button, FALSE);
+  gtk_header_bar_pack_start(GTK_HEADER_BAR(se_data.header), se_data.home_button);
+  g_signal_connect(G_OBJECT(se_data.home_button), "clicked", G_CALLBACK(go_back), NULL);
 
 
   gtk_container_add(GTK_CONTAINER(se_data.box), main_menu());

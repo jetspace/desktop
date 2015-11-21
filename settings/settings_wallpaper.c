@@ -213,6 +213,7 @@ GtkWidget *build_wallpaper_settings(void)
        gtk_list_store_append(list, &iter);
        gtk_list_store_set(list, &iter, 0, de->d_name, 1, c, -1);
      }
+    closedir(d);
 
 
      view = gtk_tree_view_new();
