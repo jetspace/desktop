@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
 "POT-Creation-Date: 2015-11-21 13:30+0100\n"
-"PO-Revision-Date: 2015-11-21 13:30+0100\n"
+"PO-Revision-Date: 2015-11-21 16:50+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
@@ -82,7 +82,7 @@ msgid ""
 "Icon:\t%s"
 msgstr ""
 "Pfad:\t%s\n"
-"Icon:\t%s"
+"Symbol:\t%s"
 
 #: panel/main.c:476 plugins/icon_app_button.c:50 plugins/icon_app_button.c:77
 msgid "Applications"
@@ -134,7 +134,7 @@ msgstr "Suchen..."
 
 #: plugins/clock.c:119
 msgid "Panel Clock Settings"
-msgstr "Panel Uhr Einstellungen"
+msgstr "Leisten-Uhr Einstellungen"
 
 #: plugins/clock.c:123
 msgid "Set up the time format:"
@@ -154,7 +154,7 @@ msgstr "UTC verwenden?"
 
 #: plugins/clock.c:215
 msgid "SIDE Panel Clock"
-msgstr "SiDE Panel Uhr"
+msgstr "SiDE Leisten-Uhr"
 
 #: plugins/clock.c:223
 msgid "Clock Settings"
@@ -286,12 +286,12 @@ msgid ""
 "On this page you can set up the Panel:\n"
 "\n"
 msgstr ""
-"Auf dieser Seite können sie ihr Panel einrichten:\n"
+"Auf dieser Seite können sie die Leiste einrichten:\n"
 "\n"
 
 #: settings/settings_panel.c:330
 msgid "Select the default Terminal Application:"
-msgstr "Wählen sie die Standard Terminal Anwendung:"
+msgstr "Wählen sie die Standard-Terminal-Anwendung:"
 
 #: settings/settings_panel.c:383
 msgid "Path"
@@ -323,7 +323,7 @@ msgstr "Eigene Hinzufügen"
 
 #: settings/settings_panel.c:497 settings/settings_wallpaper.c:227
 msgid "Plugin"
-msgstr "Plugin"
+msgstr "Erweiterung"
 
 #: settings/settings_panel.c:501 settings/settings_wallpaper.c:231
 msgid "Is Active"
@@ -331,15 +331,15 @@ msgstr "Ist aktiviert"
 
 #: settings/settings_panel.c:510
 msgid "Here you can enable or disable plugins"
-msgstr "Hier können sie Plugins (de) aktivieren:"
+msgstr "Hier können sie Erweiterungen (de-)aktivieren:"
 
 #: settings/settings_panel.c:512
 msgid ""
 "<b>NOTICE:</b> To install new plugins, you have to restart the panel, "
 "because plugins are loaded at startup."
 msgstr ""
-"<b>HINWEIS:</b> Um neue Plugins zu installieren müssen sie das Panel "
-"Neustarten, da die Plugins beim Start geladen werden."
+"<b>HINWEIS:</b> Um neue Erweiterungen zu installieren müssen sie das Panel "
+"Neustarten, da die Erweiterungen beim Start geladen werden."
 
 #: settings/settings_panel.c:525
 msgid "Enable built-in App menu:"
@@ -400,11 +400,11 @@ msgstr "Sitzung"
 
 #: settings/settings_session.c:246
 msgid "Setup session autostart and more"
-msgstr "Automatisch gestartete Anwendungen und mehr Festlegen"
+msgstr "Automatisch gestartete Anwendungen und mehr festlegen"
 
 #: settings/settings_wallpaper.c:51
 msgid "Open Wallpaper"
-msgstr "Hintergrundbild Öffnen"
+msgstr "Hintergrundbild öffnen"
 
 #: settings/settings_wallpaper.c:51 tools/editor/editor_callbacks.h:142
 #: tools/editor/editor_callbacks.h:195 tools/view/view_callbacks.h:34
@@ -421,7 +421,7 @@ msgstr "Öffnen"
 
 #: settings/settings_wallpaper.c:136
 msgid "On This page you can setup your Wallpaper:"
-msgstr "Auf dieser Seite können sie ihr Hintergrundbild ändern:"
+msgstr "Auf dieser Seite können sie den Hintergrund ändern:"
 
 #: settings/settings_wallpaper.c:172 settings/settings_wallpaper.c:260
 #: settings/settings_wallpaper.c:263

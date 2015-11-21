@@ -246,6 +246,7 @@ SiDESettingsPluginDescription *identify(gpointer data)
   side_session_plugin_desc.hover = _("Setup session autostart and more");
   side_session_plugin_desc.icon  = "preferences-system";
   side_session_plugin_desc.title = _("Session");
+  side_session_plugin_desc.cmd = "settings.session";
   side_session_plugin_desc.category = 1;
   return &side_session_plugin_desc;
 }

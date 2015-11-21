@@ -11,8 +11,8 @@ For more details view file 'LICENSE'
 #include <gtk/gtk.h>
 #define TERMINAL_FALLBACK "xterm" //USE IF ERROR WITH GSETTINGS
 
-#define EXEC_WALLPAPER_SETTINGS "side-wallpaper-settings &"
-#define EXEC_PANEL_SETTINGS     "side-panel-settings &"
+#define EXEC_WALLPAPER_SETTINGS "side-settings-explorer --open settings.wallpaper &"
+#define EXEC_PANEL_SETTINGS     "side-settings-explorer --open settings.panel &"
 
 
 gboolean run_clicked(GtkWidget *w, GdkEvent *e, gpointer *p)

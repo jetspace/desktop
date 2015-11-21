@@ -58,6 +58,7 @@ typedef struct
   char *icon;
   char *hover;
   char *title;
+  char *cmd;
   int category;
 }SiDESettingsPluginDescription;
 
@@ -75,4 +76,5 @@ typedef struct {
 
 void load_side_settings_plugins(GtkListStore *app,GtkListStore *sys,GtkListStore *inf, char *path, gboolean onlyOld);
 void exec_callback(int id, GtkWidget *box, GtkWidget *bar);
+int settings_plugin_id_from_name(char *name);
 #endif

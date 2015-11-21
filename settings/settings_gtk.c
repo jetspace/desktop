@@ -358,6 +358,7 @@ SiDESettingsPluginDescription *identify(gpointer data)
   side_gtk_plugin_desc.hover = _("Setup GTK Themes");
   side_gtk_plugin_desc.icon  = "preferences-desktop-theme";
   side_gtk_plugin_desc.title = _("GTK Theme");
+  side_gtk_plugin_desc.cmd = "settings.gtk";
   side_gtk_plugin_desc.category = 0;
   return &side_gtk_plugin_desc;
 }

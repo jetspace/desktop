@@ -671,6 +671,7 @@ SiDESettingsPluginDescription *identify(gpointer data)
   side_panel_plugin_desc.hover = _("Setup panel themes, apps and plugins");
   side_panel_plugin_desc.icon  = "preferences-desktop";
   side_panel_plugin_desc.title = _("Panel");
+  side_panel_plugin_desc.cmd = "settings.panel";
   side_panel_plugin_desc.category = 0;
   return &side_panel_plugin_desc;
 }

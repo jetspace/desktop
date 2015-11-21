@@ -205,3 +205,13 @@ void exec_callback(int id, GtkWidget *box, GtkWidget *bar)
   SettingPluginsStore[id].callback(GTK_BOX(box));
   gtk_header_bar_set_subtitle(GTK_HEADER_BAR(bar), SettingPluginsStore[id].identity->title);
 }
+
+int settings_plugin_id_from_name(char *name)
+{
+  for(int x = 0; x < n_plugins; x++)
+    if(strcmp(SettingPluginsStore[x].identity->cmd, name) == 0)
+      return x;
+
+
+  return -1;
+}

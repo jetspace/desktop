@@ -46,6 +46,28 @@ gboolean about_dialog(GtkWidget *w, GdkEvent *e, gpointer p)
 
 }
 
+void open_plugin(char *name)
+{
+  int id = settings_plugin_id_from_name(name);
+  if(id >= 0)
+  {
+    GList *ch, *iter;
+    gtk_widget_set_sensitive(se_data.home_button, FALSE);
+    ch = gtk_container_get_children(GTK_CONTAINER(se_data.box));
+    for(iter = ch; iter != NULL; iter = g_list_next(iter))
+    {
+     gtk_widget_destroy(GTK_WIDGET(iter->data));
+    }
+    g_list_free(ch);
+    exec_callback(id, se_data.box, se_data.header);
+    gtk_widget_set_sensitive(se_data.home_button, TRUE);
+    gtk_widget_show_all(se_data.box);
+  }
+  else
+    g_warning("requested action does not exist!");
+}
+
+
 gboolean go_back(GtkWidget *w, GdkEvent *e, gpointer p)
 {
   GList *ch, *iter;
@@ -200,6 +222,20 @@ int main(int argc, char **argv)
 
   textdomain("side");
 
+  char *open = NULL;
+  for(int x = 0; x < argc; x++)
+    if(strcmp(argv[x], "--open") == 0)
+    {
+      if(x+1 < argc)
+        open = argv[x+1];
+      else
+      {
+        g_warning("Ignoring open request: no parameter given");
+        open = NULL;
+      }
+    }
+
+
   gtk_init(&argc, &argv);
   side_set_application_mode(SIDE_APPLICATION_MODE_SETTINGS); // set application to be a settings app
 
@@ -231,6 +267,9 @@ int main(int argc, char **argv)
 
   gtk_container_add(GTK_CONTAINER(win), se_data.box);
   gtk_widget_show_all(win);
+
+  if(open != NULL)
+    open_plugin(open);
 
   gtk_main();
 
