@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-11-21 12:42+0100\n"
-"PO-Revision-Date: 2015-11-21 12:43+0100\n"
+"POT-Creation-Date: 2015-11-21 13:30+0100\n"
+"PO-Revision-Date: 2015-11-21 13:30+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
@@ -50,7 +50,7 @@ msgstr ""
 "Wenn sie dieses Fenster schließen, versucht SiDE eine Ersatzanwendung zu "
 "finden."
 
-#: open/main.c:99 settings/settings_mime.c:126 settings/settings_session.c:151
+#: open/main.c:99 settings/settings_mime.c:126 settings/settings_session.c:136
 msgid "App"
 msgstr "Anwendung"
 
@@ -204,19 +204,19 @@ msgstr "Informationen:"
 msgid "System:"
 msgstr "System:"
 
-#: settings/settings_explorer.c:157
-msgid "Session"
-msgstr "Sitzung"
-
-#: settings/settings_explorer.c:179
+#: settings/settings_explorer.c:177
 msgid "About SiDE"
 msgstr "Über SiDE"
 
-#: settings/settings_explorer.c:212
+#: settings/settings_explorer.c:177
+msgid "Version information about SiDE"
+msgstr "Versionsinformationen zu SiDE"
+
+#: settings/settings_explorer.c:210
 msgid "SiDE Settings"
 msgstr "SiDE Einstellungen"
 
-#: settings/settings_explorer.c:226
+#: settings/settings_explorer.c:224
 msgid "All Settings"
 msgstr "Alle Einstellungen"
 
@@ -233,7 +233,7 @@ msgid "Select your GTK 2.0 theme:"
 msgstr "Wählen sie ihr GTK 2.0 Thema:"
 
 #: settings/settings_gtk.c:341 settings/settings_mime.c:136
-#: settings/settings_panel.c:340 settings/settings_session.c:243
+#: settings/settings_panel.c:340 settings/settings_session.c:228
 #: settings/settings_wallpaper.c:164 tools/editor/editor_callbacks.h:236
 #: tools/filemanager/filemanager_callbacks.h:494
 msgid "Apply"
@@ -269,7 +269,7 @@ msgid "Add App"
 msgstr "Anwendung Hinzufügen"
 
 #: settings/settings_panel.c:102 settings/settings_panel.c:429
-#: settings/settings_session.c:170
+#: settings/settings_session.c:155
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -313,7 +313,7 @@ msgstr "Wählen sie die Anwendungen, die im Panel angezeigt werden sollen:"
 msgid "Clear"
 msgstr "Alles Löschen"
 
-#: settings/settings_panel.c:423 settings/settings_session.c:165
+#: settings/settings_panel.c:423 settings/settings_session.c:150
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -373,30 +373,34 @@ msgstr "Leiste"
 msgid "Setup panel themes, apps and plugins"
 msgstr "Leisten Themen, Anwendungen und Erweiterungen einrichten"
 
-#: settings/settings_session.c:112
-msgid "Settings - Session"
-msgstr "Einstellungen - Sitzung"
-
-#: settings/settings_session.c:119
+#: settings/settings_session.c:104
 msgid "Choose the autostart applications:"
 msgstr ""
 "Wählen sie Anwendungen, welche bei der Anmeldung gestartet werden sollen:"
 
-#: settings/settings_session.c:180
+#: settings/settings_session.c:165
 msgid "Please choose the Window Manager (WM):"
 msgstr "Bitte wählen sie die Fensterverwaltung (WM):"
 
-#: settings/settings_session.c:197
+#: settings/settings_session.c:182
 msgid "The command used to shutdown the computer:"
 msgstr "Der Befehl zum herunterfahren des Computers:"
 
-#: settings/settings_session.c:214
+#: settings/settings_session.c:199
 msgid "The command used to reboot the computer:"
 msgstr "Der Befehl zum neustarten des Computers:"
 
-#: settings/settings_session.c:227
+#: settings/settings_session.c:212
 msgid "Enable XDG autostart:"
 msgstr "XDG Autostart aktivieren:"
+
+#: settings/settings_session.c:245 settings/settings_session.c:248
+msgid "Session"
+msgstr "Sitzung"
+
+#: settings/settings_session.c:246
+msgid "Setup session autostart and more"
+msgstr "Automatisch gestartete Anwendungen und mehr Festlegen"
 
 #: settings/settings_wallpaper.c:51
 msgid "Open Wallpaper"
@@ -709,6 +713,9 @@ msgstr "Unterstützte Grafiken"
 #, c-format
 msgid "(%dpx x %dpx) - %d%%"
 msgstr "(%dpx x %dpx) - %d%%"
+
+#~ msgid "Settings - Session"
+#~ msgstr "Einstellungen - Sitzung"
 
 #~ msgid "Settings - Panel"
 #~ msgstr "Einstellungen - Panel"

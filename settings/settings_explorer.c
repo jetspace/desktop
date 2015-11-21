@@ -153,8 +153,6 @@ GtkWidget *main_menu(void)
     list = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_STRING,-1);
     s=list;
 
-    gtk_list_store_append(list, &iter);
-    gtk_list_store_set(list, &iter, 0, _("Session"), 1, "side-session-settings", 2,gtk_icon_theme_load_icon(theme, "preferences-system", 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), -1);
 
     gtk_icon_view_set_model(GTK_ICON_VIEW(iconview), GTK_TREE_MODEL(list));
     gtk_icon_view_set_text_column(GTK_ICON_VIEW(iconview), 0);
@@ -176,7 +174,7 @@ GtkWidget *main_menu(void)
     list = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_STRING,-1);
 
     gtk_list_store_append(list, &iter);
-    gtk_list_store_set(list, &iter, 0, _("About SiDE"), 1, "side-about", 2,gtk_icon_theme_load_icon(theme, "dialog-information", 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), -1);
+    gtk_list_store_set(list, &iter, 0, _("About SiDE"), 1, "side-about", 2,gtk_icon_theme_load_icon(theme, "dialog-information", 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL),3, _("Version information about SiDE"), -1);
 
     gtk_icon_view_set_model(GTK_ICON_VIEW(iconview), GTK_TREE_MODEL(list));
     gtk_icon_view_set_text_column(GTK_ICON_VIEW(iconview), 0);

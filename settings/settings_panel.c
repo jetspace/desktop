@@ -221,7 +221,7 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 
 
 
-gboolean check_box_toggle_mods(GtkCellRendererToggle *renderer, gchar *path, GtkTreeView *treeview)
+gboolean check_box_toggle_mods_panel(GtkCellRendererToggle *renderer, gchar *path, GtkTreeView *treeview)
 {
   GtkTreeModel *model;
   GtkTreeIter iter;
@@ -499,7 +499,7 @@ GtkWidget *build_panel_settings(void)
 
     renderer = gtk_cell_renderer_toggle_new();
     column = gtk_tree_view_column_new_with_attributes(_("Is Active"), renderer, "active", COL_ENABLED, NULL);
-    g_signal_connect(G_OBJECT(renderer), "toggled", G_CALLBACK(check_box_toggle_mods), (gpointer) modview);
+    g_signal_connect(G_OBJECT(renderer), "toggled", G_CALLBACK(check_box_toggle_mods_panel), (gpointer) modview);
     gtk_tree_view_append_column(GTK_TREE_VIEW(modview), column);
 
     gtk_tree_view_set_model(GTK_TREE_VIEW(modview), GTK_TREE_MODEL(modlist));

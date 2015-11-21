@@ -9,6 +9,8 @@ For more details view file 'LICENSE'
 #include <stdlib.h>
 #include "../shared/strdup.h"
 #include <glib/gi18n.h>
+#include <gmodule.h>
+#include <side/plugin.h>
 
 enum
 {
@@ -16,9 +18,7 @@ enum
   COL_N
 };
 
-GtkTreeIter iter;
-GtkListStore *list;
-GtkWidget *win, *box, *label, *apply, *add, *del ,*view, *scroll_win, *button_box, *wm, *wm_label, *wm_box, *s, *s_label, *s_box, *r, *r_label, *r_box, *xdg_box, *xdg_switch, *xdg_label;
+GtkWidget *box, *label, *apply, *add, *del ,*view, *scroll_win, *button_box, *wm, *wm_label, *wm_box, *s, *s_label, *s_box, *r, *r_label, *r_box, *xdg_box, *xdg_switch, *xdg_label;
 
 gboolean write_session_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
@@ -36,7 +36,7 @@ gboolean write_session_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   char *buff;
   char buffer[2005];
   GtkTreeModel *model;
-
+  GtkTreeIter iter;
   model = gtk_tree_view_get_model(GTK_TREE_VIEW(view));
   snprintf(i_b, 5, "%d", x);
   while(gtk_tree_model_get_iter_from_string(model, &iter, i_b))
@@ -57,12 +57,6 @@ gboolean write_session_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 }
 
 
-gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer *p)
-{
-  gtk_main_quit();
-  return FALSE;
-}
-
 gboolean cell_edit_e(GtkCellRendererText *renderer, gchar *path, gchar *text, GtkTreeView *treeview)
 {
   GtkTreeModel *model;
@@ -80,13 +74,14 @@ gboolean cell_edit_e(GtkCellRendererText *renderer, gchar *path, gchar *text, Gt
 
   return FALSE;
 }
-gboolean add_item(GtkWidget *w, GdkEvent *e, gpointer p)
+gboolean add_autostart_item(GtkWidget *w, GdkEvent *e, gpointer p)
 {
-  gtk_list_store_append(list, &iter);
-  gtk_list_store_set(list, &iter, COL_EXEC, "#Path" , -1);
+  GtkTreeIter iter;
+  gtk_list_store_append(GTK_LIST_STORE(p), &iter);
+  gtk_list_store_set(GTK_LIST_STORE(p), &iter, COL_EXEC, "#Path" , -1);
   return FALSE;
 }
-gboolean remove_item(GtkWidget *w, GdkEvent *e, gpointer p)
+gboolean remove_autostart_item(GtkWidget *w, GdkEvent *e, gpointer p)
 {
   GtkTreeModel *model;
   GtkTreeIter iter;
@@ -95,26 +90,16 @@ gboolean remove_item(GtkWidget *w, GdkEvent *e, gpointer p)
 
   if(gtk_tree_selection_get_selected(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), &model, &iter))
   {
-    gtk_list_store_remove(list, &iter);
+    gtk_list_store_remove(GTK_LIST_STORE(p), &iter);
   }
   return FALSE;
 }
 
 
-int main(int argc, char **argv)
+GtkWidget *build_session_settings(void)
 {
-  textdomain("side");
-
-  gtk_init(&argc, &argv);
-
-  win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_resize(GTK_WINDOW(win), 800, 500);
-  gtk_window_set_title(GTK_WINDOW(win), _("Settings - Session"));
-  gtk_container_set_border_width(GTK_CONTAINER(win), 10);
-  g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
 
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-  gtk_container_add(GTK_CONTAINER(win), box);
 
   label = gtk_label_new(_("Choose the autostart applications:"));
   gtk_container_add(GTK_CONTAINER(box), label);
@@ -125,17 +110,17 @@ int main(int argc, char **argv)
   gtk_container_add(GTK_CONTAINER(box), scroll_win);
 
 
-  list = gtk_list_store_new(COL_N, G_TYPE_STRING);
+  GtkListStore *autostart_list = gtk_list_store_new(COL_N, G_TYPE_STRING);
 
   GSettings *se = g_settings_new("org.jetspace.desktop.session");
   char *str    = strdup(g_variant_get_string(g_settings_get_value(se, "autostart"), NULL));
 
   char *p = strtok(str, ";");
-
+  GtkTreeIter iter;
   while(p != NULL)
     {
-        gtk_list_store_append(list, &iter);
-        gtk_list_store_set(list, &iter, COL_EXEC, p, -1);
+        gtk_list_store_append(autostart_list, &iter);
+        gtk_list_store_set(autostart_list, &iter, COL_EXEC, p, -1);
         p = strtok(NULL, ";");
     }
   free(str);
@@ -152,7 +137,7 @@ int main(int argc, char **argv)
   g_signal_connect(G_OBJECT(renderer), "edited", G_CALLBACK(cell_edit_e), (gpointer) view);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
 
-  gtk_tree_view_set_model(GTK_TREE_VIEW(view), GTK_TREE_MODEL(list));
+  gtk_tree_view_set_model(GTK_TREE_VIEW(view), GTK_TREE_MODEL(autostart_list));
   gtk_tree_view_expand_all(GTK_TREE_VIEW(view));
   gtk_widget_show(view);
   gtk_container_add(GTK_CONTAINER(scroll_win), view);
@@ -164,12 +149,12 @@ int main(int argc, char **argv)
   //ADD a button to remove a app
   del = gtk_button_new_with_label(_("Remove"));
   gtk_container_add(GTK_CONTAINER(button_box), del);
-  g_signal_connect(G_OBJECT(del), "button_press_event", G_CALLBACK(remove_item), NULL);
+  g_signal_connect(G_OBJECT(del), "button_press_event", G_CALLBACK(remove_autostart_item), autostart_list);
 
   //ADD a button for a new app
   add = gtk_button_new_with_label(_("Add"));
   gtk_container_add(GTK_CONTAINER(button_box), add);
-  g_signal_connect(G_OBJECT(add), "button_press_event", G_CALLBACK(add_item), NULL);
+  g_signal_connect(G_OBJECT(add), "button_press_event", G_CALLBACK(add_autostart_item), autostart_list);
 
   gtk_container_add(GTK_CONTAINER(box), button_box);
 
@@ -244,7 +229,23 @@ int main(int argc, char **argv)
   gtk_box_pack_end(GTK_BOX(box), apply, FALSE, FALSE, 5);
   g_signal_connect(G_OBJECT(apply), "button-press-event", G_CALLBACK(write_session_settings), NULL);
 
+  return box;
+}
 
-  gtk_widget_show_all(win);
-  gtk_main();
+void callback(gpointer d)
+{
+  GtkBox *container = GTK_BOX(d);
+  GtkWidget *cont = build_session_settings();
+  gtk_box_pack_start(container, cont, TRUE, TRUE, 0);
+}
+
+SiDESettingsPluginDescription side_session_plugin_desc;
+SiDESettingsPluginDescription *identify(gpointer data)
+{
+  side_session_plugin_desc.label = _("Session");
+  side_session_plugin_desc.hover = _("Setup session autostart and more");
+  side_session_plugin_desc.icon  = "preferences-system";
+  side_session_plugin_desc.title = _("Session");
+  side_session_plugin_desc.category = 1;
+  return &side_session_plugin_desc;
 }
