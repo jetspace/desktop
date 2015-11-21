@@ -31,15 +31,6 @@ SiDEGTKSettingsData data;
 SiDESettingsPluginDescription side_gtk_plugin_desc;
 void callback(gpointer data);
 
-SiDESettingsPluginDescription *identify(gpointer data)
-{
-  side_gtk_plugin_desc.label = _("GTK Theme");
-  side_gtk_plugin_desc.hover = _("Setup GTK Themes");
-  side_gtk_plugin_desc.icon  = "preferences-desktop-theme";
-  side_gtk_plugin_desc.category = 0;
-  return &side_gtk_plugin_desc;
-}
-
 
 gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
@@ -349,7 +340,7 @@ GtkWidget *build_gtk_settings(void)
 
   apply = gtk_button_new_with_label(_("Apply"));
   g_signal_connect(G_OBJECT(apply), "button_press_event", G_CALLBACK(apply_clicked), NULL);
-  gtk_box_pack_end(GTK_BOX(box), apply, TRUE, TRUE, 5);
+  gtk_box_pack_end(GTK_BOX(box), apply, FALSE, FALSE, 5);
   return box;
 }
 
@@ -359,4 +350,14 @@ void callback(gpointer d)
   GtkBox *container = GTK_BOX(d);
   GtkWidget *cont = build_gtk_settings();
   gtk_box_pack_start(container, cont, TRUE, TRUE, 0);
+}
+
+SiDESettingsPluginDescription *identify(gpointer data)
+{
+  side_gtk_plugin_desc.label = _("GTK Theme");
+  side_gtk_plugin_desc.hover = _("Setup GTK Themes");
+  side_gtk_plugin_desc.icon  = "preferences-desktop-theme";
+  side_gtk_plugin_desc.title = _("GTK Theme");
+  side_gtk_plugin_desc.category = 0;
+  return &side_gtk_plugin_desc;
 }

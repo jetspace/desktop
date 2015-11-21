@@ -13,6 +13,15 @@ For more details view file 'LICENSE'
 
 GtkWidget *main_menu(void);
 
+typedef struct
+{
+  GtkWidget *header;
+  GtkWidget *box;
+}SiDESettingsExplorer;
+
+SiDESettingsExplorer se_data;
+
+
 gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
   gtk_main_quit();
@@ -39,15 +48,15 @@ gboolean about_dialog(GtkWidget *w, GdkEvent *e, gpointer p)
 gboolean go_back(GtkWidget *w, GdkEvent *e, gpointer p)
 {
   GList *ch, *iter;
-  ch = gtk_container_get_children(GTK_CONTAINER(p));
+  ch = gtk_container_get_children(GTK_CONTAINER(se_data.box));
   for(iter = ch; iter != NULL; iter = g_list_next(iter))
   {
    gtk_widget_destroy(GTK_WIDGET(iter->data));
   }
   g_list_free(ch);
 
-  gtk_container_add(GTK_CONTAINER(p), main_menu());
-  gtk_widget_show_all(p);
+  gtk_container_add(GTK_CONTAINER(se_data.box), main_menu());
+  gtk_widget_show_all(se_data.box);
 }
 
 gboolean activated_item (GtkIconView *iv, GtkTreePath *path, gpointer p)
@@ -64,7 +73,7 @@ gboolean activated_item (GtkIconView *iv, GtkTreePath *path, gpointer p)
   else if(strncmp(exec, "CB:",3) == 0)
   {
     GList *ch, *iter;
-    ch = gtk_container_get_children(GTK_CONTAINER(p));
+    ch = gtk_container_get_children(GTK_CONTAINER(se_data.box));
     for(iter = ch; iter != NULL; iter = g_list_next(iter))
     {
      gtk_widget_destroy(GTK_WIDGET(iter->data));
@@ -74,8 +83,8 @@ gboolean activated_item (GtkIconView *iv, GtkTreePath *path, gpointer p)
     strtok(exec, ":");
     int id = atoi(strtok(NULL, "\0"));
 
-    exec_callback(id, p);
-    gtk_widget_show_all(p);
+    exec_callback(id, se_data.box, se_data.header);
+    gtk_widget_show_all(se_data.box);
   }
   else
     system(exec);
@@ -85,6 +94,8 @@ gboolean activated_item (GtkIconView *iv, GtkTreePath *path, gpointer p)
 gboolean load_plugins = TRUE;
 GtkWidget *main_menu(void)
 {
+
+  gtk_header_bar_set_subtitle(GTK_HEADER_BAR(se_data.header), _("Main Menu"));
 
   GtkWidget *label_a, *label_i, *label_s;
 
@@ -116,9 +127,6 @@ GtkWidget *main_menu(void)
     a=list;
 
     gtk_list_store_append(list, &iter);
-    gtk_list_store_set(list, &iter, 0, _("Wallpaper"), 1, "side-wallpaper-settings", 2,gtk_icon_theme_load_icon(theme, "preferences-desktop-wallpaper", 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), -1);
-
-    gtk_list_store_append(list, &iter);
     gtk_list_store_set(list, &iter, 0, _("Panel"), 1, "side-panel-settings", 2,gtk_icon_theme_load_icon(theme, "preferences-desktop", 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), -1);
 
 
@@ -128,7 +136,7 @@ GtkWidget *main_menu(void)
     gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(iconview), 2);
 
     gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(iconview), TRUE);
-    g_signal_connect(G_OBJECT(iconview), "item-activated", G_CALLBACK(activated_item), box);
+    g_signal_connect(G_OBJECT(iconview), "item-activated", G_CALLBACK(activated_item), NULL);
 
 
 
@@ -154,7 +162,7 @@ GtkWidget *main_menu(void)
     gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(iconview), 2);
 
     gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(iconview), TRUE);
-    g_signal_connect(G_OBJECT(iconview), "item-activated", G_CALLBACK(activated_item), box);
+    g_signal_connect(G_OBJECT(iconview), "item-activated", G_CALLBACK(activated_item), NULL);
 
     //Infrormation
     iconview = gtk_icon_view_new();
@@ -176,7 +184,7 @@ GtkWidget *main_menu(void)
     gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(iconview), 2);
 
     gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(iconview), TRUE);
-    g_signal_connect(G_OBJECT(iconview), "item-activated", G_CALLBACK(activated_item), box);
+    g_signal_connect(G_OBJECT(iconview), "item-activated", G_CALLBACK(activated_item), NULL);
 
     if(load_plugins)
     {
@@ -197,7 +205,7 @@ int main(int argc, char **argv)
   gtk_init(&argc, &argv);
   side_set_application_mode(SIDE_APPLICATION_MODE_SETTINGS); // set application to be a settings app
 
-  GtkWidget *win, *box;
+  GtkWidget *win;
 
   win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_resize(GTK_WINDOW(win), 600, 300);
@@ -205,23 +213,24 @@ int main(int argc, char **argv)
   gtk_container_set_border_width(GTK_CONTAINER(win), 12);
   g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
 
-  box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+  se_data.box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
 
   // Header Bar (CSD)
-  GtkWidget *header = gtk_header_bar_new();
-  gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(header), TRUE);
-  gtk_header_bar_set_title(GTK_HEADER_BAR(header), "SiDE Settings");
-  gtk_window_set_titlebar (GTK_WINDOW(win), header);
+  se_data.header = gtk_header_bar_new();
+  gtk_header_bar_set_has_subtitle(GTK_HEADER_BAR(se_data.header), TRUE);
+  gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(se_data.header), TRUE);
+  gtk_header_bar_set_title(GTK_HEADER_BAR(se_data.header), "SiDE Settings");
+  gtk_window_set_titlebar (GTK_WINDOW(win), se_data.header);
 
   GtkWidget *allsettings = gtk_button_new_with_label(_("All Settings"));
-  gtk_header_bar_pack_start(GTK_HEADER_BAR(header), allsettings);
-  g_signal_connect(G_OBJECT(allsettings), "clicked", G_CALLBACK(go_back), box);
+  gtk_header_bar_pack_start(GTK_HEADER_BAR(se_data.header), allsettings);
+  g_signal_connect(G_OBJECT(allsettings), "clicked", G_CALLBACK(go_back), NULL);
 
 
-  gtk_container_add(GTK_CONTAINER(box), main_menu());
+  gtk_container_add(GTK_CONTAINER(se_data.box), main_menu());
 
-  gtk_container_add(GTK_CONTAINER(win), box);
+  gtk_container_add(GTK_CONTAINER(win), se_data.box);
   gtk_widget_show_all(win);
 
   gtk_main();

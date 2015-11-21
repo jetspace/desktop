@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-11-20 16:04+0100\n"
-"PO-Revision-Date: 2015-11-20 16:05+0100\n"
+"POT-Creation-Date: 2015-11-21 11:58+0100\n"
+"PO-Revision-Date: 2015-11-21 11:59+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
@@ -188,68 +188,68 @@ msgstr "SiDE Suchwerkzeug"
 msgid "Apps"
 msgstr "Anwendungen"
 
-#: settings/settings_explorer.c:93
+#: settings/settings_explorer.c:98
+msgid "Main Menu"
+msgstr "Hauptmenü"
+
+#: settings/settings_explorer.c:104
 msgid "Appearance:"
 msgstr "Erscheinungsbild:"
 
-#: settings/settings_explorer.c:95
+#: settings/settings_explorer.c:106
 msgid "Information:"
 msgstr "Informationen:"
 
-#: settings/settings_explorer.c:97
+#: settings/settings_explorer.c:108
 msgid "System:"
 msgstr "System:"
 
-#: settings/settings_explorer.c:119 settings/settings_wallpaper.c:181
-msgid "Wallpaper"
-msgstr "Hintergrundbild"
-
-#: settings/settings_explorer.c:122
+#: settings/settings_explorer.c:130
 msgid "Panel"
 msgstr "Leiste"
 
-#: settings/settings_explorer.c:149
+#: settings/settings_explorer.c:157
 msgid "Session"
 msgstr "Sitzung"
 
-#: settings/settings_explorer.c:171
+#: settings/settings_explorer.c:179
 msgid "About SiDE"
 msgstr "Über SiDE"
 
-#: settings/settings_explorer.c:204
+#: settings/settings_explorer.c:212
 msgid "SiDE Settings"
 msgstr "SiDE Einstellungen"
 
-#: settings/settings_explorer.c:217
+#: settings/settings_explorer.c:226
 msgid "All Settings"
 msgstr "Alle Einstellungen"
 
-#: settings/settings_gtk.c:36
-msgid "GTK Theme"
-msgstr "GTK Thema"
-
-#: settings/settings_gtk.c:37
-msgid "Setup GTK Themes"
-msgstr "GTK Themen Einrichten"
-
-#: settings/settings_gtk.c:225
+#: settings/settings_gtk.c:216
 msgid "Select your GTK 3.0 theme:"
 msgstr "Wählen sie ihr GTK 3.0 Thema:"
 
-#: settings/settings_gtk.c:291 settings/settings_panel.c:646
+#: settings/settings_gtk.c:282 settings/settings_panel.c:646
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: settings/settings_gtk.c:297
+#: settings/settings_gtk.c:288
 msgid "Select your GTK 2.0 theme:"
 msgstr "Wählen sie ihr GTK 2.0 Thema:"
 
-#: settings/settings_gtk.c:350 settings/settings_mime.c:136
+#: settings/settings_gtk.c:341 settings/settings_mime.c:136
 #: settings/settings_panel.c:344 settings/settings_session.c:243
-#: settings/settings_wallpaper.c:173 tools/editor/editor_callbacks.h:236
+#: settings/settings_wallpaper.c:164 tools/editor/editor_callbacks.h:236
 #: tools/filemanager/filemanager_callbacks.h:494
 msgid "Apply"
 msgstr "Übernehmen"
+
+#: settings/settings_gtk.c:357 settings/settings_gtk.c:360
+msgid "GTK Theme"
+msgstr "GTK Thema"
+
+#: settings/settings_gtk.c:358
+msgid "Setup GTK Themes"
+msgstr "GTK Themen Einrichten"
 
 #: settings/settings_mime.c:105
 msgid "Here you can select which app should handle which MIME type by default:"
@@ -260,13 +260,13 @@ msgstr ""
 msgid "MIME Type"
 msgstr "MIME Typ"
 
-#: settings/settings_mime.c:155
-msgid "MiME-Types"
-msgstr "MiME-Typen"
+#: settings/settings_mime.c:155 settings/settings_mime.c:158
+msgid "Default Applications"
+msgstr "Standardanwendungen"
 
 #: settings/settings_mime.c:156
-msgid "Setup MiME types and default applications"
-msgstr "MiME Typen und Standartanwendungen festlegen"
+msgid "Setup MIME types and default applications"
+msgstr "MIME Typen und Standardanwendungen einrichten"
 
 #: settings/settings_panel.c:89
 msgid "Add App"
@@ -317,7 +317,7 @@ msgstr "Aktiviert"
 msgid "Choose the Apps which are displayed in the Panel:"
 msgstr "Wählen sie die Anwendungen, die im Panel angezeigt werden sollen:"
 
-#: settings/settings_panel.c:422 settings/settings_wallpaper.c:163
+#: settings/settings_panel.c:422 settings/settings_wallpaper.c:154
 msgid "Clear"
 msgstr "Alles Löschen"
 
@@ -329,11 +329,11 @@ msgstr "Entfernen"
 msgid "Add custom"
 msgstr "Eigene Hinzufügen"
 
-#: settings/settings_panel.c:498 settings/settings_wallpaper.c:235
+#: settings/settings_panel.c:498 settings/settings_wallpaper.c:226
 msgid "Plugin"
 msgstr "Plugin"
 
-#: settings/settings_panel.c:502 settings/settings_wallpaper.c:239
+#: settings/settings_panel.c:502 settings/settings_wallpaper.c:230
 msgid "Is Active"
 msgstr "Ist aktiviert"
 
@@ -369,7 +369,7 @@ msgstr "Benutzerdefiniertes Thema verwenden?"
 msgid "Select your theme:"
 msgstr "Wählen sie ihr Thema:"
 
-#: settings/settings_panel.c:645 settings/settings_wallpaper.c:186
+#: settings/settings_panel.c:645 settings/settings_wallpaper.c:177
 msgid "Plugins"
 msgstr "Plugins"
 
@@ -398,16 +398,16 @@ msgstr "Der Befehl zum neustarten des Computers:"
 msgid "Enable XDG autostart:"
 msgstr "XDG Autostart aktivieren:"
 
-#: settings/settings_wallpaper.c:49
+#: settings/settings_wallpaper.c:51
 msgid "Open Wallpaper"
 msgstr "Hintergrundbild Öffnen"
 
-#: settings/settings_wallpaper.c:49 tools/editor/editor_callbacks.h:142
+#: settings/settings_wallpaper.c:51 tools/editor/editor_callbacks.h:142
 #: tools/editor/editor_callbacks.h:195 tools/view/view_callbacks.h:34
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: settings/settings_wallpaper.c:49 settings/settings_wallpaper.c:167
+#: settings/settings_wallpaper.c:51 settings/settings_wallpaper.c:158
 #: tools/editor/editor.c:62 tools/notifier/notifier.c:35 tools/view/view.c:36
 #: tools/editor/editor_callbacks.h:142
 #: tools/filemanager/filemanager_callbacks.h:531
@@ -415,13 +415,18 @@ msgstr "Abbrechen"
 msgid "Open"
 msgstr "Öffnen"
 
-#: settings/settings_wallpaper.c:139
-msgid "Settings - Wallpaper"
-msgstr "Einstellungen - Hintergrundbild"
-
-#: settings/settings_wallpaper.c:145
+#: settings/settings_wallpaper.c:136
 msgid "On This page you can setup your Wallpaper:"
 msgstr "Auf dieser Seite können sie ihr Hintergrundbild ändern:"
+
+#: settings/settings_wallpaper.c:172 settings/settings_wallpaper.c:259
+#: settings/settings_wallpaper.c:262
+msgid "Wallpaper"
+msgstr "Hintergrundbild"
+
+#: settings/settings_wallpaper.c:260
+msgid "Setup background of your environment"
+msgstr "Hintergrund der Arbeitsumgebung festlegen"
 
 #: tools/editor/editor.c:36 tools/editor/editor_callbacks.h:59
 msgid "SiDE Editor"
@@ -704,6 +709,15 @@ msgstr "Unterstützte Grafiken"
 #, c-format
 msgid "(%dpx x %dpx) - %d%%"
 msgstr "(%dpx x %dpx) - %d%%"
+
+#~ msgid "MiME-Types"
+#~ msgstr "MiME-Typen"
+
+#~ msgid "Setup MiME types and default applications"
+#~ msgstr "MiME Typen und Standartanwendungen festlegen"
+
+#~ msgid "Settings - Wallpaper"
+#~ msgstr "Einstellungen - Hintergrundbild"
 
 #~ msgid "Settings - MIME Types"
 #~ msgstr "Einstellungen MIME Typen"

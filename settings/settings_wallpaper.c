@@ -9,6 +9,8 @@ For more details view file 'LICENSE'
 #include "../shared/strdup.h"
 #include "../shared/listed.h"
 #include <glib/gi18n.h>
+#include <gmodule.h>
+#include <side/plugin.h>
 
 GtkWidget *win, *label, *image, *box, *path, *clear, *choose, *button_box, *apply, *notebook;
 GtkWidget *mainbox;
@@ -126,20 +128,9 @@ gboolean write_wallpaper_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   return FALSE;
 }
 
-gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer *p)
-{
-  gtk_main_quit();
-  return FALSE;
-}
-
-gboolean wallpaper_settings(void)
+GtkWidget *build_wallpaper_settings(void)
 {
     notebook = gtk_notebook_new();
-    win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(win), _("Settings - Wallpaper"));
-    gtk_container_set_border_width(GTK_CONTAINER(win), 10);
-    g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);
-
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
     label = gtk_label_new(_("On This page you can setup your Wallpaper:"));
@@ -249,21 +240,26 @@ gboolean wallpaper_settings(void)
 
 
 
-
-    gtk_container_add(GTK_CONTAINER(win), mainbox);
     gtk_box_pack_end(GTK_BOX(mainbox), apply, FALSE, TRUE, 0);
-    gtk_widget_show_all(win);
-    return FALSE;
+    return mainbox;
 }
 
 
-int main(int argc, char **argv)
+void callback(gpointer d)
 {
-  textdomain("side");
+  GtkBox *container = GTK_BOX(d);
+  GtkWidget *cont = build_wallpaper_settings();
+  gtk_box_pack_start(container, cont, TRUE, TRUE, 0);
+}
 
-  gtk_init(&argc, &argv);
+SiDESettingsPluginDescription side_wallpaper_plugin_desc;
 
-  wallpaper_settings();
-
-  gtk_main();
+SiDESettingsPluginDescription *identify(gpointer data)
+{
+  side_wallpaper_plugin_desc.label = _("Wallpaper");
+  side_wallpaper_plugin_desc.hover = _("Setup background of your environment");
+  side_wallpaper_plugin_desc.icon  = "preferences-desktop-wallpaper";
+  side_wallpaper_plugin_desc.title = _("Wallpaper");
+  side_wallpaper_plugin_desc.category = 0;
+  return &side_wallpaper_plugin_desc;
 }

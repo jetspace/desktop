@@ -152,9 +152,10 @@ SiDESettingsPluginDescription side_mime_plugin_desc;
 
 SiDESettingsPluginDescription *identify(gpointer data)
 {
-  side_mime_plugin_desc.label = _("MiME-Types");
-  side_mime_plugin_desc.hover = _("Setup MiME types and default applications");
+  side_mime_plugin_desc.label = _("Default Applications");
+  side_mime_plugin_desc.hover = _("Setup MIME types and default applications");
   side_mime_plugin_desc.icon  = "preferences-desktop-personal";
+  side_mime_plugin_desc.title = _("Default Applications");
   side_mime_plugin_desc.category = 1;
   return &side_mime_plugin_desc;
 }

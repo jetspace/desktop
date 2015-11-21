@@ -200,7 +200,8 @@ void load_side_settings_plugins(GtkListStore *app,GtkListStore *sys,GtkListStore
 
 }
 
-void exec_callback(int id, GtkWidget *box)
+void exec_callback(int id, GtkWidget *box, GtkWidget *bar)
 {
   SettingPluginsStore[id].callback(GTK_BOX(box));
+  gtk_header_bar_set_subtitle(GTK_HEADER_BAR(bar), SettingPluginsStore[id].identity->title);
 }
