@@ -12,12 +12,10 @@ For more details view file 'LICENSE'
 #include <stdlib.h>
 #include <unistd.h>
 
-GtkWidget *dialog, *box, *run_panel, *label, *path, *icon, *button;
-
 gboolean execute(GtkWidget *widget, GdkEvent *event, GtkWidget *data)
 {
 
-  const char *ptr = gtk_entry_get_text(GTK_ENTRY(path));
+  const char *ptr = gtk_entry_get_text(GTK_ENTRY(data));
 
   if(strcmp(ptr, "r") == 0)
   {
@@ -30,14 +28,14 @@ gboolean execute(GtkWidget *widget, GdkEvent *event, GtkWidget *data)
   snprintf(cmd, strlen(ptr) +5,  "%s &", dup); //atach a & to run it independant!
   int status = system(cmd);
   free(dup);
-  gtk_widget_destroy(dialog);
+  gtk_widget_destroy(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(data))));
   return FALSE;
 }
 
 gboolean path_key(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {//Execute when hit [ENTER]
   if(event->keyval == GDK_KEY_Return)
-    execute(NULL, NULL, NULL); //it gets its data from somewere else ;-)
+    execute(NULL, NULL, data); //it gets its data from somewere else ;-)
 
   return FALSE;
 
@@ -48,7 +46,7 @@ gboolean path_key(GtkWidget *widget, GdkEventKey *event, gpointer data)
 //app_call is the calling app -> will be parsed somedays....
 void run_dialog (gchar *app_call)
 {
-
+  GtkWidget *dialog, *box, *run_panel, *label, *path, *icon, *button;
 
   dialog = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(dialog), _("Run"));
@@ -63,8 +61,8 @@ void run_dialog (gchar *app_call)
   icon = gtk_image_new_from_icon_name("system-run", GTK_ICON_SIZE_DIALOG);
 
   button = gtk_button_new_with_label(_("Run"));
-  g_signal_connect (G_OBJECT(button), "button-press-event", G_CALLBACK(execute), NULL);
-  g_signal_connect (G_OBJECT(path), "key-press-event", G_CALLBACK(path_key), NULL);
+  g_signal_connect (G_OBJECT(button), "button-press-event", G_CALLBACK(execute), path);
+  g_signal_connect (G_OBJECT(path), "key-press-event", G_CALLBACK(path_key), path);
 
 
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);

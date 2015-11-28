@@ -15,6 +15,7 @@ For more details view file 'LICENSE'
 #include "../shared/plugins.h"
 #include "../shared/context.h"
 
+#include <side/widgets.h>
 
 GtkWidget *window, *ev_box, *pic, *grid;
 
@@ -51,6 +52,7 @@ int main(int argc, char **argv)
 {
   textdomain("side");
   gtk_init(&argc, &argv);
+  side_set_application_mode(SIDE_APPLICATION_MODE_WALLPAPER);
 
   GtkCssProvider *p = gtk_css_provider_new();
   GdkDisplay *display;
@@ -58,7 +60,7 @@ int main(int argc, char **argv)
   display = gdk_display_get_default ();
   screen = gdk_display_get_default_screen (display);
   gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (p), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-  gtk_css_provider_load_from_data(p, "GtkImage \n{\nbackground-color: transparent;\n-gtk-image-effect: none;\n}", -1, NULL);
+  gtk_css_provider_load_from_data(p, "#SiDEDesktopWallpaper \n{\nbackground-color: transparent;\n-gtk-image-effect: none;\n}", -1, NULL);
 
   GSettings *plugin_config;
   plugin_config = g_settings_new("org.jetspace.desktop.wallpaper");
@@ -79,7 +81,7 @@ int main(int argc, char **argv)
 
   ev_box = gtk_event_box_new();
 
-  GtkWidget *menu = gtk_menu_new();
+  GtkWidget *menu = side_gtk_menu_new();
   add_context_menu_desktop(menu, ev_box);
 
 
@@ -87,7 +89,7 @@ int main(int argc, char **argv)
   gtk_widget_set_events(ev_box, GDK_BUTTON_PRESS_MASK);
 
   //Setup GtkImage
-  pic = gtk_image_new_from_file(""); //create empty box
+  pic = side_gtk_image_new_from_file(""); //create empty box
   update_wallpaper(gnome_conf, "picture-uri", NULL);
   gtk_container_add(GTK_CONTAINER(ev_box), pic);
 

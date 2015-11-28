@@ -7,6 +7,8 @@ For more details view file 'LICENSE'
 #ifndef _SIDE_WIDGETS
 #define _SIDE_WIDGETS
 #include <gtk/gtk.h>
+#include <string.h>
+#include <stdio.h>
 
 /* -= MODES =- */
 enum
@@ -25,6 +27,8 @@ extern void side_set_application_mode(int type);
 
 // WIDGETS
 extern GtkWidget *side_gtk_label_new(char *text);
+extern GtkWidget *side_gtk_menu_new(void);
+extern GtkWidget *side_gtk_image_new_from_file(char *file);
 
 
 #endif

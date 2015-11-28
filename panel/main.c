@@ -152,20 +152,21 @@ int main(int argc, char **argv)
   gtk_window_stick(GTK_WINDOW(panel));
 
 
+  GtkWidget *box;
+  box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+
   //setup context menu
   menu = gtk_menu_new();
   add_context_menu_pannel(menu, box);
 
   //Event box
   event = gtk_event_box_new();
+  gtk_container_add(GTK_CONTAINER(panel), event);
   g_signal_connect(G_OBJECT(event), "button_press_event", G_CALLBACK(button_event), menu);
   gtk_widget_set_events(event, GDK_BUTTON_PRESS_MASK);
 
   //add gtk box
-  GtkWidget *box;
-  box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
   gtk_container_add(GTK_CONTAINER(event), box);
-  gtk_container_add(GTK_CONTAINER(panel), event);
 
   gtk_widget_set_name(GTK_WIDGET(panel), "SiDEPanel");
   gtk_widget_set_name(GTK_WIDGET(box), "SiDEPanelBox");
