@@ -68,10 +68,13 @@ void show_user(void)
   gtk_button_set_relief(GTK_BUTTON(user_button), GTK_RELIEF_NONE);
   g_signal_connect(G_OBJECT(user_button), "button-press-event", G_CALLBACK(show_user_context), NULL);
   g_signal_connect(G_OBJECT(user_button), "destroy", G_CALLBACK(redraw_user), NULL);
+  gtk_widget_set_name(user_button, "SiDEPluginUserName");
 
   user_menu = gtk_menu_new();
+  gtk_widget_set_name(user_menu, "SiDEPluginUserContext");
 
   GtkWidget *logout = gtk_menu_item_new_with_label(_("Logout"));
+  gtk_widget_set_name(logout, "SiDEPluginUserContextLogout");
   gtk_menu_shell_append(GTK_MENU_SHELL(user_menu), logout);
   g_signal_connect(G_OBJECT(logout), "button-press-event", G_CALLBACK(user_logout), NULL);
 

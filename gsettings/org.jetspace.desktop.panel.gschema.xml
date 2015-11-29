@@ -32,16 +32,6 @@
           <summary>Show the built-in Window List in the panel</summary>
           <description>This is in a very early phase, so you can might disable it</description>
       </key>
-      <key type="b" name="use-custom-theme">
-          <default>false</default>
-          <summary>Do you want to use a specific theme for the Panel</summary>
-          <description>If you want the default theme, set this to false</description>
-      </key>
-      <key type="s" name="custom-theme-path">
-          <default>""</default>
-          <summary>Path to custom Theme for the Panel</summary>
-          <description>Only needed when use-custom-theme is enabled...</description>
-      </key>
       <key type="i" name="window-list-refresh-rate">
           <default>750</default>
           <range min="1" max="2000"/>

@@ -33,10 +33,8 @@ GtkTreeIter iter2;
 
 //page 3
 
-GtkWidget *box3, *s_visible, *label_visible, *visible_box, *s_list, *s_theme,*s_only_hidden, *label_only_hidden, *only_hidden_box;
-GtkWidget *cb_theme;
-GtkTreeIter iter3;
-GtkListStore *list3;
+GtkWidget *box3, *s_visible, *label_visible, *visible_box, *s_list,*s_only_hidden, *label_only_hidden, *only_hidden_box;
+
 
 enum
 {
@@ -53,7 +51,6 @@ enum
   COLS_MOD
 };
 
-gboolean write_themes = FALSE;
 
 /*
   Will let the user choose an App from an predefined list...
@@ -198,12 +195,6 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
         snprintf(i_b, 5, "%d", x);
     }
 
-    char buff[200];
-    model = gtk_combo_box_get_model(GTK_COMBO_BOX(cb_theme));
-    gtk_combo_box_get_active_iter(GTK_COMBO_BOX(cb_theme), &iter3);
-    if(write_themes)
-      gtk_tree_model_get(model, &iter3, 0, &buff1, -1);
-
 
   icons = g_settings_new("org.jetspace.desktop.panel");
   g_settings_set_value(icons, "ignored-plugins", g_variant_new_string(str));
@@ -211,9 +202,6 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   g_settings_set_value(icons, "show-app-menu", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_visible))));
   g_settings_set_value(icons, "show-window-list", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_list))));
   g_settings_set_value(icons, "window-list-only-hidden", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_only_hidden))));
-  g_settings_set_value(icons, "use-custom-theme", g_variant_new_boolean(gtk_switch_get_active(GTK_SWITCH(s_theme))));
-  if(write_themes)
-    g_settings_set_value(icons, "custom-theme-path", g_variant_new_string(g_strdup_printf("/usr/share/themes/%s",  buff1)));
 
   g_settings_sync();
   return FALSE;
@@ -545,101 +533,10 @@ GtkWidget *build_panel_settings(void)
     gtk_box_pack_end(GTK_BOX(list_box), s_list, FALSE,FALSE, 5);
     gtk_switch_set_active(GTK_SWITCH(s_list), g_variant_get_boolean(g_settings_get_value(icons, "show-window-list")));
 
-    //enable themes
-    GtkWidget *label_theme1 = gtk_label_new(_("Use custom themes?"));
-    s_theme = gtk_switch_new();
-    GtkWidget *theme_box1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
-    gtk_container_add(GTK_CONTAINER(theme_box1), label_theme1);
-    gtk_box_pack_end(GTK_BOX(theme_box1), s_theme, FALSE,FALSE, 5);
-    gtk_switch_set_active(GTK_SWITCH(s_theme), g_variant_get_boolean(g_settings_get_value(icons, "use-custom-theme")));
-
-    //Themes
-
-    GtkWidget *label_theme = gtk_label_new(_("Select your theme:"));
-    list3 = gtk_list_store_new(1, G_TYPE_STRING);
-
-    int id = 0;
-    int counter = -1;
-
-    char *querry = strdup(g_variant_get_string(g_settings_get_value(icons, "custom-theme-path"), NULL));
-    gboolean empty = FALSE;
-    if(querry == NULL || strlen(querry) < 1 || strncmp(querry, "/usr/share/themes/", 18) != 0)
-        empty = TRUE;
-    if(!empty)
-        {
-            strtok(querry, "/");
-            strtok(NULL, "/");
-            strtok(NULL, "/");
-            querry = strtok(NULL, "\n\0");
-        }
-    DIR *dir = opendir("/usr/share/themes/");
-    struct dirent *e;
-
-    //setup panel themes
-    while((e = readdir(dir)) != NULL)
-    {
-    if(e->d_name[0] != '.')//Switch to subdir
-       {
-         char *buffer = malloc(strlen("/usr/share/themes/ ") + strlen(e->d_name) +1);
-         char *theme = strdup(e->d_name); //backup theme name if we have a match later
-         snprintf(buffer, strlen("/usr/share/themes/ ") + strlen(e->d_name), "/usr/share/themes/%s", e->d_name);
-         DIR *sub = opendir(buffer);
-         free(buffer);
-         if(sub == NULL)
-             continue;
-         struct dirent *f;
-         while((f = readdir(sub)) != NULL)
-          {
-            if(strncmp(f->d_name, "side-panel", 7) == 0) //contains a side-panel theme
-              {
-                write_themes = TRUE;
-                gtk_list_store_append(GTK_LIST_STORE(list3), &iter);
-                gtk_list_store_set(GTK_LIST_STORE(list3), &iter, 0, theme, -1);
-                counter++;
-                if(!empty)
-                    {
-                        if(strcmp(theme, querry) == 0)
-                            {
-                                id=counter; //select the current theme
-                            }
-                    }
-              }
-          }
-          closedir(sub);
-
-        free(theme);
-
-       }
-    else
-       continue;
-    }
-    closedir(dir);
-
-
-    cb_theme = gtk_combo_box_new_with_model (GTK_TREE_MODEL(list3));
-
-
-
-    GtkWidget *theme_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
-    gtk_container_add(GTK_CONTAINER(theme_box), label_theme);
-    gtk_box_pack_end(GTK_BOX(theme_box), cb_theme, FALSE,FALSE, 5);
-
-
-    GtkCellRenderer *column_r = gtk_cell_renderer_text_new();
-    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(cb_theme), column_r, TRUE);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(cb_theme), column_r,
-                                   "text", 0,
-                                   NULL);
-   gtk_combo_box_set_active(GTK_COMBO_BOX(cb_theme), id);
-
-
-
 
     gtk_container_add(GTK_CONTAINER(box3), visible_box);
     gtk_container_add(GTK_CONTAINER(box3), list_box);
     gtk_container_add(GTK_CONTAINER(box3), only_hidden_box);
-    gtk_container_add(GTK_CONTAINER(box3), theme_box1);
-    gtk_container_add(GTK_CONTAINER(box3), theme_box);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box, gtk_label_new(_("Apps")));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), box2, gtk_label_new(_("Plugins")));

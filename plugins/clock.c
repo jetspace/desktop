@@ -18,6 +18,7 @@ Planned function are:
 #include <gmodule.h>
 #include <side/plugin.h>
 #include <glib/gi18n.h>
+#include "../shared/transparent.h"
 
 #define TIME_STYLE_24H_SEC  "%H:%M:%S"
 #define TIME_STYLE_24H      "%H:%M"
@@ -33,6 +34,17 @@ gboolean update_time(gpointer data);
 
 GtkWidget *side_panel_clock, *box, *side_panel_clock_box;
 GtkWidget *s_24, *s_sec, *s_utc;
+
+gboolean check_focus_clock_popup(gpointer data)
+{
+    if(gtk_window_is_active(GTK_WINDOW(data)))
+        return TRUE;
+    else
+        {
+            gtk_widget_destroy(GTK_WIDGET(data));
+            return FALSE;
+        }
+}
 
 gboolean update_time(gpointer data)
 {
@@ -212,16 +224,28 @@ gboolean show_clock_context(GtkWidget *w, GdkEventButton *e, gpointer d)
     {
       g_debug("Popup Callender");
       GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+      gtk_window_set_decorated(GTK_WINDOW(win), FALSE);
+      gtk_widget_set_name(win, "SiDEPanelPluginCalendarWindow");
       gtk_window_set_title(GTK_WINDOW(win), _("SIDE Panel Clock"));
-      gtk_container_set_border_width(GTK_CONTAINER(win), 10);
       GdkScreen *screen = gdk_screen_get_default();
-      gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen), gdk_screen_get_height(screen) - 265);
+      gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen), gdk_screen_get_height(screen) - 250);
+
+      g_timeout_add(100, check_focus_clock_popup, win);
 
       GtkWidget *cal = gtk_calendar_new();
+      gtk_widget_set_name(cal, "SiDEPanelPluginCalendar");
       GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+      gtk_container_set_border_width(GTK_CONTAINER(win), 0);
+      gtk_container_set_border_width(GTK_CONTAINER(box), 10);
+      gtk_widget_set_name(box, "SiDEPanelPluginCalendarBox");
 
       GtkWidget *set = gtk_button_new_with_label(_("Clock Settings"));
       g_signal_connect(G_OBJECT(set), "button-press-event", G_CALLBACK(clock_settings), NULL);
+
+
+
+      gtk_widget_set_app_paintable(box, TRUE);
+      screen_changed(box, NULL, NULL);
 
       gtk_container_add(GTK_CONTAINER(box), cal);
       gtk_container_add(GTK_CONTAINER(box), set);

@@ -12,6 +12,7 @@ For more details view file 'LICENSE'
 #include <stdlib.h>
 #include <ctype.h>
 #include <side/apps.h>
+#include <side/widgets.h>
 
 #include <jetspace/logkit.h>
 
@@ -112,8 +113,10 @@ int main(int argc, char **argv)
   textdomain("side");
 
   gtk_init(&argc, &argv);
+  side_set_application_mode(SIDE_APPLICATION_MODE_PANEL);
 
   GSettings *apps = g_settings_new("org.jetspace.desktop.panel");
+  GSettings *session = g_settings_new("org.jetspace.desktop.session");
 
   GdkDisplay *display;
   GdkScreen *screen;
@@ -121,12 +124,11 @@ int main(int argc, char **argv)
   screen = gdk_display_get_default_screen (display);
 
 
-  use_css(apps);
-
   //remove effects from icons
   GtkCssProvider *p = gtk_css_provider_new();
   gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (p), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   gtk_css_provider_load_from_data(p, "* \n{\n-gtk-image-effect: none;\n}", -1, NULL);
+
 
 
 
@@ -202,7 +204,7 @@ int main(int argc, char **argv)
   //call plugin loader
   load_plugins("/usr/lib/jetspace/panel/plugins/", panel);
 
- if(g_variant_get_boolean(g_settings_get_value(apps, "use-custom-theme")))
+ if(g_variant_get_boolean(g_settings_get_value(session, "use-custom-theme")))
     {
         gtk_widget_set_app_paintable(panel, TRUE);
         screen_changed(panel, NULL, NULL);
@@ -254,6 +256,7 @@ void add_new_element(GtkWidget *box, char *icon, char *exec, char *tooltip,  gin
   gtk_button_set_relief (GTK_BUTTON(elements[total_elements -1].button), GTK_RELIEF_NONE);
   g_signal_connect(G_OBJECT(elements[total_elements -1].button), "button_press_event", G_CALLBACK(clicked_item), NULL);
   gtk_widget_set_tooltip_text(elements[total_elements -1].button, tooltip);
+  gtk_widget_set_name(elements[total_elements -1].button, "SiDEPanelAppIcon");
   gtk_box_pack_start(GTK_BOX(app_box), elements[total_elements -1].button, FALSE, FALSE, 0);
 
 }

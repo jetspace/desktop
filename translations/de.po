@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-11-21 13:30+0100\n"
-"PO-Revision-Date: 2015-11-21 16:50+0100\n"
+"POT-Creation-Date: 2015-11-29 12:34+0100\n"
+"PO-Revision-Date: 2015-11-29 12:35+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
@@ -50,7 +50,7 @@ msgstr ""
 "Wenn sie dieses Fenster schließen, versucht SiDE eine Ersatzanwendung zu "
 "finden."
 
-#: open/main.c:99 settings/settings_mime.c:126 settings/settings_session.c:136
+#: open/main.c:99 settings/settings_mime.c:126 settings/settings_session.c:152
 msgid "App"
 msgstr "Anwendung"
 
@@ -75,7 +75,7 @@ msgstr "Kann keine Exakte Übereinstimmung für Typ %s finden\n"
 msgid "Unable to open MIME type %s or subtype %s\n"
 msgstr "Kann MIME Typ %s und Untertyp %s nicht Öffnen\n"
 
-#: panel/main.c:306
+#: panel/main.c:310
 #, c-format
 msgid ""
 "Path:\t%s\n"
@@ -84,79 +84,79 @@ msgstr ""
 "Pfad:\t%s\n"
 "Symbol:\t%s"
 
-#: panel/main.c:476 plugins/icon_app_button.c:50 plugins/icon_app_button.c:77
+#: panel/main.c:480 plugins/icon_app_button.c:50 plugins/icon_app_button.c:77
 msgid "Applications"
 msgstr "Anwendungen"
 
-#: panel/main.c:496
+#: panel/main.c:500
 msgid "Multimedia"
 msgstr "Multimedia"
 
-#: panel/main.c:500
+#: panel/main.c:504
 msgid "Development"
 msgstr "Entwicklung"
 
-#: panel/main.c:504
+#: panel/main.c:508
 msgid "Education"
 msgstr "Bildung"
 
-#: panel/main.c:508
+#: panel/main.c:512
 msgid "Graphics"
 msgstr "Grafiken"
 
-#: panel/main.c:512
+#: panel/main.c:516
 msgid "Network"
 msgstr "Netzwerk"
 
-#: panel/main.c:516
+#: panel/main.c:520
 msgid "Office"
 msgstr "Büro"
 
-#: panel/main.c:520 tools/editor/editor.c:79
+#: panel/main.c:524 tools/editor/editor.c:79
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: panel/main.c:524
+#: panel/main.c:528
 msgid "System"
 msgstr "System"
 
-#: panel/main.c:528
+#: panel/main.c:532
 msgid "Utility"
 msgstr "Zubehör"
 
-#: panel/main.c:533
+#: panel/main.c:537
 msgid "Other"
 msgstr "Sonstiges"
 
-#: panel/main.c:538
+#: panel/main.c:542
 msgid "Search..."
 msgstr "Suchen..."
 
-#: plugins/clock.c:119
+#: plugins/clock.c:131
 msgid "Panel Clock Settings"
 msgstr "Leisten-Uhr Einstellungen"
 
-#: plugins/clock.c:123
+#: plugins/clock.c:135
 msgid "Set up the time format:"
 msgstr "Richten sie das Zeitformat ein:"
 
-#: plugins/clock.c:132
+#: plugins/clock.c:144
 msgid "24h time format?"
 msgstr "24h Zeitformat?"
 
-#: plugins/clock.c:143
+#: plugins/clock.c:155
 msgid "Show Seconds?"
 msgstr "Sekunden zeigen?"
 
-#: plugins/clock.c:155
+#: plugins/clock.c:167
 msgid "Use UTC?"
 msgstr "UTC verwenden?"
 
-#: plugins/clock.c:215
+#: plugins/clock.c:229
 msgid "SIDE Panel Clock"
 msgstr "SiDE Leisten-Uhr"
 
-#: plugins/clock.c:223
+#: plugins/clock.c:242
 msgid "Clock Settings"
 msgstr "Uhr Einstellungen"
 
@@ -164,7 +164,7 @@ msgstr "Uhr Einstellungen"
 msgid "Do you really want to logout?"
 msgstr "Möchten sie sich wirklich abmelden?"
 
-#: plugins/user.c:74 shared/logout.h:54
+#: plugins/user.c:76 shared/logout.h:54
 msgid "Logout"
 msgstr "Abmelden"
 
@@ -184,39 +184,39 @@ msgstr "Stumm"
 msgid "SiDE Search Tool"
 msgstr "SiDE Suchwerkzeug"
 
-#: search/main.c:136 settings/settings_panel.c:644
+#: search/main.c:136 settings/settings_panel.c:541
 msgid "Apps"
 msgstr "Anwendungen"
 
-#: settings/settings_explorer.c:100
+#: settings/settings_explorer.c:122
 msgid "Main Menu"
 msgstr "Hauptmenü"
 
-#: settings/settings_explorer.c:106
+#: settings/settings_explorer.c:128
 msgid "Appearance:"
 msgstr "Erscheinungsbild:"
 
-#: settings/settings_explorer.c:108
+#: settings/settings_explorer.c:130
 msgid "Information:"
 msgstr "Informationen:"
 
-#: settings/settings_explorer.c:110
+#: settings/settings_explorer.c:132
 msgid "System:"
 msgstr "System:"
 
-#: settings/settings_explorer.c:177
+#: settings/settings_explorer.c:199
 msgid "About SiDE"
 msgstr "Über SiDE"
 
-#: settings/settings_explorer.c:177
+#: settings/settings_explorer.c:199
 msgid "Version information about SiDE"
 msgstr "Versionsinformationen zu SiDE"
 
-#: settings/settings_explorer.c:210
+#: settings/settings_explorer.c:246
 msgid "SiDE Settings"
 msgstr "SiDE Einstellungen"
 
-#: settings/settings_explorer.c:224
+#: settings/settings_explorer.c:260
 msgid "All Settings"
 msgstr "Alle Einstellungen"
 
@@ -224,7 +224,7 @@ msgstr "Alle Einstellungen"
 msgid "Select your GTK 3.0 theme:"
 msgstr "Wählen sie ihr GTK 3.0 Thema:"
 
-#: settings/settings_gtk.c:282 settings/settings_panel.c:646
+#: settings/settings_gtk.c:282 settings/settings_panel.c:543
 msgid "Advanced"
 msgstr "Erweitert"
 
@@ -233,7 +233,7 @@ msgid "Select your GTK 2.0 theme:"
 msgstr "Wählen sie ihr GTK 2.0 Thema:"
 
 #: settings/settings_gtk.c:341 settings/settings_mime.c:136
-#: settings/settings_panel.c:340 settings/settings_session.c:228
+#: settings/settings_panel.c:328 settings/settings_session.c:314
 #: settings/settings_wallpaper.c:164 tools/editor/editor_callbacks.h:236
 #: tools/filemanager/filemanager_callbacks.h:494
 msgid "Apply"
@@ -264,24 +264,24 @@ msgstr "Standardanwendungen"
 msgid "Setup MIME types and default applications"
 msgstr "MIME Typen und Standardanwendungen einrichten"
 
-#: settings/settings_panel.c:90
+#: settings/settings_panel.c:87
 msgid "Add App"
 msgstr "Anwendung Hinzufügen"
 
-#: settings/settings_panel.c:102 settings/settings_panel.c:429
-#: settings/settings_session.c:155
+#: settings/settings_panel.c:99 settings/settings_panel.c:417
+#: settings/settings_session.c:171
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: settings/settings_panel.c:115
+#: settings/settings_panel.c:112
 msgid "#App Path"
 msgstr "#Anwendungs Pfad"
 
-#: settings/settings_panel.c:115
+#: settings/settings_panel.c:112
 msgid "#Icon"
 msgstr "#Symbol"
 
-#: settings/settings_panel.c:329
+#: settings/settings_panel.c:317
 msgid ""
 "On this page you can set up the Panel:\n"
 "\n"
@@ -289,51 +289,51 @@ msgstr ""
 "Auf dieser Seite können sie die Leiste einrichten:\n"
 "\n"
 
-#: settings/settings_panel.c:330
+#: settings/settings_panel.c:318
 msgid "Select the default Terminal Application:"
 msgstr "Wählen sie die Standard-Terminal-Anwendung:"
 
-#: settings/settings_panel.c:383
+#: settings/settings_panel.c:371
 msgid "Path"
 msgstr "Pfad"
 
-#: settings/settings_panel.c:390
+#: settings/settings_panel.c:378
 msgid "Icon"
 msgstr "Symbol"
 
-#: settings/settings_panel.c:396
+#: settings/settings_panel.c:384
 msgid "Enabled"
 msgstr "Aktiviert"
 
-#: settings/settings_panel.c:406
+#: settings/settings_panel.c:394
 msgid "Choose the Apps which are displayed in the Panel:"
 msgstr "Wählen sie die Anwendungen, die im Panel angezeigt werden sollen:"
 
-#: settings/settings_panel.c:418 settings/settings_wallpaper.c:154
+#: settings/settings_panel.c:406 settings/settings_wallpaper.c:154
 msgid "Clear"
 msgstr "Alles Löschen"
 
-#: settings/settings_panel.c:423 settings/settings_session.c:150
+#: settings/settings_panel.c:411 settings/settings_session.c:166
 msgid "Remove"
 msgstr "Entfernen"
 
-#: settings/settings_panel.c:434
+#: settings/settings_panel.c:422
 msgid "Add custom"
 msgstr "Eigene Hinzufügen"
 
-#: settings/settings_panel.c:497 settings/settings_wallpaper.c:227
+#: settings/settings_panel.c:485 settings/settings_wallpaper.c:227
 msgid "Plugin"
 msgstr "Erweiterung"
 
-#: settings/settings_panel.c:501 settings/settings_wallpaper.c:231
+#: settings/settings_panel.c:489 settings/settings_wallpaper.c:231
 msgid "Is Active"
 msgstr "Ist aktiviert"
 
-#: settings/settings_panel.c:510
+#: settings/settings_panel.c:498
 msgid "Here you can enable or disable plugins"
 msgstr "Hier können sie Erweiterungen (de-)aktivieren:"
 
-#: settings/settings_panel.c:512
+#: settings/settings_panel.c:500
 msgid ""
 "<b>NOTICE:</b> To install new plugins, you have to restart the panel, "
 "because plugins are loaded at startup."
@@ -341,64 +341,60 @@ msgstr ""
 "<b>HINWEIS:</b> Um neue Erweiterungen zu installieren müssen sie das Panel "
 "Neustarten, da die Erweiterungen beim Start geladen werden."
 
-#: settings/settings_panel.c:525
+#: settings/settings_panel.c:513
 msgid "Enable built-in App menu:"
 msgstr "Aktiviere eingebautes Anwendungsmenü:"
 
-#: settings/settings_panel.c:532
+#: settings/settings_panel.c:520
 msgid "Show only hidden windows in Window list:"
 msgstr "Nur versteckte Fenster in der Fensterliste anzeigen:"
 
-#: settings/settings_panel.c:541
+#: settings/settings_panel.c:529
 msgid "Enable built-in Window list:"
 msgstr "Aktiviere eingebaute Fensterliste:"
 
-#: settings/settings_panel.c:549
-msgid "Use custom themes?"
-msgstr "Benutzerdefiniertes Thema verwenden?"
-
-#: settings/settings_panel.c:558
-msgid "Select your theme:"
-msgstr "Wählen sie ihr Thema:"
-
-#: settings/settings_panel.c:645 settings/settings_wallpaper.c:177
+#: settings/settings_panel.c:542 settings/settings_wallpaper.c:177
 msgid "Plugins"
 msgstr "Erweiterungen"
 
-#: settings/settings_panel.c:670 settings/settings_panel.c:673
+#: settings/settings_panel.c:567 settings/settings_panel.c:570
 msgid "Panel"
 msgstr "Leiste"
 
-#: settings/settings_panel.c:671
+#: settings/settings_panel.c:568
 msgid "Setup panel themes, apps and plugins"
 msgstr "Leisten Themen, Anwendungen und Erweiterungen einrichten"
 
-#: settings/settings_session.c:104
+#: settings/settings_session.c:120
 msgid "Choose the autostart applications:"
 msgstr ""
 "Wählen sie Anwendungen, welche bei der Anmeldung gestartet werden sollen:"
 
-#: settings/settings_session.c:165
+#: settings/settings_session.c:181
 msgid "Please choose the Window Manager (WM):"
 msgstr "Bitte wählen sie die Fensterverwaltung (WM):"
 
-#: settings/settings_session.c:182
+#: settings/settings_session.c:198
 msgid "The command used to shutdown the computer:"
 msgstr "Der Befehl zum herunterfahren des Computers:"
 
-#: settings/settings_session.c:199
+#: settings/settings_session.c:215
 msgid "The command used to reboot the computer:"
 msgstr "Der Befehl zum neustarten des Computers:"
 
-#: settings/settings_session.c:212
+#: settings/settings_session.c:228
 msgid "Enable XDG autostart:"
 msgstr "XDG Autostart aktivieren:"
 
-#: settings/settings_session.c:245 settings/settings_session.c:248
+#: settings/settings_session.c:306
+msgid "SiDE Theme:"
+msgstr "SiDE Thema:"
+
+#: settings/settings_session.c:331 settings/settings_session.c:334
 msgid "Session"
 msgstr "Sitzung"
 
-#: settings/settings_session.c:246
+#: settings/settings_session.c:332
 msgid "Setup session autostart and more"
 msgstr "Automatisch gestartete Anwendungen und mehr festlegen"
 
@@ -570,11 +566,11 @@ msgstr "Neustarten"
 msgid "Please save all your data before you continue..."
 msgstr "Bitte speichern sie alle Daten bevor sie fortfahren..."
 
-#: shared/run.h:54 shared/run.h:65
+#: shared/run.h:52 shared/run.h:63
 msgid "Run"
 msgstr "Ausführen"
 
-#: shared/run.h:59
+#: shared/run.h:57
 msgid "Enter a Programm to run:"
 msgstr "Geben sie ein Programm zum ausführen ein:"
 
@@ -713,6 +709,12 @@ msgstr "Unterstützte Grafiken"
 #, c-format
 msgid "(%dpx x %dpx) - %d%%"
 msgstr "(%dpx x %dpx) - %d%%"
+
+#~ msgid "Use custom themes?"
+#~ msgstr "Benutzerdefiniertes Thema verwenden?"
+
+#~ msgid "Select your theme:"
+#~ msgstr "Wählen sie ihr Thema:"
 
 #~ msgid "Settings - Session"
 #~ msgstr "Einstellungen - Sitzung"

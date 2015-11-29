@@ -1,6 +1,6 @@
 LIBPATH=/usr/lib/
 BINPATH=/bin/
-CONFPATH="/etc/"
+CONFPATH=/etc/
 
 RIGHTS=sudo
 
@@ -52,6 +52,7 @@ install-libs:
 
 install:
 	$(RIGHTS) mv bin/* $(BUILDPREFIX)$(BINPATH)
+	$(RIGHTS) mkdir -p $(BUILDPREFIX)$(CONFPATH)udev/rules.d/
 	$(RIGHTS) mv etc/udev/rules.d/* $(BUILDPREFIX)$(CONFPATH)udev/rules.d/
 	$(RIGHTS) cp gsettings/* $(BUILDPREFIX)/usr/share/glib-2.0/schemas/
 ifndef NOCOMPILE
@@ -77,6 +78,8 @@ endif
 	$(RIGHTS) cp translations/de.mo $(BUILDPREFIX)/usr/share/locale/de/LC_MESSAGES/side.mo
 	$(RIGHTS) mkdir -p $(BUILDPREFIX)/etc/side/
 	$(RIGHTS) cp open/mime.conf $(BUILDPREFIX)/etc/side/
+	$(RIGHTS) mkdir -p $(BUILDPREFIX)/usr/share/themes/
+	$(RIGHTS) cp themes/side* -r $(BUILDPREFIX)/usr/share/themes/
 
 installuserconf:
 	mkdir -p ~/.config/side

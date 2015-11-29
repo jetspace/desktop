@@ -1,0 +1,155 @@
+@define-color bg_dark rgb(40,40,40);
+@define-color bg_dark_hover shade(@bg_dark, 1.3);
+@define-color bg_panel rgba(10,10,10, 0.9);
+@define-color fg_panel rgb(250,250,250);
+@define-color fg_panel_context rgb(250,250,250);
+
+/* WALLPAPER */
+
+/*   -> Context */
+#SiDEContextMenuDesktop * {
+	color: white;
+	background-color: @bg_dark;
+	background-image: url("img/noise-dark.png");
+	padding: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	transition: all 200ms;
+}
+
+#SiDEContextMenuDesktop *:hover > *, #SiDEContextMenuDesktop *:hover {
+	background-color: @bg_dark_hover;
+	background-image: url("img/noise.png");
+}
+
+/*   -> Wallpaper Image */
+
+	/* TODO */
+
+/* PANEL */
+
+/*  -> Main */
+#SiDEPanel, #SiDEPanelBox {
+    background-color: @bg_panel;
+}
+
+#SiDEPanel GtkLabel {
+    color: @fg_panel;
+}
+
+/*  -> Menus */
+#SiDEPanel GtkMenuItem GtkLabel {
+	color: @fg_panel_context;
+}
+
+#SiDEPanel GtkMenuItem {
+	background-image: url("img/noise-dark.png");
+}
+
+#SiDEPanel GtkMenuItem:hover {
+	background-image: url("img/noise.png");
+}
+
+
+/*  -> App Menu */
+
+#SiDEPanelAppMenuButton {
+
+    -GtkWidget-focus-padding: 1;
+    -GtkWidget-focus-line-width: 0;
+    padding: 5px;
+    border: 0px;
+    box-shadow: none;
+    border-top-right-radius: 20px;
+    background-color: shade(@bg_panel, 3.5);
+    background-image: none;
+    transition: all 0.2s ease-in-out;
+
+}
+
+#SiDEPanelAppMenuButton:hover {
+
+    background-color: shade(@bg_panel,5);
+
+}
+
+/*  -> Hidden Apps */
+
+#SiDEPanelHiddenApp {
+
+  -GtkWidget-focus-padding: 1;
+  -GtkWidget-focus-line-width: 0;
+  border-radius: 2px;
+  padding: 5px;
+  border: 0px;
+  
+  background-color: transparent;
+  background-image: none;
+  transition: none;
+}
+
+#SiDEPanelHiddenApp:hover {
+    background-color: shade(@bg_panel,5);
+}
+
+/*  -> AppIcons */
+
+#SiDEPanelAppIcon {
+	transition: all 0.2s ease-in-out;
+	border-radius: 2px;
+}
+
+#SiDEPanelAppIcon:hover {
+	background-color: shade(@bg_panel,5);
+}
+
+/* Plugins */
+
+/*  -> User  */
+
+#SiDEPluginUserContextLogout {
+	background-image: url("img/noise-dark.png");
+	color: white;
+}
+
+#SiDEPluginUserContextLogout:hover {
+	background-image: url("img/noise.png");
+}
+
+/* Clock (panel) */
+
+#SiDEPanelPluginCalendarBox, #SiDEPanelPluginCalendarWindow {
+
+	background-color: @bg_panel;
+	background-image: url("img/noise-dark.png");
+
+}
+#SiDEPanelPluginCalendarWindow * {
+	background-image: none;
+	background-color: transparent;
+	border-radius: 0px;
+	color: @fg_panel;
+	border: none;
+	box-shadow: none;
+}
+
+#SiDEPanelPluginCalendarWindow GtkButton {
+	background-color: shade(@bg_panel, 3.5);
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+
+#SiDEPanelPluginCalendarWindow GtkButton:hover {
+	background-color: shade(@bg_panel, 5);
+}
+
+#SiDEPanelPluginCalendar * {
+	font-weight: bolder;
+}
+
+#SiDEPanelPluginCalendar *:selected {
+	font-weight: bold;
+	color: shade(@fg_panel, 0.02);
+
+}
+

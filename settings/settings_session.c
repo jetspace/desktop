@@ -19,6 +19,11 @@ enum
 };
 
 GtkWidget *box, *label, *apply, *add, *del ,*view, *scroll_win, *button_box, *wm, *wm_label, *wm_box, *s, *s_label, *s_box, *r, *r_label, *r_box, *xdg_box, *xdg_switch, *xdg_label;
+GtkWidget *cb_theme;
+GtkListStore *themes;
+GtkTreeIter iter;
+
+gboolean write_themes = FALSE;
 
 gboolean write_session_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 {
@@ -52,6 +57,17 @@ gboolean write_session_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   g_settings_set_value(se, "autostart", g_variant_new_string(str));
 
   free(str);
+
+  char *theme_string;
+  model = gtk_combo_box_get_model(GTK_COMBO_BOX(cb_theme));
+  gtk_combo_box_get_active_iter(GTK_COMBO_BOX(cb_theme), &iter);
+  if(write_themes)
+    gtk_tree_model_get(model, &iter, 0, &theme_string, -1);
+
+  g_settings_set_value(se, "custom-theme-path", g_variant_new_string(g_strdup_printf("/usr/share/themes/%s",  theme_string)));
+
+  if(write_themes)
+    free(theme_string);
 
   return FALSE;
 }
@@ -220,7 +236,77 @@ GtkWidget *build_session_settings(void)
 
     gtk_container_add(GTK_CONTAINER(box), xdg_box);
 
+  //themes
 
+    themes = gtk_list_store_new(1, G_TYPE_STRING);
+    char *querry = strdup(g_variant_get_string(g_settings_get_value(se, "custom-theme-path"), NULL));
+    gboolean empty = FALSE;
+
+    if(querry == NULL || strlen(querry) < 1 || strncmp(querry, "/usr/share/themes/", 18) != 0)
+        empty = TRUE;
+
+    if(!empty)
+        {
+            strtok(querry, "/");
+            strtok(NULL, "/");
+            strtok(NULL, "/");
+            querry = strtok(NULL, "\n\0");
+        }
+
+    DIR *dir = opendir("/usr/share/themes/");
+    struct dirent *e;
+    int counter = -1;
+    int id = 0;
+    //setup panel themes
+    while((e = readdir(dir)) != NULL)
+    {
+    if(e->d_name[0] != '.')//Switch to subdir
+       {
+         char *buffer = malloc(strlen("/usr/share/themes/ ") + strlen(e->d_name) +1);
+         char *theme = strdup(e->d_name); //backup theme name if we have a match later
+         snprintf(buffer, strlen("/usr/share/themes/ ") + strlen(e->d_name), "/usr/share/themes/%s", e->d_name);
+         DIR *sub = opendir(buffer);
+         free(buffer);
+         if(sub == NULL)
+             continue;
+         struct dirent *f;
+         while((f = readdir(sub)) != NULL)
+          {
+            if(strncmp(f->d_name, "side-session", 12) == 0) //contains a SiDE theme
+              {
+                write_themes = TRUE;
+                gtk_list_store_append(GTK_LIST_STORE(themes), &iter);
+                gtk_list_store_set(GTK_LIST_STORE(themes), &iter, 0, theme, -1);
+                counter++;
+                if(!empty)
+                    {
+                        if(strcmp(theme, querry) == 0)
+                            {
+                                id=counter; //select the current theme
+                            }
+                    }
+              }
+          }
+          closedir(sub);
+        free(theme);
+       }
+    else
+       continue;
+    }
+    closedir(dir);
+
+    cb_theme = gtk_combo_box_new_with_model(GTK_TREE_MODEL(themes));
+
+    renderer = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(cb_theme), renderer, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(cb_theme), renderer,"text", 0,NULL);
+    gtk_combo_box_set_active(GTK_COMBO_BOX(cb_theme), id);
+
+    GtkWidget *tbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+    gtk_box_pack_start(GTK_BOX(tbox), gtk_label_new(_("SiDE Theme:")), FALSE, FALSE, 0);
+    gtk_box_pack_end(GTK_BOX(tbox), cb_theme, FALSE, FALSE, 0);
+
+    gtk_box_pack_start(GTK_BOX(box), tbox, FALSE, FALSE, 0);
 
 
 
