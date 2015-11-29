@@ -32,7 +32,7 @@
           <description>If you want the default theme, set this to false</description>
       </key>
       <key type="s" name="custom-theme-path">
-          <default>"side-1.0"</default>
+          <default>"/usr/share/themes/side-1.0"</default>
           <summary>Path to custom Theme for the Session</summary>
           <description>Only needed when use-custom-theme is enabled...</description>
       </key>
