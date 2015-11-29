@@ -27,12 +27,12 @@
           <description>Should SiDE respect the XDG autostart configuration? see etc-xdg-autostart</description>
       </key>
       <key type="b" name="use-custom-theme">
-          <default>false</default>
+          <default>true</default>
           <summary>Do you want to use a specific theme for the Session</summary>
           <description>If you want the default theme, set this to false</description>
       </key>
       <key type="s" name="custom-theme-path">
-          <default>""</default>
+          <default>"side-1.0"</default>
           <summary>Path to custom Theme for the Session</summary>
           <description>Only needed when use-custom-theme is enabled...</description>
       </key>
