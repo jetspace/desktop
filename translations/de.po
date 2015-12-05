@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-11-29 12:34+0100\n"
-"PO-Revision-Date: 2015-11-29 12:35+0100\n"
+"POT-Creation-Date: 2015-12-05 14:03+0100\n"
+"PO-Revision-Date: 2015-12-05 14:05+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
@@ -132,31 +132,31 @@ msgstr "Sonstiges"
 msgid "Search..."
 msgstr "Suchen..."
 
-#: plugins/clock.c:131
+#: plugins/clock.c:121
 msgid "Panel Clock Settings"
 msgstr "Leisten-Uhr Einstellungen"
 
-#: plugins/clock.c:135
+#: plugins/clock.c:125
 msgid "Set up the time format:"
 msgstr "Richten sie das Zeitformat ein:"
 
-#: plugins/clock.c:144
+#: plugins/clock.c:134
 msgid "24h time format?"
 msgstr "24h Zeitformat?"
 
-#: plugins/clock.c:155
+#: plugins/clock.c:145
 msgid "Show Seconds?"
 msgstr "Sekunden zeigen?"
 
-#: plugins/clock.c:167
+#: plugins/clock.c:157
 msgid "Use UTC?"
 msgstr "UTC verwenden?"
 
-#: plugins/clock.c:229
+#: plugins/clock.c:219
 msgid "SIDE Panel Clock"
 msgstr "SiDE Leisten-Uhr"
 
-#: plugins/clock.c:242
+#: plugins/clock.c:231
 msgid "Clock Settings"
 msgstr "Uhr Einstellungen"
 
@@ -212,7 +212,7 @@ msgstr "Über SiDE"
 msgid "Version information about SiDE"
 msgstr "Versionsinformationen zu SiDE"
 
-#: settings/settings_explorer.c:246
+#: settings/settings_explorer.c:246 settings/settings_explorer.c:257
 msgid "SiDE Settings"
 msgstr "SiDE Einstellungen"
 
@@ -397,6 +397,34 @@ msgstr "Sitzung"
 #: settings/settings_session.c:332
 msgid "Setup session autostart and more"
 msgstr "Automatisch gestartete Anwendungen und mehr festlegen"
+
+#: settings/settings_sysinfo.c:44
+msgid "Unknown CPU"
+msgstr "Unbekannte CPU"
+
+#: settings/settings_sysinfo.c:55
+msgid "Memory:"
+msgstr "Arbeitsspeicher:"
+
+#: settings/settings_sysinfo.c:61
+msgid "Uptime:"
+msgstr "Laufzeit:"
+
+#: settings/settings_sysinfo.c:67
+msgid "Processor:"
+msgstr "Prozessor:"
+
+#: settings/settings_sysinfo.c:73
+msgid "SiDE Version:"
+msgstr "SiDE Version:"
+
+#: settings/settings_sysinfo.c:117 settings/settings_sysinfo.c:120
+msgid "System Information"
+msgstr "System Informationen"
+
+#: settings/settings_sysinfo.c:118
+msgid "View System data like Memory or CPU"
+msgstr "Daten wie Arbeitsspeicher oder CPU ansehen"
 
 #: settings/settings_wallpaper.c:51
 msgid "Open Wallpaper"

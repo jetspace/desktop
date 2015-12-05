@@ -33,6 +33,7 @@
 
 #SiDEPanel GtkLabel {
     color: @fg_panel;
+		transition: none;
 }
 
 /*  -> Menus */
@@ -80,7 +81,7 @@
   border-radius: 2px;
   padding: 5px;
   border: 0px;
-  
+
   background-color: transparent;
   background-image: none;
   transition: none;
@@ -149,4 +150,3 @@
 	color: shade(@fg_panel, 0.02);
 
 }
-
