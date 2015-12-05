@@ -30,7 +30,6 @@ For more details view file 'LICENSE'
 #include "../shared/plugins.h"
 #include "../shared/windows.h"
 #include "../shared/transparent.h"
-#include "../shared/css.h"
 
 
 GtkWidget *app_menu_button;
@@ -334,7 +333,7 @@ gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box)
   }
   else if(strcmp(key, "use-custom-theme") == 0 || strcmp(key, "custom-theme-path") == 0)
   {
-    use_css(s);
+    side_set_application_mode(SIDE_APPLICATION_MODE_PANEL);
   }
 
 }

@@ -9,6 +9,8 @@ For more details view file 'LICENSE'
 #include <gtk/gtk.h>
 #include <string.h>
 #include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 /* -= MODES =- */
 enum

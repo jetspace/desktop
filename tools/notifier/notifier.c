@@ -40,6 +40,17 @@ void new_storage_device(char *dev, char *mp)
 
 }
 
+void theme_not_found(void)
+{
+  NotifyNotification *n = notify_notification_new(_("Error"),_("SiDE could not find session theme"), "dialog-error");
+  notify_notification_set_category(n, "side.error");
+  notify_notification_set_urgency(n, NOTIFY_URGENCY_CRITICAL);
+
+  notify_notification_show(n, NULL);
+
+  g_signal_connect(G_OBJECT(n), "closed", G_CALLBACK(closed), NULL);
+}
+
 int main(int argc, char **argv)
 {
   setlocale(LC_ALL, "");
@@ -51,10 +62,16 @@ int main(int argc, char **argv)
     if(strcmp(argv[1], "--new-storage-device") == 0)
       new_storage_device(argv[2], argv[3]);
   }
+  else if(argc == 2)
+  {
+    if(strcmp(argv[1], "--theme-not-found") == 0)
+      theme_not_found();
+  }
   else
   {
     puts("Please use one of the following modes:");
     puts("--new-storage-device");
+    puts("--theme-not-found");
     return(1);
   }
 

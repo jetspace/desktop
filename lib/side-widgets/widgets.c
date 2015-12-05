@@ -14,6 +14,8 @@ void side_set_application_mode(int type)
   display = gdk_display_get_default ();
   screen = gdk_display_get_default_screen (display);
 
+  mode = type;
+
   if(g_variant_get_boolean(g_settings_get_value(theme, "use-custom-theme")))
   {
       GtkCssProvider *provider;
@@ -21,12 +23,19 @@ void side_set_application_mode(int type)
       gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
       gsize bytes, read;
       const gchar* t = g_strdup_printf( "%s%s",g_variant_get_string(g_settings_get_value(theme, "custom-theme-path"), NULL), "/side-session/gtk.css");
+
+      if(access(t, F_OK) != 0)
+      {
+        system("side-notifier --theme-not-found &");
+        return;
+      }
+
       gtk_css_provider_load_from_path (provider,g_filename_to_utf8(t, strlen(t), &read, &bytes, NULL),NULL);
       g_object_unref (provider);
   }
 
 
-  mode = type;
+
 }
 
 GtkWidget *side_gtk_label_new(char *text)
