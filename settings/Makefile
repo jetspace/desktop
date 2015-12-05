@@ -5,3 +5,4 @@ build:
 	gcc -std=c99 settings_gtk.c -o ../settings_plugins/side-gtk-settings.so -shared -fPIC `pkg-config --libs --cflags gtk+-3.0 glib-2.0 gmodule-2.0` -lside-widgets -lside-plugin
 	gcc -std=c99 settings_session.c -o ../settings_plugins/side-session-settings.so -shared -fPIC `pkg-config --libs --cflags gtk+-3.0 glib-2.0 gmodule-2.0` -lside-plugin
 	gcc -std=c99 settings_mime.c -o ../settings_plugins/side-mime-settings.so -shared -fPIC `pkg-config --libs --cflags gtk+-3.0 glib-2.0 gmodule-2.0` -ljetspace-configkit -lside-plugin
+	gcc -std=c99 settings_sysinfo.c -o ../settings_plugins/side-sysinfo-settings.so -shared -fPIC `pkg-config --libs --cflags gtk+-3.0 glib-2.0 gmodule-2.0` -lside-plugin
