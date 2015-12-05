@@ -20,9 +20,15 @@ long side_sysinfo_get_ram(struct sysinfo *inf)
   return inf->totalram * inf->mem_unit / 1024 / 1024;
 }
 
-float side_sysinfo_get_uptime(struct sysinfo *inf)
+char *side_sysinfo_get_uptime(struct sysinfo *inf)
 {
-  return (float) inf->uptime / 60 / 60 * 0.6 + 0.4;
+  char *ret;
+  int h = inf->uptime / 3600;
+  int temp = inf->uptime % 3600;
+  int m = temp / 60;
+  int s = temp % 60;
+  ret = g_strdup_printf("%d:%d:%d", h, m, s);
+  return ret;
 }
 
 char *side_sysinfo_get_cpu(void)
@@ -94,7 +100,7 @@ GtkWidget *build_sysinfo_settigns(void)
   gtk_label_set_text(GTK_LABEL(mem_data), temp);
   g_free(temp);
 
-  temp = g_strdup_printf("%.2F h", side_sysinfo_get_uptime(&info));
+  temp = side_sysinfo_get_uptime(&info);
   gtk_label_set_text(GTK_LABEL(uptime_data), temp);
   g_free(temp);
 
