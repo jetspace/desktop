@@ -35,16 +35,6 @@ gboolean update_time(gpointer data);
 GtkWidget *side_panel_clock, *box, *side_panel_clock_box;
 GtkWidget *s_24, *s_sec, *s_utc;
 
-gboolean check_focus_clock_popup(gpointer data)
-{
-    if(gtk_window_is_active(GTK_WINDOW(data)))
-        return TRUE;
-    else
-        {
-            gtk_widget_destroy(GTK_WIDGET(data));
-            return FALSE;
-        }
-}
 
 gboolean update_time(gpointer data)
 {
@@ -224,13 +214,12 @@ gboolean show_clock_context(GtkWidget *w, GdkEventButton *e, gpointer d)
     {
       g_debug("Popup Callender");
       GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-      gtk_window_set_decorated(GTK_WINDOW(win), FALSE);
+      gtk_window_set_decorated(GTK_WINDOW(win), TRUE);
       gtk_widget_set_name(win, "SiDEPanelPluginCalendarWindow");
       gtk_window_set_title(GTK_WINDOW(win), _("SIDE Panel Clock"));
       GdkScreen *screen = gdk_screen_get_default();
-      gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen), gdk_screen_get_height(screen) - 250);
+      gtk_window_move(GTK_WINDOW(win), gdk_screen_get_width(screen), gdk_screen_get_height(screen) - 280);
 
-      g_timeout_add(100, check_focus_clock_popup, win);
 
       GtkWidget *cal = gtk_calendar_new();
       gtk_widget_set_name(cal, "SiDEPanelPluginCalendar");

@@ -254,7 +254,7 @@ int main(int argc, char **argv)
   se_data.header = gtk_header_bar_new();
   gtk_header_bar_set_has_subtitle(GTK_HEADER_BAR(se_data.header), TRUE);
   gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(se_data.header), TRUE);
-  gtk_header_bar_set_title(GTK_HEADER_BAR(se_data.header), "SiDE Settings");
+  gtk_header_bar_set_title(GTK_HEADER_BAR(se_data.header), _("SiDE Settings"));
   gtk_window_set_titlebar (GTK_WINDOW(win), se_data.header);
 
   se_data.home_button = gtk_button_new_with_label(_("All Settings"));

@@ -179,7 +179,7 @@ gboolean show_mixer(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 gboolean redraw_volume_button(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 {
   if(!volume_button_enabled)
-    return;
+    return FALSE;
 
   g_debug("captured destuction of volume button -> re-create");
   create_volume_button(); //draw it again!!
