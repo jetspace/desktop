@@ -6,6 +6,20 @@ For more details view file 'LICENSE'
 #include "widgets.h"
 int mode;
 
+
+void side_modify_css(char *str)
+{
+  GdkDisplay *display;
+  GdkScreen *screen;
+  display = gdk_display_get_default ();
+  screen = gdk_display_get_default_screen (display);
+  GtkCssProvider *provider;
+  provider = gtk_css_provider_new ();
+  gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  gtk_css_provider_load_from_data(provider, str, -1, NULL);
+  g_object_unref (provider);
+}
+
 void side_set_application_mode(int type)
 {
   GSettings *theme = g_settings_new("org.jetspace.desktop.session");

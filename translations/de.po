@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-12-05 14:03+0100\n"
-"PO-Revision-Date: 2015-12-05 14:05+0100\n"
+"POT-Creation-Date: 2015-12-06 13:05+0100\n"
+"PO-Revision-Date: 2015-12-06 13:06+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
@@ -75,7 +75,7 @@ msgstr "Kann keine Exakte Übereinstimmung für Typ %s finden\n"
 msgid "Unable to open MIME type %s or subtype %s\n"
 msgstr "Kann MIME Typ %s und Untertyp %s nicht Öffnen\n"
 
-#: panel/main.c:310
+#: panel/main.c:309
 #, c-format
 msgid ""
 "Path:\t%s\n"
@@ -84,51 +84,51 @@ msgstr ""
 "Pfad:\t%s\n"
 "Symbol:\t%s"
 
-#: panel/main.c:480 plugins/icon_app_button.c:50 plugins/icon_app_button.c:77
+#: panel/main.c:479 plugins/icon_app_button.c:50 plugins/icon_app_button.c:77
 msgid "Applications"
 msgstr "Anwendungen"
 
-#: panel/main.c:500
+#: panel/main.c:499
 msgid "Multimedia"
 msgstr "Multimedia"
 
-#: panel/main.c:504
+#: panel/main.c:503
 msgid "Development"
 msgstr "Entwicklung"
 
-#: panel/main.c:508
+#: panel/main.c:507
 msgid "Education"
 msgstr "Bildung"
 
-#: panel/main.c:512
+#: panel/main.c:511
 msgid "Graphics"
 msgstr "Grafiken"
 
-#: panel/main.c:516
+#: panel/main.c:515
 msgid "Network"
 msgstr "Netzwerk"
 
-#: panel/main.c:520
+#: panel/main.c:519
 msgid "Office"
 msgstr "Büro"
 
-#: panel/main.c:524 tools/editor/editor.c:79
+#: panel/main.c:523 tools/editor/editor.c:77
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: panel/main.c:528
+#: panel/main.c:527
 msgid "System"
 msgstr "System"
 
-#: panel/main.c:532
+#: panel/main.c:531
 msgid "Utility"
 msgstr "Zubehör"
 
-#: panel/main.c:537
+#: panel/main.c:536
 msgid "Other"
 msgstr "Sonstiges"
 
-#: panel/main.c:542
+#: panel/main.c:541
 msgid "Search..."
 msgstr "Suchen..."
 
@@ -398,31 +398,31 @@ msgstr "Sitzung"
 msgid "Setup session autostart and more"
 msgstr "Automatisch gestartete Anwendungen und mehr festlegen"
 
-#: settings/settings_sysinfo.c:44
+#: settings/settings_sysinfo.c:50
 msgid "Unknown CPU"
 msgstr "Unbekannte CPU"
 
-#: settings/settings_sysinfo.c:55
+#: settings/settings_sysinfo.c:61
 msgid "Memory:"
 msgstr "Arbeitsspeicher:"
 
-#: settings/settings_sysinfo.c:61
+#: settings/settings_sysinfo.c:67
 msgid "Uptime:"
 msgstr "Laufzeit:"
 
-#: settings/settings_sysinfo.c:67
+#: settings/settings_sysinfo.c:73
 msgid "Processor:"
 msgstr "Prozessor:"
 
-#: settings/settings_sysinfo.c:73
+#: settings/settings_sysinfo.c:79
 msgid "SiDE Version:"
 msgstr "SiDE Version:"
 
-#: settings/settings_sysinfo.c:117 settings/settings_sysinfo.c:120
+#: settings/settings_sysinfo.c:123 settings/settings_sysinfo.c:126
 msgid "System Information"
 msgstr "System Informationen"
 
-#: settings/settings_sysinfo.c:118
+#: settings/settings_sysinfo.c:124
 msgid "View System data like Memory or CPU"
 msgstr "Daten wie Arbeitsspeicher oder CPU ansehen"
 
@@ -436,7 +436,7 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: settings/settings_wallpaper.c:51 settings/settings_wallpaper.c:158
-#: tools/editor/editor.c:62 tools/notifier/notifier.c:35 tools/view/view.c:36
+#: tools/editor/editor.c:60 tools/notifier/notifier.c:35 tools/view/view.c:36
 #: tools/editor/editor_callbacks.h:142
 #: tools/filemanager/filemanager_callbacks.h:531
 #: tools/view/view_callbacks.h:34
@@ -456,49 +456,49 @@ msgstr "Hintergrundbild"
 msgid "Setup background of your environment"
 msgstr "Hintergrund der Arbeitsumgebung festlegen"
 
-#: tools/editor/editor.c:36 tools/editor/editor_callbacks.h:59
+#: tools/editor/editor.c:37 tools/editor/editor_callbacks.h:59
 msgid "SiDE Editor"
 msgstr "SiDE Editor"
 
-#: tools/editor/editor.c:58 tools/view/view.c:34
+#: tools/editor/editor.c:56 tools/view/view.c:34
 msgid "File"
 msgstr "Datei"
 
-#: tools/editor/editor.c:60
+#: tools/editor/editor.c:58
 msgid "New"
 msgstr "Neu"
 
-#: tools/editor/editor.c:64 tools/editor/editor_callbacks.h:195
+#: tools/editor/editor.c:62 tools/editor/editor_callbacks.h:195
 msgid "Save"
 msgstr "Speichern"
 
-#: tools/editor/editor.c:66
+#: tools/editor/editor.c:64
 msgid "Save As"
 msgstr "Speichern unter"
 
-#: tools/editor/editor.c:68 tools/view/view.c:38
+#: tools/editor/editor.c:66 tools/view/view.c:38
 msgid "Quit"
 msgstr "Beenden"
 
-#: tools/editor/editor.c:73
+#: tools/editor/editor.c:71
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: tools/editor/editor.c:75
+#: tools/editor/editor.c:73
 msgid "Undo"
 msgstr "Rückgängig"
 
-#: tools/editor/editor.c:77
+#: tools/editor/editor.c:75
 msgid "Redo"
 msgstr "Wiederholen"
 
-#: tools/editor/editor.c:84 tools/editor/editor.c:86
+#: tools/editor/editor.c:82 tools/editor/editor.c:84
 #: tools/filemanager/filemanager.c:84 tools/filemanager/filemanager.c:86
 #: tools/view/view.c:56 tools/view/view.c:58
 msgid "About"
 msgstr "Über"
 
-#: tools/editor/editor.c:88 tools/filemanager/filemanager.c:88
+#: tools/editor/editor.c:86 tools/filemanager/filemanager.c:88
 #: tools/view/view.c:60
 msgid "Help"
 msgstr "Hilfe"
@@ -516,6 +516,14 @@ msgstr "%s zu %s hinzugefügt"
 #: tools/notifier/notifier.c:30
 msgid "New Mass-Storage Device"
 msgstr "Neues Massenspeicher Gerät"
+
+#: tools/notifier/notifier.c:45
+msgid "Error"
+msgstr "Fehler"
+
+#: tools/notifier/notifier.c:45
+msgid "SiDE could not find session theme"
+msgstr "SiDE konnte Sitzungsthema nicht Finden"
 
 #: tools/view/view.c:23 tools/view/view_callbacks.h:12
 msgid "SiDE Picture Viewer"
@@ -664,6 +672,10 @@ msgid "Highlight current line:"
 msgstr "Aktuelle Zeile hervorheben:"
 
 #: tools/editor/editor_callbacks.h:264
+msgid "Automaticly indent new lines:"
+msgstr "Neue Zeilen automatisch einrücken:"
+
+#: tools/editor/editor_callbacks.h:271
 msgid "Font:"
 msgstr "Schriftart: "
 

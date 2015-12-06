@@ -6,6 +6,7 @@ For more details view file 'LICENSE'
 #include <gtk/gtk.h>
 #include <gtksourceview/gtksource.h>
 #include <glib/gi18n.h>
+#include <side/widgets.h>
 
 
 GtkWidget *win;
@@ -41,12 +42,9 @@ int main(int argc, char **argv)
 
     GtkWidget *scroll = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
     source = gtk_source_view_new();
-    gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(source), g_variant_get_boolean(g_settings_get_value(win_data, "linenumbers")));
-    gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(source), g_variant_get_boolean(g_settings_get_value(win_data, "linehighlight")));
-    PangoFontDescription *font = pango_font_description_from_string(g_variant_get_string(g_settings_get_value(win_data, "font"), FALSE));
-    gtk_widget_override_font(GTK_WIDGET(source), font);
+    gtk_widget_set_name(GTK_WIDGET(GTK_TEXT_VIEW(source)), "SIDE_EDITOR_VIEW");
+    update_source(NULL, NULL, NULL);
     gtk_container_add(GTK_CONTAINER(scroll), source);
     gtk_box_pack_end(GTK_BOX(box), scroll, TRUE, TRUE, 0);
 

@@ -27,7 +27,7 @@ char *side_sysinfo_get_uptime(struct sysinfo *inf)
   int temp = inf->uptime % 3600;
   int m = temp / 60;
   int s = temp % 60;
-  ret = g_strdup_printf("%d:%d:%d", h, m, s);
+  ret = g_strdup_printf("%02d:%02d:%02d", h, m, s);
   return ret;
 }
 

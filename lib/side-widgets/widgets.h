@@ -32,5 +32,8 @@ extern GtkWidget *side_gtk_label_new(char *text);
 extern GtkWidget *side_gtk_menu_new(void);
 extern GtkWidget *side_gtk_image_new_from_file(char *file);
 
+//CSS HELPERS
+void side_modify_css(char *str);
+
 
 #endif

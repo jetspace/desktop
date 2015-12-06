@@ -16,6 +16,11 @@
           <summary>Enable highlighting of current line in editor</summary>
           <description>This is an optional function</description>
       </key>
+      <key type="b" name="autoindent">
+          <default>true</default>
+          <summary>Auto indent new lines</summary>
+          <description>This is an optional function</description>
+      </key>
       <key type="i" name="width">
           <default>500</default>
           <summary>Width of editor window</summary>

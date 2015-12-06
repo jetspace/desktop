@@ -21,6 +21,10 @@ void action_cb(NotifyNotification *n, char *action, gpointer user_data)
     snprintf(cmd, 2000, "side-files %s &", (char *) user_data);
     system(cmd);
   }
+  else if(strcmp(action, "session-settings") == 0)
+  {
+    system("side-settings-explorer --open settings.session &");
+  }
 }
 
 void new_storage_device(char *dev, char *mp)
@@ -45,6 +49,8 @@ void theme_not_found(void)
   NotifyNotification *n = notify_notification_new(_("Error"),_("SiDE could not find session theme"), "dialog-error");
   notify_notification_set_category(n, "side.error");
   notify_notification_set_urgency(n, NOTIFY_URGENCY_CRITICAL);
+
+  notify_notification_add_action(n, "session-settings", _("Settings"), action_cb, NULL, NULL);
 
   notify_notification_show(n, NULL);
 
