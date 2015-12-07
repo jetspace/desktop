@@ -157,6 +157,6 @@ SiDESettingsPluginDescription *identify(gpointer data)
   side_mime_plugin_desc.icon  = "preferences-desktop-personal";
   side_mime_plugin_desc.title = _("Default Applications");
   side_mime_plugin_desc.cmd = "settings.mime";
-  side_mime_plugin_desc.category = 1;
+  side_mime_plugin_desc.category = SIDE_SETTINGS_CATEGORY_SYSTEM;
   return &side_mime_plugin_desc;
 }

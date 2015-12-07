@@ -333,6 +333,6 @@ SiDESettingsPluginDescription *identify(gpointer data)
   side_session_plugin_desc.icon  = "preferences-system";
   side_session_plugin_desc.title = _("Session");
   side_session_plugin_desc.cmd = "settings.session";
-  side_session_plugin_desc.category = 1;
+  side_session_plugin_desc.category = SIDE_SETTINGS_CATEGORY_SYSTEM;
   return &side_session_plugin_desc;
 }

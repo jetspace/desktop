@@ -121,7 +121,7 @@ GtkWidget *main_menu(void)
 
   gtk_header_bar_set_subtitle(GTK_HEADER_BAR(se_data.header), _("Main Menu"));
 
-  GtkWidget *label_a, *label_i, *label_s;
+  GtkWidget *label_a, *label_i, *label_s, *label_m;
 
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
@@ -131,17 +131,19 @@ GtkWidget *main_menu(void)
 
   label_s = side_gtk_label_new(_("System:"));
 
+  label_m = side_gtk_label_new(_("Multimedia:"));
+
   //Create Icon Views
 
   GtkListStore *list;
-  GtkListStore *a, *s;
+  GtkListStore *a, *s, *m;
   GtkTreeIter iter;
   GtkIconTheme *theme = gtk_icon_theme_get_default();
 
   //Appearance
     GtkWidget *iconview = gtk_icon_view_new();
     GtkWidget *scroll = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll), 90);
+    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll), 100);
     gtk_container_add(GTK_CONTAINER(scroll), iconview);
 
     gtk_box_pack_start(GTK_BOX(box), label_a, FALSE, FALSE, 0);
@@ -161,12 +163,33 @@ GtkWidget *main_menu(void)
     g_signal_connect(G_OBJECT(iconview), "item-activated", G_CALLBACK(activated_item), NULL);
 
 
+  //MULTIMEDIA
+    iconview = gtk_icon_view_new();
+    scroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll), 100);
+    gtk_container_add(GTK_CONTAINER(scroll), iconview);
+
+    gtk_box_pack_start(GTK_BOX(box), label_m, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(box), scroll, TRUE, TRUE, 0);
+
+    list = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_STRING,-1);
+    m=list;
+
+
+
+    gtk_icon_view_set_model(GTK_ICON_VIEW(iconview), GTK_TREE_MODEL(list));
+    gtk_icon_view_set_text_column(GTK_ICON_VIEW(iconview), 0);
+    gtk_icon_view_set_tooltip_column(GTK_ICON_VIEW(iconview), 3);
+    gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(iconview), 2);
+
+    gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(iconview), TRUE);
+    g_signal_connect(G_OBJECT(iconview), "item-activated", G_CALLBACK(activated_item), NULL);
 
 
   //System
     iconview = gtk_icon_view_new();
     scroll = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll), 90);
+    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll), 100);
     gtk_container_add(GTK_CONTAINER(scroll), iconview);
 
     gtk_box_pack_start(GTK_BOX(box), label_s, FALSE, FALSE, 0);
@@ -187,7 +210,7 @@ GtkWidget *main_menu(void)
     //Infrormation
     iconview = gtk_icon_view_new();
     scroll = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll), 90);
+    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll), 100);
     gtk_container_add(GTK_CONTAINER(scroll), iconview);
 
     gtk_box_pack_start(GTK_BOX(box), label_i, FALSE, FALSE, 0);
@@ -208,11 +231,11 @@ GtkWidget *main_menu(void)
 
     if(load_plugins)
     {
-      load_side_settings_plugins(a,s,list, "/usr/lib/jetspace/settings/", FALSE);
+      load_side_settings_plugins(a,s,list,m, "/usr/lib/jetspace/settings/", FALSE);
       load_plugins = FALSE;
     }
     else
-      load_side_settings_plugins(a,s,list, "/usr/lib/jetspace/settings/", TRUE);
+      load_side_settings_plugins(a,s,list,m, "/usr/lib/jetspace/settings/", TRUE);
     return box;
 }
 
@@ -242,7 +265,7 @@ int main(int argc, char **argv)
   GtkWidget *win;
 
   win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_resize(GTK_WINDOW(win), 600, 300);
+  gtk_window_resize(GTK_WINDOW(win), 750, 300);
   gtk_window_set_title(GTK_WINDOW(win), _("SiDE Settings"));
   gtk_container_set_border_width(GTK_CONTAINER(win), 12);
   g_signal_connect(G_OBJECT(win), "delete-event", G_CALLBACK(destroy), NULL);

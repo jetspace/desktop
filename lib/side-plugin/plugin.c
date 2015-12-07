@@ -102,7 +102,7 @@ gboolean check_version(int type, char *target)
 SettingPlugins *SettingPluginsStore;
 int n_plugins = 0;
 
-void load_side_settings_plugins(GtkListStore *app,GtkListStore *sys,GtkListStore *inf, char *path, gboolean onlyOld)
+void load_side_settings_plugins(GtkListStore *app,GtkListStore *sys,GtkListStore *inf,GtkListStore *multimedia, char *path, gboolean onlyOld)
 {
 
   GtkIconTheme *theme = gtk_icon_theme_get_default();
@@ -179,20 +179,26 @@ void load_side_settings_plugins(GtkListStore *app,GtkListStore *sys,GtkListStore
 
         switch(SettingPluginsStore[x].identity->category)
         {
-          case 0:
+          case SIDE_SETTINGS_CATEGORY_APPERANCE:
           gtk_list_store_append(app, &iter);
           gtk_list_store_set(app, &iter, 0, SettingPluginsStore[x].identity->label,1,ex,2, gtk_icon_theme_load_icon(theme, SettingPluginsStore[x].identity->icon, 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL),3, SettingPluginsStore[x].identity->hover, -1);
           break;
 
-          case 1:
+          case SIDE_SETTINGS_CATEGORY_SYSTEM:
           gtk_list_store_append(sys, &iter);
           gtk_list_store_set(sys, &iter, 0, SettingPluginsStore[x].identity->label,1,ex,2, gtk_icon_theme_load_icon(theme, SettingPluginsStore[x].identity->icon, 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL),3, SettingPluginsStore[x].identity->hover,-1);
           break;
 
-          case 2:
+          case SIDE_SETTINGS_CATEGORY_INFO:
           gtk_list_store_append(inf, &iter);
           gtk_list_store_set(inf, &iter, 0, SettingPluginsStore[x].identity->label,1,ex,2, gtk_icon_theme_load_icon(theme, SettingPluginsStore[x].identity->icon, 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), 3, SettingPluginsStore[x].identity->hover, -1);
           break;
+
+          case SIDE_SETTINGS_CATEGORY_MULTIMEDIA:
+          gtk_list_store_append(multimedia, &iter);
+          gtk_list_store_set(multimedia, &iter, 0, SettingPluginsStore[x].identity->label,1,ex,2, gtk_icon_theme_load_icon(theme, SettingPluginsStore[x].identity->icon, 32,GTK_ICON_LOOKUP_FORCE_SIZE ,NULL), 3, SettingPluginsStore[x].identity->hover, -1);
+          break;
+
 
         }
         free(ex);

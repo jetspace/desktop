@@ -262,6 +262,6 @@ SiDESettingsPluginDescription *identify(gpointer data)
   side_wallpaper_plugin_desc.icon  = "preferences-desktop-wallpaper";
   side_wallpaper_plugin_desc.title = _("Wallpaper");
   side_wallpaper_plugin_desc.cmd = "settings.wallpaper";
-  side_wallpaper_plugin_desc.category = 0;
+  side_wallpaper_plugin_desc.category = SIDE_SETTINGS_CATEGORY_APPERANCE;
   return &side_wallpaper_plugin_desc;
 }

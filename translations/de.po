@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-12-06 13:05+0100\n"
-"PO-Revision-Date: 2015-12-06 13:06+0100\n"
+"POT-Creation-Date: 2015-12-07 18:16+0100\n"
+"PO-Revision-Date: 2015-12-07 18:18+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
@@ -75,7 +75,7 @@ msgstr "Kann keine Exakte Übereinstimmung für Typ %s finden\n"
 msgid "Unable to open MIME type %s or subtype %s\n"
 msgstr "Kann MIME Typ %s und Untertyp %s nicht Öffnen\n"
 
-#: panel/main.c:309
+#: panel/main.c:313
 #, c-format
 msgid ""
 "Path:\t%s\n"
@@ -84,51 +84,51 @@ msgstr ""
 "Pfad:\t%s\n"
 "Symbol:\t%s"
 
-#: panel/main.c:479 plugins/icon_app_button.c:50 plugins/icon_app_button.c:77
+#: panel/main.c:485 plugins/icon_app_button.c:50 plugins/icon_app_button.c:77
 msgid "Applications"
 msgstr "Anwendungen"
 
-#: panel/main.c:499
+#: panel/main.c:505
 msgid "Multimedia"
 msgstr "Multimedia"
 
-#: panel/main.c:503
+#: panel/main.c:509
 msgid "Development"
 msgstr "Entwicklung"
 
-#: panel/main.c:507
+#: panel/main.c:513
 msgid "Education"
 msgstr "Bildung"
 
-#: panel/main.c:511
+#: panel/main.c:517
 msgid "Graphics"
 msgstr "Grafiken"
 
-#: panel/main.c:515
+#: panel/main.c:521
 msgid "Network"
 msgstr "Netzwerk"
 
-#: panel/main.c:519
+#: panel/main.c:525
 msgid "Office"
 msgstr "Büro"
 
-#: panel/main.c:523 tools/editor/editor.c:77
+#: panel/main.c:529 tools/editor/editor.c:77 tools/notifier/notifier.c:53
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: panel/main.c:527
+#: panel/main.c:533
 msgid "System"
 msgstr "System"
 
-#: panel/main.c:531
+#: panel/main.c:537
 msgid "Utility"
 msgstr "Zubehör"
 
-#: panel/main.c:536
+#: panel/main.c:542
 msgid "Other"
 msgstr "Sonstiges"
 
-#: panel/main.c:541
+#: panel/main.c:547
 msgid "Search..."
 msgstr "Suchen..."
 
@@ -204,19 +204,23 @@ msgstr "Informationen:"
 msgid "System:"
 msgstr "System:"
 
-#: settings/settings_explorer.c:199
+#: settings/settings_explorer.c:134
+msgid "Multimedia:"
+msgstr "Multimedia:"
+
+#: settings/settings_explorer.c:222
 msgid "About SiDE"
 msgstr "Über SiDE"
 
-#: settings/settings_explorer.c:199
+#: settings/settings_explorer.c:222
 msgid "Version information about SiDE"
 msgstr "Versionsinformationen zu SiDE"
 
-#: settings/settings_explorer.c:246 settings/settings_explorer.c:257
+#: settings/settings_explorer.c:269 settings/settings_explorer.c:280
 msgid "SiDE Settings"
 msgstr "SiDE Einstellungen"
 
-#: settings/settings_explorer.c:260
+#: settings/settings_explorer.c:283
 msgid "All Settings"
 msgstr "Alle Einstellungen"
 
@@ -426,6 +430,18 @@ msgstr "System Informationen"
 msgid "View System data like Memory or CPU"
 msgstr "Daten wie Arbeitsspeicher oder CPU ansehen"
 
+#: settings/settings_volume.c:57
+msgid "Master Volume"
+msgstr "Master-Lautstärke"
+
+#: settings/settings_volume.c:108 settings/settings_volume.c:111
+msgid "Audio"
+msgstr "Audio"
+
+#: settings/settings_volume.c:109
+msgid "Setup Audio"
+msgstr "Audio Einrichten"
+
 #: settings/settings_wallpaper.c:51
 msgid "Open Wallpaper"
 msgstr "Hintergrundbild öffnen"
@@ -436,7 +452,7 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: settings/settings_wallpaper.c:51 settings/settings_wallpaper.c:158
-#: tools/editor/editor.c:60 tools/notifier/notifier.c:35 tools/view/view.c:36
+#: tools/editor/editor.c:60 tools/notifier/notifier.c:39 tools/view/view.c:36
 #: tools/editor/editor_callbacks.h:142
 #: tools/filemanager/filemanager_callbacks.h:531
 #: tools/view/view_callbacks.h:34
@@ -508,20 +524,20 @@ msgstr "Hilfe"
 msgid "SiDE File Manager"
 msgstr "SiDE Dateimanager"
 
-#: tools/notifier/notifier.c:29
+#: tools/notifier/notifier.c:33
 #, c-format
 msgid "Added %s to %s"
 msgstr "%s zu %s hinzugefügt"
 
-#: tools/notifier/notifier.c:30
+#: tools/notifier/notifier.c:34
 msgid "New Mass-Storage Device"
 msgstr "Neues Massenspeicher Gerät"
 
-#: tools/notifier/notifier.c:45
+#: tools/notifier/notifier.c:49
 msgid "Error"
 msgstr "Fehler"
 
-#: tools/notifier/notifier.c:45
+#: tools/notifier/notifier.c:49
 msgid "SiDE could not find session theme"
 msgstr "SiDE konnte Sitzungsthema nicht Finden"
 

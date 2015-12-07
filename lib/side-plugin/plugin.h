@@ -72,9 +72,14 @@ typedef struct {
   OpenSettings callback;
 }SettingPlugins;
 
+enum {
+  SIDE_SETTINGS_CATEGORY_APPERANCE = 0,
+  SIDE_SETTINGS_CATEGORY_SYSTEM,
+  SIDE_SETTINGS_CATEGORY_INFO,
+  SIDE_SETTINGS_CATEGORY_MULTIMEDIA
+};
 
-
-void load_side_settings_plugins(GtkListStore *app,GtkListStore *sys,GtkListStore *inf, char *path, gboolean onlyOld);
+void load_side_settings_plugins(GtkListStore *app,GtkListStore *sys,GtkListStore *inf,GtkListStore *multimedia, char *path, gboolean onlyOld);
 void exec_callback(int id, GtkWidget *box, GtkWidget *bar);
 int settings_plugin_id_from_name(char *name);
 #endif

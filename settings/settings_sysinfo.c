@@ -125,6 +125,6 @@ SiDESettingsPluginDescription *identify(gpointer data)
   side_sysinfo_plugin_desc.icon  = "dialog-information";
   side_sysinfo_plugin_desc.title = _("System Information");
   side_sysinfo_plugin_desc.cmd = "settings.sysinfo";
-  side_sysinfo_plugin_desc.category = 2;
+  side_sysinfo_plugin_desc.category = SIDE_SETTINGS_CATEGORY_INFO;
   return &side_sysinfo_plugin_desc;
 }

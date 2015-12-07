@@ -569,6 +569,6 @@ SiDESettingsPluginDescription *identify(gpointer data)
   side_panel_plugin_desc.icon  = "preferences-desktop";
   side_panel_plugin_desc.title = _("Panel");
   side_panel_plugin_desc.cmd = "settings.panel";
-  side_panel_plugin_desc.category = 0;
+  side_panel_plugin_desc.category = SIDE_SETTINGS_CATEGORY_APPERANCE;
   return &side_panel_plugin_desc;
 }
