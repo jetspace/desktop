@@ -462,7 +462,6 @@ void running_apps(GtkWidget *box)
     }
 
     XCloseDisplay(d);
-    g_warning("%d", space);
     if((space >= 150 && max_lenght < 100 && hidden < last_len) || (space > (total_space / 4) && max_lenght < 100))
     {
       max_lenght += 5;
