@@ -23,7 +23,7 @@ gboolean clock_enabled = FALSE;
 
 void show_clock(void);
 gboolean redraw(GtkWidget *widget, GdkEvent  *event, gpointer user_data);
-gboolean update_time(gpointer data);
+gboolean update_time_desktop(gpointer data);
 
 GtkWidget *side_desktop_clock, *box;
 GtkWidget *s_24, *s_sec, *s_utc;
@@ -40,7 +40,7 @@ void center_side_desktop_clock(void)
   gtk_fixed_move(GTK_FIXED(box), side_desktop_clock, screen_width/2-width/2, screen_height/2 - height / 2);
 }
 
-gboolean update_time(gpointer data)
+gboolean update_time_desktop(gpointer data)
 {
   if(!clock_enabled)
     return FALSE;
@@ -94,7 +94,7 @@ gboolean redraw(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 
   g_debug("captured destuction of the clock -> re-create");
   show_clock(); //draw it again!!
-  update_time(NULL); //don't show placeholder...
+  update_time_desktop(NULL); //don't show placeholder...
   return FALSE;
 }
 
@@ -104,11 +104,11 @@ void show_clock(void)
   gtk_widget_set_name(side_desktop_clock, "SIDEDESKTOPCLOCKPLUGINLABEL");
 
 
-
-
   gtk_fixed_put(GTK_FIXED(box), side_desktop_clock, 0,0);
+  update_time_desktop(NULL);
   center_side_desktop_clock();
   g_signal_connect(G_OBJECT(side_desktop_clock), "destroy", G_CALLBACK(redraw), NULL);
+  gtk_widget_show_all(side_desktop_clock);
 }
 
 //MODLOADER
@@ -142,9 +142,11 @@ G_MODULE_EXPORT void enable_plugin(GtkWidget *root)
   if(!clock_can_be_activated || clock_enabled)
     return;
 
+
+  box = root;
   show_clock();
-  g_timeout_add(1000, update_time, NULL);
   clock_enabled = TRUE;
+  g_timeout_add(1000, update_time_desktop, NULL);
 }
 
 G_MODULE_EXPORT void disable_plugin(GtkWidget *root)

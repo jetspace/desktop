@@ -194,14 +194,18 @@ int main(int argc, char **argv)
   setup_panel(box, app_list);
   g_signal_connect(G_OBJECT(apps), "changed", G_CALLBACK(update_icons), box);
 
+  //call plugin loader
+  load_plugins("/usr/lib/jetspace/panel/plugins/", panel);
+  gtk_widget_realize(panel);
+  gtk_widget_show_all(panel);
+
   if(g_variant_get_boolean(g_settings_get_value(menuS, "show-window-list")))
   {
       running_apps(box);
       g_timeout_add(g_variant_get_int32(g_settings_get_value(menuS, "window-list-refresh-rate")), update_apps, NULL);
   }
 
-  //call plugin loader
-  load_plugins("/usr/lib/jetspace/panel/plugins/", panel);
+
 
  if(g_variant_get_boolean(g_settings_get_value(session, "use-custom-theme")))
     {
@@ -394,6 +398,7 @@ void running_apps(GtkWidget *box)
         }
     int hidden = 0;
     int space = get_available_space();
+    int total_space = space;
     Display *d = XOpenDisplay(NULL);
     Window *list;
     long len;
@@ -457,7 +462,8 @@ void running_apps(GtkWidget *box)
     }
 
     XCloseDisplay(d);
-    if(space >= 150 && max_lenght < 100 && hidden < last_len)
+    g_warning("%d", space);
+    if((space >= 150 && max_lenght < 100 && hidden < last_len) || (space > (total_space / 4) && max_lenght < 100))
     {
       max_lenght += 5;
       running_apps(box);
