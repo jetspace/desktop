@@ -116,6 +116,7 @@ GtkWidget *build_session_settings(void)
 {
 
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+  gtk_container_set_border_width(GTK_CONTAINER(box), 25);
 
   label = gtk_label_new(_("Choose the autostart applications:"));
   gtk_container_add(GTK_CONTAINER(box), label);

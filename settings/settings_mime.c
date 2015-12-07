@@ -104,6 +104,7 @@ GtkWidget *build_mime_settigns(void)
 
   GtkWidget *label = gtk_label_new(_("Here you can select which app should handle which MIME type by default:"));
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+  gtk_container_set_border_width(GTK_CONTAINER(box), 25);
   gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);
 
 

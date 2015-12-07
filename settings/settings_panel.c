@@ -546,6 +546,10 @@ GtkWidget *build_panel_settings(void)
 
   GtkWidget *win_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
 
+  gtk_container_set_border_width(GTK_CONTAINER(box), 25);
+  gtk_container_set_border_width(GTK_CONTAINER(box2), 25);
+  gtk_container_set_border_width(GTK_CONTAINER(box3), 25);
+
 
   gtk_box_pack_start(GTK_BOX(win_box), notebook, TRUE, TRUE, 0);
   gtk_box_pack_end(GTK_BOX(win_box), apply, FALSE, FALSE, 0);

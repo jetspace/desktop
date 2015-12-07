@@ -13,17 +13,19 @@ For more details view file 'LICENSE'
 #include <alsa/control.h>
 #include "../shared/info.h"
 
-void set_volume(GtkAdjustment *adjustment, gpointer user_data)
+int pre_mute_level = 50; //TODO!!
+
+void set_volume(GtkAdjustment *adjustment, gpointer data)
 {
   int value = (int) gtk_adjustment_get_value(adjustment);
   g_debug("Setting master volume to: %d", value);
 
-/*
+
   if(value == 0)
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s_mute), TRUE);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(data), TRUE);
   else
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s_mute), FALSE);
-*/
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(data), FALSE);
+
 
   long min, max;
   snd_mixer_t *mix;
@@ -48,6 +50,20 @@ void set_volume(GtkAdjustment *adjustment, gpointer user_data)
 
 }
 
+gboolean set_mute(GtkToggleButton *widget, gpointer user_data)
+{
+  if(gtk_toggle_button_get_active(widget))
+    {
+         pre_mute_level = gtk_adjustment_get_value(GTK_ADJUSTMENT(user_data));
+         gtk_adjustment_set_value(GTK_ADJUSTMENT(user_data), 0);
+    }
+ else
+    gtk_adjustment_set_value(GTK_ADJUSTMENT(user_data), pre_mute_level);
+
+  return FALSE;
+
+}
+
 
 GtkWidget *build_audio_settigns(void)
 {
@@ -56,14 +72,26 @@ GtkWidget *build_audio_settigns(void)
   gtk_container_set_border_width(GTK_CONTAINER(box), 25);
   gtk_box_pack_start(GTK_BOX(box), gtk_label_new(_("Master Volume")), FALSE, FALSE, 0);
 
-  GtkAdjustment *adj = gtk_adjustment_new(50, 0, 100, 5, 0, 0);
-  g_signal_connect(G_OBJECT(adj), "value-changed", G_CALLBACK(set_volume), NULL);
+  GtkAdjustment *adj = gtk_adjustment_new(50, 0, 100, 1, 1, 1);
   GtkWidget     *scl = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, adj);
   gtk_scale_set_draw_value(GTK_SCALE(scl), TRUE);
+  gtk_scale_set_value_pos(GTK_SCALE(scl), GTK_POS_LEFT);
+  gtk_scale_set_digits(GTK_SCALE(scl),0);
+
+  // Add Scale Marks
+  gtk_scale_add_mark(GTK_SCALE(scl), 25, GTK_POS_BOTTOM, "<small>25</small>");
+  gtk_scale_add_mark(GTK_SCALE(scl), 50, GTK_POS_BOTTOM, "50");
+  gtk_scale_add_mark(GTK_SCALE(scl), 75, GTK_POS_BOTTOM, "<small>75</small>");
 
   gtk_box_pack_start(GTK_BOX(box), scl, FALSE, FALSE, 15);
 
+  GtkWidget *cb_mute = gtk_check_button_new_with_label(_("Mute"));
+  gtk_box_pack_start(GTK_BOX(box), cb_mute, FALSE, FALSE,5);
 
+
+
+  g_signal_connect(G_OBJECT(adj), "value-changed", G_CALLBACK(set_volume), cb_mute);
+  g_signal_connect(G_OBJECT(cb_mute), "toggled", G_CALLBACK(set_mute), adj);
 
   // SET VOLUME TO adjustment
   snd_mixer_t *mix;

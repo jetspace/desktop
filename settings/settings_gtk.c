@@ -212,6 +212,7 @@ GtkWidget *build_gtk_settings(void)
 {
   GtkWidget *box, *label, *apply, *cb;
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+  gtk_container_set_border_width(GTK_CONTAINER(box), 25);
 
   label = side_gtk_label_new(_("Select your GTK 3.0 theme:"));
   gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);

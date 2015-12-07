@@ -53,6 +53,7 @@ char *side_sysinfo_get_cpu(void)
 GtkWidget *build_sysinfo_settigns(void)
 {
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+  gtk_container_set_border_width(GTK_CONTAINER(box), 25);
 
 
 

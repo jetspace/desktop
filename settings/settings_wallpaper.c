@@ -239,6 +239,9 @@ GtkWidget *build_wallpaper_settings(void)
     mainbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
     gtk_box_pack_start(GTK_BOX(mainbox), notebook, TRUE, TRUE, 0);
 
+    gtk_container_set_border_width(GTK_CONTAINER(box), 25);
+    gtk_container_set_border_width(GTK_CONTAINER(box2), 25);
+
 
 
     gtk_box_pack_end(GTK_BOX(mainbox), apply, FALSE, TRUE, 0);
