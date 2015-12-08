@@ -109,6 +109,9 @@ int scan_dir_for_themes(GtkListStore *list, GtkTreeIter iter, char *path, char *
   struct dirent *e;
   struct stat st;
 
+  if(d == NULL)
+    return -1;
+
 
   while((e = readdir(d)) != NULL)
     {
@@ -158,6 +161,9 @@ char *get_current_theme()
 
   FILE *in = fopen(buffer, "r");
 
+  if(in == NULL)
+    return "";
+
   char buff[2000];
   while(fgets(buff, 2000, in) != NULL)
   {
@@ -184,6 +190,9 @@ char *get_current_theme2()
   strcpy(buffer, getenv("HOME"));
   strcat(buffer, "/.gtkrc-2.0");
   FILE *in = fopen(buffer, "r");
+
+  if(in == NULL)
+    return "";
 
   char buff[2000];
   while(fgets(buff, 2000, in) != NULL)
