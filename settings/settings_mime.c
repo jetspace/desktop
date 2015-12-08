@@ -15,8 +15,6 @@ For more details view file 'LICENSE'
 char MIMEDB[2000];
 #define MIMEFALLBACK "/etc/side/mime.conf"
 
-GtkListStore *list;
-GtkTreeIter iter;
 
 gboolean edited_app(GtkCellRendererText *renderer, gchar *path, gchar *text, GtkTreeView *treeview)
 {
@@ -42,7 +40,7 @@ gboolean destroy(GtkWidget *w, GdkEvent *e, gpointer p)
   return FALSE;
 }
 
-gboolean write_mime_config(GtkWidget *w, GdkEvent *e, gpointer p)
+gboolean write_mime_config(GtkWidget *w, GdkEvent *e, gpointer list)
 {
   char i_b[5]; //int buffer
   GtkTreeModel *model;
@@ -82,7 +80,8 @@ GtkWidget *build_mime_settigns(void)
     strcat(MIMEDB, MIMEFALLBACK);
   }
 
-  list = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
+  GtkTreeIter iter;
+  GtkListStore *list = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
 
   jet_init_config_read(MIMEDB);
 
@@ -135,7 +134,7 @@ GtkWidget *build_mime_settigns(void)
   gtk_container_add(GTK_CONTAINER(scroll_win), tree);
 
   GtkWidget *button = gtk_button_new_with_label(_("Apply"));
-  g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(write_mime_config), NULL);
+  g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(write_mime_config), list);
   gtk_box_pack_end(GTK_BOX(box), button, FALSE, FALSE, 0);
 
   return box;

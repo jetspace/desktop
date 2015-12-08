@@ -7,7 +7,7 @@ For more details view file 'LICENSE'
 //SOME SHARED INFOS
 
 //DESKTOP
-#define VERSION "0.91-11"
+#define VERSION "0.91-12"
 #define COPYRIGHT "Copyright (c) 2015 Marius Messerschmidt"
 #define DISCRIPTION "Simple Desktop Enviroment"
 
