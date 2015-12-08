@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-12-07 18:16+0100\n"
-"PO-Revision-Date: 2015-12-07 18:18+0100\n"
+"POT-Creation-Date: 2015-12-08 20:08+0100\n"
+"PO-Revision-Date: 2015-12-08 20:08+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
@@ -19,17 +19,17 @@ msgstr ""
 "X-Poedit-SearchPath-2: tools/editor/editor.c\n"
 "X-Poedit-SearchPath-3: tools/editor/editor_callbacks.h\n"
 "X-Poedit-SearchPath-4: tools/filemanager/filemanager.c\n"
-"X-Poedit-SearchPath-5: tools/filemanager/filemanager_callbacks.h\n"
-"X-Poedit-SearchPath-6: tools/view/view.c\n"
-"X-Poedit-SearchPath-7: tools/view/view_callbacks.h\n"
-"X-Poedit-SearchPath-8: shared\n"
-"X-Poedit-SearchPath-9: settings\n"
-"X-Poedit-SearchPath-10: session\n"
-"X-Poedit-SearchPath-11: search\n"
-"X-Poedit-SearchPath-12: plugins\n"
-"X-Poedit-SearchPath-13: panel\n"
-"X-Poedit-SearchPath-14: open\n"
-"X-Poedit-SearchPath-15: etc\n"
+"X-Poedit-SearchPath-5: tools/view/view.c\n"
+"X-Poedit-SearchPath-6: tools/view/view_callbacks.h\n"
+"X-Poedit-SearchPath-7: shared\n"
+"X-Poedit-SearchPath-8: settings\n"
+"X-Poedit-SearchPath-9: session\n"
+"X-Poedit-SearchPath-10: search\n"
+"X-Poedit-SearchPath-11: plugins\n"
+"X-Poedit-SearchPath-12: panel\n"
+"X-Poedit-SearchPath-13: open\n"
+"X-Poedit-SearchPath-14: etc\n"
+"X-Poedit-SearchPath-15: tools/filemanager/filemanager_list.h\n"
 
 #: open/main.c:65
 #, c-format
@@ -50,7 +50,7 @@ msgstr ""
 "Wenn sie dieses Fenster schließen, versucht SiDE eine Ersatzanwendung zu "
 "finden."
 
-#: open/main.c:99 settings/settings_mime.c:126 settings/settings_session.c:152
+#: open/main.c:99 settings/settings_mime.c:126 settings/settings_session.c:153
 msgid "App"
 msgstr "Anwendung"
 
@@ -58,7 +58,7 @@ msgstr "Anwendung"
 msgid "Select"
 msgstr "Auswählen"
 
-#: open/main.c:144 settings/settings_mime.c:80
+#: open/main.c:144 settings/settings_mime.c:78
 #, c-format
 msgid "Can't find local configuration {%s} using system fallback {%s}\n"
 msgstr ""
@@ -84,51 +84,51 @@ msgstr ""
 "Pfad:\t%s\n"
 "Symbol:\t%s"
 
-#: panel/main.c:485 plugins/icon_app_button.c:50 plugins/icon_app_button.c:77
+#: panel/main.c:484 plugins/icon_app_button.c:50 plugins/icon_app_button.c:77
 msgid "Applications"
 msgstr "Anwendungen"
 
-#: panel/main.c:505
+#: panel/main.c:504
 msgid "Multimedia"
 msgstr "Multimedia"
 
-#: panel/main.c:509
+#: panel/main.c:508
 msgid "Development"
 msgstr "Entwicklung"
 
-#: panel/main.c:513
+#: panel/main.c:512
 msgid "Education"
 msgstr "Bildung"
 
-#: panel/main.c:517
+#: panel/main.c:516
 msgid "Graphics"
 msgstr "Grafiken"
 
-#: panel/main.c:521
+#: panel/main.c:520
 msgid "Network"
 msgstr "Netzwerk"
 
-#: panel/main.c:525
+#: panel/main.c:524
 msgid "Office"
 msgstr "Büro"
 
-#: panel/main.c:529 tools/editor/editor.c:77 tools/notifier/notifier.c:53
+#: panel/main.c:528 tools/editor/editor.c:77 tools/notifier/notifier.c:53
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: panel/main.c:533
+#: panel/main.c:532
 msgid "System"
 msgstr "System"
 
-#: panel/main.c:537
+#: panel/main.c:536
 msgid "Utility"
 msgstr "Zubehör"
 
-#: panel/main.c:542
+#: panel/main.c:541
 msgid "Other"
 msgstr "Sonstiges"
 
-#: panel/main.c:547
+#: panel/main.c:546
 msgid "Search..."
 msgstr "Suchen..."
 
@@ -176,7 +176,7 @@ msgstr "SiDE Mixer"
 msgid "Master"
 msgstr "Master"
 
-#: plugins/volume.c:126
+#: plugins/volume.c:126 settings/settings_volume.c:88
 msgid "Mute"
 msgstr "Stumm"
 
@@ -224,34 +224,33 @@ msgstr "SiDE Einstellungen"
 msgid "All Settings"
 msgstr "Alle Einstellungen"
 
-#: settings/settings_gtk.c:216
+#: settings/settings_gtk.c:226
 msgid "Select your GTK 3.0 theme:"
 msgstr "Wählen sie ihr GTK 3.0 Thema:"
 
-#: settings/settings_gtk.c:282 settings/settings_panel.c:543
+#: settings/settings_gtk.c:292 settings/settings_panel.c:543
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: settings/settings_gtk.c:288
+#: settings/settings_gtk.c:298
 msgid "Select your GTK 2.0 theme:"
 msgstr "Wählen sie ihr GTK 2.0 Thema:"
 
-#: settings/settings_gtk.c:341 settings/settings_mime.c:136
-#: settings/settings_panel.c:328 settings/settings_session.c:314
+#: settings/settings_gtk.c:351 settings/settings_mime.c:136
+#: settings/settings_panel.c:328 settings/settings_session.c:315
 #: settings/settings_wallpaper.c:164 tools/editor/editor_callbacks.h:236
-#: tools/filemanager/filemanager_callbacks.h:494
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: settings/settings_gtk.c:357 settings/settings_gtk.c:360
+#: settings/settings_gtk.c:367 settings/settings_gtk.c:370
 msgid "GTK Theme"
 msgstr "GTK Thema"
 
-#: settings/settings_gtk.c:358
+#: settings/settings_gtk.c:368
 msgid "Setup GTK Themes"
 msgstr "GTK Themen Einrichten"
 
-#: settings/settings_mime.c:105
+#: settings/settings_mime.c:104
 msgid "Here you can select which app should handle which MIME type by default:"
 msgstr ""
 "Hier können sie festlegen welche Anwendung welchen MIME Typ öffnen soll:"
@@ -273,7 +272,7 @@ msgid "Add App"
 msgstr "Anwendung Hinzufügen"
 
 #: settings/settings_panel.c:99 settings/settings_panel.c:417
-#: settings/settings_session.c:171
+#: settings/settings_session.c:172
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -297,7 +296,7 @@ msgstr ""
 msgid "Select the default Terminal Application:"
 msgstr "Wählen sie die Standard-Terminal-Anwendung:"
 
-#: settings/settings_panel.c:371
+#: settings/settings_panel.c:371 tools/filemanager/filemanager.c:146
 msgid "Path"
 msgstr "Pfad"
 
@@ -317,7 +316,7 @@ msgstr "Wählen sie die Anwendungen, die im Panel angezeigt werden sollen:"
 msgid "Clear"
 msgstr "Alles Löschen"
 
-#: settings/settings_panel.c:411 settings/settings_session.c:166
+#: settings/settings_panel.c:411 settings/settings_session.c:167
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -361,44 +360,44 @@ msgstr "Aktiviere eingebaute Fensterliste:"
 msgid "Plugins"
 msgstr "Erweiterungen"
 
-#: settings/settings_panel.c:567 settings/settings_panel.c:570
+#: settings/settings_panel.c:571 settings/settings_panel.c:574
 msgid "Panel"
 msgstr "Leiste"
 
-#: settings/settings_panel.c:568
+#: settings/settings_panel.c:572
 msgid "Setup panel themes, apps and plugins"
 msgstr "Leisten Themen, Anwendungen und Erweiterungen einrichten"
 
-#: settings/settings_session.c:120
+#: settings/settings_session.c:121
 msgid "Choose the autostart applications:"
 msgstr ""
 "Wählen sie Anwendungen, welche bei der Anmeldung gestartet werden sollen:"
 
-#: settings/settings_session.c:181
+#: settings/settings_session.c:182
 msgid "Please choose the Window Manager (WM):"
 msgstr "Bitte wählen sie die Fensterverwaltung (WM):"
 
-#: settings/settings_session.c:198
+#: settings/settings_session.c:199
 msgid "The command used to shutdown the computer:"
 msgstr "Der Befehl zum herunterfahren des Computers:"
 
-#: settings/settings_session.c:215
+#: settings/settings_session.c:216
 msgid "The command used to reboot the computer:"
 msgstr "Der Befehl zum neustarten des Computers:"
 
-#: settings/settings_session.c:228
+#: settings/settings_session.c:229
 msgid "Enable XDG autostart:"
 msgstr "XDG Autostart aktivieren:"
 
-#: settings/settings_session.c:306
+#: settings/settings_session.c:307
 msgid "SiDE Theme:"
 msgstr "SiDE Thema:"
 
-#: settings/settings_session.c:331 settings/settings_session.c:334
+#: settings/settings_session.c:332 settings/settings_session.c:335
 msgid "Session"
 msgstr "Sitzung"
 
-#: settings/settings_session.c:332
+#: settings/settings_session.c:333
 msgid "Setup session autostart and more"
 msgstr "Automatisch gestartete Anwendungen und mehr festlegen"
 
@@ -406,39 +405,39 @@ msgstr "Automatisch gestartete Anwendungen und mehr festlegen"
 msgid "Unknown CPU"
 msgstr "Unbekannte CPU"
 
-#: settings/settings_sysinfo.c:61
+#: settings/settings_sysinfo.c:62
 msgid "Memory:"
 msgstr "Arbeitsspeicher:"
 
-#: settings/settings_sysinfo.c:67
+#: settings/settings_sysinfo.c:68
 msgid "Uptime:"
 msgstr "Laufzeit:"
 
-#: settings/settings_sysinfo.c:73
+#: settings/settings_sysinfo.c:74
 msgid "Processor:"
 msgstr "Prozessor:"
 
-#: settings/settings_sysinfo.c:79
+#: settings/settings_sysinfo.c:80
 msgid "SiDE Version:"
 msgstr "SiDE Version:"
 
-#: settings/settings_sysinfo.c:123 settings/settings_sysinfo.c:126
+#: settings/settings_sysinfo.c:124 settings/settings_sysinfo.c:127
 msgid "System Information"
 msgstr "System Informationen"
 
-#: settings/settings_sysinfo.c:124
+#: settings/settings_sysinfo.c:125
 msgid "View System data like Memory or CPU"
 msgstr "Daten wie Arbeitsspeicher oder CPU ansehen"
 
-#: settings/settings_volume.c:57
+#: settings/settings_volume.c:73
 msgid "Master Volume"
 msgstr "Master-Lautstärke"
 
-#: settings/settings_volume.c:108 settings/settings_volume.c:111
+#: settings/settings_volume.c:136 settings/settings_volume.c:139
 msgid "Audio"
 msgstr "Audio"
 
-#: settings/settings_volume.c:109
+#: settings/settings_volume.c:137
 msgid "Setup Audio"
 msgstr "Audio Einrichten"
 
@@ -453,9 +452,7 @@ msgstr "Abbrechen"
 
 #: settings/settings_wallpaper.c:51 settings/settings_wallpaper.c:158
 #: tools/editor/editor.c:60 tools/notifier/notifier.c:39 tools/view/view.c:36
-#: tools/editor/editor_callbacks.h:142
-#: tools/filemanager/filemanager_callbacks.h:531
-#: tools/view/view_callbacks.h:34
+#: tools/editor/editor_callbacks.h:142 tools/view/view_callbacks.h:34
 msgid "Open"
 msgstr "Öffnen"
 
@@ -463,12 +460,12 @@ msgstr "Öffnen"
 msgid "On This page you can setup your Wallpaper:"
 msgstr "Auf dieser Seite können sie den Hintergrund ändern:"
 
-#: settings/settings_wallpaper.c:172 settings/settings_wallpaper.c:260
-#: settings/settings_wallpaper.c:263
+#: settings/settings_wallpaper.c:172 settings/settings_wallpaper.c:263
+#: settings/settings_wallpaper.c:266
 msgid "Wallpaper"
 msgstr "Hintergrundbild"
 
-#: settings/settings_wallpaper.c:261
+#: settings/settings_wallpaper.c:264
 msgid "Setup background of your environment"
 msgstr "Hintergrund der Arbeitsumgebung festlegen"
 
@@ -508,19 +505,16 @@ msgstr "Rückgängig"
 msgid "Redo"
 msgstr "Wiederholen"
 
-#: tools/editor/editor.c:82 tools/editor/editor.c:84
-#: tools/filemanager/filemanager.c:84 tools/filemanager/filemanager.c:86
-#: tools/view/view.c:56 tools/view/view.c:58
+#: tools/editor/editor.c:82 tools/editor/editor.c:84 tools/view/view.c:56
+#: tools/view/view.c:58
 msgid "About"
 msgstr "Über"
 
-#: tools/editor/editor.c:86 tools/filemanager/filemanager.c:88
-#: tools/view/view.c:60
+#: tools/editor/editor.c:86 tools/view/view.c:60
 msgid "Help"
 msgstr "Hilfe"
 
-#: tools/filemanager/filemanager.c:53
-#: tools/filemanager/filemanager_callbacks.h:25
+#: tools/filemanager/filemanager.c:119 tools/filemanager/filemanager.c:124
 msgid "SiDE File Manager"
 msgstr "SiDE Dateimanager"
 
@@ -695,68 +689,6 @@ msgstr "Neue Zeilen automatisch einrücken:"
 msgid "Font:"
 msgstr "Schriftart: "
 
-#: tools/filemanager/filemanager_callbacks.h:325
-msgid "SiDE File Manager - Properties"
-msgstr "SiDE Dateimanager - Eigenschaften"
-
-#: tools/filemanager/filemanager_callbacks.h:333
-msgid "Icon:"
-msgstr "Symbol:"
-
-#: tools/filemanager/filemanager_callbacks.h:338
-msgid "Path:"
-msgstr "Pfad:"
-
-#: tools/filemanager/filemanager_callbacks.h:343
-msgid "Filename:"
-msgstr "Dateiname:"
-
-#: tools/filemanager/filemanager_callbacks.h:348
-msgid "Size:"
-msgstr "Größe:"
-
-#: tools/filemanager/filemanager_callbacks.h:353
-msgid "MIME Type:"
-msgstr "MIME Typ:"
-
-#: tools/filemanager/filemanager_callbacks.h:358
-msgid "Last Modified:"
-msgstr "Zuletzt geändert:"
-
-#: tools/filemanager/filemanager_callbacks.h:422
-msgid "Close"
-msgstr "Schließen"
-
-#: tools/filemanager/filemanager_callbacks.h:458
-#, c-format
-msgid "Error renaming '%s' to '%s': %s"
-msgstr "Fehler beim umbenennen von '%s' zu '%s': %s"
-
-#: tools/filemanager/filemanager_callbacks.h:483
-msgid "SiDE File Manager - Rename"
-msgstr "SiDE Dateimanager - Umbenennen"
-
-#: tools/filemanager/filemanager_callbacks.h:489
-msgid "Enter the new name:"
-msgstr "Geben sie den neuen Namen ein:"
-
-#: tools/filemanager/filemanager_callbacks.h:532
-msgid "Open with..."
-msgstr "Öffnen mit..."
-
-#: tools/filemanager/filemanager_callbacks.h:533
-#: tools/filemanager/filemanager_callbacks.h:558
-msgid "Open Terminal here"
-msgstr "Terminal hier öffnen"
-
-#: tools/filemanager/filemanager_callbacks.h:534
-msgid "Rename"
-msgstr "Umbenennen"
-
-#: tools/filemanager/filemanager_callbacks.h:536
-msgid "Properties"
-msgstr "Eigenschaften"
-
 #: tools/view/view_callbacks.h:37
 msgid "Supported Images"
 msgstr "Unterstützte Grafiken"
@@ -765,6 +697,51 @@ msgstr "Unterstützte Grafiken"
 #, c-format
 msgid "(%dpx x %dpx) - %d%%"
 msgstr "(%dpx x %dpx) - %d%%"
+
+#~ msgid "SiDE File Manager - Properties"
+#~ msgstr "SiDE Dateimanager - Eigenschaften"
+
+#~ msgid "Icon:"
+#~ msgstr "Symbol:"
+
+#~ msgid "Path:"
+#~ msgstr "Pfad:"
+
+#~ msgid "Filename:"
+#~ msgstr "Dateiname:"
+
+#~ msgid "Size:"
+#~ msgstr "Größe:"
+
+#~ msgid "MIME Type:"
+#~ msgstr "MIME Typ:"
+
+#~ msgid "Last Modified:"
+#~ msgstr "Zuletzt geändert:"
+
+#~ msgid "Close"
+#~ msgstr "Schließen"
+
+#~ msgid "Error renaming '%s' to '%s': %s"
+#~ msgstr "Fehler beim umbenennen von '%s' zu '%s': %s"
+
+#~ msgid "SiDE File Manager - Rename"
+#~ msgstr "SiDE Dateimanager - Umbenennen"
+
+#~ msgid "Enter the new name:"
+#~ msgstr "Geben sie den neuen Namen ein:"
+
+#~ msgid "Open with..."
+#~ msgstr "Öffnen mit..."
+
+#~ msgid "Open Terminal here"
+#~ msgstr "Terminal hier öffnen"
+
+#~ msgid "Rename"
+#~ msgstr "Umbenennen"
+
+#~ msgid "Properties"
+#~ msgstr "Eigenschaften"
 
 #~ msgid "Use custom themes?"
 #~ msgstr "Benutzerdefiniertes Thema verwenden?"

@@ -1,46 +1,106 @@
-/*
-This file is licensed under the MIT-License
-Copyright (c) 2015 Marius Messerschmidt
-For more details view file 'LICENSE'
-*/
-#define _XOPEN_SOURCE 500
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 #include <glib/gi18n.h>
 
+
+
 enum {
-  COL_NAME = 0,
-  COL_ICON,
-  COL_SIZE,
-  COL_DIR,
-  COL_FULL_NAME,
-  N_COLS
+  NAV_SOURCE_SIDEBAR = 0,
+  NAV_SOURCE_ENTRY,
+  NAV_SOURCE_CLICKED,
+  NAV_SOURCE_ARG,
+  NAV_SOURCE_UNKNOWN,
+  //SPECIAL ONES:
+  NAV_GO_HOME
+}NavSources;
+
+enum {
+  SORT_BY_NAME = 0,
+  SORT_BY_DATE
 };
-char *path;
-GtkListStore *files;
-GtkTreeModel *sorted_files;
-GtkTreeIter iter;
-GtkWidget *places_bar, *path_entry, *file_view;
-#include "filemanager_callbacks.h"
 
-gint sorter (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer userdata)
+typedef struct {
+
+  GtkWidget *win;
+  GtkWidget *header;
+  GtkWidget *entry;
+  GtkWidget *paned;
+  GtkWidget *places;
+  GtkWidget *listbox;
+  GtkWidget *scroll;
+
+  char *path;
+  int sort_by;
+
+}SiDEFilesProto;
+
+void navigate(SiDEFilesProto *sf, short source, char *target);
+
+#include "filemanager_list.h"
+
+void destroy(GtkWidget *w, GdkEvent *e, gpointer data)
 {
-  char *an = NULL, *bn = NULL;
-  gboolean ad = FALSE, bd = FALSE;
-  gtk_tree_model_get(model, a, COL_NAME, &an, COL_DIR, &ad, -1);
-  gtk_tree_model_get(model, b, COL_NAME, &bn, COL_DIR, &bd, -1);
+  gtk_main_quit();
+}
 
-  if(!an || !bn)
-    return 0;
+void activated(GtkListBox *b, GtkListBoxRow *row, gpointer data)
+{
+  SiDEFilesProto *sf =data;
+  GtkWidget *box = gtk_bin_get_child(GTK_BIN(row));
+  GList *ch, *iter;
+  ch = gtk_container_get_children(GTK_CONTAINER(box));
+  const char *file;
+  for(iter = ch; iter != NULL; iter = g_list_next(iter))
+  {
+    if(strcmp(gtk_widget_get_name(iter->data), "name") == 0)
+      file = gtk_label_get_text(GTK_LABEL(iter->data));
+  }
 
-  if(ad && !bd)
-    return -1;
-  else if(!ad && bd)
-    return 1;
+  if(strcmp(gtk_widget_get_name(box), "dir") == 0)
+  {
+    char *f = g_strdup(file);
+    navigate(sf, NAV_SOURCE_CLICKED, f);
+    free(f);
+  }
+  else
+  {
+    char *cmd = g_strdup_printf("side-open %s%s &", sf->path, file);
+    system(cmd);
+    free(cmd);
+  }
+}
 
-  return strcmp(an, bn);
+void navigate(SiDEFilesProto *sf, short source, char *target)
+{
+  if(source == NAV_GO_HOME)
+  {
+    struct passwd *pw = getpwuid(getuid());
+    target = pw->pw_dir;
+    strcat(target, "/");
+  }
+  else if(source == NAV_SOURCE_CLICKED)
+  {
+    target = g_strdup_printf("%s%s/", sf->path, target);
+  }
+  else if(source == NAV_SOURCE_SIDEBAR)
+  {
+    target = g_file_get_parse_name(gtk_places_sidebar_get_location(GTK_PLACES_SIDEBAR(sf->places)));
+    strcat(target, "/");
+  }
+  sf->path = target;
 
+  reload_files(sf);
+  // Set Entry to Target:
+  gtk_entry_set_text(GTK_ENTRY(sf->entry), target);
+}
+
+void location_nav(GtkPlacesSidebar *sb, GObject *location, GtkPlacesOpenFlags flags, gpointer data)
+{
+  navigate(data, NAV_SOURCE_SIDEBAR, NULL);
 }
 
 int main(int argc, char **argv)
@@ -48,102 +108,67 @@ int main(int argc, char **argv)
   textdomain("side");
   gtk_init(&argc, &argv);
 
-  GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_resize(GTK_WINDOW(win), 625, 400);
-  gtk_window_set_title(GTK_WINDOW(win), _("SiDE File Manager"));
-  gtk_container_set_border_width(GTK_CONTAINER(win), 10);
-
-  /*
-
-  Layout Plan:
-  MENUBAR # # # # # ## # ##  # # ## # # # # #
-  +-------------,-----------------------------+
-  | PLACES    | FILES                        |
-  | PLACES    | FILES                        |
-  +------------------------------------------+
-  */
-  GtkWidget *main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-  GtkWidget *second_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-  gtk_box_pack_end(GTK_BOX(main_box), second_box, TRUE, TRUE, 0);
-  gtk_container_add(GTK_CONTAINER(win), main_box);
+  SiDEFilesProto *sf = malloc(sizeof(SiDEFilesProto));
+  sf->sort_by = SORT_BY_NAME;
 
 
-  //sidebar
-  places_bar = gtk_places_sidebar_new();
-  gtk_places_sidebar_set_show_desktop (GTK_PLACES_SIDEBAR(places_bar), FALSE); //SiDE does not support desktop icons right now
-  gtk_places_sidebar_set_show_connect_to_server (GTK_PLACES_SIDEBAR(places_bar), FALSE);
-  gtk_places_sidebar_set_local_only (GTK_PLACES_SIDEBAR(places_bar), TRUE);
-  gtk_box_pack_start(GTK_BOX(second_box), places_bar, FALSE, FALSE, 0);
+  //header
+  sf->header = gtk_header_bar_new();
+  gtk_header_bar_set_has_subtitle(GTK_HEADER_BAR(sf->header), TRUE);
+  gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(sf->header), TRUE);
+  gtk_header_bar_set_title(GTK_HEADER_BAR(sf->header), _("SiDE File Manager"));
 
-  //create menu bar
-  GtkWidget *menubar = gtk_menu_bar_new();
-
-
-  //ABOUT
-  GtkWidget *aboutmenu   = gtk_menu_new();
-  GtkWidget *about       = gtk_menu_item_new_with_label(_("About"));
-      gtk_menu_item_set_submenu(GTK_MENU_ITEM(about), aboutmenu);
-      GtkWidget *ab     = gtk_menu_item_new_with_label(_("About"));
-      gtk_menu_shell_append(GTK_MENU_SHELL(aboutmenu), ab);
-      GtkWidget *help   = gtk_menu_item_new_with_label(_("Help"));
-      gtk_menu_shell_append(GTK_MENU_SHELL(aboutmenu), help);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), about);
-
-  gtk_box_pack_start(GTK_BOX(main_box), menubar, FALSE, FALSE, 0);
-
-  //create NavBox
-  GtkWidget *navbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-  gtk_box_pack_start(GTK_BOX(main_box), navbox, FALSE, FALSE, 0);
-
-  path_entry = gtk_entry_new();
-  GtkWidget *up_button = gtk_button_new_from_icon_name("go-previous", GTK_ICON_SIZE_SMALL_TOOLBAR);
-  gtk_box_pack_start(GTK_BOX(navbox), up_button, FALSE, FALSE, 0);
-  gtk_box_pack_end(GTK_BOX(navbox), path_entry, TRUE, TRUE, 0);
-
-  //icon view
-  files = gtk_list_store_new(5, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_INT, G_TYPE_BOOLEAN, G_TYPE_STRING);
-  sorted_files = gtk_tree_model_sort_new_with_model(GTK_TREE_MODEL(files));
-  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(sorted_files), COL_NAME, GTK_SORT_ASCENDING);
-  gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(sorted_files), COL_NAME, sorter, NULL, NULL);
-
-  char cwd[2048];
-
-  getcwd(cwd, sizeof(cwd));
-
-  if(argc < 2)
-    update_files(1, cwd);
-  else
-    update_files(1, argv[1]);
+  //WINDOW
+  sf->win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_resize(GTK_WINDOW(sf->win), 700, 500);
+  gtk_window_set_title(GTK_WINDOW(sf->win), _("SiDE File Manager"));
+  gtk_window_set_titlebar(GTK_WINDOW(sf->win), sf->header);
 
 
-  GtkWidget *scroll_win = gtk_scrolled_window_new(NULL, NULL);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  file_view = gtk_icon_view_new_with_model(GTK_TREE_MODEL(sorted_files));
-  gtk_icon_view_set_selection_mode(GTK_ICON_VIEW(file_view), GTK_SELECTION_MULTIPLE);
-  gtk_icon_view_set_item_padding(GTK_ICON_VIEW(file_view), 8);
-  gtk_icon_view_set_text_column(GTK_ICON_VIEW(file_view), COL_NAME);
-  gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(file_view), COL_ICON);
-  GtkWidget *event = gtk_event_box_new();
-  gtk_widget_set_events(event, GDK_BUTTON_PRESS_MASK);
-  gtk_container_add(GTK_CONTAINER(event), scroll_win);
-  gtk_container_add(GTK_CONTAINER(scroll_win), file_view);
-  gtk_box_pack_end(GTK_BOX(second_box), event, TRUE, TRUE, 2);
+  //Paned
+  sf->paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
+  gtk_container_add(GTK_CONTAINER(sf->win), sf->paned);
+
+  //Places Bar
+  sf->places = gtk_places_sidebar_new();
+  gtk_paned_add1(GTK_PANED(sf->paned), sf->places);
+  gtk_places_sidebar_set_local_only(GTK_PLACES_SIDEBAR(sf->places), TRUE);
+
+  //BOX
+  GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+  gtk_container_set_border_width(GTK_CONTAINER(box), 20);
+  gtk_paned_add2(GTK_PANED(sf->paned), box);
+
+  //Entry
+  sf->entry = gtk_entry_new();
+  gtk_box_pack_start(GTK_BOX(box), sf->entry, FALSE, FALSE, 0);
+  gtk_entry_set_has_frame(GTK_ENTRY(sf->entry), TRUE);
+  gtk_entry_set_placeholder_text(GTK_ENTRY(sf->entry), _("Path"));
+  gtk_entry_set_icon_from_icon_name(GTK_ENTRY(sf->entry), GTK_ENTRY_ICON_PRIMARY, "folder");
+  gtk_entry_set_input_purpose(GTK_ENTRY(sf->entry), GTK_INPUT_PURPOSE_URL);
+
+  //LISTBOX
+  sf->listbox = gtk_list_box_new();
+  gtk_list_box_set_selection_mode(GTK_LIST_BOX(sf->listbox), GTK_SELECTION_MULTIPLE);
+  gtk_list_box_set_activate_on_single_click(GTK_LIST_BOX(sf->listbox), TRUE);
+  sf->scroll = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sf->scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sf->scroll), 200);
+  gtk_container_add(GTK_CONTAINER(sf->scroll), sf->listbox);
+  gtk_box_pack_start(GTK_BOX(box), sf->scroll, TRUE, TRUE, 0);
+  gtk_list_box_set_sort_func(GTK_LIST_BOX(sf->listbox), filelist_sort, sf, NULL);
 
 
-  //signals
-  g_signal_connect(G_OBJECT(places_bar), "open-location", G_CALLBACK(open_location_cb), NULL);
-  g_signal_connect(G_OBJECT(win), "destroy", G_CALLBACK(destroy_cb), NULL);
-  g_signal_connect(G_OBJECT(file_view), "item-activated", G_CALLBACK(activated_file), NULL);
-  g_signal_connect(G_OBJECT(event), "button-press-event", G_CALLBACK(click_callback), NULL);
-  g_signal_connect(G_OBJECT(path_entry), "key-press-event", G_CALLBACK(update_from_pathbar), NULL);
-  g_signal_connect(G_OBJECT(up_button), "clicked", G_CALLBACK(go_up), NULL);
-  g_signal_connect(G_OBJECT(ab), "activate", G_CALLBACK(show_about), NULL);
-  g_signal_connect(G_OBJECT(help), "activate", G_CALLBACK(show_help), NULL);
 
+  //SIGNALS
+  g_signal_connect(sf->win, "destroy", G_CALLBACK(destroy), sf);
+  g_signal_connect(sf->listbox, "row-activated", G_CALLBACK(activated), sf);
+  g_signal_connect(sf->places, "open-location", G_CALLBACK(location_nav), sf);
 
-  //show
-  create_menu(); // create context menu(s)
-  gtk_widget_show_all(win);
+  //NAVIGATE
+  navigate(sf, NAV_GO_HOME, NULL);
+
+  gtk_widget_show_all(sf->win);
   gtk_main();
 
 }
