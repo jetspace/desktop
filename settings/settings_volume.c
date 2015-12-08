@@ -17,7 +17,7 @@ int pre_mute_level = 50; //TODO!!
 
 void set_volume(GtkAdjustment *adjustment, gpointer data)
 {
-  int value = (int) gtk_adjustment_get_value(adjustment);
+  int value = (int) ((float)gtk_adjustment_get_value(adjustment) +0.5);
   g_debug("Setting master volume to: %d", value);
 
 
@@ -114,7 +114,7 @@ GtkWidget *build_audio_settigns(void)
   snd_mixer_selem_get_playback_volume_range(elem, &min, &max);
 
   snd_mixer_selem_get_playback_volume(elem, SND_MIXER_SCHN_MONO  , &val);
-  gtk_adjustment_set_value(adj, 100 * val / max +1);
+  gtk_adjustment_set_value(adj, 100 * ((float) val / max));
 
 
   snd_mixer_close(mix);
