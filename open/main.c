@@ -120,10 +120,12 @@ void choose_new_app(char *mime)
 
 char *get_mime_type(char *file)
 {
-  char *ct = g_content_type_guess(file, NULL, 0, NULL);
-  char *mime = g_content_type_get_mime_type(ct);
-  g_free(ct);
-  return mime;
+  GFile *gf = g_file_new_for_path(file);
+  GFileInfo *info;
+  info = g_file_query_info(gf, "standard::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
+  char *content_type = g_strdup(g_file_info_get_content_type(info));
+
+  return content_type;
 }
 
 

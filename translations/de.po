@@ -1,9 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-12-08 20:08+0100\n"
-"PO-Revision-Date: 2015-12-08 20:08+0100\n"
-"Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
+"POT-Creation-Date: 2015-12-09 18:15+0100\n"
+"PO-Revision-Date: 2015-12-09 18:17+0100\n"
+"Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail."
+"com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +51,8 @@ msgstr ""
 "Wenn sie dieses Fenster schließen, versucht SiDE eine Ersatzanwendung zu "
 "finden."
 
-#: open/main.c:99 settings/settings_mime.c:126 settings/settings_session.c:153
+#: open/main.c:99 settings/settings_mime.c:126
+#: settings/settings_session.c:153
 msgid "App"
 msgstr "Anwendung"
 
@@ -58,19 +60,19 @@ msgstr "Anwendung"
 msgid "Select"
 msgstr "Auswählen"
 
-#: open/main.c:144 settings/settings_mime.c:78
+#: open/main.c:146 settings/settings_mime.c:79
 #, c-format
 msgid "Can't find local configuration {%s} using system fallback {%s}\n"
 msgstr ""
 "Kann lokale Konfiguration nicht finden {%s} benutze Systemweite "
 "Konfiguration {%s}\n"
 
-#: open/main.c:186
+#: open/main.c:188
 #, c-format
 msgid "can't find full match for type %s\n"
 msgstr "Kann keine Exakte Übereinstimmung für Typ %s finden\n"
 
-#: open/main.c:193
+#: open/main.c:195
 #, c-format
 msgid "Unable to open MIME type %s or subtype %s\n"
 msgstr "Kann MIME Typ %s und Untertyp %s nicht Öffnen\n"
@@ -250,14 +252,17 @@ msgstr "GTK Thema"
 msgid "Setup GTK Themes"
 msgstr "GTK Themen Einrichten"
 
-#: settings/settings_mime.c:104
-msgid "Here you can select which app should handle which MIME type by default:"
+#: settings/settings_mime.c:105
+msgid ""
+"Here you can select which app should handle which Content-Type type by "
+"default:"
 msgstr ""
-"Hier können sie festlegen welche Anwendung welchen MIME Typ öffnen soll:"
+"Hier können sie auswählen, welche App welchen Inhaltstyp standardmäßig "
+"öffnen soll"
 
 #: settings/settings_mime.c:121
-msgid "MIME Type"
-msgstr "MIME Typ"
+msgid "Content-Type"
+msgstr "Inhaltstyp"
 
 #: settings/settings_mime.c:155 settings/settings_mime.c:158
 msgid "Default Applications"
@@ -296,7 +301,7 @@ msgstr ""
 msgid "Select the default Terminal Application:"
 msgstr "Wählen sie die Standard-Terminal-Anwendung:"
 
-#: settings/settings_panel.c:371 tools/filemanager/filemanager.c:146
+#: settings/settings_panel.c:371 tools/filemanager/filemanager.c:184
 msgid "Path"
 msgstr "Pfad"
 
@@ -514,7 +519,7 @@ msgstr "Über"
 msgid "Help"
 msgstr "Hilfe"
 
-#: tools/filemanager/filemanager.c:119 tools/filemanager/filemanager.c:124
+#: tools/filemanager/filemanager.c:157 tools/filemanager/filemanager.c:162
 msgid "SiDE File Manager"
 msgstr "SiDE Dateimanager"
 
@@ -697,6 +702,14 @@ msgstr "Unterstützte Grafiken"
 #, c-format
 msgid "(%dpx x %dpx) - %d%%"
 msgstr "(%dpx x %dpx) - %d%%"
+
+#~ msgid ""
+#~ "Here you can select which app should handle which MIME type by default:"
+#~ msgstr ""
+#~ "Hier können sie festlegen welche Anwendung welchen MIME Typ öffnen soll:"
+
+#~ msgid "MIME Type"
+#~ msgstr "MIME Typ"
 
 #~ msgid "SiDE File Manager - Properties"
 #~ msgstr "SiDE Dateimanager - Eigenschaften"

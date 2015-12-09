@@ -11,6 +11,7 @@ For more details view file 'LICENSE'
 #include <pwd.h>
 #include <glib/gi18n.h>
 #include <side/plugin.h>
+#include <side/widgets.h>
 
 char MIMEDB[2000];
 #define MIMEFALLBACK "/etc/side/mime.conf"
@@ -96,12 +97,12 @@ GtkWidget *build_mime_settigns(void)
       gtk_list_store_set(GTK_LIST_STORE(list), &iter, 0, ret, 1, jet_lookup_value(MIMEDB, ret), -1);
 
 
-
+      free(ret);
     } while(ret != NULL);
 
   jet_close_config_read();
 
-  GtkWidget *label = gtk_label_new(_("Here you can select which app should handle which MIME type by default:"));
+  GtkWidget *label = side_gtk_label_new(_("Here you can select which app should handle which Content-Type type by default:"));
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
   gtk_container_set_border_width(GTK_CONTAINER(box), 25);
   gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);
@@ -117,8 +118,7 @@ GtkWidget *build_mime_settigns(void)
   GtkTreeViewColumn *column;
 
   renderer = gtk_cell_renderer_text_new();
-  g_object_set(renderer, "editable", TRUE, "editable-set", TRUE, NULL); //make it editable...
-  column = gtk_tree_view_column_new_with_attributes(_("MIME Type"), renderer, "text", 0, NULL);
+  column = gtk_tree_view_column_new_with_attributes(_("Content-Type"), renderer, "text", 0, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
 
   renderer = gtk_cell_renderer_text_new();
