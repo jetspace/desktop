@@ -23,6 +23,11 @@ enum {
   SORT_BY_DATE
 };
 
+enum {
+  ICON_OK = 0,
+  ICON_INVALID
+};
+
 typedef struct {
 
   GtkWidget *win;
@@ -39,12 +44,27 @@ typedef struct {
 }SiDEFilesProto;
 
 void navigate(SiDEFilesProto *sf, short source, char *target);
+void toggle_entry_icon(SiDEFilesProto *sf, short type);
 
 #include "filemanager_list.h"
 
 void destroy(GtkWidget *w, GdkEvent *e, gpointer data)
 {
   gtk_main_quit();
+}
+
+void toggle_entry_icon(SiDEFilesProto *sf, short type)
+{
+  switch(type)
+  {
+    case ICON_OK:
+    gtk_entry_set_icon_from_icon_name(GTK_ENTRY(sf->entry), GTK_ENTRY_ICON_PRIMARY, "folder");
+    break;
+
+    case ICON_INVALID:
+    gtk_entry_set_icon_from_icon_name(GTK_ENTRY(sf->entry), GTK_ENTRY_ICON_PRIMARY, "dialog-error");
+    break;
+  }
 }
 
 void activated(GtkListBox *b, GtkListBoxRow *row, gpointer data)
@@ -68,10 +88,15 @@ void activated(GtkListBox *b, GtkListBoxRow *row, gpointer data)
   }
   else
   {
-    char *cmd = g_strdup_printf("side-open %s%s &", sf->path, file);
+    char *cmd = g_strdup_printf("side-open \"%s%s\" &", sf->path, file);
     system(cmd);
     free(cmd);
   }
+}
+
+void navbar (GtkEntry *e, gpointer data)
+{
+  navigate(data, NAV_SOURCE_ENTRY, NULL);
 }
 
 void navigate(SiDEFilesProto *sf, short source, char *target)
@@ -89,13 +114,26 @@ void navigate(SiDEFilesProto *sf, short source, char *target)
   else if(source == NAV_SOURCE_SIDEBAR)
   {
     target = g_file_get_parse_name(gtk_places_sidebar_get_location(GTK_PLACES_SIDEBAR(sf->places)));
-    strcat(target, "/");
+    if(target[strlen(target) -1] != '/')
+      strcat(target, "/");
+  }
+  else if(source == NAV_SOURCE_ARG)
+  {
+    if(target[strlen(target) -1] != '/')
+      strcat(target, "/");
+  }
+  else if(source == NAV_SOURCE_ENTRY)
+  {
+    target = g_strdup(gtk_entry_get_text(GTK_ENTRY(sf->entry)));
+    if(target[strlen(target) -1] != '/')
+      strcat(target, "/");
   }
   sf->path = target;
 
   reload_files(sf);
   // Set Entry to Target:
-  gtk_entry_set_text(GTK_ENTRY(sf->entry), target);
+  if(source != NAV_SOURCE_ENTRY)
+    gtk_entry_set_text(GTK_ENTRY(sf->entry), target);
 }
 
 void location_nav(GtkPlacesSidebar *sb, GObject *location, GtkPlacesOpenFlags flags, gpointer data)
@@ -149,7 +187,7 @@ int main(int argc, char **argv)
 
   //LISTBOX
   sf->listbox = gtk_list_box_new();
-  gtk_list_box_set_selection_mode(GTK_LIST_BOX(sf->listbox), GTK_SELECTION_MULTIPLE);
+  gtk_list_box_set_selection_mode(GTK_LIST_BOX(sf->listbox), GTK_SELECTION_SINGLE);
   gtk_list_box_set_activate_on_single_click(GTK_LIST_BOX(sf->listbox), TRUE);
   sf->scroll = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sf->scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -164,9 +202,13 @@ int main(int argc, char **argv)
   g_signal_connect(sf->win, "destroy", G_CALLBACK(destroy), sf);
   g_signal_connect(sf->listbox, "row-activated", G_CALLBACK(activated), sf);
   g_signal_connect(sf->places, "open-location", G_CALLBACK(location_nav), sf);
+  g_signal_connect(sf->entry, "activate", G_CALLBACK(navbar), sf);
 
   //NAVIGATE
-  navigate(sf, NAV_GO_HOME, NULL);
+  if(argc < 2)
+    navigate(sf, NAV_GO_HOME, NULL);
+  else
+    navigate(sf, NAV_SOURCE_ARG, argv[1]);
 
   gtk_widget_show_all(sf->win);
   gtk_main();

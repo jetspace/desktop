@@ -109,9 +109,11 @@ void reload_files(SiDEFilesProto *sf)
   if(d == NULL)
   {
     g_warning("INVALID PATH: %s", sf->path);
+    toggle_entry_icon(sf, ICON_INVALID);
     return;
   }
 
+  toggle_entry_icon(sf, ICON_OK);
   struct dirent *ent;
   clear_list(sf);
 
