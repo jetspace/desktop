@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-12-10 16:20+0100\n"
-"PO-Revision-Date: 2015-12-10 16:22+0100\n"
+"POT-Creation-Date: 2015-12-10 16:57+0100\n"
+"PO-Revision-Date: 2015-12-10 16:57+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail."
 "com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
@@ -56,7 +56,7 @@ msgstr ""
 msgid "<b>Content-Type: %s</b>"
 msgstr "<b>Inhaltstyp: %s</b>"
 
-#: open/main.c:105 settings/settings_mime.c:126
+#: open/main.c:105 settings/settings_mime.c:146
 #: settings/settings_session.c:153
 msgid "App"
 msgstr "Anwendung"
@@ -65,19 +65,19 @@ msgstr "Anwendung"
 msgid "Select"
 msgstr "Auswählen"
 
-#: open/main.c:152 settings/settings_mime.c:79
+#: open/main.c:152 settings/settings_mime.c:99
 #, c-format
 msgid "Can't find local configuration {%s} using system fallback {%s}\n"
 msgstr ""
 "Kann lokale Konfiguration nicht finden {%s} benutze Systemweite "
 "Konfiguration {%s}\n"
 
-#: open/main.c:194
+#: open/main.c:207
 #, c-format
 msgid "can't find full match for type %s\n"
 msgstr "Kann keine Exakte Übereinstimmung für Typ %s finden\n"
 
-#: open/main.c:201
+#: open/main.c:214
 #, c-format
 msgid "Unable to open MIME type %s or subtype %s\n"
 msgstr "Kann MIME Typ %s und Untertyp %s nicht Öffnen\n"
@@ -243,7 +243,7 @@ msgstr "Erweitert"
 msgid "Select your GTK 2.0 theme:"
 msgstr "Wählen sie ihr GTK 2.0 Thema:"
 
-#: settings/settings_gtk.c:351 settings/settings_mime.c:136
+#: settings/settings_gtk.c:351 settings/settings_mime.c:161
 #: settings/settings_panel.c:328 settings/settings_session.c:315
 #: settings/settings_wallpaper.c:164 tools/editor/editor_callbacks.h:236
 msgid "Apply"
@@ -257,7 +257,7 @@ msgstr "GTK Thema"
 msgid "Setup GTK Themes"
 msgstr "GTK Themen Einrichten"
 
-#: settings/settings_mime.c:105
+#: settings/settings_mime.c:125
 msgid ""
 "Here you can select which app should handle which Content-Type type by "
 "default:"
@@ -265,15 +265,19 @@ msgstr ""
 "Hier können sie auswählen, welche App welchen Inhaltstyp standardmäßig "
 "öffnen soll"
 
-#: settings/settings_mime.c:121
+#: settings/settings_mime.c:141
 msgid "Content-Type"
 msgstr "Inhaltstyp"
 
-#: settings/settings_mime.c:155 settings/settings_mime.c:158
+#: settings/settings_mime.c:156
+msgid "Choose"
+msgstr "Auswählen"
+
+#: settings/settings_mime.c:180 settings/settings_mime.c:183
 msgid "Default Applications"
 msgstr "Standardanwendungen"
 
-#: settings/settings_mime.c:156
+#: settings/settings_mime.c:181
 msgid "Setup MIME types and default applications"
 msgstr "MIME Typen und Standardanwendungen einrichten"
 

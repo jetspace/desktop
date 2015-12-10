@@ -65,6 +65,26 @@ gboolean write_mime_config(GtkWidget *w, GdkEvent *e, gpointer list)
   return FALSE;
 }
 
+gboolean select_app(GtkWidget *w, GdkEvent *e, gpointer list)
+{
+  GtkTreeModel *model = GTK_TREE_MODEL(gtk_tree_view_get_model(GTK_TREE_VIEW(list)));
+  GtkTreeIter iter;
+
+  if(!gtk_tree_selection_get_selected(gtk_tree_view_get_selection(GTK_TREE_VIEW(list)), &model, &iter))
+    return FALSE;
+
+  char *type;
+  gtk_tree_model_get(model, &iter, 0, &type, -1);
+  char *cmd = g_strdup_printf("side-open --choose %s", type);
+
+  system(cmd);
+  gtk_list_store_set(GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(list))), &iter, 1, jet_lookup_value(MIMEDB, type), -1);
+
+
+  g_free(cmd);
+  return FALSE;
+}
+
 GtkWidget *build_mime_settigns(void)
 {
   memset(MIMEDB, 0, 2000);
@@ -132,6 +152,11 @@ GtkWidget *build_mime_settigns(void)
   gtk_tree_view_set_model(GTK_TREE_VIEW(tree), GTK_TREE_MODEL(list));
   gtk_box_pack_start(GTK_BOX(box), scroll_win, TRUE, TRUE, 0);
   gtk_container_add(GTK_CONTAINER(scroll_win), tree);
+
+  GtkWidget *choose = gtk_button_new_with_label(_("Choose"));
+  g_signal_connect(G_OBJECT(choose), "clicked", G_CALLBACK(select_app), tree);
+  gtk_box_pack_start(GTK_BOX(box), choose, FALSE, FALSE, 0);
+
 
   GtkWidget *button = gtk_button_new_with_label(_("Apply"));
   g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(write_mime_config), list);

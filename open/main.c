@@ -161,6 +161,19 @@ int main(int argc, char **argv)
         select = true;
         continue;
       }
+
+    if(strcmp(argv[x], "--choose") == 0)
+    {
+      if(argc <= x)
+        continue;
+      gboolean select_old = select;
+      select = true;
+      choose_new_app(argv[x+1]);
+      select = select_old;
+      x++;
+      continue;
+    }
+
     char *mime_type;
     if(strncmp(argv[x], "http://", 7) == 0)
     {
