@@ -39,6 +39,12 @@ typedef struct {
   GtkWidget *places;
   GtkWidget *listbox;
   GtkWidget *scroll;
+  GtkWidget *placeholder;
+
+  //SEARCH
+  GtkWidget *show_search;
+  GtkWidget *search;
+  GtkWidget *search_button;
 
   char *path;
   int sort_by;
@@ -197,6 +203,17 @@ void go_home(GtkWidget *w, GdkEvent *e, gpointer data)
     navigate(sf, NAV_GO_HOME, NULL);
 }
 
+void toggle_search(GtkWidget *w, GdkEvent *e, gpointer data)
+{
+  SiDEFilesProto *sf = data;
+  gtk_revealer_set_reveal_child(GTK_REVEALER(sf->show_search), !gtk_revealer_get_reveal_child(GTK_REVEALER(sf->show_search)));
+}
+
+void search_update(GtkSearchEntry *se, gpointer data)
+{
+  SiDEFilesProto *sf = data;
+  g_warning("FUNCTION NOT IMPLEMENTED"); 
+}
 
 int main(int argc, char **argv)
 {
@@ -264,6 +281,28 @@ int main(int argc, char **argv)
   gtk_box_pack_start(GTK_BOX(box), sf->scroll, TRUE, TRUE, 0);
   gtk_list_box_set_sort_func(GTK_LIST_BOX(sf->listbox), filelist_sort, sf, NULL);
 
+  // PLACEHOLDER
+
+  sf->placeholder = gtk_label_new("");
+  gtk_label_set_markup(GTK_LABEL(sf->placeholder), "<span size=\"xx-large\">No Files</span>");
+  gtk_widget_show_all(sf->placeholder);
+  gtk_list_box_set_placeholder(GTK_LIST_BOX(sf->listbox), sf->placeholder);
+
+
+  // SEARCH
+
+  sf->search = gtk_search_entry_new();
+  sf->show_search = gtk_revealer_new();
+  gtk_revealer_set_transition_duration(GTK_REVEALER(sf->show_search), 200);
+  gtk_revealer_set_transition_type(GTK_REVEALER(sf->show_search),GTK_REVEALER_TRANSITION_TYPE_SLIDE_RIGHT);
+
+
+  gtk_container_add(GTK_CONTAINER(sf->show_search), sf->search);
+
+  sf->search_button = gtk_button_new_from_icon_name("edit-find", GTK_ICON_SIZE_BUTTON);
+  gtk_header_bar_pack_start(GTK_HEADER_BAR(sf->header), sf->search_button);
+  gtk_header_bar_pack_start(GTK_HEADER_BAR(sf->header), sf->show_search);
+
 
 
   //SIGNALS
@@ -273,6 +312,8 @@ int main(int argc, char **argv)
   g_signal_connect(sf->entry, "activate", G_CALLBACK(navbar), sf);
   g_signal_connect(sf->up, "clicked", G_CALLBACK(go_up), sf);
   g_signal_connect(sf->home, "clicked", G_CALLBACK(go_home), sf);
+  g_signal_connect(sf->search_button, "clicked", G_CALLBACK(toggle_search), sf);
+  g_signal_connect(sf->search, "search-changed", G_CALLBACK(search_update), sf);
 
   //NAVIGATE
   if(argc < 2)

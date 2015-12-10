@@ -104,6 +104,7 @@ void clear_list(SiDEFilesProto *sf)
 
 void reload_files(SiDEFilesProto *sf)
 {
+  clear_list(sf);
   DIR *d = opendir(sf->path);
 
   if(d == NULL)
@@ -115,7 +116,6 @@ void reload_files(SiDEFilesProto *sf)
 
   toggle_entry_icon(sf, ICON_OK);
   struct dirent *ent;
-  clear_list(sf);
 
   while((ent = readdir(d)) != NULL)
   {
