@@ -81,10 +81,16 @@ void choose_new_app(char *mime)
   g_signal_connect(G_OBJECT(win), "destroy", G_CALLBACK(destroy), NULL);
 
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+  gtk_container_set_border_width(GTK_CONTAINER(box), 12);
   gtk_container_add(GTK_CONTAINER(win), box);
 
-  GtkWidget *text = gtk_label_new(_("Select an app for the current content type.\nIf you close this window, SiDE will try to find a fallback Application for this file."));
-  gtk_box_pack_start(GTK_BOX(box), text, FALSE, FALSE, 5);
+  GtkWidget *text = gtk_label_new(_("Select an app for the current Content-Type.\nIf you close this window, SiDE will try to find a fallback Application for this file."));
+  GtkWidget *tp = gtk_label_new("");
+  char *tp_txt = g_strdup_printf(_("<b>Content-Type: %s</b>"), mime);
+  gtk_label_set_markup(GTK_LABEL(tp), tp_txt);
+  g_free(tp_txt);
+  gtk_box_pack_start(GTK_BOX(box), tp, FALSE, FALSE, 2);
+  gtk_box_pack_start(GTK_BOX(box), text, FALSE, FALSE, 2);
 
   tree = gtk_tree_view_new();
   GtkWidget *scroll_win = gtk_scrolled_window_new(NULL, NULL);

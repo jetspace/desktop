@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-12-09 18:15+0100\n"
-"PO-Revision-Date: 2015-12-09 18:17+0100\n"
+"POT-Creation-Date: 2015-12-10 16:20+0100\n"
+"PO-Revision-Date: 2015-12-10 16:22+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail."
 "com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
@@ -41,38 +41,43 @@ msgstr "Passende Anwendungen für Typ '%s':\n"
 msgid "SiDE Open..."
 msgstr "SiDE Öffnen..."
 
-#: open/main.c:86
+#: open/main.c:87
 msgid ""
-"Select an app for the current content type.\n"
+"Select an app for the current Content-Type.\n"
 "If you close this window, SiDE will try to find a fallback Application for "
 "this file."
 msgstr ""
-"Wählen sie eine Anwendung für den aktuellen Dateityp.\n"
-"Wenn sie dieses Fenster schließen, versucht SiDE eine Ersatzanwendung zu "
+"Wählen sie eine Anwendung für den aktuellen Inhaltstyp.\n"
+"Schließen sie das Fenster, wird SiDE versuchen eine Ersatzanwendung zu "
 "finden."
 
-#: open/main.c:99 settings/settings_mime.c:126
+#: open/main.c:89
+#, c-format
+msgid "<b>Content-Type: %s</b>"
+msgstr "<b>Inhaltstyp: %s</b>"
+
+#: open/main.c:105 settings/settings_mime.c:126
 #: settings/settings_session.c:153
 msgid "App"
 msgstr "Anwendung"
 
-#: open/main.c:106
+#: open/main.c:112
 msgid "Select"
 msgstr "Auswählen"
 
-#: open/main.c:146 settings/settings_mime.c:79
+#: open/main.c:152 settings/settings_mime.c:79
 #, c-format
 msgid "Can't find local configuration {%s} using system fallback {%s}\n"
 msgstr ""
 "Kann lokale Konfiguration nicht finden {%s} benutze Systemweite "
 "Konfiguration {%s}\n"
 
-#: open/main.c:188
+#: open/main.c:194
 #, c-format
 msgid "can't find full match for type %s\n"
 msgstr "Kann keine Exakte Übereinstimmung für Typ %s finden\n"
 
-#: open/main.c:195
+#: open/main.c:201
 #, c-format
 msgid "Unable to open MIME type %s or subtype %s\n"
 msgstr "Kann MIME Typ %s und Untertyp %s nicht Öffnen\n"
@@ -301,7 +306,7 @@ msgstr ""
 msgid "Select the default Terminal Application:"
 msgstr "Wählen sie die Standard-Terminal-Anwendung:"
 
-#: settings/settings_panel.c:371 tools/filemanager/filemanager.c:184
+#: settings/settings_panel.c:371 tools/filemanager/filemanager.c:246
 msgid "Path"
 msgstr "Pfad"
 
@@ -519,7 +524,7 @@ msgstr "Über"
 msgid "Help"
 msgstr "Hilfe"
 
-#: tools/filemanager/filemanager.c:157 tools/filemanager/filemanager.c:162
+#: tools/filemanager/filemanager.c:214 tools/filemanager/filemanager.c:219
 msgid "SiDE File Manager"
 msgstr "SiDE Dateimanager"
 
@@ -702,6 +707,15 @@ msgstr "Unterstützte Grafiken"
 #, c-format
 msgid "(%dpx x %dpx) - %d%%"
 msgstr "(%dpx x %dpx) - %d%%"
+
+#~ msgid ""
+#~ "Select an app for the current content type.\n"
+#~ "If you close this window, SiDE will try to find a fallback Application "
+#~ "for this file."
+#~ msgstr ""
+#~ "Wählen sie eine Anwendung für den aktuellen Dateityp.\n"
+#~ "Wenn sie dieses Fenster schließen, versucht SiDE eine Ersatzanwendung zu "
+#~ "finden."
 
 #~ msgid ""
 #~ "Here you can select which app should handle which MIME type by default:"
