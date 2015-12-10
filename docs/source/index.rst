@@ -4,7 +4,7 @@ Welcome to SiDE's documentation!
 .. toctree::
    :hidden:
 
-   toc
+   index
 
 SiDE is an open source desktop environment which aims to be fast and somehow
 classic. Classic means, that we want to keep the traditional layout of an interface:
@@ -19,3 +19,4 @@ like this...
    tool_editor
    tool_filemanager
    tool_view
+   themes
