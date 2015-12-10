@@ -33,6 +33,8 @@ typedef struct {
   GtkWidget *win;
   GtkWidget *header;
   GtkWidget *entry;
+  GtkWidget *home;
+  GtkWidget *up;
   GtkWidget *paned;
   GtkWidget *places;
   GtkWidget *listbox;
@@ -141,6 +143,61 @@ void location_nav(GtkPlacesSidebar *sb, GObject *location, GtkPlacesOpenFlags fl
   navigate(data, NAV_SOURCE_SIDEBAR, NULL);
 }
 
+void go_up(GtkWidget *w, GdkEvent *e, gpointer data)
+{
+  SiDEFilesProto *sf = data;
+  char *text = g_strdup(gtk_entry_get_text(GTK_ENTRY(sf->entry)));
+
+  if(strcmp(text, "/") == 0 || strlen(text) == 1)
+    return;
+
+  int slash = 0;
+
+  /* Count '/' */
+  for(int x = 0; x < strlen(text); x++)
+    if(text[x] == '/')
+      slash++;
+
+  int kill_at = 0;
+
+  for(int x = 0; x < strlen(text); x++)
+  {
+    if(text[x] == '/')
+      slash--;
+
+    if(slash == 1)
+    {
+      kill_at = x;
+      break;
+    }
+  }
+
+  if(kill_at == 0)
+  {
+    navigate(sf, NAV_SOURCE_ARG, "/");
+  }
+  else
+  {
+    char *target = malloc(kill_at * sizeof(char));
+    strncpy(target, text, kill_at +1);
+    target[kill_at +1] = '\0';
+    gtk_entry_set_text(GTK_ENTRY(sf->entry), target);
+    navigate(sf, NAV_SOURCE_ENTRY, NULL);
+    g_free(target);
+  }
+
+
+
+  g_free(text);
+}
+
+void go_home(GtkWidget *w, GdkEvent *e, gpointer data)
+{
+    SiDEFilesProto *sf =data;
+    navigate(sf, NAV_GO_HOME, NULL);
+}
+
+
 int main(int argc, char **argv)
 {
   textdomain("side");
@@ -178,12 +235,23 @@ int main(int argc, char **argv)
   gtk_paned_add2(GTK_PANED(sf->paned), box);
 
   //Entry
+
+  GtkWidget *entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
+  sf->up = gtk_button_new_from_icon_name("go-up", GTK_ICON_SIZE_BUTTON);
+
+  sf->home = gtk_button_new_from_icon_name("go-home", GTK_ICON_SIZE_BUTTON);
+
   sf->entry = gtk_entry_new();
-  gtk_box_pack_start(GTK_BOX(box), sf->entry, FALSE, FALSE, 0);
   gtk_entry_set_has_frame(GTK_ENTRY(sf->entry), TRUE);
   gtk_entry_set_placeholder_text(GTK_ENTRY(sf->entry), _("Path"));
   gtk_entry_set_icon_from_icon_name(GTK_ENTRY(sf->entry), GTK_ENTRY_ICON_PRIMARY, "folder");
   gtk_entry_set_input_purpose(GTK_ENTRY(sf->entry), GTK_INPUT_PURPOSE_URL);
+
+  gtk_box_pack_end(GTK_BOX(entry_box), sf->entry, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(entry_box), sf->home, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(entry_box), sf->up, FALSE, FALSE, 0);
+
+  gtk_box_pack_start(GTK_BOX(box), entry_box, FALSE, FALSE, 0);
 
   //LISTBOX
   sf->listbox = gtk_list_box_new();
@@ -203,6 +271,8 @@ int main(int argc, char **argv)
   g_signal_connect(sf->listbox, "row-activated", G_CALLBACK(activated), sf);
   g_signal_connect(sf->places, "open-location", G_CALLBACK(location_nav), sf);
   g_signal_connect(sf->entry, "activate", G_CALLBACK(navbar), sf);
+  g_signal_connect(sf->up, "clicked", G_CALLBACK(go_up), sf);
+  g_signal_connect(sf->home, "clicked", G_CALLBACK(go_home), sf);
 
   //NAVIGATE
   if(argc < 2)
