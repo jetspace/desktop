@@ -122,6 +122,27 @@ void reload_files(SiDEFilesProto *sf)
     if(ent->d_name[0] == '.')
       continue;
 
+    if(gtk_revealer_get_reveal_child(GTK_REVEALER(sf->show_search)) == TRUE)
+    {// We have searching enabled, do aditional filtering...
+      const char *querry = gtk_entry_get_text(GTK_ENTRY(sf->search));
+      char *origin = g_strdup(ent->d_name);
+      for(int x = 0; x < strlen(origin); x++)
+        origin[x] = tolower(origin[x]);
+
+      char *q = g_strdup(querry);
+      for(int x = 0; x < strlen(q); x++)
+        q[x] = tolower(q[x]);
+
+      if(strstr(origin, q) == NULL)
+      {
+        g_free(q);
+        g_free(origin);
+        continue;
+      }
+      g_free(q);
+      g_free(origin);
+    }
+
     char *path = g_strdup_printf("%s%s", sf->path, ent->d_name);
     GFile *gf = g_file_new_for_path(path);
     free(path);
@@ -134,4 +155,7 @@ void reload_files(SiDEFilesProto *sf)
   }
   gtk_widget_show_all(sf->listbox);
   closedir(d);
+
+  GtkWidget *scroll = gtk_scrolled_window_get_vscrollbar(GTK_SCROLLED_WINDOW(sf->scroll));
+  gtk_range_set_value(GTK_RANGE(scroll), 0);
 }

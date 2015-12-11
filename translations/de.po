@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-12-10 16:57+0100\n"
-"PO-Revision-Date: 2015-12-10 16:57+0100\n"
+"POT-Creation-Date: 2015-12-10 21:08+0100\n"
+"PO-Revision-Date: 2015-12-10 21:08+0100\n"
 "Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail."
 "com>\n"
 "Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
@@ -310,7 +310,7 @@ msgstr ""
 msgid "Select the default Terminal Application:"
 msgstr "Wählen sie die Standard-Terminal-Anwendung:"
 
-#: settings/settings_panel.c:371 tools/filemanager/filemanager.c:246
+#: settings/settings_panel.c:371 tools/filemanager/filemanager.c:281
 msgid "Path"
 msgstr "Pfad"
 
@@ -528,9 +528,13 @@ msgstr "Über"
 msgid "Help"
 msgstr "Hilfe"
 
-#: tools/filemanager/filemanager.c:214 tools/filemanager/filemanager.c:219
+#: tools/filemanager/filemanager.c:249 tools/filemanager/filemanager.c:254
 msgid "SiDE File Manager"
 msgstr "SiDE Dateimanager"
+
+#: tools/filemanager/filemanager.c:305
+msgid "<span size=\"xx-large\">No Files</span>"
+msgstr "<span size=\"xx-large\">Kein Dateien</span>"
 
 #: tools/notifier/notifier.c:33
 #, c-format

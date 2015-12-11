@@ -138,6 +138,8 @@ void navigate(SiDEFilesProto *sf, short source, char *target)
   }
   sf->path = target;
 
+  gtk_entry_set_text(GTK_ENTRY(sf->search), ""); // new page == clear search
+
   reload_files(sf);
   // Set Entry to Target:
   if(source != NAV_SOURCE_ENTRY)
@@ -207,13 +209,34 @@ void toggle_search(GtkWidget *w, GdkEvent *e, gpointer data)
 {
   SiDEFilesProto *sf = data;
   gtk_revealer_set_reveal_child(GTK_REVEALER(sf->show_search), !gtk_revealer_get_reveal_child(GTK_REVEALER(sf->show_search)));
+  gtk_entry_set_text(GTK_ENTRY(sf->search), "");
+  reload_files(sf);
 }
 
 void search_update(GtkSearchEntry *se, gpointer data)
 {
   SiDEFilesProto *sf = data;
-  g_warning("FUNCTION NOT IMPLEMENTED"); 
+  reload_files(sf);
 }
+
+void key_pressed(GtkWidget *w, GdkEvent *e, gpointer data)
+{
+  SiDEFilesProto *sf = data;
+  if(gtk_widget_has_focus(sf->entry))
+  {
+    gtk_widget_event(sf->entry,e);
+    return;
+  }
+  if(isprint(e->key.keyval))
+    gtk_revealer_set_reveal_child(GTK_REVEALER(sf->show_search), TRUE);
+
+  gtk_search_entry_handle_event(GTK_SEARCH_ENTRY(sf->search), e);
+}
+
+/*
+ * MAIN
+ */
+
 
 int main(int argc, char **argv)
 {
@@ -284,7 +307,7 @@ int main(int argc, char **argv)
   // PLACEHOLDER
 
   sf->placeholder = gtk_label_new("");
-  gtk_label_set_markup(GTK_LABEL(sf->placeholder), "<span size=\"xx-large\">No Files</span>");
+  gtk_label_set_markup(GTK_LABEL(sf->placeholder), _("<span size=\"xx-large\">No Files</span>"));
   gtk_widget_show_all(sf->placeholder);
   gtk_list_box_set_placeholder(GTK_LIST_BOX(sf->listbox), sf->placeholder);
 
@@ -307,6 +330,7 @@ int main(int argc, char **argv)
 
   //SIGNALS
   g_signal_connect(sf->win, "destroy", G_CALLBACK(destroy), sf);
+  g_signal_connect(sf->win, "key-press-event", G_CALLBACK(key_pressed), sf);
   g_signal_connect(sf->listbox, "row-activated", G_CALLBACK(activated), sf);
   g_signal_connect(sf->places, "open-location", G_CALLBACK(location_nav), sf);
   g_signal_connect(sf->entry, "activate", G_CALLBACK(navbar), sf);
