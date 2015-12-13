@@ -40,6 +40,11 @@ typedef struct {
   GtkWidget *listbox;
   GtkWidget *scroll;
   GtkWidget *placeholder;
+  GtkWidget *settingsbutton;
+
+  // Sort by toggle
+  GtkWidget *sort_by_name;
+  GtkWidget *sort_by_last_change;
 
   //SEARCH
   GtkWidget *show_search;
@@ -144,6 +149,15 @@ void navigate(SiDEFilesProto *sf, short source, char *target)
   // Set Entry to Target:
   if(source != NAV_SOURCE_ENTRY)
     gtk_entry_set_text(GTK_ENTRY(sf->entry), target);
+}
+
+void sort_by_changed(GtkWidget *tb, gpointer data)
+{
+  SiDEFilesProto *sf = data;
+  if(tb == sf->sort_by_name)
+    sf->sort_by = SORT_BY_NAME;
+  else if(tb == sf->sort_by_last_change)
+    sf->sort_by = SORT_BY_DATE;
 }
 
 void location_nav(GtkPlacesSidebar *sb, GObject *location, GtkPlacesOpenFlags flags, gpointer data)
@@ -326,6 +340,29 @@ int main(int argc, char **argv)
   gtk_header_bar_pack_start(GTK_HEADER_BAR(sf->header), sf->search_button);
   gtk_header_bar_pack_start(GTK_HEADER_BAR(sf->header), sf->show_search);
 
+  // SETTINGS BUTTON
+  sf->settingsbutton = gtk_menu_button_new();
+  gtk_header_bar_pack_end(GTK_HEADER_BAR(sf->header), sf->settingsbutton);
+  GtkWidget *popover = gtk_popover_new(sf->settingsbutton);
+  gtk_menu_button_set_popover(GTK_MENU_BUTTON(sf->settingsbutton), popover);
+
+
+  GtkWidget *popoverbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+  gtk_container_set_border_width(GTK_CONTAINER(popoverbox), 20);
+  gtk_container_add(GTK_CONTAINER(popover), popoverbox);
+
+  GtkWidget *sort_by_label = gtk_label_new("");
+  gtk_label_set_markup(GTK_LABEL(sort_by_label), _("<b>Sort By</b>"));
+  gtk_box_pack_start(GTK_BOX(popoverbox), sort_by_label, FALSE, FALSE, 0);
+
+  sf->sort_by_name = gtk_radio_button_new_with_label(NULL, _("Name"));
+  gtk_box_pack_start(GTK_BOX(popoverbox), sf->sort_by_name, FALSE, FALSE, 0);
+
+  sf->sort_by_last_change = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(sf->sort_by_name), _("Last Change"));
+  gtk_box_pack_start(GTK_BOX(popoverbox), sf->sort_by_last_change, FALSE, FALSE, 0);
+
+
+  gtk_widget_show_all(popoverbox);
 
 
   //SIGNALS
@@ -338,6 +375,8 @@ int main(int argc, char **argv)
   g_signal_connect(sf->home, "clicked", G_CALLBACK(go_home), sf);
   g_signal_connect(sf->search_button, "clicked", G_CALLBACK(toggle_search), sf);
   g_signal_connect(sf->search, "search-changed", G_CALLBACK(search_update), sf);
+  g_signal_connect(sf->sort_by_name, "toggled", G_CALLBACK(sort_by_changed), sf);
+  g_signal_connect(sf->sort_by_last_change, "toggled", G_CALLBACK(sort_by_changed), sf);
 
   //NAVIGATE
   if(argc < 2)
