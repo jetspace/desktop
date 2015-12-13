@@ -49,6 +49,7 @@ install-libs:
 	$(RIGHTS) cp lib/side-app/apps.h $(BUILDPREFIX)/usr/include/side/
 	$(RIGHTS) cp lib/side-plugin/plugin.h $(BUILDPREFIX)/usr/include/side/
 	$(RIGHTS) cp lib/side-widgets/widgets.h $(BUILDPREFIX)/usr/include/side/
+	$(RIGHTS) cp lib/side-widgets/timelabel.h $(BUILDPREFIX)/usr/include/side/
 
 install:
 	$(RIGHTS) mv bin/* $(BUILDPREFIX)$(BINPATH)

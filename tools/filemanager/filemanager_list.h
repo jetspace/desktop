@@ -2,14 +2,15 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <side/timelabel.h>
 
-void add_item_to_list(SiDEFilesProto *sf, char *name, GIcon *icon, const char *type, char *changed)
+void add_item_to_list(SiDEFilesProto *sf, char *name, GIcon *icon, const char *type, time_t changed)
 {
 
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
   GtkWidget *pic = gtk_image_new_from_gicon(icon, GTK_ICON_SIZE_DND);
 
-  GtkWidget *change = gtk_label_new(changed);
+  GtkWidget *change = side_timelabel_new(changed);
 
   if(strcmp("inode/directory", type) == 0)
     gtk_widget_set_name(box, "dir");
@@ -161,13 +162,8 @@ void reload_files(SiDEFilesProto *sf)
 
     struct stat attr;
     stat(path, &attr);
-
-    char date[10];
-    strftime(date, 10, "%d.%m.%y", gmtime(&attr.st_ctime));
-
     free(path);
-
-    add_item_to_list(sf, ent->d_name, icon, content_type, date);
+    add_item_to_list(sf, ent->d_name, icon, content_type, attr.st_ctime);
   }
   gtk_widget_show_all(sf->listbox);
   closedir(d);
