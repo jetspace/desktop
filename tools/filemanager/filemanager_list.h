@@ -1,19 +1,27 @@
 #include <ctype.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
-void add_item_to_list(SiDEFilesProto *sf, char *name, GIcon *icon, const char *type)
+void add_item_to_list(SiDEFilesProto *sf, char *name, GIcon *icon, const char *type, char *changed)
 {
 
-  GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+  GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
   GtkWidget *pic = gtk_image_new_from_gicon(icon, GTK_ICON_SIZE_DND);
+
+  GtkWidget *change = gtk_label_new(changed);
 
   if(strcmp("inode/directory", type) == 0)
     gtk_widget_set_name(box, "dir");
 
   GtkWidget *lab = gtk_label_new(name);
+  gtk_label_set_ellipsize(GTK_LABEL(lab),PANGO_ELLIPSIZE_END);
   gtk_widget_set_name(lab, "name");
 
   gtk_box_pack_start(GTK_BOX(box), pic, FALSE, FALSE,10);
   gtk_box_pack_start(GTK_BOX(box), lab, FALSE, FALSE,0);
+
+  gtk_box_pack_end(GTK_BOX(box), change, FALSE, FALSE,10);
 
 
   GtkWidget *item = gtk_list_box_row_new();
@@ -145,13 +153,21 @@ void reload_files(SiDEFilesProto *sf)
 
     char *path = g_strdup_printf("%s%s", sf->path, ent->d_name);
     GFile *gf = g_file_new_for_path(path);
-    free(path);
 
     GFileInfo *info;
     info = g_file_query_info(gf, "standard::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
     GIcon *icon = g_file_info_get_icon(info);
     const char *content_type = g_file_info_get_content_type(info);
-    add_item_to_list(sf, ent->d_name, icon, content_type);
+
+    struct stat attr;
+    stat(path, &attr);
+
+    char date[10];
+    strftime(date, 10, "%d.%m.%y", gmtime(&attr.st_ctime));
+
+    free(path);
+
+    add_item_to_list(sf, ent->d_name, icon, content_type, date);
   }
   gtk_widget_show_all(sf->listbox);
   closedir(d);
