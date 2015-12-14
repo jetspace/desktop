@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.jetspace.desktop.filemanager" path="/org/jetspace/desktop/filemanager/">
+
+    <key type="i" name="sort-by">
+        <default>0</default>
+        <summary>How should files be sorted</summary>
+        <description>0 means by name. 1 means by last modification date</description>
+    </key>
+
+  </schema>
+</schemalist>

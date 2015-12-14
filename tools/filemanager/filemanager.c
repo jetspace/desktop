@@ -30,6 +30,8 @@ enum {
 
 typedef struct {
 
+  GSettings *settings;
+
   GtkWidget *win;
   GtkWidget *header;
   GtkWidget *entry;
@@ -158,6 +160,9 @@ void sort_by_changed(GtkWidget *tb, gpointer data)
     sf->sort_by = SORT_BY_NAME;
   else if(tb == sf->sort_by_last_change)
     sf->sort_by = SORT_BY_DATE;
+
+  g_settings_set_int(sf->settings, "sort-by", sf->sort_by);
+  gtk_list_box_invalidate_sort(GTK_LIST_BOX(sf->listbox));
 }
 
 void location_nav(GtkPlacesSidebar *sb, GObject *location, GtkPlacesOpenFlags flags, gpointer data)
@@ -258,7 +263,9 @@ int main(int argc, char **argv)
   gtk_init(&argc, &argv);
 
   SiDEFilesProto *sf = malloc(sizeof(SiDEFilesProto));
-  sf->sort_by = SORT_BY_NAME;
+
+  sf->settings = g_settings_new("org.jetspace.desktop.filemanager");
+  sf->sort_by = g_settings_get_int(sf->settings, "sort-by");
 
 
   //header
@@ -360,6 +367,16 @@ int main(int argc, char **argv)
 
   sf->sort_by_last_change = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(sf->sort_by_name), _("Last Change"));
   gtk_box_pack_start(GTK_BOX(popoverbox), sf->sort_by_last_change, FALSE, FALSE, 0);
+
+  switch(sf->sort_by)
+  {
+    case SORT_BY_NAME:
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sf->sort_by_name), TRUE);
+    break;
+    case SORT_BY_DATE:
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sf->sort_by_last_change), TRUE);
+    break;
+  }
 
 
   gtk_widget_show_all(popoverbox);

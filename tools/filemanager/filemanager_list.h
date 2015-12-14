@@ -11,6 +11,7 @@ void add_item_to_list(SiDEFilesProto *sf, char *name, GIcon *icon, const char *t
   GtkWidget *pic = gtk_image_new_from_gicon(icon, GTK_ICON_SIZE_DND);
 
   GtkWidget *change = side_timelabel_new(changed);
+  gtk_widget_set_name(change, "timelabel");
 
   if(strcmp("inode/directory", type) == 0)
     gtk_widget_set_name(box, "dir");
@@ -39,6 +40,8 @@ gint filelist_sort (GtkListBoxRow *row1, GtkListBoxRow *row2, gpointer data)
   GtkLabel *name1;
   GtkLabel *name2;
 
+  SiDETimelabel *time1, *time2;
+
   const char *b1, *b2;
 
   GList *ch, *iter;
@@ -50,7 +53,10 @@ gint filelist_sort (GtkListBoxRow *row1, GtkListBoxRow *row2, gpointer data)
           if(strcmp(gtk_widget_get_name(iter->data), "name") == 0)
           {
             name1 = iter->data;
-            break;
+          }
+          else if(strcmp(gtk_widget_get_name(iter->data), "timelabel") == 0)
+          {
+            time1 = SIDE_TIMELABEL(iter->data);
           }
   }
 
@@ -62,7 +68,10 @@ gint filelist_sort (GtkListBoxRow *row1, GtkListBoxRow *row2, gpointer data)
           if(strcmp(gtk_widget_get_name(iter->data), "name") == 0)
           {
             name2 = iter->data;
-            break;
+          }
+          else if(strcmp(gtk_widget_get_name(iter->data), "timelabel") == 0)
+          {
+            time2 = SIDE_TIMELABEL(iter->data);
           }
   }
 
@@ -76,6 +85,7 @@ gint filelist_sort (GtkListBoxRow *row1, GtkListBoxRow *row2, gpointer data)
 
   char *n1, *n2;
 
+
   n1 = g_strdup(gtk_label_get_text(name1));
   for(int x = 0; x < strlen(n1); x++)
     n1[x] = tolower(n1[x]);
@@ -86,10 +96,16 @@ gint filelist_sort (GtkListBoxRow *row1, GtkListBoxRow *row2, gpointer data)
 
   int n;
 
+  time_t a = side_timelabel_get_time(SIDE_TIMELABEL(time1));
+  time_t b = side_timelabel_get_time(SIDE_TIMELABEL(time2));
+
   switch(sf->sort_by)
   {
       case SORT_BY_NAME:
       n = strcmp(n1, n2);
+      break;
+      case SORT_BY_DATE:
+      n = a > b ? -1 : 1;
       break;
   }
 

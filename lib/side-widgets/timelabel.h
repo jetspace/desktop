@@ -49,7 +49,7 @@ GType side_timelabel_get_type(void);
 // functions
 
 void side_timelabel_set_time(SiDETimelabel *timelabel, time_t timecode);
-time_t side_timelael_get_time(SiDETimelabel *timelabel);
+time_t side_timelabel_get_time(SiDETimelabel *timelabel);
 
 
 #endif

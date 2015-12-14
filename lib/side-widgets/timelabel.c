@@ -76,7 +76,7 @@ void side_timelabel_set_time(SiDETimelabel *timelabel, time_t timecode)
   side_timelabel_update(timelabel);
 }
 
-time_t side_timelael_get_time(SiDETimelabel *timelabel)
+time_t side_timelabel_get_time(SiDETimelabel *timelabel)
 {
   g_return_val_if_fail(SIDE_IS_TIMELABEL(timelabel), 0);
   SiDETimelabelPrivate *p = SIDE_TIMELABEL_PRIVATE(timelabel);
