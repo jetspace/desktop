@@ -75,13 +75,16 @@ gint filelist_sort (GtkListBoxRow *row1, GtkListBoxRow *row2, gpointer data)
           }
   }
 
-  if(strcmp(b1, "dir") == 0)
+  if(sf->folders_first)
   {
-    if(strcmp(b2, "dir") != 0)
-      return -1;
+    if(strcmp(b1, "dir") == 0)
+    {
+      if(strcmp(b2, "dir") != 0)
+        return -1;
+    }
+    else if(strcmp(b2, "dir") == 0)
+      return 1;
   }
-  else if(strcmp(b2, "dir") == 0)
-    return 1;
 
   char *n1, *n2;
 

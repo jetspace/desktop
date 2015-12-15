@@ -47,6 +47,7 @@ typedef struct {
   // Sort by toggle
   GtkWidget *sort_by_name;
   GtkWidget *sort_by_last_change;
+  GtkWidget *sort_folders_first;
 
   //SEARCH
   GtkWidget *show_search;
@@ -54,6 +55,7 @@ typedef struct {
   GtkWidget *search_button;
 
   char *path;
+  gboolean folders_first;
   int sort_by;
 
 }SiDEFilesProto;
@@ -161,6 +163,9 @@ void sort_by_changed(GtkWidget *tb, gpointer data)
   else if(tb == sf->sort_by_last_change)
     sf->sort_by = SORT_BY_DATE;
 
+  sf->folders_first = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(sf->sort_folders_first));
+  g_settings_set_boolean(sf->settings, "folders-first", sf->folders_first);
+
   g_settings_set_int(sf->settings, "sort-by", sf->sort_by);
   gtk_list_box_invalidate_sort(GTK_LIST_BOX(sf->listbox));
 }
@@ -266,6 +271,7 @@ int main(int argc, char **argv)
 
   sf->settings = g_settings_new("org.jetspace.desktop.filemanager");
   sf->sort_by = g_settings_get_int(sf->settings, "sort-by");
+  sf->folders_first = g_settings_get_boolean(sf->settings, "folders-first");
 
 
   //header
@@ -354,8 +360,8 @@ int main(int argc, char **argv)
   gtk_menu_button_set_popover(GTK_MENU_BUTTON(sf->settingsbutton), popover);
 
 
-  GtkWidget *popoverbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-  gtk_container_set_border_width(GTK_CONTAINER(popoverbox), 20);
+  GtkWidget *popoverbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+  gtk_container_set_border_width(GTK_CONTAINER(popoverbox), 10);
   gtk_container_add(GTK_CONTAINER(popover), popoverbox);
 
   GtkWidget *sort_by_label = gtk_label_new("");
@@ -367,6 +373,11 @@ int main(int argc, char **argv)
 
   sf->sort_by_last_change = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(sf->sort_by_name), _("Last Change"));
   gtk_box_pack_start(GTK_BOX(popoverbox), sf->sort_by_last_change, FALSE, FALSE, 0);
+
+  sf->sort_folders_first = gtk_check_button_new_with_label(_("Folders first"));
+  gtk_box_pack_start(GTK_BOX(popoverbox), sf->sort_folders_first, FALSE, FALSE,  0);
+  if(sf->folders_first)
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sf->sort_folders_first), TRUE);
 
   switch(sf->sort_by)
   {
@@ -394,6 +405,7 @@ int main(int argc, char **argv)
   g_signal_connect(sf->search, "search-changed", G_CALLBACK(search_update), sf);
   g_signal_connect(sf->sort_by_name, "toggled", G_CALLBACK(sort_by_changed), sf);
   g_signal_connect(sf->sort_by_last_change, "toggled", G_CALLBACK(sort_by_changed), sf);
+  g_signal_connect(sf->sort_folders_first, "toggled", G_CALLBACK(sort_by_changed), sf);
 
   //NAVIGATE
   if(argc < 2)

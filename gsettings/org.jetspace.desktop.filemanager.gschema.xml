@@ -7,6 +7,11 @@
         <summary>How should files be sorted</summary>
         <description>0 means by name. 1 means by last modification date</description>
     </key>
+    <key type="b" name="folders-first">
+        <default>true</default>
+        <summary>Sort folders before files</summary>
+        <description>If enabled, folders will be sorted BEFORE files</description>
+    </key>
 
   </schema>
 </schemalist>
