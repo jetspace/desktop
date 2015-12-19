@@ -108,7 +108,7 @@ unsigned int get_available_space(void)
 
 int main(int argc, char **argv)
 {
-
+  jetspace_logkit_init(argc, argv);
   textdomain("side");
 
   gtk_init(&argc, &argv);
