@@ -133,8 +133,8 @@ int main(int argc, char **argv)
 
 
 
-  jetspace_set_log_level_from_enviroment();
-  jetspace_debug("Loglevel loaded from enviroment [%d]", jetspace_get_log_level());
+  jetspace_set_log_level_from_environment();
+  jetspace_debug("Loglevel loaded from environment [%d]", jetspace_get_log_level());
 
   //GdkScreen *screen = gdk_screen_get_default();
 
