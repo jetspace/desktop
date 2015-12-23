@@ -109,6 +109,7 @@ unsigned int get_available_space(void)
 int main(int argc, char **argv)
 {
   jetspace_logkit_init(argc, argv);
+  jetspace_logkit_enable_glib_handler();
   textdomain("side");
 
   gtk_init(&argc, &argv);
@@ -132,8 +133,8 @@ int main(int argc, char **argv)
 
 
 
-  jet_log_set_log_level_from_enviroment();
-  jet_log_debug("Loglevel loaded from enviroment");
+  jetspace_set_log_level_from_enviroment();
+  jetspace_debug("Loglevel loaded from enviroment [%d]", jetspace_get_log_level());
 
   //GdkScreen *screen = gdk_screen_get_default();
 
@@ -253,8 +254,7 @@ void add_new_element(GtkWidget *box, char *icon, char *exec, char *tooltip,  gin
   strncpy(elements[total_elements -1].exec, exec, 100);
 
 
-  jet_log_debug("Adding new element:");
-  jet_log_debug(icon);
+  jetspace_debug("Adding new element to panel: %50s |  %50s", icon, exec);
 
   gtk_button_set_relief (GTK_BUTTON(elements[total_elements -1].button), GTK_RELIEF_NONE);
   g_signal_connect(G_OBJECT(elements[total_elements -1].button), "button_press_event", G_CALLBACK(clicked_item), NULL);
@@ -275,7 +275,7 @@ gboolean clicked_item(GtkWidget *w, GdkEventButton *e, gpointer p)
         }
     }
 
-  jet_log_warning("[PANEL] - Unable to find button -> Memory may corrupted!");
+  jetspace_warning("[PANEL] - Unable to find button -> Memory may corrupted!");
   return FALSE;
 }
 
@@ -367,7 +367,7 @@ static gboolean toggle_win(GtkWidget *wid, GdkEvent *e, gpointer p)
 
     if(search > len)
     {
-      jet_log_error("CAN'T FIND TARGET (unhide)");
+      jetspace_error("WINDOWLIST CAN'T FIND TARGET %d (unhide)", search);
     }
 
     unhide(d, list[search]);
@@ -449,7 +449,7 @@ void running_apps(GtkWidget *box)
                 return;
               }
               else
-                jet_log_warning("New Widget can not be rendered");
+                jetspace_warning("New Widget can not be rendered: free space == %d", space);
             }
             else
             {
@@ -570,14 +570,13 @@ void create_app_menu(GtkWidget *box)
           if(!check_name(ent.exec))
             continue;
 
-          jet_log_debug("Adding new appmenu entry:");
-          jet_log_debug(ent.app_name);
+          jetspace_debug("Adding new appmenu entry: %50s", ent.app_name);
 
           total_apps++;
           apps = realloc(apps, sizeof(Apps) * total_apps);
           if(!apps)
             {
-              jet_log_error("OUT OF MEMORY");
+              jetspace_error("OUT OF MEMORY");
             }
 
 
@@ -587,7 +586,7 @@ void create_app_menu(GtkWidget *box)
 
           if(apps[total_apps -1].exec == NULL)
           {
-            jet_log_error("Can't alloc command!");
+            jetspace_error("Can't alloc command!");
             continue;
           }
 
@@ -609,7 +608,7 @@ void create_app_menu(GtkWidget *box)
 
           if(apps[total_apps - 1].item == NULL || !GTK_IS_WIDGET(apps[total_apps - 1].item))
               {
-                  jet_log_warning("Can't add new item: Skipping");
+                  jetspace_warning("Can't add new item: Skipping");
                   continue;
               }
 
@@ -681,7 +680,7 @@ void create_app_menu(GtkWidget *box)
 
           g_signal_connect(G_OBJECT(apps[x].item), "activate", G_CALLBACK(run_app), NULL);
 
-          jet_log_debug("Adding compleate");
+          jetspace_debug("Adding compleate");
       }
 
 
