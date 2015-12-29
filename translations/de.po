@@ -1,58 +1,29 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: SiDE\n"
-"POT-Creation-Date: 2015-12-15 17:07+0100\n"
-"PO-Revision-Date: 2015-12-15 17:07+0100\n"
-"Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail."
-"com>\n"
-"Language-Team: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.4\n"
-"X-Poedit-Basepath: ..\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: _\n"
-"X-Poedit-SearchPath-0: tools/notifier/notifier.c\n"
-"X-Poedit-SearchPath-1: wallpaper-service/main.c\n"
-"X-Poedit-SearchPath-2: tools/editor/editor.c\n"
-"X-Poedit-SearchPath-3: tools/editor/editor_callbacks.h\n"
-"X-Poedit-SearchPath-4: tools/filemanager/filemanager.c\n"
-"X-Poedit-SearchPath-5: tools/view/view.c\n"
-"X-Poedit-SearchPath-6: tools/view/view_callbacks.h\n"
-"X-Poedit-SearchPath-7: shared\n"
-"X-Poedit-SearchPath-8: settings\n"
-"X-Poedit-SearchPath-9: session\n"
-"X-Poedit-SearchPath-10: search\n"
-"X-Poedit-SearchPath-11: plugins\n"
-"X-Poedit-SearchPath-12: panel\n"
-"X-Poedit-SearchPath-13: open\n"
-"X-Poedit-SearchPath-14: etc\n"
-"X-Poedit-SearchPath-15: tools/filemanager/filemanager_list.h\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: SiDE\n"
+"Language: de\n"
 
 #: open/main.c:65
-#, c-format
 msgid "Possible Apps for type '%s':\n"
+""
 msgstr "Passende Anwendungen für Typ '%s':\n"
+""
 
 #: open/main.c:79
 msgid "SiDE Open..."
 msgstr "SiDE Öffnen..."
 
 #: open/main.c:87
-msgid ""
-"Select an app for the current Content-Type.\n"
-"If you close this window, SiDE will try to find a fallback Application for "
-"this file."
-msgstr ""
-"Wählen sie eine Anwendung für den aktuellen Inhaltstyp.\n"
-"Schließen sie das Fenster, wird SiDE versuchen eine Ersatzanwendung zu "
-"finden."
+msgid "Select an app for the current Content-Type.\n"
+"If you close this window, SiDE will try to find a fallback Application for this file."
+msgstr "Wählen sie eine Anwendung für den aktuellen Inhaltstyp.\n"
+"Schließen sie das Fenster, wird SiDE versuchen eine Ersatzanwendung zu finden."
 
 #: open/main.c:89
-#, c-format
 msgid "<b>Content-Type: %s</b>"
 msgstr "<b>Inhaltstyp: %s</b>"
 
@@ -66,29 +37,27 @@ msgid "Select"
 msgstr "Auswählen"
 
 #: open/main.c:152 settings/settings_mime.c:99
-#, c-format
 msgid "Can't find local configuration {%s} using system fallback {%s}\n"
-msgstr ""
-"Kann lokale Konfiguration nicht finden {%s} benutze Systemweite "
-"Konfiguration {%s}\n"
+""
+msgstr "Kann lokale Konfiguration nicht finden {%s} benutze systemweite Konfiguration {%s}\n"
+""
 
 #: open/main.c:207
-#, c-format
 msgid "can't find full match for type %s\n"
-msgstr "Kann keine Exakte Übereinstimmung für Typ %s finden\n"
+""
+msgstr "Kann keine exakte Übereinstimmung für Typ %s finden\n"
+""
 
 #: open/main.c:214
-#, c-format
 msgid "Unable to open MIME type %s or subtype %s\n"
+""
 msgstr "Kann MIME Typ %s und Untertyp %s nicht Öffnen\n"
+""
 
 #: panel/main.c:313
-#, c-format
-msgid ""
-"Path:\t%s\n"
+msgid "Path:\t%s\n"
 "Icon:\t%s"
-msgstr ""
-"Pfad:\t%s\n"
+msgstr "Pfad:\t%s\n"
 "Symbol:\t%s"
 
 #: panel/main.c:484 plugins/icon_app_button.c:50 plugins/icon_app_button.c:77
@@ -255,15 +224,11 @@ msgstr "GTK Thema"
 
 #: settings/settings_gtk.c:368
 msgid "Setup GTK Themes"
-msgstr "GTK Themen Einrichten"
+msgstr "GTK Themen einrichten"
 
 #: settings/settings_mime.c:125
-msgid ""
-"Here you can select which app should handle which Content-Type type by "
-"default:"
-msgstr ""
-"Hier können sie auswählen, welche App welchen Inhaltstyp standardmäßig "
-"öffnen soll"
+msgid "Here you can select which app should handle which Content-Type type by default:"
+msgstr "Hier können sie auswählen, welche App welchen Inhaltstyp standardmäßig öffnen soll:"
 
 #: settings/settings_mime.c:141
 msgid "Content-Type"
@@ -283,7 +248,7 @@ msgstr "MIME Typen und Standardanwendungen einrichten"
 
 #: settings/settings_panel.c:87
 msgid "Add App"
-msgstr "Anwendung Hinzufügen"
+msgstr "Anwendung hinzufügen"
 
 #: settings/settings_panel.c:99 settings/settings_panel.c:417
 #: settings/settings_session.c:172
@@ -299,12 +264,12 @@ msgid "#Icon"
 msgstr "#Symbol"
 
 #: settings/settings_panel.c:317
-msgid ""
-"On this page you can set up the Panel:\n"
+msgid "On this page you can set up the Panel:\n"
 "\n"
-msgstr ""
-"Auf dieser Seite können sie die Leiste einrichten:\n"
+""
+msgstr "Auf dieser Seite können sie die Leiste einrichten:\n"
 "\n"
+""
 
 #: settings/settings_panel.c:318
 msgid "Select the default Terminal Application:"
@@ -351,12 +316,8 @@ msgid "Here you can enable or disable plugins"
 msgstr "Hier können sie Erweiterungen (de-)aktivieren:"
 
 #: settings/settings_panel.c:500
-msgid ""
-"<b>NOTICE:</b> To install new plugins, you have to restart the panel, "
-"because plugins are loaded at startup."
-msgstr ""
-"<b>HINWEIS:</b> Um neue Erweiterungen zu installieren müssen sie das Panel "
-"Neustarten, da die Erweiterungen beim Start geladen werden."
+msgid "<b>NOTICE:</b> To install new plugins, you have to restart the panel, because plugins are loaded at startup."
+msgstr "<b>HINWEIS:</b> Um neue Erweiterungen zu installieren müssen sie das Panel Neustarten, da die Erweiterungen beim Start geladen werden."
 
 #: settings/settings_panel.c:513
 msgid "Enable built-in App menu:"
@@ -384,8 +345,7 @@ msgstr "Leisten Themen, Anwendungen und Erweiterungen einrichten"
 
 #: settings/settings_session.c:121
 msgid "Choose the autostart applications:"
-msgstr ""
-"Wählen sie Anwendungen, welche bei der Anmeldung gestartet werden sollen:"
+msgstr "Wählen sie Anwendungen, welche bei der Anmeldung gestartet werden sollen:"
 
 #: settings/settings_session.c:182
 msgid "Please choose the Window Manager (WM):"
@@ -553,7 +513,6 @@ msgid "Folders first"
 msgstr "Ordner zuerst"
 
 #: tools/notifier/notifier.c:33
-#, c-format
 msgid "Added %s to %s"
 msgstr "%s zu %s hinzugefügt"
 
@@ -594,7 +553,6 @@ msgid "Fit to Window"
 msgstr "An Fenster Anpassen"
 
 #: tools/view/view.c:71 tools/view/view_callbacks.h:45
-#, c-format
 msgid "SiDE Picture Viewer - %s"
 msgstr "SiDE Bildbetrachter - %s"
 
@@ -655,25 +613,17 @@ msgid "Enter a Programm to run:"
 msgstr "Geben sie ein Programm zum ausführen ein:"
 
 #: tools/editor/editor_callbacks.h:36 tools/editor/editor_callbacks.h:135
-msgid ""
-"Warning, if you continue, your unsaved work is gone! Would you like to "
-"continue?"
-msgstr ""
-"Achtung, wenn sie fortfahren geht ihre ungesicherte Arbeit verloren! "
-"Trotzdem fortfahren?"
+msgid "Warning, if you continue, your unsaved work is gone! Would you like to continue?"
+msgstr "Achtung, wenn sie fortfahren geht ihre ungesicherte Arbeit verloren! Trotzdem fortfahren?"
 
 #: tools/editor/editor_callbacks.h:109
-#, c-format
-msgid ""
-"Opening %s\n"
+msgid "Opening %s\n"
 " (as arg)"
-msgstr ""
-"Öffne %s\n"
+msgstr "Öffne %s\n"
 " (aus Kommandozeile)"
 
 #: tools/editor/editor_callbacks.h:121 tools/editor/editor_callbacks.h:152
 #: tools/editor/editor_callbacks.h:186
-#, c-format
 msgid "SiDE Editor - %s"
 msgstr "SiDE Editor - %s"
 
@@ -682,16 +632,16 @@ msgid "Open File"
 msgstr "Öffne Datei"
 
 #: tools/editor/editor_callbacks.h:153 tools/view/view_callbacks.h:46
-#, c-format
 msgid "Opening %s\n"
+""
 msgstr "Öffne %s\n"
+""
 
 #: tools/editor/editor_callbacks.h:195
 msgid "Save File"
 msgstr "Speichere Datei"
 
 #: tools/editor/editor_callbacks.h:209
-#, c-format
 msgid "SiDE Editor - %s*"
 msgstr "SiDE Editor - %s*"
 
@@ -728,128 +678,6 @@ msgid "Supported Images"
 msgstr "Unterstützte Grafiken"
 
 #: tools/view/view_callbacks.h:139
-#, c-format
 msgid "(%dpx x %dpx) - %d%%"
 msgstr "(%dpx x %dpx) - %d%%"
 
-#~ msgid ""
-#~ "Select an app for the current content type.\n"
-#~ "If you close this window, SiDE will try to find a fallback Application "
-#~ "for this file."
-#~ msgstr ""
-#~ "Wählen sie eine Anwendung für den aktuellen Dateityp.\n"
-#~ "Wenn sie dieses Fenster schließen, versucht SiDE eine Ersatzanwendung zu "
-#~ "finden."
-
-#~ msgid ""
-#~ "Here you can select which app should handle which MIME type by default:"
-#~ msgstr ""
-#~ "Hier können sie festlegen welche Anwendung welchen MIME Typ öffnen soll:"
-
-#~ msgid "MIME Type"
-#~ msgstr "MIME Typ"
-
-#~ msgid "SiDE File Manager - Properties"
-#~ msgstr "SiDE Dateimanager - Eigenschaften"
-
-#~ msgid "Icon:"
-#~ msgstr "Symbol:"
-
-#~ msgid "Path:"
-#~ msgstr "Pfad:"
-
-#~ msgid "Filename:"
-#~ msgstr "Dateiname:"
-
-#~ msgid "Size:"
-#~ msgstr "Größe:"
-
-#~ msgid "MIME Type:"
-#~ msgstr "MIME Typ:"
-
-#~ msgid "Last Modified:"
-#~ msgstr "Zuletzt geändert:"
-
-#~ msgid "Close"
-#~ msgstr "Schließen"
-
-#~ msgid "Error renaming '%s' to '%s': %s"
-#~ msgstr "Fehler beim umbenennen von '%s' zu '%s': %s"
-
-#~ msgid "SiDE File Manager - Rename"
-#~ msgstr "SiDE Dateimanager - Umbenennen"
-
-#~ msgid "Enter the new name:"
-#~ msgstr "Geben sie den neuen Namen ein:"
-
-#~ msgid "Open with..."
-#~ msgstr "Öffnen mit..."
-
-#~ msgid "Open Terminal here"
-#~ msgstr "Terminal hier öffnen"
-
-#~ msgid "Rename"
-#~ msgstr "Umbenennen"
-
-#~ msgid "Properties"
-#~ msgstr "Eigenschaften"
-
-#~ msgid "Use custom themes?"
-#~ msgstr "Benutzerdefiniertes Thema verwenden?"
-
-#~ msgid "Select your theme:"
-#~ msgstr "Wählen sie ihr Thema:"
-
-#~ msgid "Settings - Session"
-#~ msgstr "Einstellungen - Sitzung"
-
-#~ msgid "Settings - Panel"
-#~ msgstr "Einstellungen - Panel"
-
-#~ msgid "MiME-Types"
-#~ msgstr "MiME-Typen"
-
-#~ msgid "Setup MiME types and default applications"
-#~ msgstr "MiME Typen und Standartanwendungen festlegen"
-
-#~ msgid "Settings - Wallpaper"
-#~ msgstr "Einstellungen - Hintergrundbild"
-
-#~ msgid "Settings - MIME Types"
-#~ msgstr "Einstellungen MIME Typen"
-
-#~ msgid "Settings - GTK"
-#~ msgstr "Einstellungen - GTK"
-
-#~ msgid "Informations:"
-#~ msgstr "Informationen:"
-
-#~ msgid "Change Wallpaper"
-#~ msgstr "Hintergrundbild ändern"
-
-#~ msgid "Configure Panel"
-#~ msgstr "Panel konfigurieren"
-
-#~ msgid "Setup GTK"
-#~ msgstr "GTK einrichten"
-
-#~ msgid "Session Settings"
-#~ msgstr "Sitzungseinstellungen"
-
-#~ msgid "MIME Settings"
-#~ msgstr "MIME Einstellungen"
-
-#~ msgid "SIDE Mixer"
-#~ msgstr "SiDE Mixer"
-
-#~ msgid "SIDE Search Tool"
-#~ msgstr "SiDE "
-
-#~ msgid "About SIDE"
-#~ msgstr "Über SiDE"
-
-#~ msgid "SIDE Picture Viewer"
-#~ msgstr "SiD"
-
-#~ msgid "SIDE Editor - Settings"
-#~ msgstr "Si"
