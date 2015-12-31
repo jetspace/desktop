@@ -59,7 +59,7 @@ GtkWidget *side_gtk_label_new(char *text)
   {
     case SIDE_APPLICATION_MODE_SETTINGS:
       label = gtk_label_new(text);
-      gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+      gtk_widget_set_halign(GTK_WIDGET(label), GTK_ALIGN_START);
       return label;
     break;
 
