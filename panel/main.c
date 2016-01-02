@@ -408,6 +408,9 @@ void running_apps(GtkWidget *box)
     {
         ptr = get_window_name(d, list[i]);
 
+        if(ptr == NULL)
+          continue;
+
         GSettings *x = g_settings_new("org.jetspace.desktop.panel");
         gboolean onlyHidden = g_settings_get_boolean(x, "window-list-only-hidden");
         g_object_unref(G_OBJECT(x));

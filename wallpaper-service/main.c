@@ -48,6 +48,11 @@ void plugin_callback(GSettings *s, gchar *key, gpointer data)
   free(plugin_string);
 }
 
+gboolean prevent_destroy(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+  return TRUE;
+}
+
 int main(int argc, char **argv)
 {
   textdomain("side");
@@ -103,6 +108,9 @@ int main(int argc, char **argv)
 
 
   gtk_window_resize(GTK_WINDOW(window), gdk_screen_get_width(screen), gdk_screen_get_height(screen));
+
+
+  g_signal_connect(window, "delete-event", G_CALLBACK(prevent_destroy),NULL); // Prevent [ALT] + [F4]
 
   gtk_widget_show_all(window);
   gtk_main();

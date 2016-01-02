@@ -43,19 +43,20 @@ Window *list_windows(Display *d, unsigned long*len)
 
 char *get_window_name(Display *d, Window w)
 {
-    Atom atom = XInternAtom(d, "WM_NAME", False), type;
-    int form;
-    unsigned long remain, len;
-    unsigned char *list;
+  Atom atom = XInternAtom(d, "_NET_WM_NAME", False), type;
+  int form;
+  unsigned long remain, len;
+  unsigned char *list;
 
-    if(Success != XGetWindowProperty(d, w, atom, 0, 1024, False, AnyPropertyType, &type,&form,&len,&remain,&list))
-        {
-            g_warning("Failed accessing WindowList (2)");
-            return NULL;
-        }
+  if(Success != XGetWindowProperty(d, w, atom, 0, 1024, False, AnyPropertyType, &type,&form,&len,&remain,&list))
+      {
+          g_warning("Failed accessing WindowList (2)");
+          return NULL;
+      }
 
-    return (char *)list;
+  return (char *)list;
 }
+
 
 gboolean is_minimized(Display *d, Window w)
 {
