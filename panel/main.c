@@ -503,50 +503,110 @@ void create_app_menu(GtkWidget *box)
     GtkWidget *utility = gtk_menu_new();
     GtkWidget *other = gtk_menu_new();
 
+    GtkWidget *entry_box;
+    GtkWidget *category_icon;
 
-    GtkWidget *multimedia_entry = gtk_menu_item_new_with_label(_("Multimedia"));
+    GtkIconTheme *icons = gtk_icon_theme_get_default();
+
+
+    GtkWidget *multimedia_entry = gtk_menu_item_new();
+    entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+    gtk_container_add(GTK_CONTAINER(multimedia_entry), entry_box);
+    category_icon = gtk_image_new_from_pixbuf(gtk_icon_theme_load_icon(icons, "applications-multimedia", 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL));
+    gtk_box_pack_start(GTK_BOX(entry_box), category_icon, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(entry_box), gtk_label_new(_("Multimedia")), FALSE, FALSE, 10);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), multimedia_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(multimedia_entry), multimedia);
 
-    GtkWidget *development_entry = gtk_menu_item_new_with_label(_("Development"));
+    GtkWidget *development_entry = gtk_menu_item_new();
+    entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+    gtk_container_add(GTK_CONTAINER(development_entry), entry_box);
+    category_icon = gtk_image_new_from_pixbuf(gtk_icon_theme_load_icon(icons, "applications-development", 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL));
+    gtk_box_pack_start(GTK_BOX(entry_box), category_icon, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(entry_box), gtk_label_new(_("Development")), FALSE, FALSE, 10);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), development_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(development_entry), development);
 
-    GtkWidget *education_entry = gtk_menu_item_new_with_label(_("Education"));
+    GtkWidget *education_entry = gtk_menu_item_new();
+    entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+    gtk_container_add(GTK_CONTAINER(education_entry), entry_box);
+    category_icon = gtk_image_new_from_pixbuf(gtk_icon_theme_load_icon(icons, "applications-science", 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL));
+    gtk_box_pack_start(GTK_BOX(entry_box), category_icon, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(entry_box), gtk_label_new(_("Education")), FALSE, FALSE, 10);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), education_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(education_entry), education);
 
-    GtkWidget *graphics_entry = gtk_menu_item_new_with_label(_("Graphics"));
+    GtkWidget *graphics_entry = gtk_menu_item_new();
+    entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+    gtk_container_add(GTK_CONTAINER(graphics_entry), entry_box);
+    category_icon = gtk_image_new_from_pixbuf(gtk_icon_theme_load_icon(icons, "applications-graphics", 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL));
+    gtk_box_pack_start(GTK_BOX(entry_box), category_icon, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(entry_box), gtk_label_new(_("Graphics")), FALSE, FALSE, 10);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), graphics_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(graphics_entry), graphics);
 
-    GtkWidget *network_entry = gtk_menu_item_new_with_label(_("Network"));
+    GtkWidget *network_entry = gtk_menu_item_new();
+    entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+    gtk_container_add(GTK_CONTAINER(network_entry), entry_box);
+    category_icon = gtk_image_new_from_pixbuf(gtk_icon_theme_load_icon(icons, "applications-internet", 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL));
+    gtk_box_pack_start(GTK_BOX(entry_box), category_icon, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(entry_box), gtk_label_new(_("Network")), FALSE, FALSE, 10);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), network_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(network_entry), network);
 
-    GtkWidget *office_entry = gtk_menu_item_new_with_label(_("Office"));
+    GtkWidget *office_entry = gtk_menu_item_new();
+    entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+    gtk_container_add(GTK_CONTAINER(office_entry), entry_box);
+    category_icon = gtk_image_new_from_pixbuf(gtk_icon_theme_load_icon(icons, "applications-office", 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL));
+    gtk_box_pack_start(GTK_BOX(entry_box), category_icon, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(entry_box), gtk_label_new(_("Office")), FALSE, FALSE, 10);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), office_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(office_entry), office);
 
-    GtkWidget *settings_entry = gtk_menu_item_new_with_label(_("Settings"));
+    GtkWidget *settings_entry = gtk_menu_item_new();
+    entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+    gtk_container_add(GTK_CONTAINER(settings_entry), entry_box);
+    category_icon = gtk_image_new_from_pixbuf(gtk_icon_theme_load_icon(icons, "applications-system", 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL));
+    gtk_box_pack_start(GTK_BOX(entry_box), category_icon, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(entry_box), gtk_label_new(_("Settings")), FALSE, FALSE, 10);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), settings_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(settings_entry), settings);
 
-    GtkWidget *sys_entry = gtk_menu_item_new_with_label(_("System"));
+    GtkWidget *sys_entry = gtk_menu_item_new();
+    entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+    gtk_container_add(GTK_CONTAINER(sys_entry), entry_box);
+    category_icon = gtk_image_new_from_pixbuf(gtk_icon_theme_load_icon(icons, "applications-system", 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL));
+    gtk_box_pack_start(GTK_BOX(entry_box), category_icon, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(entry_box), gtk_label_new(_("System")), FALSE, FALSE, 10);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), sys_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(sys_entry), sys);
 
-    GtkWidget *utility_entry = gtk_menu_item_new_with_label(_("Utility"));
+    GtkWidget *utility_entry = gtk_menu_item_new();
+    entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+    gtk_container_add(GTK_CONTAINER(utility_entry), entry_box);
+    category_icon = gtk_image_new_from_pixbuf(gtk_icon_theme_load_icon(icons, "applications-utilities", 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL));
+    gtk_box_pack_start(GTK_BOX(entry_box), category_icon, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(entry_box), gtk_label_new(_("Utility")), FALSE, FALSE, 10);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), utility_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(utility_entry), utility);
 
 
-    GtkWidget *other_entry = gtk_menu_item_new_with_label(_("Other"));
+    GtkWidget *other_entry = gtk_menu_item_new();
+    entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+    gtk_container_add(GTK_CONTAINER(other_entry), entry_box);
+    category_icon = gtk_image_new_from_pixbuf(gtk_icon_theme_load_icon(icons, "applications-other", 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL));
+    gtk_box_pack_start(GTK_BOX(entry_box), category_icon, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(entry_box), gtk_label_new(_("Other")), FALSE, FALSE, 10);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), other_entry);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(other_entry), other);
 
 
-    search_entry = gtk_menu_item_new_with_label(_("Search..."));
+    GtkWidget *search_entry = gtk_menu_item_new();
+    entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+    gtk_container_add(GTK_CONTAINER(search_entry), entry_box);
+    category_icon = gtk_image_new_from_pixbuf(gtk_icon_theme_load_icon(icons, "system-search", 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL));
+    gtk_box_pack_start(GTK_BOX(entry_box), category_icon, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(entry_box), gtk_label_new(_("Search...")), FALSE, FALSE, 10);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), search_entry);
     g_signal_connect(G_OBJECT(search_entry), "activate", G_CALLBACK(run_app), NULL);
 
@@ -600,13 +660,17 @@ void create_app_menu(GtkWidget *box)
           GtkWidget *appbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
           gtk_container_add(GTK_CONTAINER(apps[total_apps -1].item), appbox);
 
-          GtkIconTheme *icons = gtk_icon_theme_get_default();
           GdkPixbuf *pb = gtk_icon_theme_load_icon(icons, ent.icon, 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL);
+          if(pb == NULL)
+          {
+            jetspace_warning("Application %s does not have a valid icon: %s : using generic", ent.app_name, ent.icon);
+            pb = gtk_icon_theme_load_icon(icons, "applications-other", 16, GTK_ICON_LOOKUP_FORCE_SIZE , NULL);
+          }
           GtkWidget *icon = gtk_image_new_from_pixbuf(pb);
           gtk_box_pack_start(GTK_BOX(appbox), icon, FALSE, FALSE, 0);
 
           GtkWidget *label = gtk_label_new(ent.app_name);
-          gtk_box_pack_start(GTK_BOX(appbox), label, FALSE, FALSE, 0);
+          gtk_box_pack_start(GTK_BOX(appbox), label, FALSE, FALSE, 5);
           apps[total_apps - 1].terminal = ent.terminal;
 
           if(apps[total_apps - 1].item == NULL || !GTK_IS_WIDGET(apps[total_apps - 1].item))
