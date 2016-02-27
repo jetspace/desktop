@@ -3,7 +3,7 @@ This file is licensed under the MIT-License
 Copyright (c) 2015 Marius Messerschmidt
 For more details view file 'LICENSE'
 */
-
+#define _XOPEN_SOURCE 500
 #include <glib.h>
 #include <gtk/gtk.h>
 #include "../shared/info.h"
@@ -11,6 +11,7 @@ For more details view file 'LICENSE'
 #include <string.h>
 #include <stdlib.h>
 #include <side/apps.h>
+#include <unistd.h>
 
 
 /*
@@ -157,7 +158,10 @@ int main(int argc, char **argv)
   //now go to endless mode, so the session won't fail
   g_print("switching to endless loop...\n");
 
-  while(1);
+  while(1)
+  {
+    usleep(100);
+  }
 
 
 

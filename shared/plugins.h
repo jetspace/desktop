@@ -45,7 +45,7 @@ void load_plugins_wallpaper(char *path, GtkWidget *root)
     //read blacklist
     GSettings *gmods = g_settings_new("org.jetspace.desktop.wallpaper");
     char *ptr = strdup(g_variant_get_string(g_settings_get_value(gmods, "ignored-plugins"), NULL));
-    char **mods = malloc(sizeof(ptr));
+    char **mods = malloc(strlen(ptr));
 
     char *mp = strtok(ptr, ";");
 
@@ -147,7 +147,7 @@ void load_plugins(char *path, GtkWidget *root)
     //read blacklist
     GSettings *gmods = g_settings_new("org.jetspace.desktop.panel");
     char *ptr = strdup(g_variant_get_string(g_settings_get_value(gmods, "ignored-plugins"), NULL));
-    char **mods = malloc(sizeof(ptr));
+    char **mods = malloc(strlen(ptr));
 
     char *mp = strtok(ptr, ";");
 
@@ -178,17 +178,23 @@ void load_plugins(char *path, GtkWidget *root)
 
       n_plugins++;
       all_plugins = realloc(all_plugins, sizeof(struct plugins) * n_plugins);
-
+      if(all_plugins == NULL)
+      {
+        g_warning("Memory corrupted while loading plugins!");
+      }
 
       all_plugins[n_plugins -1].module = g_module_open(module_path, G_MODULE_BIND_LAZY);
-      g_module_make_resident(all_plugins[n_plugins -1].module); //users are able to create callbacks, because the module would not be unloaded...
+
 
 
       if(all_plugins[n_plugins -1].module == NULL)
         {
-          g_error("Loading Module failed: %s", g_module_error());
+          g_warning("Loading Module failed: %s", g_module_error());
           all_plugins[n_plugins -1].is_working = FALSE;
+          continue;
         }
+
+      g_module_make_resident(all_plugins[n_plugins -1].module); //users are able to create callbacks, because the module would not be unloaded...
 
       all_plugins[n_plugins -1].name = malloc(strlen(de->d_name)+1);
       strncpy(all_plugins[n_plugins -1].name, de->d_name, strlen(de->d_name)+1);
@@ -232,7 +238,7 @@ void load_plugins(char *path, GtkWidget *root)
 
 void update_plugins(char *ignored_plugins, GtkWidget *root_box)
 {
-  char **mods = malloc(sizeof(ignored_plugins));
+  char **mods = malloc(strlen(ignored_plugins));
   char *mp = strtok(ignored_plugins, ";");
 
   int x = 0;

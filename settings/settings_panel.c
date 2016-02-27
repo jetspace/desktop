@@ -188,7 +188,7 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
       if(!state)
         {
           snprintf(buffer, 1000, "%s;", buff1);
-          str = realloc(str, sizeof(str) + sizeof(buffer));
+          str = realloc(str, strlen(str) + strlen(buffer));
           strcat(str, buffer);
         }
         x++;
