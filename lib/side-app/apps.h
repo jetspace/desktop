@@ -51,6 +51,8 @@ typedef struct
 	size_t gen_name_length;
 	char icon[200];
 	size_t icon_length;
+	char desc[2000];
+	size_t desc_length;
 	bool show;
 	bool terminal;
 	bool valid;

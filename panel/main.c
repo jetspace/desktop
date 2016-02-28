@@ -673,6 +673,8 @@ void create_app_menu(GtkWidget *box)
           gtk_box_pack_start(GTK_BOX(appbox), label, FALSE, FALSE, 5);
           apps[total_apps - 1].terminal = ent.terminal;
 
+          gtk_widget_set_tooltip_text(apps[total_apps - 1].item, ent.desc);
+
           if(apps[total_apps - 1].item == NULL || !GTK_IS_WIDGET(apps[total_apps - 1].item))
               {
                   jetspace_warning("Can't add new item: Skipping");
