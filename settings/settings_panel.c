@@ -147,8 +147,7 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
   char *buff1;
   char *buff2;
   char  buffer[1000];
-  char  *str = malloc(2);
-  memset(str, 0, sizeof(str));
+  char  *str = NULL;
   char i_b[5]; //int buffer
   gboolean state;
   GtkTreeModel *model;
@@ -164,8 +163,17 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
       gtk_tree_model_get(model, &iter, COL_ICON, &buff1, -1);
 
       snprintf(buffer, 1000, "%s:%s:%d;", buff1, buff2, state == TRUE ? 1 : 0);
-      str = realloc(str, sizeof(str) + sizeof(buffer));
-      strcat(str, buffer);
+      if(str != NULL)
+      {
+        str = realloc(str, strlen(str) + strlen(buffer) +2);
+        strcat(str, buffer);
+      }
+      else
+      {
+        str = malloc(strlen(buffer)+1);
+        strncpy(str, buffer, strlen(buffer)+1);
+      }
+
       x++;
       snprintf(i_b, 5, "%d", x);
     }
@@ -176,8 +184,7 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
 
 
   x = 0;
-  str = malloc(2);
-  memset(str, 0, sizeof(str));
+  str = NULL;
   model = gtk_tree_view_get_model(GTK_TREE_VIEW(modview));
   snprintf(i_b, 5, "%d", x);
   while(gtk_tree_model_get_iter_from_string(model, &iter, i_b))
@@ -188,8 +195,16 @@ gboolean write_panel_settings(GtkWidget *w, GdkEvent *e, gpointer *p)
       if(!state)
         {
           snprintf(buffer, 1000, "%s;", buff1);
-          str = realloc(str, strlen(str) + strlen(buffer));
-          strcat(str, buffer);
+          if(str != NULL)
+          {
+            str = realloc(str, strlen(str) + strlen(buffer) +2);
+            strcat(str, buffer);
+          }
+          else
+          {
+            str = malloc(strlen(buffer) +1);
+            strncpy(str, buffer, strlen(buffer) +1);
+          }
         }
         x++;
         snprintf(i_b, 5, "%d", x);
@@ -445,7 +460,7 @@ GtkWidget *build_panel_settings(void)
 
 
     ptr = strdup(g_variant_get_string(g_settings_get_value(icons, "ignored-plugins"), NULL));
-    char **mods = malloc(sizeof(ptr));
+    char **mods = malloc(strlen(ptr));
 
     char *mp = strtok(ptr, ";");
 
