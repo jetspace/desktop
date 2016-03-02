@@ -79,6 +79,7 @@ int main(int argc, char **argv)
 
   //Setup Window
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(GTK_WINDOW(window), "");
   gtk_window_set_decorated(GTK_WINDOW(window), FALSE);
   gtk_window_move(GTK_WINDOW(window), 0, 0);
   gtk_window_set_type_hint(GTK_WINDOW(window), GDK_WINDOW_TYPE_HINT_DESKTOP);

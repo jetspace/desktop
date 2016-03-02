@@ -69,8 +69,25 @@ typedef struct
   GtkWidget *item;
 }Apps;
 
+enum
+{
+  FLAG_DELETE = 0,
+  FLAG_ADD,
+  FLAG_UPDATE
+};
+
+typedef struct
+{
+  Window win;
+  GtkWidget *button;
+  short flag;
+}PanelWindow;
+
 Apps        *apps;
 PanelEntry  *elements;
+
+PanelWindow *windows = NULL;
+int n_windows = 0;
 
 void add_new_element(GtkWidget *box, char *icon, char *exec, char *tooltip,  gint state);
 void setup_panel(GtkWidget *box, char *app_list);
@@ -351,11 +368,6 @@ gboolean update_apps(gpointer data)
     return TRUE;
 }
 
-struct OpenWindows {
-
-    Window win;
-    GtkWidget *button;
-};
 
 static gboolean toggle_win(GtkWidget *wid, GdkEvent *e, gpointer p)
 {
@@ -363,105 +375,167 @@ static gboolean toggle_win(GtkWidget *wid, GdkEvent *e, gpointer p)
 
     Display *d = XOpenDisplay(NULL);
     unsigned long len;
-    Window *list = list_windows(d, &len);;
+    /*Window *list = list_windows(d, &len);;
 
     if(search > len)
     {
       jetspace_error("WINDOWLIST CAN'T FIND TARGET %d (unhide)", search);
-    }
+    }*/
 
-    unhide(d, list[search]);
+    unhide(d, windows[search].win);
 
     XCloseDisplay(d);
     return FALSE;
 }
 
-unsigned int max_lenght = 100; // The maximum width of one app entry
+unsigned int max_lenght = 50; // The maximum width of one app entry
 long last_len = 0;
+
 void running_apps(GtkWidget *box)
 {
-    if(running_box != NULL)
-        {
-            //clear list
-            GList *ch, *iter;
-            ch = gtk_container_get_children(GTK_CONTAINER(running_box));
-            for(iter = ch; iter != NULL; iter = g_list_next(iter))
-                gtk_widget_destroy(GTK_WIDGET(iter->data));
-            g_list_free(ch);
-        }
-    else
-        {
-            running_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
-            gtk_box_pack_start(GTK_BOX(box), running_box, TRUE, TRUE, 0);
 
-            top_box = box;
-        }
+    if(running_box == NULL)
+    {
+      running_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
+      gtk_box_pack_start(GTK_BOX(box), running_box, TRUE, TRUE, 0);
+    }
+
+    gtk_widget_show_all(running_box);
+
+    if(windows == NULL)
+    {
+      windows = malloc(1);
+    }
+
     int hidden = 0;
     int space = get_available_space();
+
+    if(space < 0)
+      return;
+
     int total_space = space;
     Display *d = XOpenDisplay(NULL);
     Window *list;
     long len;
     list = list_windows(d, &len);
-    char *ptr = NULL;
-    for (int i = 0; i < (int) len; i++)
+
+    for(int x = 0; x < n_windows; x++)
+      windows[x].flag = FLAG_DELETE; // MARK ALL TO BE DELETED
+
+    for(long c = 0; c < len; c++)
     {
-        ptr = get_window_name(d, list[i]);
-
-        if(ptr == NULL)
-          continue;
-
-        GSettings *x = g_settings_new("org.jetspace.desktop.panel");
-        gboolean onlyHidden = g_settings_get_boolean(x, "window-list-only-hidden");
-        g_object_unref(G_OBJECT(x));
-
-        if(ptr != NULL && strlen(ptr) > 0 && (onlyHidden ? is_minimized(d, list[i]) : TRUE )&& strcmp(ptr, "side-wallpaper-service") != 0)
+      char *t = get_window_name(d, list[c]);
+      if(strlen(t) < 1)
         {
-            hidden++;
-            char *title = malloc(max_lenght +5);
-            for(unsigned int x = 0; x < max_lenght +5; x++)
-              title[x] = '\0';
-
-            for(unsigned int x = 0; x < max_lenght && x <= strlen(ptr); x++)
-              title[x] = ptr[x];
-
-            if(strlen(ptr) > max_lenght)
-              strcat(title, " ...\0");
-
-
-            GtkWidget *button = gtk_button_new_with_label(title);
-            gtk_widget_set_name(button, "SiDEPanelHiddenApp");
-
-
-            free(title);
-
-            gtk_widget_show_all(button);
-
-            int width = 0;
-            gtk_widget_get_preferred_width(button, &width, NULL);
-            space -= width;
-            if(space <= 50)
-            {
-              if(max_lenght > 5)
-              {
-                max_lenght -= 5;
-                XCloseDisplay(d);
-                free(ptr);
-                last_len = hidden;
-                running_apps(box);
-                return;
-              }
-              else
-                jetspace_warning("New Widget can not be rendered: free space == %d", space);
-            }
-            else
-            {
-              g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(toggle_win), GINT_TO_POINTER(i));
-              gtk_container_add(GTK_CONTAINER(running_box), button);
-            }
-
+          free(t);
+          continue;
         }
-        free(ptr);
+      free(t);
+      bool match = false;
+      for(int x = 0; x < n_windows; x++)
+      {
+        if(windows[x].win == list[c])
+        {
+          windows[x].flag = FLAG_UPDATE; // DO NOT DELETE
+          match = true;
+          break;
+        }
+      }
+      if(match)
+        continue;
+
+      n_windows++;
+      windows = realloc(windows, sizeof(PanelWindow) * n_windows);
+      windows[n_windows -1].win = list[c];
+      windows[n_windows -1].flag = FLAG_ADD;
+      windows[n_windows -1].button = NULL;
+
+    }
+
+    GSettings *sett = g_settings_new("org.jetspace.desktop.panel");
+    gboolean onlyHidden = g_settings_get_boolean(sett, "window-list-only-hidden");
+    g_object_unref(G_OBJECT(sett));
+
+
+
+    for(int x = 0; x < n_windows; x++)
+    {
+      if(windows[x].flag == FLAG_DELETE)
+      {
+        n_windows--;
+        PanelWindow *temp = malloc(sizeof(PanelWindow) * n_windows);
+        gtk_widget_destroy(windows[x].button);
+        int counter = 0;
+        for(int y = 0; y < n_windows + 1; y++)
+        {
+          if(windows[y].win == windows[x].win)
+            continue;
+
+          temp[counter].win = windows[y].win;
+          temp[counter].flag = windows[y].flag;
+          temp[counter].button = windows[y].button;
+          counter++;
+        }
+        free(windows);
+        windows = temp;
+        running_apps(box);
+      }
+
+      char *title = get_window_name(d, windows[x].win);
+
+      if(title == NULL)
+        continue;
+      else if(strlen(title) < 1)
+        continue;
+
+
+      if(windows[x].flag == FLAG_ADD)
+      {
+        windows[x].button = gtk_button_new_with_label("");
+        gtk_widget_set_name(windows[x].button, "SiDEPanelHiddenApp");
+        gtk_widget_show_all(windows[x].button);
+        windows[x].flag = FLAG_UPDATE;
+        g_signal_connect(G_OBJECT(windows[x].button), "clicked", G_CALLBACK(toggle_win), GINT_TO_POINTER(x));
+        gtk_container_add(GTK_CONTAINER(running_box), windows[x].button);
+      }
+
+      if(windows[x].flag == FLAG_UPDATE)
+      {
+        char *t = malloc(max_lenght +5);
+        for(unsigned int x = 0; x < max_lenght +5; x++)
+          t[x] = '\0';
+
+        for(unsigned int x = 0; x < max_lenght && x <= strlen(title); x++)
+          t[x] = title[x];
+
+        if(strlen(title) > max_lenght)
+          strcat(t, " ...\0");
+
+        if(windows[x].button != NULL)
+          gtk_button_set_label(GTK_BUTTON(windows[x].button), t);
+        free(t);
+
+        gtk_widget_show_all(windows[x].button);
+
+        int width = 0;
+        gtk_widget_get_preferred_width(windows[x].button, &width, NULL);
+        jetspace_warning("Free Space %d", space);
+        space -= width;
+        if(space <= 50)
+        {
+          if(max_lenght > 5)
+          {
+            max_lenght -= 5;
+            XCloseDisplay(d);
+            last_len = hidden;
+            running_apps(box);
+            return;
+          }
+          else
+            jetspace_warning("New Widget can not be rendered: free space == %d", space);
+        }
+      }
+
     }
 
     XCloseDisplay(d);
