@@ -425,6 +425,8 @@ void running_apps(GtkWidget *box)
     for(long c = 0; c < len; c++)
     {
       char *t = get_window_name(d, list[c]);
+      if(t == NULL)
+        continue;
       if(strlen(t) < 1)
         {
           free(t);
