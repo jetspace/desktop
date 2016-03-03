@@ -513,10 +513,13 @@ void running_apps(GtkWidget *box)
           strcat(t, " ...\0");
 
         if(windows[x].button != NULL)
+        {
           gtk_button_set_label(GTK_BUTTON(windows[x].button), t);
+          gtk_widget_show_all(windows[x].button);
+        }
         free(t);
 
-        gtk_widget_show_all(windows[x].button);
+
 
         int width = 0;
         gtk_widget_get_preferred_width(windows[x].button, &width, NULL);
