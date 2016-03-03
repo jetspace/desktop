@@ -54,7 +54,12 @@ char *get_window_name(Display *d, Window w)
           return NULL;
       }
 
-  return (char *)list;
+  if(list != NULL)
+    return (char *)list;
+
+  char *name = NULL;
+  XFetchName(d, w, &name);
+  return name;
 }
 
 

@@ -388,7 +388,8 @@ static gboolean toggle_win(GtkWidget *wid, GdkEvent *e, gpointer p)
     return FALSE;
 }
 
-unsigned int max_lenght = 50; // The maximum width of one app entry
+unsigned int win_width = 20;
+unsigned int max_lenght = 0; // The maximum width of one app entry
 long last_len = 0;
 
 void running_apps(GtkWidget *box)
@@ -398,6 +399,7 @@ void running_apps(GtkWidget *box)
     {
       running_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
       gtk_box_pack_start(GTK_BOX(box), running_box, TRUE, TRUE, 0);
+      max_lenght = win_width;
     }
 
     gtk_widget_show_all(running_box);
@@ -427,11 +429,7 @@ void running_apps(GtkWidget *box)
       char *t = get_window_name(d, list[c]);
       if(t == NULL)
         continue;
-      if(strlen(t) < 1)
-        {
-          free(t);
-          continue;
-        }
+
       free(t);
       bool match = false;
       for(int x = 0; x < n_windows; x++)
@@ -456,6 +454,7 @@ void running_apps(GtkWidget *box)
 
     GSettings *sett = g_settings_new("org.jetspace.desktop.panel");
     gboolean onlyHidden = g_settings_get_boolean(sett, "window-list-only-hidden");
+    win_width = g_settings_get_int(sett, "window-list-title-width");
     g_object_unref(G_OBJECT(sett));
 
 
@@ -521,7 +520,7 @@ void running_apps(GtkWidget *box)
 
         int width = 0;
         gtk_widget_get_preferred_width(windows[x].button, &width, NULL);
-        jetspace_warning("Free Space %d", space);
+        jetspace_debug("Free Space %d", space);
         space -= width;
         if(space <= 50)
         {
@@ -541,7 +540,7 @@ void running_apps(GtkWidget *box)
     }
 
     XCloseDisplay(d);
-    if((space >= 150 && max_lenght < 100 && hidden < last_len) || (space > (total_space / 4) && max_lenght < 100))
+    if(((unsigned int) space >= win_width + win_width/2 && max_lenght < win_width && hidden < last_len) || (space > (total_space / 4) && max_lenght < win_width))
     {
       max_lenght += 5;
       running_apps(box);

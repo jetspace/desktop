@@ -33,10 +33,16 @@
           <description>This is in a very early phase, so you can might disable it</description>
       </key>
       <key type="i" name="window-list-refresh-rate">
-          <default>750</default>
+          <default>100</default>
           <range min="1" max="2000"/>
           <summary>Refresh rate</summary>
           <description>Lower Values have problems when trying to click the button, higher values takes longer to refresh</description>
+      </key>
+      <key type="i" name="window-list-title-width">
+          <default>45</default>
+          <range min="20" max="250"/>
+          <summary>Title Length</summary>
+          <description>How long should the window title be if it could</description>
       </key>
       <key type="b" name="window-list-only-hidden">
           <default>false</default>
