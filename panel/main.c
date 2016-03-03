@@ -382,7 +382,7 @@ static gboolean toggle_win(GtkWidget *wid, GdkEvent *e, gpointer p)
       jetspace_error("WINDOWLIST CAN'T FIND TARGET %d (unhide)", search);
     }*/
 
-    unhide(d, windows[search].win);
+    unhide(d, (Window) search);
 
     XCloseDisplay(d);
     return FALSE;
@@ -496,7 +496,7 @@ void running_apps(GtkWidget *box)
         gtk_widget_set_name(windows[x].button, "SiDEPanelHiddenApp");
         gtk_widget_show_all(windows[x].button);
         windows[x].flag = FLAG_UPDATE;
-        g_signal_connect(G_OBJECT(windows[x].button), "clicked", G_CALLBACK(toggle_win), GINT_TO_POINTER(x));
+        g_signal_connect(G_OBJECT(windows[x].button), "clicked", G_CALLBACK(toggle_win), GINT_TO_POINTER(windows[x].win));
         gtk_container_add(GTK_CONTAINER(running_box), windows[x].button);
       }
 
