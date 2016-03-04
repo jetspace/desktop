@@ -35,6 +35,7 @@ build:
 	$(MAKE) -C tools/filemanager
 	$(MAKE) -C tools/view
 	$(MAKE) -C tools/notifier
+	$(MAKE) -C tools/taskmanager
 
 clean:
 	rm -r bin

@@ -147,7 +147,9 @@ AppEntry side_apps_get_next_entry(void)
 		if(strncmp(buffer , "MimeType=", 9) == 0)
 		{//MiME
 			strtok(buffer, "=");
-			strncpy(ret.mime_types, strtok(NULL, "\n") , 1000);
+			char *temp = strtok(NULL, "\n");
+			if(temp != NULL)
+				strncpy(ret.mime_types, temp , 1000);
 		}
 		if(strncmp(buffer, "Categories=", 11) == 0)
 		{
