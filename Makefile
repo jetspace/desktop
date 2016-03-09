@@ -68,6 +68,7 @@ endif
 	$(RIGHTS) mkdir $(BUILDPREFIX)/usr/share/icons/jetspace -p
 	$(RIGHTS) cp icons/* $(BUILDPREFIX)/usr/share/icons/jetspace/
 	$(RIGHTS) cp desktop/side-settings-explorer.desktop $(BUILDPREFIX)/usr/share/applications/
+	$(RIGHTS) cp desktop/side-taskmanager.desktop $(BUILDPREFIX)/usr/share/applications/
 	$(RIGHTS) cp desktop/side-edit.desktop $(BUILDPREFIX)/usr/share/applications/
 	$(RIGHTS) cp desktop/side.desktop $(BUILDPREFIX)/usr/share/xsessions/
 	$(RIGHTS) mkdir $(BUILDPREFIX)/etc/X11/sessions/ -p

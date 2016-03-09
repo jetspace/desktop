@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=SiDE Taskmanager
+Comment=Control all running processes
+Exec=side-taskmanager
+Categories=System;
+Icon=applications-system
