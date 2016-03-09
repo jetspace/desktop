@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <strings.h>
 #include <glib/gi18n.h>
 #include <jetspace/processkit.h>
 
@@ -108,6 +109,42 @@ gboolean update_processes(gpointer l)
   free(data);
 }
 
+gint task_sort_func(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer data)
+{
+  SiDETaskmanagerProto *taskmanager = (SiDETaskmanagerProto *) data;
+  if(taskmanager->sort_col == COL_NAME || taskmanager->sort_col == COL_STATUS)
+  {
+    char *nA, *nB;
+    int pA, pB;
+
+    int arg = taskmanager->sort_col;
+
+    gtk_tree_model_get(model, a, COL_PID, &pA, arg, &nA, -1);
+    gtk_tree_model_get(model, b, COL_PID, &pB, arg, &nB, -1);
+
+    int compare = strcasecmp(nA, nB);
+    if(compare == 0)
+    {
+      return pA - pB;
+    }
+    else
+      return compare;
+  }
+  else
+    {
+      int pA, pB;
+
+      gtk_tree_model_get(model, a, COL_PID, &pA, -1);
+      gtk_tree_model_get(model, b, COL_PID, &pB, -1);
+
+      return pA - pB;
+
+    }
+
+    return 0;
+
+}
+
 void change_sort(GtkTreeViewColumn *col, gpointer data)
 {
   SiDETaskmanagerProto *taskmanager = (SiDETaskmanagerProto *) data;
@@ -118,6 +155,18 @@ void change_sort(GtkTreeViewColumn *col, gpointer data)
     taskmanager->sort_col = COL_NAME;
   else if(strcmp(title, _("Status")) == 0)
     taskmanager->sort_col = COL_STATUS;
+
+  int direction;
+  g_object_get(col, "sort-order", &direction, NULL);
+  if(direction != GTK_SORT_ASCENDING)
+    direction = GTK_SORT_ASCENDING;
+  else
+    direction = GTK_SORT_DESCENDING;
+  g_object_set(col, "sort-order", direction, NULL);
+
+  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(taskmanager->sort), taskmanager->sort_col, direction);
+  gtk_tree_sortable_sort_column_changed(GTK_TREE_SORTABLE(taskmanager->sort));
+
 }
 
 
@@ -126,6 +175,7 @@ int main(int argc, char **argv)
   gtk_init(&argc, &argv);
 
   SiDETaskmanagerProto *taskmanager = malloc(sizeof(*taskmanager));
+  taskmanager->sort_col = COL_NAME;
 
   taskmanager->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(taskmanager->window),_("SiDE Taskmanager"));
@@ -168,6 +218,7 @@ int main(int argc, char **argv)
 
 
   taskmanager->sort = gtk_tree_model_sort_new_with_model(GTK_TREE_MODEL(taskmanager->store));
+  gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(taskmanager->sort), taskmanager->sort_col, task_sort_func, taskmanager, NULL);
 
 
 
