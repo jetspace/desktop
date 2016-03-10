@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <strings.h>
 #include <glib/gi18n.h>
+#include <sys/sysinfo.h>
 #include <jetspace/processkit.h>
 
 
@@ -19,6 +20,8 @@ typedef struct
   GtkWidget *statusbar;
   GtkTreeModel *sort;
   int sort_col;
+  GtkWidget *mem_use;
+  GtkWidget *swap_use;
 }SiDETaskmanagerProto;
 
 enum
@@ -107,6 +110,23 @@ gboolean update_processes(gpointer l)
 
   free(data->pids);
   free(data);
+
+  //UPDATE RESOURCES
+  struct sysinfo info;
+  sysinfo(&info);
+
+  double memusage = (double) (info.totalram - info.freeram) / (double) info.totalram;
+  gtk_level_bar_set_value(GTK_LEVEL_BAR(taskmanager->mem_use), memusage);
+
+  double swapusage = 0;
+  if(info.totalswap > 0)
+    swapusage = (double) (info.totalswap - info.freeswap) / (double) info.totalswap;
+
+  gtk_level_bar_set_value(GTK_LEVEL_BAR(taskmanager->swap_use), swapusage);
+
+
+
+
 }
 
 gint task_sort_func(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer data)
@@ -182,6 +202,21 @@ int main(int argc, char **argv)
 
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
   gtk_container_add(GTK_CONTAINER(taskmanager->window), box);
+
+
+  GtkWidget *use_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+  gtk_box_pack_start(GTK_BOX(use_box), gtk_label_new(_("Memory:")), FALSE, FALSE, 0);
+  taskmanager->mem_use = gtk_level_bar_new_for_interval(0,1);
+  gtk_box_pack_end(GTK_BOX(use_box), taskmanager->mem_use, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(box), use_box, FALSE, FALSE, 0);
+
+  use_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+  gtk_box_pack_start(GTK_BOX(use_box), gtk_label_new(_("Swap:")), FALSE, FALSE, 0);
+  taskmanager->swap_use = gtk_level_bar_new_for_interval(0,1);
+  gtk_box_pack_end(GTK_BOX(use_box), taskmanager->swap_use, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(box), use_box, FALSE, FALSE, 0);
+
+
 
   GtkTreeIter iter;
   taskmanager->store = gtk_list_store_new(3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING);
