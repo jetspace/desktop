@@ -5,6 +5,7 @@
 #include <glib/gi18n.h>
 #include <jetspace/processkit.h>
 
+#include "../../shared/info.h"
 
 typedef struct
 {
@@ -21,6 +22,14 @@ typedef struct
   int sort_col;
   GtkWidget *mem_use;
   GtkWidget *swap_use;
+  GtkWidget *cpu_load;
+  long long cpu_1;
+  long long cpu_2;
+  long long cpu_1_prev;
+  long long cpu_2_prev;
+  GtkWidget *mem_percent;
+  GtkWidget *swap_percent;
+  GtkWidget *cpu_percent;
 }SiDETaskmanagerProto;
 
 enum
@@ -48,6 +57,8 @@ gboolean update_rows(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, 
     {
       pc->pids[x] = 0;
       JetSpaceProcess *p = jetspace_get_process(pid);
+      if(p == NULL)
+        continue;
       char *temp;
       if(p->state == 'S')
         temp = _("Sleeping");
@@ -84,6 +95,8 @@ gboolean update_processes(gpointer l)
     if(data->pids[x] != 0)
     {
       JetSpaceProcess *p = jetspace_get_process(data->pids[x]);
+      if(p == NULL)
+        continue;
       char *temp;
       if(p->state == 'S')
         temp = _("Sleeping");
@@ -138,17 +151,55 @@ gboolean update_processes(gpointer l)
 
     sscanf(buffer, "SwapFree:\t%llu kB", &free_swap);
     sscanf(buffer, "SwapTotal:\t%llu kB", &total_swap);
-
   }
 
   double memusage = (double) used_mem / total_mem;
+  char *bufferstr;
   gtk_level_bar_set_value(GTK_LEVEL_BAR(taskmanager->mem_use), memusage);
+
+  bufferstr = g_strdup_printf("%.2f %%", memusage * 100);
+  gtk_label_set_text(GTK_LABEL(taskmanager->mem_percent), bufferstr);
+  g_free(bufferstr);
 
   double swapusage = 0;
   if(total_swap > 0) // SWAP could be disabled == 0 ; division by zero
+  {
     swapusage = (double) (total_swap - free_swap) / total_swap;
+    bufferstr = g_strdup_printf("%.2f %%", swapusage * 100);
+    gtk_label_set_text(GTK_LABEL(taskmanager->swap_percent), bufferstr);
+    g_free(bufferstr);
+  }
+  else
+    gtk_label_set_text(GTK_LABEL(taskmanager->swap_percent), "0 %");
 
   gtk_level_bar_set_value(GTK_LEVEL_BAR(taskmanager->swap_use), swapusage);
+
+  fclose(meminfo);
+
+  FILE *stat = fopen("/proc/stat", "r");
+  if(stat == NULL)
+  {
+    g_warning("Failed to access /proc/stat. This is not normal on Linux systems");
+    return TRUE;
+  }
+
+  long long user, nice, sys, idle;
+  fscanf(stat, "%s  %lld %lld %lld %lld", buffer, &user, &nice, &sys, &idle);
+  taskmanager->cpu_1 = user + nice + sys;
+  taskmanager->cpu_2 = idle;
+
+  if(taskmanager->cpu_1_prev > 0 && taskmanager->cpu_2_prev > 0)
+  {
+    double load = (double) (taskmanager->cpu_1_prev - taskmanager->cpu_1) / (taskmanager->cpu_2_prev - taskmanager->cpu_2);
+    if(load > 1) { load = 1; }
+    gtk_level_bar_set_value(GTK_LEVEL_BAR(taskmanager->cpu_load), load);
+    bufferstr = g_strdup_printf("%.2f %%", load * 100);
+    gtk_label_set_text(GTK_LABEL(taskmanager->cpu_percent), bufferstr);
+    g_free(bufferstr);
+  }
+
+  taskmanager->cpu_1_prev = taskmanager->cpu_1;
+  taskmanager->cpu_2_prev = taskmanager->cpu_2;
 
 
   return TRUE;
@@ -215,6 +266,32 @@ void change_sort(GtkTreeViewColumn *col, gpointer data)
 
 }
 
+void show_system_infos(void)
+{
+  system("side-settings-explorer --open settings.sysinfo &");
+}
+
+void show_help(void)
+{
+  gtk_show_uri(gdk_screen_get_default (), "http://side.rtfd.org", GDK_CURRENT_TIME, NULL);
+}
+
+void show_about(void)
+{
+    GtkWidget *dialog = gtk_about_dialog_new();
+    gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(dialog), _("SiDE Taskmanager"));
+    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(dialog), VERSION);
+    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(dialog), "http://jetspace.github.io");
+    gtk_about_dialog_set_artists(GTK_ABOUT_DIALOG(dialog), ARTISTS);
+    gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(dialog), COPYRIGHT);
+    gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(dialog), TASKMANGER_DESCRIPTION);
+    gtk_about_dialog_set_license_type(GTK_ABOUT_DIALOG(dialog), GTK_LICENSE_MIT_X11);
+    gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(dialog), AUTHORS);
+    gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(dialog), gdk_pixbuf_scale_simple(gdk_pixbuf_new_from_file("/usr/share/icons/jetspace/JetSpace.png", NULL), 100, 100, GDK_INTERP_BILINEAR));
+    gtk_dialog_run(GTK_DIALOG(dialog));
+    gtk_widget_destroy(dialog);
+}
+
 
 int main(int argc, char **argv)
 {
@@ -223,16 +300,47 @@ int main(int argc, char **argv)
   SiDETaskmanagerProto *taskmanager = malloc(sizeof(*taskmanager));
   taskmanager->sort_col = COL_NAME;
 
+  taskmanager->cpu_1_prev = -1;
+  taskmanager->cpu_2_prev = -1;
+
   taskmanager->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(taskmanager->window),_("SiDE Taskmanager"));
 
   GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+  gtk_container_set_border_width(GTK_CONTAINER(box), 8);
   gtk_container_add(GTK_CONTAINER(taskmanager->window), box);
 
+
+  GtkWidget *menubar = gtk_menu_bar_new();
+  //FILE
+  GtkWidget *filemenu   = gtk_menu_new();
+  GtkWidget *file       = gtk_menu_item_new_with_label(_("File"));
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(file), filemenu);
+     GtkWidget *info   = gtk_menu_item_new_with_label(_("System Information"));
+     gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), info);
+     g_signal_connect_swapped(info, "activate", G_CALLBACK(show_system_infos), NULL);
+     GtkWidget *quit   = gtk_menu_item_new_with_label(_("Quit"));
+     gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), quit);
+     g_signal_connect_swapped(quit, "activate", G_CALLBACK(gtk_main_quit), NULL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), file);
+  //ABOUT
+  GtkWidget *aboutmenu   = gtk_menu_new();
+  GtkWidget *about       = gtk_menu_item_new_with_label(_("About"));
+      gtk_menu_item_set_submenu(GTK_MENU_ITEM(about), aboutmenu);
+      GtkWidget *ab     = gtk_menu_item_new_with_label(_("About"));
+      gtk_menu_shell_append(GTK_MENU_SHELL(aboutmenu), ab);
+      g_signal_connect_swapped(ab, "activate", G_CALLBACK(show_about), NULL);
+      GtkWidget *help   = gtk_menu_item_new_with_label(_("Help"));
+      gtk_menu_shell_append(GTK_MENU_SHELL(aboutmenu), help);
+      g_signal_connect_swapped(help, "activate", G_CALLBACK(show_help), NULL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), about);
+
+  gtk_box_pack_start(GTK_BOX(box), menubar, FALSE, FALSE, 0);
 
   GtkWidget *use_grid = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(use_grid), 5);
   gtk_box_pack_start(GTK_BOX(box), use_grid, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(box), gtk_separator_new(GTK_ORIENTATION_HORIZONTAL), FALSE, FALSE, 5);
 
   GtkWidget *label = gtk_label_new(_("Memory:"));
   gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -242,6 +350,9 @@ int main(int argc, char **argv)
   gtk_level_bar_add_offset_value (GTK_LEVEL_BAR(taskmanager->mem_use), GTK_LEVEL_BAR_OFFSET_LOW, 0.80);
   gtk_grid_attach(GTK_GRID(use_grid), taskmanager->mem_use, 1, 0, 1, 1);
   gtk_widget_set_hexpand(taskmanager->mem_use, TRUE);
+  taskmanager->mem_percent = gtk_label_new("");
+  gtk_widget_set_halign(taskmanager->mem_percent, GTK_ALIGN_END);
+  gtk_grid_attach(GTK_GRID(use_grid), taskmanager->mem_percent, 2,0,1,1);
 
 
   label = gtk_label_new(_("Swap:"));
@@ -252,6 +363,22 @@ int main(int argc, char **argv)
   gtk_level_bar_add_offset_value (GTK_LEVEL_BAR(taskmanager->swap_use), GTK_LEVEL_BAR_OFFSET_LOW, 0.80);
   gtk_grid_attach(GTK_GRID(use_grid), taskmanager->swap_use, 1, 1, 1, 1);
   gtk_widget_set_hexpand(taskmanager->swap_use, TRUE);
+  taskmanager->swap_percent = gtk_label_new("");
+  gtk_widget_set_halign(taskmanager->swap_percent, GTK_ALIGN_END);
+  gtk_grid_attach(GTK_GRID(use_grid), taskmanager->swap_percent, 2,1,1,1);
+
+
+  label = gtk_label_new(_("CPU:"));
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_grid_attach(GTK_GRID(use_grid), label, 0, 2, 1, 1);
+  taskmanager->cpu_load = gtk_level_bar_new_for_interval(0,1);
+  gtk_level_bar_add_offset_value (GTK_LEVEL_BAR(taskmanager->cpu_load), GTK_LEVEL_BAR_OFFSET_HIGH, 0.20);
+  gtk_level_bar_add_offset_value (GTK_LEVEL_BAR(taskmanager->cpu_load), GTK_LEVEL_BAR_OFFSET_LOW, 0.80);
+  gtk_grid_attach(GTK_GRID(use_grid), taskmanager->cpu_load, 1, 2, 1, 1);
+  gtk_widget_set_hexpand(taskmanager->cpu_load, TRUE);
+  taskmanager->cpu_percent = gtk_label_new("");
+  gtk_widget_set_halign(taskmanager->cpu_percent, GTK_ALIGN_END);
+  gtk_grid_attach(GTK_GRID(use_grid), taskmanager->cpu_percent, 2,2,1,1);
 
 
 
@@ -265,7 +392,7 @@ int main(int argc, char **argv)
   GtkWidget *scroll_win = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll_win), 200);
-  gtk_scrolled_window_set_min_content_width(GTK_SCROLLED_WINDOW(scroll_win), 300);
+  gtk_scrolled_window_set_min_content_width(GTK_SCROLLED_WINDOW(scroll_win), 350);
   gtk_container_add(GTK_CONTAINER(scroll_win), tree);
   GtkCellRenderer *renderer;
   GtkTreeViewColumn *column;
@@ -301,7 +428,7 @@ int main(int argc, char **argv)
   taskmanager->statusbar = gtk_statusbar_new();
   gtk_box_pack_end(GTK_BOX(box), taskmanager->statusbar, FALSE, FALSE, 0);
 
-  g_timeout_add(1000, update_processes, taskmanager);
+  g_timeout_add(750, update_processes, taskmanager);
   g_signal_connect_swapped(taskmanager->window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
   gtk_widget_show_all(taskmanager->window);
