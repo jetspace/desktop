@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <strings.h>
 #include <glib/gi18n.h>
-#include <sys/sysinfo.h>
 #include <jetspace/processkit.h>
 
 
@@ -112,20 +111,47 @@ gboolean update_processes(gpointer l)
   free(data);
 
   //UPDATE RESOURCES
-  struct sysinfo info;
-  sysinfo(&info);
+  FILE *meminfo = fopen("/proc/meminfo", "r");
+  if(meminfo == NULL)
+  {
+    g_warning("Could not open /proc/meminfo, this should normaly work on Linux systems");
+    return TRUE;
+  }
 
-  double memusage = (double) (info.totalram - info.freeram) / (double) info.totalram;
+  char buffer[1000];
+  unsigned long long total_mem = 0;
+  unsigned long long free_mem = 0;
+  unsigned long long used_mem = 0;
+  unsigned long long free_swap = 0;
+  unsigned long long total_swap = 0;
+  unsigned long long buff;
+  while(fgets(buffer, 1000, meminfo) != NULL)
+  {
+    if(sscanf(buffer, "MemTotal:\t%llu kB", &total_mem) == 1)
+      used_mem += total_mem;
+    else if(sscanf(buffer, "MemFree:\t%llu kB", &free_mem) == 1)
+      used_mem -= free_mem;
+    else if(sscanf(buffer, "Cached:\t%llu kB", &buff) == 1)
+      used_mem -= buff;
+    else if(sscanf(buffer, "Buffers:\t%llu kB", &buff) == 1)
+      used_mem -= buff;
+
+    sscanf(buffer, "SwapFree:\t%llu kB", &free_swap);
+    sscanf(buffer, "SwapTotal:\t%llu kB", &total_swap);
+
+  }
+
+  double memusage = (double) used_mem / total_mem;
   gtk_level_bar_set_value(GTK_LEVEL_BAR(taskmanager->mem_use), memusage);
 
   double swapusage = 0;
-  if(info.totalswap > 0)
-    swapusage = (double) (info.totalswap - info.freeswap) / (double) info.totalswap;
+  if(total_swap > 0) // SWAP could be disabled == 0 ; division by zero
+    swapusage = (double) (total_swap - free_swap) / total_swap;
 
   gtk_level_bar_set_value(GTK_LEVEL_BAR(taskmanager->swap_use), swapusage);
 
 
-
+  return TRUE;
 
 }
 
@@ -204,17 +230,28 @@ int main(int argc, char **argv)
   gtk_container_add(GTK_CONTAINER(taskmanager->window), box);
 
 
-  GtkWidget *use_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-  gtk_box_pack_start(GTK_BOX(use_box), gtk_label_new(_("Memory:")), FALSE, FALSE, 0);
-  taskmanager->mem_use = gtk_level_bar_new_for_interval(0,1);
-  gtk_box_pack_end(GTK_BOX(use_box), taskmanager->mem_use, TRUE, TRUE, 0);
-  gtk_box_pack_start(GTK_BOX(box), use_box, FALSE, FALSE, 0);
+  GtkWidget *use_grid = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(use_grid), 5);
+  gtk_box_pack_start(GTK_BOX(box), use_grid, FALSE, FALSE, 0);
 
-  use_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
-  gtk_box_pack_start(GTK_BOX(use_box), gtk_label_new(_("Swap:")), FALSE, FALSE, 0);
+  GtkWidget *label = gtk_label_new(_("Memory:"));
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_grid_attach(GTK_GRID(use_grid), label, 0, 0, 1, 1);
+  taskmanager->mem_use = gtk_level_bar_new_for_interval(0,1);
+  gtk_level_bar_add_offset_value (GTK_LEVEL_BAR(taskmanager->mem_use), GTK_LEVEL_BAR_OFFSET_HIGH, 0.20);
+  gtk_level_bar_add_offset_value (GTK_LEVEL_BAR(taskmanager->mem_use), GTK_LEVEL_BAR_OFFSET_LOW, 0.80);
+  gtk_grid_attach(GTK_GRID(use_grid), taskmanager->mem_use, 1, 0, 1, 1);
+  gtk_widget_set_hexpand(taskmanager->mem_use, TRUE);
+
+
+  label = gtk_label_new(_("Swap:"));
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_grid_attach(GTK_GRID(use_grid), label, 0, 1, 1, 1);
   taskmanager->swap_use = gtk_level_bar_new_for_interval(0,1);
-  gtk_box_pack_end(GTK_BOX(use_box), taskmanager->swap_use, TRUE, TRUE, 0);
-  gtk_box_pack_start(GTK_BOX(box), use_box, FALSE, FALSE, 0);
+  gtk_level_bar_add_offset_value (GTK_LEVEL_BAR(taskmanager->swap_use), GTK_LEVEL_BAR_OFFSET_HIGH, 0.20);
+  gtk_level_bar_add_offset_value (GTK_LEVEL_BAR(taskmanager->swap_use), GTK_LEVEL_BAR_OFFSET_LOW, 0.80);
+  gtk_grid_attach(GTK_GRID(use_grid), taskmanager->swap_use, 1, 1, 1, 1);
+  gtk_widget_set_hexpand(taskmanager->swap_use, TRUE);
 
 
 
