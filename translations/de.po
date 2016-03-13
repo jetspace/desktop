@@ -3,24 +3,29 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
+"X-Generator: Poedit 1.8.4\n"
 "Project-Id-Version: SiDE\n"
 "Language: de\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Marius Messerschmidt <marius.messerschmidt@googlemail.com>\n"
+"Language-Team: \n"
+"X-Poedit-Basepath: .\n"
 
 #: open/main.c:65
 msgid "Possible Apps for type '%s':\n"
-""
 msgstr "Passende Anwendungen für Typ '%s':\n"
-""
 
 #: open/main.c:79
 msgid "SiDE Open..."
 msgstr "SiDE Öffnen..."
 
 #: open/main.c:87
-msgid "Select an app for the current Content-Type.\n"
+msgid ""
+"Select an app for the current Content-Type.\n"
 "If you close this window, SiDE will try to find a fallback Application for this file."
-msgstr "Wählen sie eine Anwendung für den aktuellen Inhaltstyp.\n"
+msgstr ""
+"Wählen sie eine Anwendung für den aktuellen Inhaltstyp.\n"
 "Schließen sie das Fenster, wird SiDE versuchen eine Ersatzanwendung zu finden."
 
 #: open/main.c:89
@@ -38,26 +43,22 @@ msgstr "Auswählen"
 
 #: open/main.c:152 settings/settings_mime.c:99
 msgid "Can't find local configuration {%s} using system fallback {%s}\n"
-""
 msgstr "Kann lokale Konfiguration nicht finden {%s} benutze systemweite Konfiguration {%s}\n"
-""
 
 #: open/main.c:207
 msgid "can't find full match for type %s\n"
-""
 msgstr "Kann keine exakte Übereinstimmung für Typ %s finden\n"
-""
 
 #: open/main.c:214
 msgid "Unable to open MIME type %s or subtype %s\n"
-""
 msgstr "Kann MIME Typ %s und Untertyp %s nicht Öffnen\n"
-""
 
 #: panel/main.c:313
-msgid "Path:\t%s\n"
+msgid ""
+"Path:\t%s\n"
 "Icon:\t%s"
-msgstr "Pfad:\t%s\n"
+msgstr ""
+"Pfad:\t%s\n"
 "Symbol:\t%s"
 
 #: panel/main.c:484 plugins/icon_app_button.c:50 plugins/icon_app_button.c:77
@@ -264,12 +265,12 @@ msgid "#Icon"
 msgstr "#Symbol"
 
 #: settings/settings_panel.c:317
-msgid "On this page you can set up the Panel:\n"
+msgid ""
+"On this page you can set up the Panel:\n"
 "\n"
-""
-msgstr "Auf dieser Seite können sie die Leiste einrichten:\n"
+msgstr ""
+"Auf dieser Seite können sie die Leiste einrichten:\n"
 "\n"
-""
 
 #: settings/settings_panel.c:318
 msgid "Select the default Terminal Application:"
@@ -617,9 +618,11 @@ msgid "Warning, if you continue, your unsaved work is gone! Would you like to co
 msgstr "Achtung, wenn sie fortfahren geht ihre ungesicherte Arbeit verloren! Trotzdem fortfahren?"
 
 #: tools/editor/editor_callbacks.h:109
-msgid "Opening %s\n"
+msgid ""
+"Opening %s\n"
 " (as arg)"
-msgstr "Öffne %s\n"
+msgstr ""
+"Öffne %s\n"
 " (aus Kommandozeile)"
 
 #: tools/editor/editor_callbacks.h:121 tools/editor/editor_callbacks.h:152
@@ -633,9 +636,7 @@ msgstr "Öffne Datei"
 
 #: tools/editor/editor_callbacks.h:153 tools/view/view_callbacks.h:46
 msgid "Opening %s\n"
-""
 msgstr "Öffne %s\n"
-""
 
 #: tools/editor/editor_callbacks.h:195
 msgid "Save File"
@@ -680,4 +681,3 @@ msgstr "Unterstützte Grafiken"
 #: tools/view/view_callbacks.h:139
 msgid "(%dpx x %dpx) - %d%%"
 msgstr "(%dpx x %dpx) - %d%%"
-

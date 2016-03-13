@@ -183,15 +183,17 @@ gboolean update_processes(gpointer l)
     return TRUE;
   }
 
-  long long user, nice, sys, idle;
-  fscanf(stat, "%s  %lld %lld %lld %lld", buffer, &user, &nice, &sys, &idle);
-  taskmanager->cpu_1 = user + nice + sys;
-  taskmanager->cpu_2 = idle;
+  long long user, nice, sys, idle, iowait, irq, sirq,steal;
+  fscanf(stat, "%s  %lld %lld %lld %lld %lld %lld %lld %lld", buffer, &user, &nice, &sys, &idle, &iowait, &irq, &sirq, &steal);
+  taskmanager->cpu_1 = user + nice + sys + irq + sirq + steal;
+  taskmanager->cpu_2 = idle + iowait;
 
   if(taskmanager->cpu_1_prev > 0 && taskmanager->cpu_2_prev > 0)
   {
-    double load = (double) (taskmanager->cpu_1_prev - taskmanager->cpu_1) / (taskmanager->cpu_2_prev - taskmanager->cpu_2);
-    if(load > 1) { load = 1; }
+    long long idle_total = taskmanager->cpu_2 - taskmanager->cpu_2_prev;
+    long long total = (taskmanager->cpu_1 + taskmanager->cpu_2) - (taskmanager->cpu_1_prev + taskmanager->cpu_2_prev);
+
+    double load = (double) (total - idle_total) / total;
     gtk_level_bar_set_value(GTK_LEVEL_BAR(taskmanager->cpu_load), load);
     bufferstr = g_strdup_printf("%.2f %%", load * 100);
     gtk_label_set_text(GTK_LABEL(taskmanager->cpu_percent), bufferstr);
