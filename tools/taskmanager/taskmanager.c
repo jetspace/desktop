@@ -1,3 +1,4 @@
+#define _POSIX_SOURCE
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,6 +7,8 @@
 #include <jetspace/processkit.h>
 #include <sys/time.h>
 #include <sys/resource.h>
+#include <sys/types.h>
+#include <signal.h>
 #include <errno.h>
 
 #include "../../shared/info.h"
@@ -381,6 +384,95 @@ void set_priority(SiDETaskmanagerProto *taskmanager)
   }
 }
 
+typedef struct
+{
+  int pid;
+  GtkWidget *cb;
+  GtkListStore *list;
+  GtkWidget *win;
+}SiDEKillPackage;
+
+void kill_process_final(SiDEKillPackage *data)
+{
+  GtkTreeIter iter;
+  gtk_combo_box_get_active_iter(GTK_COMBO_BOX(data->cb), &iter);
+  int sig;
+  gtk_tree_model_get(GTK_TREE_MODEL(data->list),&iter ,1, &sig, -1);
+  if(kill(data->pid, sig) == -1)
+  {
+    taskmanager_show_error(data->win,_("Could not kill process:"),strerror(errno));
+  }
+  else
+  {
+    gtk_widget_destroy(data->win);
+    free(data);
+  }
+}
+
+void kill_process(SiDETaskmanagerProto *taskmanager)
+{
+  int id;
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(taskmanager->treeview));
+  GtkTreeModel *model = GTK_TREE_MODEL(taskmanager->store);
+  GList *rows = gtk_tree_selection_get_selected_rows(selection, &model);
+  GList *iter;
+
+  for(iter = rows; iter != NULL; iter = g_list_next(iter))
+  {
+    GtkTreePath *path = iter->data;
+    gchar *name;
+    GtkTreeIter itert;
+    gtk_tree_model_get_iter(model, &itert, path);
+    gtk_tree_model_get(model, &itert, COL_PID, &id,COL_NAME, &name ,-1);
+    GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title(GTK_WINDOW(win), _("SiDE Taskmanager - Kill"));
+
+    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_container_add(GTK_CONTAINER(win), box);
+    gtk_container_set_border_width(GTK_CONTAINER(box), 8);
+
+    GtkListStore *list = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+
+
+    gtk_list_store_append(list, &itert);
+    gtk_list_store_set(list, &itert, 0, _("Terminate"), 1, SIGTERM, -1);
+    gtk_list_store_append(list, &itert);
+    gtk_list_store_set(list, &itert, 0, _("Abort"), 1, SIGABRT, -1);
+    gtk_list_store_append(list, &itert);
+    gtk_list_store_set(list, &itert, 0, _("Interupt"), 1, SIGINT, -1);
+    gtk_list_store_append(list, &itert);
+    gtk_list_store_set(list, &itert, 0, _("Kill"), 1, SIGKILL, -1);
+
+    GtkWidget *cb = gtk_combo_box_new_with_model(GTK_TREE_MODEL(list));
+    GtkCellRenderer *render = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(cb), render, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(cb), render,"text", 0,NULL);
+
+    gtk_tree_model_get_iter_first(GTK_TREE_MODEL(list), &itert);
+    gtk_combo_box_set_active_iter(GTK_COMBO_BOX(cb), &itert);
+
+    gtk_box_pack_start(GTK_BOX(box), cb, FALSE, FALSE, 5);
+
+    gtk_box_pack_start(GTK_BOX(box), gtk_label_new(name), FALSE, FALSE, 5);
+
+    GtkWidget *button = gtk_button_new_with_label(_("Kill"));
+    gtk_box_pack_end(GTK_BOX(box), button, FALSE, FALSE, 0);
+
+    gtk_window_resize(GTK_WINDOW(win), 200, 150);
+
+    SiDEKillPackage *data = malloc(sizeof(*data));
+    data->pid = id;
+    data->cb = cb;
+    data->win = win;
+    data->list = list;
+
+
+    g_signal_connect_swapped(button, "clicked", G_CALLBACK(kill_process_final), data);
+
+    gtk_widget_show_all(win);
+
+  }
+}
 
 int main(int argc, char **argv)
 {
@@ -419,8 +511,9 @@ int main(int argc, char **argv)
     GtkWidget *renice     = gtk_menu_item_new_with_label(_("Set Priority"));
     g_signal_connect_swapped(renice, "activate", G_CALLBACK(set_priority), taskmanager);
     gtk_menu_shell_append(GTK_MENU_SHELL(processmenu), renice);
-    GtkWidget *kill     = gtk_menu_item_new_with_label(_("Kill"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(processmenu), kill);
+    GtkWidget *kil     = gtk_menu_item_new_with_label(_("Kill"));
+    g_signal_connect_swapped(kil, "activate", G_CALLBACK(kill_process), taskmanager);
+    gtk_menu_shell_append(GTK_MENU_SHELL(processmenu), kil);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), taskmanager->process_item);
   //ABOUT
   GtkWidget *aboutmenu   = gtk_menu_new();
