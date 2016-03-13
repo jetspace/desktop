@@ -4,6 +4,9 @@
 #include <strings.h>
 #include <glib/gi18n.h>
 #include <jetspace/processkit.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <errno.h>
 
 #include "../../shared/info.h"
 
@@ -18,6 +21,8 @@ typedef struct
   GtkWidget *window;
   GtkListStore *store;
   GtkWidget *statusbar;
+  GtkWidget *process_item;
+  GtkWidget *treeview;
   GtkTreeModel *sort;
   int sort_col;
   GtkWidget *mem_use;
@@ -248,9 +253,6 @@ gint task_sort_func(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointe
 void change_sort(GtkTreeViewColumn *col, gpointer data)
 {
   SiDETaskmanagerProto *taskmanager = (SiDETaskmanagerProto *) data;
-  int temp;
-  g_object_get(col, "x-offset", &temp, NULL);
-  g_warning("%d CLICKED", temp);
   const gchar *title = gtk_tree_view_column_get_title(col);
   if(strcmp(title, _("PID")) == 0)
     taskmanager->sort_col = COL_PID;
@@ -300,6 +302,85 @@ void show_about(void)
     gtk_widget_destroy(dialog);
 }
 
+void taskmanager_show_error(GtkWidget *parent, char *type, char *msg)
+{
+  GtkWidget *dialog = gtk_message_dialog_new_with_markup(GTK_WINDOW(parent),GTK_DIALOG_MODAL|GTK_DIALOG_USE_HEADER_BAR, GTK_MESSAGE_ERROR,GTK_BUTTONS_CLOSE,"<b>%s</b>\n%s", type, msg);
+  gtk_dialog_run(GTK_DIALOG (dialog));
+  gtk_widget_destroy(dialog);
+}
+
+
+typedef struct
+{
+  int pid;
+  GtkAdjustment *adj;
+  GtkWidget *win;
+}SiDEPriorityChangePackage;
+
+void set_priority_final(SiDEPriorityChangePackage *data)
+{
+  gint value = gtk_adjustment_get_value(data->adj);
+  if(setpriority(PRIO_PROCESS, data->pid, value) == -1)
+  {
+      taskmanager_show_error(data->win,_("Could not change priority:"),strerror(errno));
+  }
+  else
+  {
+    gtk_widget_destroy(data->win);
+    free(data);
+  }
+}
+
+void set_priority(SiDETaskmanagerProto *taskmanager)
+{
+  int id;
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(taskmanager->treeview));
+  GtkTreeModel *model = GTK_TREE_MODEL(taskmanager->store);
+  GList *rows = gtk_tree_selection_get_selected_rows(selection, &model);
+  GList *iter;
+
+  for(iter = rows; iter != NULL; iter = g_list_next(iter))
+  {
+    GtkTreePath *path = iter->data;
+    GtkTreeIter iter;
+    gchar *name;
+    gtk_tree_model_get_iter(model, &iter, path);
+    gtk_tree_model_get(model, &iter, COL_PID, &id,COL_NAME, &name ,-1);
+    GtkWidget *win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title(GTK_WINDOW(win), _("SiDE Taskmanager - Set Priority"));
+
+    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_container_add(GTK_CONTAINER(win), box);
+    gtk_container_set_border_width(GTK_CONTAINER(box), 8);
+
+    JetSpaceProcess *p = jetspace_get_process(id);
+    GtkAdjustment *adj = gtk_adjustment_new(p->priority, -20, 19, 1, 1, 0);
+    free(p);
+
+    GtkWidget *scale = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, adj);
+    gtk_scale_set_digits(GTK_SCALE(scale), 0);
+    gtk_box_pack_start(GTK_BOX(box), scale, FALSE, FALSE, 5);
+
+    gtk_box_pack_start(GTK_BOX(box), gtk_label_new(name), FALSE, FALSE, 5);
+
+    GtkWidget *button = gtk_button_new_with_label(_("Apply"));
+    gtk_box_pack_end(GTK_BOX(box), button, FALSE, FALSE, 0);
+
+    gtk_window_resize(GTK_WINDOW(win), 300, 200);
+
+    SiDEPriorityChangePackage *data = malloc(sizeof(*data));
+
+    data->pid = id;
+    data->adj = adj;
+    data->win = win;
+
+    g_signal_connect_swapped(button, "clicked", G_CALLBACK(set_priority_final), data);
+
+    gtk_widget_show_all(win);
+
+  }
+}
+
 
 int main(int argc, char **argv)
 {
@@ -331,6 +412,16 @@ int main(int argc, char **argv)
      gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), quit);
      g_signal_connect_swapped(quit, "activate", G_CALLBACK(gtk_main_quit), NULL);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), file);
+  //PROCESS
+  taskmanager->process_item = gtk_menu_item_new_with_label(_("Process"));
+  GtkWidget *processmenu = gtk_menu_new();
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(taskmanager->process_item), processmenu);
+    GtkWidget *renice     = gtk_menu_item_new_with_label(_("Set Priority"));
+    g_signal_connect_swapped(renice, "activate", G_CALLBACK(set_priority), taskmanager);
+    gtk_menu_shell_append(GTK_MENU_SHELL(processmenu), renice);
+    GtkWidget *kill     = gtk_menu_item_new_with_label(_("Kill"));
+    gtk_menu_shell_append(GTK_MENU_SHELL(processmenu), kill);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), taskmanager->process_item);
   //ABOUT
   GtkWidget *aboutmenu   = gtk_menu_new();
   GtkWidget *about       = gtk_menu_item_new_with_label(_("About"));
@@ -394,14 +485,14 @@ int main(int argc, char **argv)
   taskmanager->store = gtk_list_store_new(4, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
 
 
-  GtkWidget *tree = gtk_tree_view_new();
-  gtk_tree_view_set_grid_lines(GTK_TREE_VIEW(tree), GTK_TREE_VIEW_GRID_LINES_BOTH);
-  gtk_tree_view_set_headers_clickable(GTK_TREE_VIEW(tree), TRUE);
+  taskmanager->treeview = gtk_tree_view_new();
+  gtk_tree_view_set_grid_lines(GTK_TREE_VIEW(taskmanager->treeview), GTK_TREE_VIEW_GRID_LINES_BOTH);
+  gtk_tree_view_set_headers_clickable(GTK_TREE_VIEW(taskmanager->treeview), TRUE);
   GtkWidget *scroll_win = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll_win), 200);
   gtk_scrolled_window_set_min_content_width(GTK_SCROLLED_WINDOW(scroll_win), 350);
-  gtk_container_add(GTK_CONTAINER(scroll_win), tree);
+  gtk_container_add(GTK_CONTAINER(scroll_win), taskmanager->treeview);
   GtkCellRenderer *renderer;
   GtkTreeViewColumn *column;
 
@@ -409,25 +500,25 @@ int main(int argc, char **argv)
   column = gtk_tree_view_column_new_with_attributes(_("PID"), renderer, "text", 0, NULL);
   g_signal_connect(column, "clicked", G_CALLBACK(change_sort), taskmanager);
   gtk_tree_view_column_set_clickable(column, TRUE);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(taskmanager->treeview), column);
 
   renderer = gtk_cell_renderer_text_new();
   column = gtk_tree_view_column_new_with_attributes(_("Process Name"), renderer, "text", 1, NULL);
   g_signal_connect(column, "clicked", G_CALLBACK(change_sort), taskmanager);
   gtk_tree_view_column_set_clickable(column, TRUE);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(taskmanager->treeview), column);
 
   renderer = gtk_cell_renderer_text_new();
   column = gtk_tree_view_column_new_with_attributes(_("Status"), renderer, "text", 2, NULL);
   g_signal_connect(column, "clicked", G_CALLBACK(change_sort), taskmanager);
   gtk_tree_view_column_set_clickable(column, TRUE);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(taskmanager->treeview), column);
 
   renderer = gtk_cell_renderer_text_new();
   column = gtk_tree_view_column_new_with_attributes(_("Priority"), renderer, "text", 3, NULL);
   g_signal_connect(column, "clicked", G_CALLBACK(change_sort), taskmanager);
   gtk_tree_view_column_set_clickable(column, TRUE);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(taskmanager->treeview), column);
 
 
   taskmanager->sort = gtk_tree_model_sort_new_with_model(GTK_TREE_MODEL(taskmanager->store));
@@ -435,7 +526,7 @@ int main(int argc, char **argv)
 
 
 
-  gtk_tree_view_set_model(GTK_TREE_VIEW(tree), GTK_TREE_MODEL(taskmanager->sort));
+  gtk_tree_view_set_model(GTK_TREE_VIEW(taskmanager->treeview), GTK_TREE_MODEL(taskmanager->sort));
   gtk_box_pack_start(GTK_BOX(box), scroll_win, TRUE, TRUE, 0);
 
 
