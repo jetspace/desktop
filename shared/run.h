@@ -28,7 +28,14 @@ gboolean execute(GtkWidget *widget, GdkEvent *event, GtkWidget *data)
   snprintf(cmd, strlen(ptr) +5,  "%s &", dup); //atach a & to run it independant!
   int status = system(cmd);
   free(dup);
+
+  if(strcmp(gtk_widget_get_name(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(data)))), "applet") == 0)
+    gtk_main_quit();
+
   gtk_widget_destroy(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(data))));
+
+
+
   return FALSE;
 }
 
@@ -53,6 +60,9 @@ void run_dialog (gchar *app_call)
   gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
   gtk_window_set_icon_name(GTK_WINDOW(dialog), "system-run");
   gtk_container_set_border_width(GTK_CONTAINER(dialog), 15);
+
+  if(strcmp(app_call, "APPLET") == 0)
+    gtk_widget_set_name(dialog, "applet");
 
   label = gtk_label_new(_("Enter a Programm to run:"));
 

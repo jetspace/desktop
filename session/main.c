@@ -8,10 +8,16 @@ For more details view file 'LICENSE'
 #include <gtk/gtk.h>
 #include "../shared/info.h"
 #include "../shared/strdup.h"
+#include "../shared/config.h"
 #include <string.h>
 #include <stdlib.h>
 #include <side/apps.h>
 #include <unistd.h>
+
+#ifdef X_WINDOW_SYSTEM
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#endif //X_WINDOW_SYSTEM
 
 
 /*
@@ -104,6 +110,19 @@ void autorun(void)
 
 }
 
+#ifdef X_WINDOW_SYSTEM
+void grab_key(Display *dpy, Window root, int key, unsigned int mod)
+{
+  unsigned int ig1 = Mod2Mask;
+  unsigned int ig2 = LockMask;
+  unsigned int ig3 = LockMask | Mod2Mask;
+  XGrabKey(dpy, key, mod, root, true, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, key, mod | ig1, root, true, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, key, mod | ig2, root, true, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, key, mod | ig3, root, true, GrabModeAsync, GrabModeAsync);
+
+}
+#endif
 
 
 
@@ -158,8 +177,46 @@ int main(int argc, char **argv)
   //now go to endless mode, so the session won't fail
   g_print("switching to endless loop...\n");
 
+
+  #ifdef X_WINDOW_SYSTEM
+  Display *dpy = XOpenDisplay(0);
+  Window root = DefaultRootWindow(dpy);
+  XEvent event;
+
+  grab_key(dpy, root, XKeysymToKeycode(dpy,XK_R) , Mod4Mask);
+  grab_key(dpy, root, XKeysymToKeycode(dpy,XK_F2) , Mod1Mask);
+  grab_key(dpy, root, XKeysymToKeycode(dpy,XK_F3) , Mod1Mask);
+
+  XSelectInput(dpy, root, KeyPressMask );
+
+
+  #endif
+
   while(1)
   {
+    #ifdef X_WINDOW_SYSTEM
+    XNextEvent(dpy, &event);
+    if(event.type == KeyPress)
+    {
+      switch(event.xbutton.button)
+      {
+        case 27: // R
+        case 68: // F2
+          system("side-run &");
+        break;
+
+        case 69: // F3
+          system("side-search &");
+        break;
+      }
+    }
+
+
+
+    #endif
+
+
+
     usleep(100);
   }
 

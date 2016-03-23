@@ -36,6 +36,7 @@ build:
 	$(MAKE) -C tools/view
 	$(MAKE) -C tools/notifier
 	$(MAKE) -C tools/taskmanager
+	$(MAKE) -C tools/run
 
 clean:
 	rm -r bin
