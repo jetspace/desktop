@@ -50,7 +50,8 @@ enum
   COL_PID = 0,
   COL_NAME,
   COL_STATUS,
-  COL_PRIORITY
+  COL_PRIORITY,
+  COL_USER
 };
 
 gboolean update_rows(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
@@ -78,7 +79,7 @@ gboolean update_rows(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, 
       else
         temp = _("Unknown");
 
-      gtk_list_store_set(GTK_LIST_STORE(model), iter, COL_PID, pid,COL_NAME, p->name, COL_STATUS,temp,COL_PRIORITY,p->priority, -1);
+      gtk_list_store_set(GTK_LIST_STORE(model), iter, COL_PID, pid,COL_NAME, p->name, COL_STATUS,temp,COL_PRIORITY,p->priority,COL_USER, p->user->pw_name, -1);
       free(p);
       return FALSE;
     }
@@ -118,7 +119,7 @@ gboolean update_processes(gpointer l)
 
 
       gtk_list_store_append(GTK_LIST_STORE(list), &iter);
-      gtk_list_store_set(GTK_LIST_STORE(list), &iter, COL_PID, data->pids[x],COL_NAME, p->name, COL_STATUS,temp,COL_PRIORITY,p->priority, -1);
+      gtk_list_store_set(GTK_LIST_STORE(list), &iter, COL_PID, data->pids[x],COL_NAME, p->name, COL_STATUS,temp,COL_PRIORITY,p->priority,COL_USER, p->user->pw_name, -1);
       free(p);
     }
   }
@@ -265,6 +266,8 @@ void change_sort(GtkTreeViewColumn *col, gpointer data)
     taskmanager->sort_col = COL_STATUS;
   else if(strcmp(title, _("Priority")) == 0)
     taskmanager->sort_col = COL_PRIORITY;
+  else if(strcmp(title, _("User")) == 0)
+    taskmanager->sort_col = COL_USER;
 
   int direction;
   g_object_get(col, "sort-order", &direction, NULL);
@@ -575,7 +578,7 @@ int main(int argc, char **argv)
 
 
   GtkTreeIter iter;
-  taskmanager->store = gtk_list_store_new(4, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
+  taskmanager->store = gtk_list_store_new(5, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
 
 
   taskmanager->treeview = gtk_tree_view_new();
@@ -609,6 +612,12 @@ int main(int argc, char **argv)
 
   renderer = gtk_cell_renderer_text_new();
   column = gtk_tree_view_column_new_with_attributes(_("Priority"), renderer, "text", 3, NULL);
+  g_signal_connect(column, "clicked", G_CALLBACK(change_sort), taskmanager);
+  gtk_tree_view_column_set_clickable(column, TRUE);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(taskmanager->treeview), column);
+
+  renderer = gtk_cell_renderer_text_new();
+  column = gtk_tree_view_column_new_with_attributes(_("User"), renderer, "text", 4, NULL);
   g_signal_connect(column, "clicked", G_CALLBACK(change_sort), taskmanager);
   gtk_tree_view_column_set_clickable(column, TRUE);
   gtk_tree_view_append_column(GTK_TREE_VIEW(taskmanager->treeview), column);
