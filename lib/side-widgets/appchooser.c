@@ -5,7 +5,7 @@ For more details view file 'LICENSE'
 */
 
 #include "appchooser.h"
-#include <side/apps.h>
+#include "../side-app/apps.h"
 #define SIDE_APPCHOOSER_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), SIDE_APPCHOOSER_TYPE, SiDEAppChooserPrivate))
 
 typedef struct _SiDEAppChooserPrivate SiDEAppChooserPrivate;
