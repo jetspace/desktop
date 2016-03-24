@@ -5,6 +5,7 @@
 
 int main(int argc, char **argv)
 {
+  textdomain("side");
   gtk_init(&argc, &argv);
   run_dialog("APPLET");
   gtk_main();
