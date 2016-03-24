@@ -4,8 +4,8 @@ Copyright (c) 2015 Marius Messerschmidt
 For more details view file 'LICENSE'
 */
 
-#ifndef SIDE_APPCHOOSER_HEADER
-#define SIDE_APPCHOOSER_HEADER
+#ifndef SIDE_APP_CHOOSER_HEADER
+#define SIDE_APP_CHOOSER_HEADER
 
 #define _POSIX_SOURCE
 
@@ -22,11 +22,11 @@ For more details view file 'LICENSE'
     -> Time since <time>
 */
 
-#define SIDE_APPCHOOSER_TYPE                   (side_app_chooser_get_type())
-#define SIDE_APPCHOOSER(obj)                   (G_TYPE_CHECK_INSTANCE_CAST((obj), SIDE_APPCHOOSER_TYPE, SiDEAppChooser))
-#define SIDE_APPCHOOSER_CLASS(klass)           (G_TYPE_CHECK_CLASS_CAST((klass), SIDE_APPCHOOSER_CLASS, SiDEAppChooserClass))
-#define SIDE_IS_APPCHOOSER(obj)                (G_TYPE_CHECK_INSTANCE_TYPE((obj), SIDE_APPCHOOSER_TYPE))
-#define SIDE_APPCHOOSER_IS_CLASS(klass)        (G_TYPE_CHECK_CLASS_TYPE((klass), SIDE_APPCHOOSER_CLASS))
+#define SIDE_APP_CHOOSER_TYPE                   (side_app_chooser_get_type())
+#define SIDE_APP_CHOOSER(obj)                   (G_TYPE_CHECK_INSTANCE_CAST((obj), SIDE_APP_CHOOSER_TYPE, SiDEAppChooser))
+#define SIDE_APP_CHOOSER_CLASS(klass)           (G_TYPE_CHECK_CLASS_CAST((klass), SIDE_APP_CHOOSER_CLASS, SiDEAppChooserClass))
+#define SIDE_IS_APP_CHOOSER(obj)                (G_TYPE_CHECK_INSTANCE_TYPE((obj), SIDE_APP_CHOOSER_TYPE))
+#define SIDE_APP_CHOOSER_IS_CLASS(klass)        (G_TYPE_CHECK_CLASS_TYPE((klass), SIDE_APP_CHOOSER_CLASS))
 
 typedef struct _SiDEAppChooser SiDEAppChooser;
 typedef struct _SiDEAppChooserClass SiDEAppChooserClass;
@@ -41,9 +41,20 @@ struct _SiDEAppChooserClass
   GtkDialogClass parent_class;
 };
 
+typedef struct _SiDEAppChooserResult
+{
+  char *exec;
+  char *name;
+  char *icon;
+}SiDEAppChooserResult;
+
 GtkWidget *side_app_chooser_new(void);
 
 //type
 GType side_app_chooser_get_type(void);
+
+char *side_app_chooser_get_name(SiDEAppChooser *ac);
+char *side_app_chooser_get_icon(SiDEAppChooser *ac);
+char *side_app_chooser_get_exec(SiDEAppChooser *ac);
 
 #endif
