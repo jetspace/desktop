@@ -67,7 +67,6 @@ static void selected(GtkDialog *d, gint id, SiDEAppChooser *p)
 		return;
 
 	SiDEAppChooserPrivate *pr = SIDE_APP_CHOOSER_PRIVATE(p);
-
 	GList *list = gtk_icon_view_get_selected_items(GTK_ICON_VIEW(pr->iconview));
   GList *it;
 
@@ -109,7 +108,7 @@ GtkWidget *side_app_chooser_new(void)
 
 	p->iconview = gtk_icon_view_new_with_model(GTK_TREE_MODEL(sort));
 	gtk_icon_view_set_text_column(GTK_ICON_VIEW(p->iconview), COL_NAME);
-  gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(p->iconview), COL_ICON);
+    gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(p->iconview), COL_ICON);
 	gtk_icon_view_set_selection_mode(GTK_ICON_VIEW(p->iconview), GTK_SELECTION_BROWSE);
 	g_signal_connect_swapped(G_OBJECT(p->iconview), "selection-changed", G_CALLBACK(enable_ok), ret);
 
@@ -124,7 +123,7 @@ GtkWidget *side_app_chooser_new(void)
 
 	g_signal_connect(ret, "response" , G_CALLBACK(selected) , ret);
 
-  return GTK_WIDGET(ret);
+    return GTK_WIDGET(ret);
 }
 
 

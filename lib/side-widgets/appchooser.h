@@ -13,14 +13,6 @@ For more details view file 'LICENSE'
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-/*
-  Constructs a new label which will display the time
-  <time> in a nice formart
-
-  PLANNED:
-
-    -> Time since <time>
-*/
 
 #define SIDE_APP_CHOOSER_TYPE                   (side_app_chooser_get_type())
 #define SIDE_APP_CHOOSER(obj)                   (G_TYPE_CHECK_INSTANCE_CAST((obj), SIDE_APP_CHOOSER_TYPE, SiDEAppChooser))
