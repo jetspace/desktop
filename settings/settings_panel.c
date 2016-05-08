@@ -17,6 +17,7 @@ For more details view file 'LICENSE'
 #include <glib/gi18n.h>
 #include <gmodule.h>
 #include <side/plugin.h>
+#include <side/appchooser.h>
 
 
 
@@ -60,8 +61,8 @@ GtkListStore *app_store;
 GtkWidget *app_list;
 GtkTreeModel *sorted_apps;
 
-GtkWidget *app_chooser;
 
+/*
 gboolean final_add_predef(GtkWidget *w, GdkEvent *ev, gpointer p)
 {
   gtk_combo_box_get_active_iter(GTK_COMBO_BOX(app_list), &app_iter);
@@ -79,30 +80,22 @@ gboolean final_add_predef(GtkWidget *w, GdkEvent *ev, gpointer p)
 
   return FALSE;
 
-}
+}*/
 
-gboolean add_predef(GtkWidget *w, GdkEvent *e, gpointer p)
+gboolean add_predef(GtkWidget *w, GdkEvent *ev, gpointer p)
 {
-  app_chooser = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(app_chooser), _("Add App"));
-  GtkWidget *chooser_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+  SiDEAppChooser *app_chooser = side_app_chooser_new();
 
-  app_list = gtk_combo_box_new_with_model (GTK_TREE_MODEL(sorted_apps));
 
-  GtkCellRenderer *column_r = gtk_cell_renderer_text_new();
-  gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(app_list), column_r, TRUE);
-  gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(app_list), column_r,
-                                 "text", 0,
-                                 NULL);
- gtk_combo_box_set_active(GTK_COMBO_BOX(app_list), 0);
+  if(gtk_dialog_run(GTK_DIALOG(app_chooser)) == 0)
+  {
+      char *e = side_app_chooser_get_exec(SIDE_APP_CHOOSER(app_chooser));
+      char *i = side_app_chooser_get_icon(SIDE_APP_CHOOSER(app_chooser));
+      gtk_widget_destroy(GTK_WIDGET(app_chooser));
+      gtk_list_store_append(list, &iter);
+      gtk_list_store_set(list, &iter, COL_EXEC, g_strdup_printf("%s &", e), COL_ICON, i, COL_ACTIVE, TRUE, -1);
+  }
 
- GtkWidget *apply_button = gtk_button_new_with_label(_("Add"));
- g_signal_connect(apply_button, "clicked", G_CALLBACK(final_add_predef),NULL);
-
- gtk_container_add(GTK_CONTAINER(app_chooser), chooser_box);
- gtk_container_add(GTK_CONTAINER(chooser_box), app_list);
- gtk_box_pack_end(GTK_BOX(chooser_box), apply_button, FALSE, TRUE, 5);
- gtk_widget_show_all(app_chooser);
   return FALSE;
 }
 
