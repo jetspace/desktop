@@ -213,7 +213,7 @@ int main(int argc, char **argv)
   g_signal_connect(G_OBJECT(apps), "changed", G_CALLBACK(update_icons), box);
 
   //call plugin loader
-  load_plugins("/usr/lib/jetspace/panel/plugins/", panel);
+  load_plugins("/usr/lib/jetspace/panel/plugins/", panel, "org.jetspace.desktop.panel");
   gtk_widget_realize(panel);
   gtk_widget_show_all(panel);
 

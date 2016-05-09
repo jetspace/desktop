@@ -105,7 +105,7 @@ int main(int argc, char **argv)
   gtk_fixed_put(GTK_FIXED(grid), ev_box, 0, 0);
 
   //now, load plugins...
-  load_plugins_wallpaper("/usr/lib/jetspace/wallpaper/plugins/", grid);
+  load_plugins("/usr/lib/jetspace/wallpaper/plugins/", grid, "org.jetspace.desktop.wallpaper");
 
 
   gtk_window_resize(GTK_WINDOW(window), gdk_screen_get_width(screen), gdk_screen_get_height(screen));
