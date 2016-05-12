@@ -8,7 +8,13 @@ For more details view file 'LICENSE'
 #include <gtk/gtk.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <glib.h>
 #include "../shared/listed.h"
+#include "../shared/config.h"
+
+#ifdef LOAD_PYTHON_MODULES
+#include <Python.h>
+#endif
 
 typedef void (*CallPlugin) (GtkWidget *root);
 
@@ -24,8 +30,28 @@ struct plugins {
 struct plugins *all_plugins;
 int n_plugins = 0;
 
+#ifdef LOAD_PYTHON_MODULES
+    struct py_mods {
+        PyObject *module;
+        PyObject *enable;
+        PyObject *disable;
+        char *name;
+    };
+    struct py_mods *py_plugins;
+    int n_py_plugins = 0;
+#endif
+
 GtkWidget *root_box;
 
+#ifdef LOAD_PYTHON_MODULES
+static void call_py_func(PyObject *obj)
+{
+    if(obj && PyCallable_Check(obj))
+    {
+        PyObject_CallObject(obj, NULL);
+    }
+}
+#endif
 void load_plugins(char *path, GtkWidget *root, char *settings)
 {
   root_box = root;
@@ -130,8 +156,36 @@ void load_plugins(char *path, GtkWidget *root, char *settings)
 
       //if enabled, run
         all_plugins[n_plugins -1].enable(root);
-
     }
+
+#ifdef LOAD_PYTHON_MODULES
+    //Load Python
+    Py_Initialize();
+    PySys_SetPath(L"/usr/share/jetspace/desktop/panel/python/");
+
+    gchar **toload = g_settings_get_strv(gmods, "python-modules");
+    gchar *iter = toload[0];
+    for(int i = 1; iter != NULL; i++)
+    {
+        g_warning("#PYMOD# \t >> %s", iter);
+
+        PyObject *modname = PyUnicode_DecodeFSDefault(iter);
+
+        n_py_plugins++;
+        py_plugins = realloc(py_plugins, sizeof(*py_plugins) * n_py_plugins);
+
+        py_plugins[n_py_plugins -1].module = PyImport_Import(modname);
+        py_plugins[n_py_plugins -1].name = g_strdup(iter);
+
+        py_plugins[n_py_plugins -1].enable = PyObject_GetAttrString(py_plugins[n_py_plugins -1].module, "enable");
+        call_py_func(py_plugins[n_py_plugins -1].enable);
+        py_plugins[n_py_plugins -1].disable = PyObject_GetAttrString(py_plugins[n_py_plugins -1].module, "disable");
+        Py_DECREF(modname); // Drop ref on name
+        iter = toload[i];
+    }
+
+
+#endif
 }
 
 void update_plugins(char *ignored_plugins, GtkWidget *root_box)

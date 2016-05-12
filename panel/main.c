@@ -357,6 +357,7 @@ gboolean update_icons(GSettings *s, gchar *key, GtkWidget *box)
     side_set_application_mode(SIDE_APPLICATION_MODE_PANEL);
   }
 
+  return FALSE;
 }
 
 
@@ -842,6 +843,7 @@ void create_app_menu(GtkWidget *box)
 gboolean app_menu(GtkWidget *w, GdkEventButton *e, GtkWidget *menu)
 {
   gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, e->button, e->time);
+  return FALSE;
 }
 
 gboolean check_name(char *text)

@@ -14,3 +14,6 @@ For more details view file 'LICENSE'
   //#define WAYLAND
 //MIR: Canonicals X alternative, we will only support when it will become popular...
   //#define MIR
+
+//Unset to prevent python from being included in the build
+#define LOAD_PYTHON_MODULES
