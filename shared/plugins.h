@@ -14,6 +14,7 @@ For more details view file 'LICENSE'
 
 #ifdef LOAD_PYTHON_MODULES
 #include <Python.h>
+#include <pygobject.h>
 #endif
 
 typedef void (*CallPlugin) (GtkWidget *root);
@@ -30,6 +31,8 @@ struct plugins {
 struct plugins *all_plugins;
 int n_plugins = 0;
 
+GtkWidget *root_box;
+
 #ifdef LOAD_PYTHON_MODULES
     struct py_mods {
         PyObject *module;
@@ -39,11 +42,7 @@ int n_plugins = 0;
     };
     struct py_mods *py_plugins;
     int n_py_plugins = 0;
-#endif
 
-GtkWidget *root_box;
-
-#ifdef LOAD_PYTHON_MODULES
 static void call_py_func(PyObject *obj)
 {
     if(obj && PyCallable_Check(obj))
@@ -51,7 +50,37 @@ static void call_py_func(PyObject *obj)
         PyObject_CallObject(obj, NULL);
     }
 }
+
+// Python Module
+
+static PyObject* pyside_getroot(PyObject *self, PyObject *args)
+{
+    if(!PyArg_ParseTuple(args, ":root_box"))
+        return NULL;
+    return pygobject_new(G_OBJECT(root_box));
+}
+
+static PyMethodDef PySideMethods[] = {
+    {"getroot", pyside_getroot, METH_VARARGS,"Return the main widget of the current application"},
+    {NULL, NULL, 0, NULL}
+};
+
+static PyModuleDef PySideMod = {
+    PyModuleDef_HEAD_INIT, "side", NULL, -1, PySideMethods,
+    NULL, NULL, NULL, NULL
+};
+
+static PyObject* PyInit_side(void)
+{
+    return PyModule_Create(&PySideMod);
+}
+
+
+
 #endif
+
+
+
 void load_plugins(char *path, GtkWidget *root, char *settings)
 {
   root_box = root;
@@ -159,15 +188,24 @@ void load_plugins(char *path, GtkWidget *root, char *settings)
     }
 
 #ifdef LOAD_PYTHON_MODULES
+
+    g_object_unref(gmods);
+    gmods = g_settings_new("org.jetspace.desktop.session");
+
     //Load Python
+    PyImport_AppendInittab("side", &PyInit_side);
+
     Py_Initialize();
-    PySys_SetPath(L"/usr/share/jetspace/desktop/panel/python/");
+    pygobject_init(-1,-1,-1);
+
+    PyRun_SimpleString("import sys");
+    PyRun_SimpleString("sys.path.append('/usr/share/jetspace/desktop/panel/python/')");
+
 
     gchar **toload = g_settings_get_strv(gmods, "python-modules");
     gchar *iter = toload[0];
     for(int i = 1; iter != NULL; i++)
     {
-        g_warning("#PYMOD# \t >> %s", iter);
 
         PyObject *modname = PyUnicode_DecodeFSDefault(iter);
 
@@ -176,6 +214,8 @@ void load_plugins(char *path, GtkWidget *root, char *settings)
 
         py_plugins[n_py_plugins -1].module = PyImport_Import(modname);
         py_plugins[n_py_plugins -1].name = g_strdup(iter);
+
+
 
         py_plugins[n_py_plugins -1].enable = PyObject_GetAttrString(py_plugins[n_py_plugins -1].module, "enable");
         call_py_func(py_plugins[n_py_plugins -1].enable);

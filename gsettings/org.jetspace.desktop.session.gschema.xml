@@ -36,5 +36,8 @@
           <summary>Path to custom Theme for the Session</summary>
           <description>Only needed when use-custom-theme is enabled...</description>
       </key>
+      <key type="as" name="python-modules">
+          <default>[]</default>
+      </key>
   </schema>
 </schemalist>

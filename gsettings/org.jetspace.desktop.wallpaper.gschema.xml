@@ -6,8 +6,5 @@
           <summary>Ignored Plugins</summary>
           <description>Ignored Plugins for the wallpaper service</description>
       </key>
-      <key type="as" name="python-modules">
-          <default>[]</default>
-      </key>
   </schema>
 </schemalist>

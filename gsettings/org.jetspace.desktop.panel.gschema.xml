@@ -49,8 +49,5 @@
           <summary>Should there be only hidden windows in the panel</summary>
           <description>Should there be only hidden windows in the panel or should you see all active windows</description>
       </key>
-      <key type="as" name="python-modules">
-          <default>[]</default>
-      </key>
   </schema>
 </schemalist>
