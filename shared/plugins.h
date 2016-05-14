@@ -213,6 +213,13 @@ void load_plugins(char *path, GtkWidget *root, char *settings)
         py_plugins = realloc(py_plugins, sizeof(*py_plugins) * n_py_plugins);
 
         py_plugins[n_py_plugins -1].module = PyImport_Import(modname);
+        if(py_plugins[n_py_plugins -1].module == NULL)
+        {
+            g_warning("Loading Python module [%s] failed: Python script not valid", iter);
+            n_py_plugins--;
+            iter = toload[i];
+            continue;
+        }
         py_plugins[n_py_plugins -1].name = g_strdup(iter);
 
 
