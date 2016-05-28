@@ -1,5 +1,7 @@
 #JetSpace Desktop (SIDE)
 
+[![Join the chat at https://gitter.im/jetspace/desktop](https://badges.gitter.im/jetspace/desktop.svg)](https://gitter.im/jetspace/desktop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 SImple Desktop Enviroment (SIDE)
 
 [![Documentation Status](https://readthedocs.org/projects/side/badge/?version=latest)](https://readthedocs.org/projects/side/?badge=latest)
